@@ -1,0 +1,8 @@
+.vs/
+Debug/
+Gene/Binaries/
+Gene/Release
+Gene.Sandbox/Debug
+Gene.Sandbox/Release
+*.vcxproj.filters
+*.vcxproj.user
