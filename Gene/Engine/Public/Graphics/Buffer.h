@@ -28,6 +28,7 @@ namespace Gene { namespace Graphics {
 		};
 
 		Buffer(Type type);
+		~Buffer() {}
 
 		void SetData(const BufferDescriptor& data);
 		

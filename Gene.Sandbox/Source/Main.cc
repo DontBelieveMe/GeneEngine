@@ -9,6 +9,8 @@
 #include <Math/Math.h>
 #include <math.h>
 #include <Input/Mouse.h>
+#include <memory>
+#include <Graphics/Texture2D.h>
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao)
 {
@@ -19,7 +21,7 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao)
 		0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // Top 
 	};
 
-	Gene::Graphics::Buffer *vbo = new Gene::Graphics::Buffer(Gene::Graphics::Buffer::Type::ArrayBuffer);
+	std::shared_ptr<Gene::Graphics::Buffer> vbo = std::make_shared<Gene::Graphics::Buffer>(Gene::Graphics::Buffer::Type::ArrayBuffer);
 
 	Gene::Graphics::BufferDescriptor dsc;
 	dsc.Data = vertices;
@@ -40,8 +42,8 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao)
 	colorAttrib.Index = 1;
 	#pragma endregion
 
-	vao.RegisterAttribute(vbo, vertexAttrib);
-	vao.RegisterAttribute(vbo, colorAttrib);
+	vao.RegisterAttribute(vbo.get(), vertexAttrib);
+	vao.RegisterAttribute(vbo.get(), colorAttrib);
 }
 
 int main()
@@ -56,11 +58,15 @@ int main()
 	window->Create();
 	window->CreateGLContext();
 	
+	Texture2D brickTexture;
+	brickTexture.Filtering = Texture2D::FilteringOptions::Linear;
+	brickTexture.Load("Data/brickTexture.png");
+
 	GLSLShader shader;
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
 	shader.Enable();
 
-	window->SetClearColor(Color::CornflowerBlue);
+	window->SetClearColor(Color::Black);
 
 	VertexArray vao;
 	CreateTriangle(vao);
@@ -68,10 +74,7 @@ int main()
 	window->Show();
 	while (window->Running())
 	{
-		window->Update();
-		MouseState state = Mouse::GetState();
-		printf("%f %f\n", state.Position.X, state.Position.Y);
-
+		window->PollEvents();
 		vao.DebugDraw();
 		window->SwapBuffers();
 	}

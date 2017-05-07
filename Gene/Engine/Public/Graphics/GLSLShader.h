@@ -3,7 +3,7 @@
 #include <string>
 #include <Platform/OpenGL.h>
 
-#include <Math/Vector3.h>
+#include <Math/Math.h>
 
 namespace Gene { namespace Graphics {
 	class GLSLShader
@@ -22,5 +22,7 @@ namespace Gene { namespace Graphics {
 
 		inline void LoadUniform3f(const char *uniform, const Math::Vector3& vector) 
 			{ glUniform3f(UniformLocation(uniform), vector.X, vector.Y, vector.Z); }
+		inline void LoadUniform2f(const char *uniform, const Math::Vector2& vector)
+			{ glUniform2f(UniformLocation(uniform), vector.X, vector.Y); }
 	};
 }}

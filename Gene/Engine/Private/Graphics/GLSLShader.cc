@@ -18,6 +18,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 	{
 		glGetShaderInfoLog(shader, 512, NULL, log);
 		printf("Shader Error: [%s] -> %s\n", type == GL_VERTEX_SHADER ? "Vertex Shader" : "Fragment Shader", log);
+		abort();
 	}
 	return shader;
 }

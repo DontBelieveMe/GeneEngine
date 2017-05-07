@@ -83,7 +83,6 @@
     </ClCompile>
     <Lib>
       <AdditionalDependencies>glew32d.lib;</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\MouseState.h" />
     <ClInclude Include="Engine\Public\Input\Mouse.h" />
     <ClInclude Include="Engine\Public\Math\Math.h" />
@@ -137,11 +137,13 @@
     <ClInclude Include="Engine\Public\Platform\OS.h" />
     <ClInclude Include="Engine\Private\Platform\Win32\Win32Window.h" />
     <ClInclude Include="Engine\Public\Platform\Window.h" />
+    <ClInclude Include="Engine\Private\Graphics\External\lodepng.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
+    <ClCompile Include="Engine\Private\Graphics\Texture2D.cc" />
     <ClCompile Include="Engine\Private\Graphics\VertexArray.cc" />
     <ClCompile Include="Engine\Private\Input\Mouse.cc" />
     <ClCompile Include="Engine\Private\IO\File.cc" />
@@ -151,6 +153,7 @@
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Input.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Window.cc" />
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
+    <ClCompile Include="Engine\Private\Graphics\External\lodepng.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

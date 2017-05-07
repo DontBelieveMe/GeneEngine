@@ -32,7 +32,7 @@ namespace Gene { namespace Platform {
 		virtual void Create() = 0;
 		virtual void CreateGLContext() = 0;
 		virtual void Show() = 0;
-		virtual void Update() = 0;
+		virtual void PollEvents() = 0;
 		virtual void SwapBuffers() = 0;
 		
 		inline unsigned Width()  const { return m_WindowConfig.Width;  }

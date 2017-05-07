@@ -72,6 +72,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Windows\glew\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)Binaries\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -81,6 +83,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,6 +125,9 @@
   <ItemGroup>
     <None Include="Data\fragment.glsl" />
     <None Include="Data\vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\brickTexture.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

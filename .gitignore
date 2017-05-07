@@ -2,7 +2,6 @@
 Debug/
 Gene/Binaries/
 Gene/Release
-Gene.Sandbox/Debug
-Gene.Sandbox/Release
+Gene.Sandbox/Binaries
 *.vcxproj.filters
 *.vcxproj.user

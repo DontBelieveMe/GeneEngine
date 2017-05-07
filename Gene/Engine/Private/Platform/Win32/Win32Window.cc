@@ -60,7 +60,7 @@ void Win32Window::Create()
 		hInstance, nullptr
 	);
 
-	//Input::Mouse::SetPrimaryWindow(this);
+	Input::Mouse::SetPrimaryWindow(this);
 }
 
 void Win32Window::CreateGLContext()
@@ -104,7 +104,7 @@ void Win32Window::Show()
 	ShowWindow((HWND)m_Handle, 1);
 }
 
-void Win32Window::Update()
+void Win32Window::PollEvents()
 {
 	MSG msg;
 	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -119,6 +119,7 @@ void Win32Window::Update()
 			DispatchMessage(&msg);
 		}
 	}
+
 	POINT cursorPos;
 	if (GetCursorPos(&cursorPos))
 	{

@@ -20,7 +20,8 @@ using namespace Gene::Input;
 		state.Position.Y = static_cast<float>(cursor.y);
 		return state;
 	}
-
+	
+	// Function definition for (static) Mouse::GetState (declaration in Input/Mouse.h)
 	MouseState& Mouse::GetState()
 	{
 		if (s_PrimaryWindow == nullptr)
