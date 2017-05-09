@@ -40,6 +40,6 @@ void VertexArray::DebugDrawElements(Buffer *ebo)
 	Enable();
 	ebo->Enable();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
-	Disable();
 	ebo->Disable();
+	Disable();
 }

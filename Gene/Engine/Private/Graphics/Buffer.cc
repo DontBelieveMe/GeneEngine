@@ -10,10 +10,12 @@ Buffer::Buffer(Buffer::Type type): m_Type(type)
 
 void Buffer::SetData(const BufferDescriptor& data)
 {
+	Enable();
 	m_Descriptor = data;
 	glBufferData(
 		OpenGL::GeneToGLType(m_Type), 
 		data.Size, 
 		data.Data, 
 		static_cast<GLenum>(data.DrawType));
+	//Disable();
 }
