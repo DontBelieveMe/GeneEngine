@@ -1,5 +1,6 @@
 #pragma once
-#include <GL/glew.h>
+
+#include <GLFL/glfl.h>
 
 namespace Gene { namespace OpenGL {
 
@@ -8,7 +9,8 @@ namespace Gene { namespace OpenGL {
 		Int				= GL_INT,
 		Byte		    = GL_BYTE,
 		UnsignedByte    = GL_UNSIGNED_BYTE,
-		Short		    = GL_SHORT
+		Short		    = GL_SHORT,
+		UnsignedInt     = GL_UNSIGNED_INT
 	};
 
 	template <typename CustomType>

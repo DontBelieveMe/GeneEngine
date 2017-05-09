@@ -70,19 +70,23 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)Engine\Public;$(ProjectDir)ThirdParty\Windows\glew\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\Public;$(ProjectDir)ThirdParty\glfl\pregenerated\;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Binaries\Librarys\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediate\$(Configuration)\</IntDir>
-    <LibraryPath>$(ProjectDir)ThirdParty\Windows\glew\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>glew32d.lib;</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,6 +142,10 @@
     <ClInclude Include="Engine\Private\Platform\Win32\Win32Window.h" />
     <ClInclude Include="Engine\Public\Platform\Window.h" />
     <ClInclude Include="Engine\Private\Graphics\External\lodepng.h" />
+    <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl.h" />
+    <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_func_indices.h" />
+    <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_proxy_proto__.h" />
+    <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_simple_proto__.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
@@ -154,6 +162,14 @@
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Window.cc" />
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
     <ClCompile Include="Engine\Private\Graphics\External\lodepng.cc" />
+    <ClCompile Include="ThirdParty\glfl\pregenerated\glfl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ThirdParty\glfl\pregenerated\enumerators" />
+    <None Include="ThirdParty\glfl\pregenerated\extensions" />
+    <None Include="ThirdParty\glfl\pregenerated\functions" />
+    <None Include="ThirdParty\glfl\pregenerated\types" />
+    <None Include="ThirdParty\glfl\pregenerated\versions" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

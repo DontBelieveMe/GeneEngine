@@ -1,7 +1,9 @@
 #include "Win32Window.h" 
-#include <GL/glew.h>
+
 #include <Windows.h>
 #include <iostream>
+
+#include <Platform/OpenGL.h>
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 
@@ -23,7 +25,6 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 Win32Window::~Win32Window()
 {
-
 }
 
 void Win32Window::Create() 
@@ -63,6 +64,17 @@ void Win32Window::Create()
 	Input::Mouse::SetPrimaryWindow(this);
 }
 
+static HMODULE s_OpenGL32 = LoadLibraryA("opengl32.dll");
+
+static void *Win32GetProcAddress(const char* path)
+{
+	void * ptr = wglGetProcAddress((LPCSTR)path);
+	if (ptr == NULL)
+		return ::GetProcAddress(s_OpenGL32, (LPCSTR)path);
+	else
+		return ptr;
+}
+
 void Win32Window::CreateGLContext()
 {
 	PIXELFORMATDESCRIPTOR pfd =
@@ -91,10 +103,13 @@ void Win32Window::CreateGLContext()
 	SetPixelFormat(hdc, choosePf, &pfd);
 
 	HGLRC context = wglCreateContext(hdc);
-	wglMakeCurrent(hdc, context);
+	BOOL s = wglMakeCurrent(hdc, context);
+
 	m_Context->Context = context;
 
-	glewInit();
+	glfl::set_function_loader(Win32GetProcAddress);
+	glfl::load_everything();
+
 	glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
 	glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
 }

@@ -12,6 +12,7 @@ namespace Gene { namespace Graphics {
 		int Index;
 		int ComponentCount;
 		int ByteOfffset;
+		int Stride;
 	};
 
 	class VertexArray
@@ -30,5 +31,6 @@ namespace Gene { namespace Graphics {
 		void RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib);
 
 		void DebugDraw();
+		void DebugDrawElements(Buffer *ebo);
 	};
 }}

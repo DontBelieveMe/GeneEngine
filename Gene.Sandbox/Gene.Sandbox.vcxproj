@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Windows\glew\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\glfl\pregenerated;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Binaries\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>
@@ -80,6 +80,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
