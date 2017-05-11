@@ -1,0 +1,2 @@
+/home/blaclegi/Dev/geneengine/Build/CMakeFiles/Gene.dir
+/home/blaclegi/Dev/geneengine/Build/CMakeFiles/Gene.Sandbox.dir

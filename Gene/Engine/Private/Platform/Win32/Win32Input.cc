@@ -2,11 +2,11 @@
 #include <Input/Mouse.h>
 #include <Input/MouseState.h>
 #include <Math/Vector2.h>
-#include <Windows.h>
 
 using namespace Gene::Input;
 
 #ifdef GENE_OS_WINDOWS
+#include <Windows.h>
 	static MouseState& GetDefaultState()
 	{
 		static MouseState state;

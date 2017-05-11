@@ -1,3 +1,6 @@
+#include <Platform/OS.h>
+#ifdef GENE_OS_WINDOWS
+
 #include "Win32Window.h" 
 
 #include <Windows.h>
@@ -153,3 +156,4 @@ void Win32Window::SwapBuffers()
 {
 	::SwapBuffers(s_HDC);
 }
+#endif
