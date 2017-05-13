@@ -19,12 +19,12 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	using namespace Gene::Math;
 	using namespace Gene::IO;
 	using namespace Gene::Input;
-
+	
 	GLfloat vertices[] = {
-		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,// Top Right
-		-0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,// Bottom Right
-		0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,// Bottom Left
-		-0.5f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f// Top Left 
+		0.5f,   0.5f, 0.0f,  1.0f, 0.0f, 0.0f,// Top Right
+		0.5f,  -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,// Bottom Right
+	   -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,// Bottom Left
+	   -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f// Top Left 
 	};	
 
 	*ebo = new Buffer(Buffer::Type::ElementBuffer);

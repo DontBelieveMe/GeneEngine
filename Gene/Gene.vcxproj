@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\MouseState.h" />
     <ClInclude Include="Engine\Public\Input\Mouse.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Engine\Private\Math\Matrix4.cc" />
     <ClCompile Include="Engine\Private\Math\Vector2.cc" />
     <ClCompile Include="Engine\Private\Math\Vector3.cc" />
+    <ClCompile Include="Engine\Private\Platform\GLFLLoad.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Input.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Window.cc" />
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
