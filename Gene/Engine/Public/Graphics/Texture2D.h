@@ -32,7 +32,7 @@ namespace Gene { namespace Graphics {
 
 		enum class FilteringOptions
 		{
-			Linear = GL_LINEAR, 
+			Linear  = GL_LINEAR, 
 			Nearest = GL_NEAREST,
 			Default = GL_LINEAR
 		};

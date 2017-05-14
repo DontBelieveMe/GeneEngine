@@ -1,8 +1,13 @@
 #version 330 core
-in vec3 ourColor;
+
+in vec3 pass_Color;
+in vec2 pass_Uv;
+
 out vec4 color;
-uniform vec2 mPos;
+
+uniform sampler2D texture_Sampler;
+
 void main()
 {
-    color = vec4(ourColor, 1.0f);
+    color = texture(texture_Sampler, pass_Uv) * vec4(pass_Color, 1.0f);
 }

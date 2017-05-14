@@ -14,58 +14,64 @@
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo)
 {
-	using namespace Gene::Platform;
 	using namespace Gene::Graphics;
-	using namespace Gene::Math;
-	using namespace Gene::IO;
-	using namespace Gene::Input;
-	
+
 	GLfloat vertices[] = {
-		0.5f,   0.5f, 0.0f,  1.0f, 0.0f, 0.0f,// Top Right
-		0.5f,  -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,// Bottom Right
-	   -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,// Bottom Left
-	   -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f// Top Left 
+		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // Top Right
+		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,// Bottom Right
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,// Bottom Left
+		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f // Top Left 
 	};	
 
-	*ebo = new Buffer(Buffer::Type::ElementBuffer);
-	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-	vao.Enable();
-	BufferDescriptor dsc;
-	dsc.Data = vertices;
-	dsc.DataType = Gene::OpenGL::GLType::Float;
-	dsc.Size = sizeof(vertices);
-	dsc.DrawType = BufferDrawType::Static;
-	vbo->SetData(dsc);
 	GLuint indices[] = {  // Note that we start from 0!
 		0, 1, 3,   // First Triangle
 		1, 2, 3    // Second Triangle
 	};  
+	
+	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+	
+	vao.Enable();
+	
+	BufferDescriptor vertexBufferDesc;
+	vertexBufferDesc.Data     = vertices;
+	vertexBufferDesc.DataType = Gene::OpenGL::GLType::Float;
+	vertexBufferDesc.Size     = sizeof(vertices);
+	vertexBufferDesc.DrawType = BufferDrawType::Static;
+	vbo->SetData(vertexBufferDesc);
 
-
-	BufferDescriptor desc;
-	desc.Data = indices;
-	desc.DataType = Gene::OpenGL::GLType::UnsignedInt;
-	desc.Size = sizeof(indices);
-	desc.DrawType = BufferDrawType::Static;
-
-	(*ebo)->SetData(desc);
+	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
+	
+	BufferDescriptor indexBufferDesc;
+	indexBufferDesc.Data	  = indices;
+	indexBufferDesc.DataType  = Gene::OpenGL::GLType::UnsignedInt;
+	indexBufferDesc.Size      = sizeof(indices);
+	indexBufferDesc.DrawType  = BufferDrawType::Static;
+	(*ebo)->SetData(indexBufferDesc);
 
 	#pragma region Attributes
-	AttributeDescriptor vertexAttrib;
-	vertexAttrib.ByteOfffset = 0;
-	vertexAttrib.ComponentCount = 3;
-	vertexAttrib.Index = 0;
-	vertexAttrib.Stride = 6 * sizeof(GLfloat);
 
-	AttributeDescriptor colorAttrib;
-	colorAttrib.ByteOfffset = 3 * sizeof(GLfloat);
-	colorAttrib.ComponentCount = 3;
-	colorAttrib.Index = 1;
-	colorAttrib.Stride = 6 * sizeof(GLfloat);
+	AttributeDescriptor vertexAttrib, colorAttrib, uvAttrib;
+	
+	vertexAttrib.Index			= 0;
+	vertexAttrib.ComponentCount = 3;
+	vertexAttrib.Stride		    = 8 * sizeof(GLfloat);
+	vertexAttrib.ByteOfffset    = 0;
+
+	colorAttrib.Index		    = 1;
+	colorAttrib.ComponentCount  = 3;
+	colorAttrib.Stride		    = 8 * sizeof(GLfloat);
+	colorAttrib.ByteOfffset     = 3 * sizeof(GLfloat);
+
+	uvAttrib.Index              = 2;
+	uvAttrib.ComponentCount	    = 2;
+	uvAttrib.Stride             = 8 * sizeof(GLfloat);
+	uvAttrib.ByteOfffset        = 6 * sizeof(GLfloat);
+
 	#pragma endregion
 
 	vao.RegisterAttribute(vbo.get(), vertexAttrib);
 	vao.RegisterAttribute(vbo.get(), colorAttrib);
+	vao.RegisterAttribute(vbo.get(), uvAttrib);
 }
 
 int main()
@@ -84,12 +90,15 @@ int main()
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
 	shader.Enable();
 
-	window->SetClearColor(Color::Black);
+	Texture2D texture("Data/brickTexture.png");
+	texture.Filtering = Texture2D::FilteringOptions::Linear;
+	texture.Enable();	
+	
+	window->SetClearColor(Color::CornflowerBlue);
 
 	Buffer *ebo;
 	VertexArray vao;
 	CreateTriangle(vao, &ebo);
-
 
 	window->Show();
 	while (window->Running())
