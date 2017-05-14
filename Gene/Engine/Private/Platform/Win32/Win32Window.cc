@@ -16,11 +16,16 @@ static HDC s_HDC;
 
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	Gene::Platform::EventCallbacks *callbacks = (Gene::Platform::EventCallbacks*)GetProp(hWnd, "geneCallbacks");
 	switch(msg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
+	case WM_SIZE:
+		if(callbacks->Resize)
+			callbacks->Resize(LOWORD(lParam), HIWORD(lParam));
+		break;
 	default: break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -63,6 +68,8 @@ void Win32Window::Create()
 		nullptr,
 		hInstance, nullptr
 	);
+
+	SetProp((HWND)m_Handle, "geneCallbacks", &m_Callbacks);
 
 	Input::Mouse::SetPrimaryWindow(this);
 }

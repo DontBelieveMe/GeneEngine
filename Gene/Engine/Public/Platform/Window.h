@@ -15,6 +15,11 @@ namespace Gene { namespace Platform {
 		const char *Title;
 	};
 
+	struct EventCallbacks
+	{
+		void(*Resize)(int, int) = nullptr;
+	};
+
 	class Window
 	{
 	protected:
@@ -22,7 +27,7 @@ namespace Gene { namespace Platform {
 		GLContext *m_Context;
 		bool m_Running = true;
 		Input::MouseState m_MouseState;
-		
+		EventCallbacks m_Callbacks;
 		friend class Input::Mouse;
 
 	public:
@@ -39,6 +44,7 @@ namespace Gene { namespace Platform {
 		inline unsigned Height() const { return m_WindowConfig.Height; }
 		inline bool Running() const { return m_Running; }
 		inline GLContext *GetGLContext() const { return m_Context; }
+		inline void SetWindowResizeCallback(void(*resize)(int,int)){ m_Callbacks.Resize = resize;  }
 
 		static Window *CreateWindow(WindowInfo info);
 

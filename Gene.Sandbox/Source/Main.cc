@@ -17,15 +17,15 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	using namespace Gene::Graphics;
 
 	GLfloat vertices[] = {
-		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // Top Right
-		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,// Bottom Right
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,// Bottom Left
-		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f // Top Left 
+		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 
+		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f 
 	};	
 
-	GLuint indices[] = {  // Note that we start from 0!
-		0, 1, 3,   // First Triangle
-		1, 2, 3    // Second Triangle
+	GLuint indices[] = { 
+		0, 1, 3,  
+		1, 2, 3 
 	};  
 	
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
@@ -85,6 +85,9 @@ int main()
 	Window *window = Window::CreateWindow({ 800, 600, "Hello World!" });
 	window->Create();
 	window->CreateGLContext();
+	window->SetWindowResizeCallback([](int w, int h) {
+		glViewport(0, 0, w, h);
+	});
 
 	GLSLShader shader;
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
