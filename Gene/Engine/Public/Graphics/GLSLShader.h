@@ -24,5 +24,7 @@ namespace Gene { namespace Graphics {
 			{ glUniform3f(UniformLocation(uniform), vector.X, vector.Y, vector.Z); }
 		inline void LoadUniform2f(const char *uniform, const Math::Vector2& vector)
 			{ glUniform2f(UniformLocation(uniform), vector.X, vector.Y); }
+		inline void LoadUniformMatrix4f(const char *uniform, const Math::Matrix4& mat)
+			{ glUniformMatrix4fv(UniformLocation(uniform), 1, GL_FALSE, mat.Elements); }
 	};
 }}

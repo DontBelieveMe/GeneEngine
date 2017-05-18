@@ -10,13 +10,16 @@
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 
+#define GENE_EVENT_CALLBACK_ID "_GeneCallbacksId"
+#define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
+
 using namespace Gene::Platform::Win32;
 
 static HDC s_HDC;
 
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	Gene::Platform::EventCallbacks *callbacks = (Gene::Platform::EventCallbacks*)GetProp(hWnd, "geneCallbacks");
+	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
 	switch(msg)
 	{
 	case WM_DESTROY:
@@ -50,7 +53,7 @@ void Win32Window::Create()
 	_class.hIconSm = nullptr;
 	_class.hInstance = hInstance;
 	_class.lpfnWndProc = (WNDPROC)WinProc;
-	_class.lpszClassName = "_GeneMainWindow";
+	_class.lpszClassName = GENE_WINDOW_CLASS_NAME;
 	_class.lpszMenuName = nullptr;
 	_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 
@@ -59,7 +62,7 @@ void Win32Window::Create()
 
 	m_Handle = CreateWindowEx(
 		0,
-		"_GeneMainWindow",
+		GENE_WINDOW_CLASS_NAME,	
 		m_WindowConfig.Title,
 		WS_OVERLAPPEDWINDOW,
 		200, 200,
@@ -69,7 +72,7 @@ void Win32Window::Create()
 		hInstance, nullptr
 	);
 
-	SetProp((HWND)m_Handle, "geneCallbacks", &m_Callbacks);
+	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
 
 	Input::Mouse::SetPrimaryWindow(this);
 }

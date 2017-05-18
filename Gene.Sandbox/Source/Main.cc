@@ -103,6 +103,9 @@ int main()
 	VertexArray vao;
 	CreateTriangle(vao, &ebo);
 
+	Matrix4 matrix(1.0f);
+	shader.LoadUniformMatrix4f("u_Matrix", matrix);
+
 	window->Show();
 	while (window->Running())
 	{
