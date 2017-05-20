@@ -103,14 +103,21 @@ int main()
 	VertexArray vao;
 	CreateTriangle(vao, &ebo);
 
-	Matrix4 matrix(1.0f);
-	shader.LoadUniformMatrix4f("u_Matrix", matrix);
-
+	Matrix4 matrix = Matrix4::Identity();//Matrix4::Perpective(800 / 600, 90, 1, 0.01);
+	//shader.LoadUniformMatrix4f("u_Matrix", matrix);
+	float x = 0;
 	window->Show();
+	Matrix4 transform = Matrix4::Identity();
+	std::cout << transform;
+	Vector3 pos(0, 0, 0);
+
 	while (window->Running())
 	{
 		window->PollEvents();
-
+		pos = pos +Vector3(0.f, 0.01f, 0.f);
+		transform.Translate(pos);
+		std::cout << transform << std::endl << std::endl;
+		shader.LoadUniformMatrix4f("u_Transform", transform);
 		vao.DebugDrawElements(ebo);
 		window->SwapBuffers();
 	}

@@ -7,3 +7,7 @@
 #elif __APLE__ && __MACH__
 	#define GENE_OS_MACOS
 #endif
+
+#ifdef _MSC_VER
+	#define GENE_COMPILER_MSVC
+#endif

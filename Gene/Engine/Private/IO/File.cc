@@ -1,7 +1,7 @@
 #include <IO/File.h>
 #include <Platform/OS.h>
 
-#if defined(GENE_OS_WINDOWS) && defined(_MSC_VER)
+#if defined(GENE_OS_WINDOWS) && defined(GENE_COMPILER_MSVC) 
 	#define _CRT_SECURE_NO_WARNINGS
 #endif
 
