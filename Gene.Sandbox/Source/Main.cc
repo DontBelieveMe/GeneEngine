@@ -82,7 +82,12 @@ int main()
 	using namespace Gene::IO;
 	using namespace Gene::Input;
 
-	Window *window = Window::CreateWindow({ 800, 600, "Hello World!" });
+	WindowInfo info;
+	info.Width = 800;
+	info.Height = 600;
+	info.Title = "Hello World!";
+	
+	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
 	window->SetWindowResizeCallback([](int w, int h) {
@@ -103,20 +108,20 @@ int main()
 	VertexArray vao;
 	CreateTriangle(vao, &ebo);
 
-	Matrix4 matrix = Matrix4::Identity();//Matrix4::Perpective(800 / 600, 90, 1, 0.01);
-	//shader.LoadUniformMatrix4f("u_Matrix", matrix);
-	float x = 0;
+	Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 1, 0.01);
+	shader.LoadUniformMatrix4f("u_Matrix", matrix);
+	
 	window->Show();
-	Matrix4 transform = Matrix4::Identity();
-	std::cout << transform;
-	Vector3 pos(0, 0, 0);
-
+	
+	float x = 0;
 	while (window->Running())
 	{
 		window->PollEvents();
-		pos = pos +Vector3(0.f, 0.01f, 0.f);
-		transform.Translate(pos);
-		std::cout << transform << std::endl << std::endl;
+		x += 0.04f;
+
+		float scaleFactor = sin(x);
+		Matrix4 transform = Matrix4::Identity();
+		transform.Scale({ 1.f + scaleFactor, 1.f + scaleFactor, 1.0f });
 		shader.LoadUniformMatrix4f("u_Transform", transform);
 		vao.DebugDrawElements(ebo);
 		window->SwapBuffers();

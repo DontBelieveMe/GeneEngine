@@ -129,7 +129,9 @@ void Win32Window::CreateGLContext()
 
 void Win32Window::Show()
 {
-	ShowWindow((HWND)m_Handle, 1);
+	if (m_WindowConfig.Borderless)
+		SetWindowLong((HWND)m_Handle, GWL_STYLE, 0);
+	ShowWindow((HWND)m_Handle, SW_SHOW);
 }
 
 void Win32Window::PollEvents()

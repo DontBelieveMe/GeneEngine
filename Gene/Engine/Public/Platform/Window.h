@@ -13,6 +13,7 @@ namespace Gene { namespace Platform {
 	{
 		int Width, Height;
 		const char *Title;
+		bool Borderless = false;
 	};
 
 	struct EventCallbacks
