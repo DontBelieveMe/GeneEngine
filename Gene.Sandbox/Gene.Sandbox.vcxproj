@@ -70,10 +70,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\glfl\pregenerated;$(IncludePath)</IncludePath>
+    <IncludePath>I:\Dev\Gene\Gene\ThirdParty\Windows\alsoft\include;I:\Dev\Gene\Gene\Engine\Public;I:\Dev\Gene\Gene\ThirdParty\glfl\pregenerated;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Binaries\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>I:\Dev\Gene\Gene\ThirdParty\Windows\alsoft\include;I:\Dev\Gene\Gene\Engine\Public;I:\Dev\Gene\Gene\ThirdParty\glfl\pregenerated;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>I:\Dev\Gene\Gene\ThirdParty\Windows\alsoft\include;I:\Dev\Gene\Gene\Engine\Public;I:\Dev\Gene\Gene\ThirdParty\glfl\pregenerated;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>I:\Dev\Gene\Gene\ThirdParty\Windows\alsoft\include;I:\Dev\Gene\Gene\Engine\Public;I:\Dev\Gene\Gene\ThirdParty\glfl\pregenerated;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

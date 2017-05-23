@@ -90,13 +90,12 @@ int main()
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
-	window->SetWindowResizeCallback([](int w, int h) {
-		glViewport(0, 0, w, h);
-	});
-
 	GLSLShader shader;
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
 	shader.Enable();
+	window->SetWindowResizeCallback([](int w, int h) {
+		glViewport(0, 0, w, h);//Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 1, 0.01);
+	});
 
 	Texture2D texture("Data/brickTexture.png");
 	texture.Filtering = Texture2D::FilteringOptions::Linear;
