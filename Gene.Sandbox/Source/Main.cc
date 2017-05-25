@@ -120,10 +120,12 @@ int main()
 		window->PollEvents();
 		x += 0.04f;
 
-		float scaleFactor = sin(x);
 		Matrix4 transform = Matrix4::Identity();
-		transform.Scale({ 1.f + scaleFactor, 1.f + scaleFactor, 1.0f });
-		shader.LoadUniformMatrix4f("u_Transform", transform);
+		Vector2 mPos = Mouse::GetState().Position;
+		transform.Scale(0.5f);
+		transform.Translate(mPos);
+
+	    shader.LoadUniformMatrix4f("u_Transform", transform);
 		vao.DebugDrawElements(ebo);
 		window->SwapBuffers();
 	}

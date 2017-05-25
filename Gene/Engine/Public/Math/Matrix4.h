@@ -1,5 +1,6 @@
 #pragma once
 #include <Math/Vector3.h>
+#include <Math/Vector2.h>
 #include <iostream>
 
 namespace Gene { namespace Math {
@@ -16,7 +17,12 @@ namespace Gene { namespace Math {
 		float Elements[ElementCount];
 
 		void Translate(const Vector3& vector);
+		void Translate(const Vector2& vector);
+
 		void Scale(const Vector3& vector);
+		void Scale(const Vector2& vector);
+		void Scale(float scaleFactor);
+
 		void RotateX(float theta);
 		void RotateY(float theta);
 		void RotateZ(float theta);
