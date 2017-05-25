@@ -157,6 +157,7 @@
     <ClInclude Include="Engine\Public\Math\Matrix4.h" />
     <ClInclude Include="Engine\Public\Math\Vector2.h" />
     <ClInclude Include="Engine\Public\Math\Vector3.h" />
+    <ClInclude Include="Engine\Public\Platform\OpenAL.h" />
     <ClInclude Include="Engine\Public\Platform\OpenGL.h" />
     <ClInclude Include="Engine\Public\Platform\GLContext.h" />
     <ClInclude Include="Engine\Public\Platform\OS.h" />
