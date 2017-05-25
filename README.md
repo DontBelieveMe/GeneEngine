@@ -1,29 +1,23 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+A Multiplatform, custom written OpenGL game engine, designed for ease of use and speed.
+
+Version: (Prealpha) 000
 
 ### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+  - Download/Clone the repository
+  - Open the Gene.sln in Visual Studio 2017 (other versions may work, but not tested as of writing)
+  - Any dependencies should already be setup/packaged within the repository/solution.
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
+#### Coding Standard
+  - Classes and functions/methods are in pascal case (i.e `Render()` or `class Matrix4`)
+  - Everything is enclosed in a global namespace `Gene`, with relevant subnamespaces for each 'module' of the engine
+  - Local variables and arguments are camelCase (i.e `int xPos = 0;` or `void DoNothing(int offsetOnXAsix);`
+  - Subnamespace declarations should be declared on the same line (i.e `namespace Gene { namespace Platform { namspace Win32 {`
+  
 ### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Me, at the moment (aka @blaclegi)
