@@ -5,7 +5,6 @@
 A Multiplatform, custom written OpenGL game engine, designed for ease of use and speed.
 
 Version: (Prealpha) 000
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
   - Download/Clone the repository
@@ -21,4 +20,4 @@ Version: (Prealpha) 000
   - Subnamespace declarations should be declared on the same line (i.e `namespace Gene { namespace Platform { namspace Win32 {`
   
 ### Who do I talk to? ###
-Me
+Me, at the moment (aka @blaclegi)
