@@ -13,6 +13,7 @@ namespace Gene { namespace Math {
 		Matrix4(float diag=1.f);
 
 		Matrix4 operator*(const Matrix4& other);
+		Matrix4 operator*(const Vector2& vector);
 		
 		float Elements[ElementCount];
 
@@ -26,6 +27,14 @@ namespace Gene { namespace Math {
 		void RotateX(float theta);
 		void RotateY(float theta);
 		void RotateZ(float theta);
+
+		void Invert();
+
+		Vector3 ScreenToWorld(
+			Matrix4 projection, 
+			Matrix4 view, 
+			const Vector2& screenPos, 
+			int viewWidth, int viewHeight);
 
 		static Matrix4 Identity(float diag=1.f);
 		static Matrix4 Perpective(float aspectRatio, float foV, float far, float near);

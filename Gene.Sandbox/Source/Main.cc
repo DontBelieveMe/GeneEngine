@@ -122,8 +122,8 @@ int main()
 
 		Matrix4 transform = Matrix4::Identity();
 		Vector2 mPos = Mouse::GetState().Position;
-		transform.Scale(0.5f);
-		transform.Translate(mPos);
+		//transform.Scale(0.5f);
+		//transform.Translate({0.f, 0.f, 100.f});
 
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
 		vao.DebugDrawElements(ebo);

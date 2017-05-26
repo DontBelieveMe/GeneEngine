@@ -103,6 +103,25 @@ Matrix4 Matrix4::Identity(float diag)
 	return Matrix4(diag);
 }
 
+Matrix4 Matrix4::operator*(const Vector2& vector)
+{
+	return Matrix4::Identity();
+}
+
+Vector3 Matrix4::ScreenToWorld(Matrix4 projection, Matrix4 view, const Vector2& screenPos, int viewWidth, int viewHeight)
+{
+	Vector3 pos;
+	pos.X = 2.f * screenPos.X / static_cast<float>(viewWidth - 1);
+	pos.Y = -(2.f * screenPos.Y / static_cast<float>(viewHeight - 1));
+	pos.Z = 0;
+	
+	view.Invert();
+	projection.Invert();
+	view.Translate(pos);
+	projection.Translate(pos);
+	return pos;
+}
+
 Matrix4 Matrix4::Perpective(float aspectRatio, float foV, float near, float far)
 {
 	Matrix4 matrix = Matrix4::Identity();
@@ -123,9 +142,133 @@ Matrix4 Matrix4::Orthographic(float right, float left, float bottom, float top, 
 	matrix.Elements[2 + 2 * 4] = -2 / (far - near);
 	matrix.Elements[3 + 3 * 4] = 1.0f;
 	matrix.Elements[3 + 0 * 4] = -((right + left) / (right - left));
-	matrix.Elements[3 + 0 * 4] = -((top + bottom) / (top - bottom));
-	matrix.Elements[3 + 0 * 4] = -((far + near) / (far - near));
+	matrix.Elements[3 + 1 * 4] = -((top + bottom) / (top - bottom));
+	matrix.Elements[3 + 2 * 4] = -((far + near) / (far - near));
 	return matrix;
 }
 
+/*
+	Copied from Sparky maths - mat4.cpp
+*/
+void Matrix4::Invert()
+{
+	float temp[16];
 
+		temp[0] = Elements[5] * Elements[10] * Elements[15] -
+			Elements[5] * Elements[11] * Elements[14] -
+			Elements[9] * Elements[6] * Elements[15] +
+			Elements[9] * Elements[7] * Elements[14] +
+			Elements[13] * Elements[6] * Elements[11] -
+			Elements[13] * Elements[7] * Elements[10];
+
+		temp[4] = -Elements[4] * Elements[10] * Elements[15] +
+			Elements[4] * Elements[11] * Elements[14] +
+			Elements[8] * Elements[6] * Elements[15] -
+			Elements[8] * Elements[7] * Elements[14] -
+			Elements[12] * Elements[6] * Elements[11] +
+			Elements[12] * Elements[7] * Elements[10];
+
+		temp[8] = Elements[4] * Elements[9] * Elements[15] -
+			Elements[4] * Elements[11] * Elements[13] -
+			Elements[8] * Elements[5] * Elements[15] +
+			Elements[8] * Elements[7] * Elements[13] +
+			Elements[12] * Elements[5] * Elements[11] -
+			Elements[12] * Elements[7] * Elements[9];
+
+		temp[12] = -Elements[4] * Elements[9] * Elements[14] +
+			Elements[4] * Elements[10] * Elements[13] +
+			Elements[8] * Elements[5] * Elements[14] -
+			Elements[8] * Elements[6] * Elements[13] -
+			Elements[12] * Elements[5] * Elements[10] +
+			Elements[12] * Elements[6] * Elements[9];
+
+		temp[1] = -Elements[1] * Elements[10] * Elements[15] +
+			Elements[1] * Elements[11] * Elements[14] +
+			Elements[9] * Elements[2] * Elements[15] -
+			Elements[9] * Elements[3] * Elements[14] -
+			Elements[13] * Elements[2] * Elements[11] +
+			Elements[13] * Elements[3] * Elements[10];
+
+		temp[5] = Elements[0] * Elements[10] * Elements[15] -
+			Elements[0] * Elements[11] * Elements[14] -
+			Elements[8] * Elements[2] * Elements[15] +
+			Elements[8] * Elements[3] * Elements[14] +
+			Elements[12] * Elements[2] * Elements[11] -
+			Elements[12] * Elements[3] * Elements[10];
+
+		temp[9] = -Elements[0] * Elements[9] * Elements[15] +
+			Elements[0] * Elements[11] * Elements[13] +
+			Elements[8] * Elements[1] * Elements[15] -
+			Elements[8] * Elements[3] * Elements[13] -
+			Elements[12] * Elements[1] * Elements[11] +
+			Elements[12] * Elements[3] * Elements[9];
+
+		temp[13] = Elements[0] * Elements[9] * Elements[14] -
+			Elements[0] * Elements[10] * Elements[13] -
+			Elements[8] * Elements[1] * Elements[14] +
+			Elements[8] * Elements[2] * Elements[13] +
+			Elements[12] * Elements[1] * Elements[10] -
+			Elements[12] * Elements[2] * Elements[9];
+
+		temp[2] = Elements[1] * Elements[6] * Elements[15] -
+			Elements[1] * Elements[7] * Elements[14] -
+			Elements[5] * Elements[2] * Elements[15] +
+			Elements[5] * Elements[3] * Elements[14] +
+			Elements[13] * Elements[2] * Elements[7] -
+			Elements[13] * Elements[3] * Elements[6];
+
+		temp[6] = -Elements[0] * Elements[6] * Elements[15] +
+			Elements[0] * Elements[7] * Elements[14] +
+			Elements[4] * Elements[2] * Elements[15] -
+			Elements[4] * Elements[3] * Elements[14] -
+			Elements[12] * Elements[2] * Elements[7] +
+			Elements[12] * Elements[3] * Elements[6];
+
+		temp[10] = Elements[0] * Elements[5] * Elements[15] -
+			Elements[0] * Elements[7] * Elements[13] -
+			Elements[4] * Elements[1] * Elements[15] +
+			Elements[4] * Elements[3] * Elements[13] +
+			Elements[12] * Elements[1] * Elements[7] -
+			Elements[12] * Elements[3] * Elements[5];
+
+		temp[14] = -Elements[0] * Elements[5] * Elements[14] +
+			Elements[0] * Elements[6] * Elements[13] +
+			Elements[4] * Elements[1] * Elements[14] -
+			Elements[4] * Elements[2] * Elements[13] -
+			Elements[12] * Elements[1] * Elements[6] +
+			Elements[12] * Elements[2] * Elements[5];
+
+		temp[3] = -Elements[1] * Elements[6] * Elements[11] +
+			Elements[1] * Elements[7] * Elements[10] +
+			Elements[5] * Elements[2] * Elements[11] -
+			Elements[5] * Elements[3] * Elements[10] -
+			Elements[9] * Elements[2] * Elements[7] +
+			Elements[9] * Elements[3] * Elements[6];
+
+		temp[7] = Elements[0] * Elements[6] * Elements[11] -
+			Elements[0] * Elements[7] * Elements[10] -
+			Elements[4] * Elements[2] * Elements[11] +
+			Elements[4] * Elements[3] * Elements[10] +
+			Elements[8] * Elements[2] * Elements[7] -
+			Elements[8] * Elements[3] * Elements[6];
+
+		temp[11] = -Elements[0] * Elements[5] * Elements[11] +
+			Elements[0] * Elements[7] * Elements[9] +
+			Elements[4] * Elements[1] * Elements[11] -
+			Elements[4] * Elements[3] * Elements[9] -
+			Elements[8] * Elements[1] * Elements[7] +
+			Elements[8] * Elements[3] * Elements[5];
+
+		temp[15] = Elements[0] * Elements[5] * Elements[10] -
+			Elements[0] * Elements[6] * Elements[9] -
+			Elements[4] * Elements[1] * Elements[10] +
+			Elements[4] * Elements[2] * Elements[9] +
+			Elements[8] * Elements[1] * Elements[6] -
+			Elements[8] * Elements[2] * Elements[5];
+
+		float determinant = Elements[0] * temp[0] + Elements[1] * temp[4] + Elements[2] * temp[8] + Elements[3] * temp[12];
+		determinant = 1.0f / determinant;
+
+		for (unsigned i = 0; i < 4 * 4; i++)
+			Elements[i] = temp[i] * determinant;
+}

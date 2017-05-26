@@ -7,6 +7,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <fstream>
+#include <string>
 
 using namespace Gene::IO;
 
@@ -46,4 +48,18 @@ void File::Load(const char *filepath)
 void File::Free()
 {
 	delete[] m_Data;
+}
+
+std::vector<std::string> File::ReadLines(const char *path)
+{
+	std::vector<std::string> lines;
+
+	std::ifstream file(path);
+	std::string line;
+	while (std::getline(file, line))
+	{
+		lines.push_back(line);
+	}
+
+	return lines;
 }

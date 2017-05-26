@@ -143,10 +143,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
+    <ClInclude Include="Engine\Public\Content\OBJModel.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\MouseState.h" />
     <ClInclude Include="Engine\Public\Input\Mouse.h" />
-    <ClInclude Include="Engine\Public\Loaders\OBJLoader.h" />
     <ClInclude Include="Engine\Public\Math\Math.h" />
     <ClInclude Include="Engine\Public\Graphics\Buffer.h" />
     <ClInclude Include="Engine\Public\Graphics\VertexArray.h" />
@@ -170,6 +170,7 @@
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_simple_proto__.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Private\Content\OBJModel.cc" />
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />

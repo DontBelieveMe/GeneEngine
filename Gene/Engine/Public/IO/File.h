@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace Gene { namespace IO {
 	class File {
 	private:
@@ -12,5 +14,7 @@ namespace Gene { namespace IO {
 
 		const char *Contents() const { return static_cast<const char*>(m_Data); }
 		void Free();
+
+		static std::vector<std::string> ReadLines(const char *path);
 	};
 }}
