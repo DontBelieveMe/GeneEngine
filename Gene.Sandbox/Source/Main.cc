@@ -9,9 +9,9 @@
 #include <Math/Math.h>
 #include <math.h>
 #include <Input/Mouse.h>
+#include <Input/Keyboard.h>
 #include <memory>
 #include <Graphics/Texture2D.h>
-
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo)
 {
@@ -87,7 +87,8 @@ int main()
 	info.Width = 800;
 	info.Height = 600;
 	info.Title = "Hello World!";
-	
+	info.Borderless = false;
+
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
@@ -100,13 +101,11 @@ int main()
 		glViewport(0, 0, w, h);
 	});
 
-	Gene::Scripting::MonoEnviroment env;
-
 	Texture2D texture("Data/brickTexture.png");
 	texture.Filtering = Texture2D::FilteringOptions::Linear;
 	texture.Enable();	
 	
-	window->SetClearColor(Color::CornflowerBlue);
+	window->SetClearColor(Color::Black);
 
 	Buffer *ebo;
 	VertexArray vao;
@@ -117,18 +116,28 @@ int main()
 	
 	window->Show();
 	
-	float x = 0;
+	float x = 1;
 	while (window->Running())
 	{
 		window->PollEvents();
-		x += 0.04f;
 
+
+		KeyboardState s = Keyboard::GetState();
+		if (s.IsKeyDown(Keys::W))
+		{
+			x += 0.04f;
+		}
+		else if (s.IsKeyDown(Keys::S))
+		{
+			x -= 0.04f;
+		}
+		x = Maths::Clamp(x, 0.25f, 1.75f);
 		Matrix4 transform = Matrix4::Identity();
 		Vector2 mPos = Mouse::GetState().Position;
-		transform.Scale(sin(x));
+		transform.Scale(x);
+		shader.LoadUniformMatrix4f("u_Transform", transform);
 		//transform.Translate({0.f, 0.f, 100.f});
-
-	    shader.LoadUniformMatrix4f("u_Transform", transform);
+		
 		vao.DebugDrawElements(ebo);
 		window->SwapBuffers();
 	}

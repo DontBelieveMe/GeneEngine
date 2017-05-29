@@ -80,10 +80,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;$(ProjectDir)ThirdParty\Windows\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>OpenAL32.lib;mono-2.0-boehm.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\lib;$(ProjectDir)ThirdParty\Windows\mono\lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -92,10 +92,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;$(ProjectDir)ThirdParty\Windows\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>OpenAL32.lib;mono-2.0-boehm.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\lib;$(ProjectDir)ThirdParty\Windows\mono\lib</AdditionalLibraryDirectories>
@@ -108,14 +108,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;$(ProjectDir)ThirdParty\Windows\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>OpenAL32.lib;mono-2.0-boehm.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\lib;$(ProjectDir)ThirdParty\Windows\mono\lib</AdditionalLibraryDirectories>
@@ -128,14 +128,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;$(ProjectDir)ThirdParty\Windows\mono\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>OpenAL32.lib;mono-2.0-boehm.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Windows\alsoft\lib;$(ProjectDir)ThirdParty\Windows\mono\lib</AdditionalLibraryDirectories>
@@ -143,10 +143,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
-    <ClInclude Include="Engine\Public\Scripting\MonoEnviroment.h" />
-    <ClInclude Include="Engine\Public\Scripting\MonoScript.h" />
     <ClInclude Include="Engine\Public\Content\OBJModel.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
+    <ClInclude Include="Engine\Public\Input\Keyboard.h" />
+    <ClInclude Include="Engine\Public\Input\KeyboardState.h" />
+    <ClInclude Include="Engine\Public\Input\Keys.h" />
     <ClInclude Include="Engine\Public\Input\MouseState.h" />
     <ClInclude Include="Engine\Public\Input\Mouse.h" />
     <ClInclude Include="Engine\Public\Math\Math.h" />
@@ -159,7 +160,6 @@
     <ClInclude Include="Engine\Public\Math\Matrix4.h" />
     <ClInclude Include="Engine\Public\Math\Vector2.h" />
     <ClInclude Include="Engine\Public\Math\Vector3.h" />
-    <ClInclude Include="Engine\Public\Platform\Mono.h" />
     <ClInclude Include="Engine\Public\Platform\OpenAL.h" />
     <ClInclude Include="Engine\Public\Platform\OpenGL.h" />
     <ClInclude Include="Engine\Public\Platform\GLContext.h" />
@@ -179,6 +179,7 @@
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Texture2D.cc" />
     <ClCompile Include="Engine\Private\Graphics\VertexArray.cc" />
+    <ClCompile Include="Engine\Private\Input\Keyboard.cc" />
     <ClCompile Include="Engine\Private\Input\Mouse.cc" />
     <ClCompile Include="Engine\Private\IO\File.cc" />
     <ClCompile Include="Engine\Private\Math\Matrix4.cc" />
@@ -189,8 +190,6 @@
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Window.cc" />
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
     <ClCompile Include="Engine\Private\Graphics\External\lodepng.cc" />
-    <ClCompile Include="Engine\Private\Scripting\MonoEnviroment.cc" />
-    <ClCompile Include="Engine\Private\Scripting\MonoScript.cc" />
     <ClCompile Include="ThirdParty\glfl\pregenerated\glfl.cpp" />
   </ItemGroup>
   <ItemGroup>

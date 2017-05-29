@@ -1,6 +1,10 @@
 #include <Platform/OS.h>
+
 #include <Input/Mouse.h>
 #include <Input/MouseState.h>
+#include <Input/Keyboard.h>
+#include <Input/KeyboardState.h>
+
 #include <Math/Vector2.h>
 
 using namespace Gene::Input;
@@ -30,5 +34,10 @@ using namespace Gene::Input;
 		}
 
 		return s_PrimaryWindow->m_MouseState;
+	}
+
+	KeyboardState& Keyboard::GetState()
+	{
+		return s_PrimaryWindow->m_KeyState;
 	}
 #endif

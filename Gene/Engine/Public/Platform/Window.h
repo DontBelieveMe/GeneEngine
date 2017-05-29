@@ -2,10 +2,13 @@
 
 #include <Platform/GLContext.h>
 #include <Graphics/Color.h>
+
 #include <Input/MouseState.h>
+#include <Input/KeyboardState.h>
 
 namespace Gene { namespace Input {
 	class Mouse;
+	class Keyboard;
 }}
 
 namespace Gene { namespace Platform {
@@ -28,8 +31,10 @@ namespace Gene { namespace Platform {
 		GLContext *m_Context;
 		bool m_Running = true;
 		Input::MouseState m_MouseState;
+		Input::KeyboardState m_KeyState;
 		EventCallbacks m_Callbacks;
 		friend class Input::Mouse;
+		friend class Input::Keyboard;
 
 	public:
 		virtual ~Window() { delete m_Context; };

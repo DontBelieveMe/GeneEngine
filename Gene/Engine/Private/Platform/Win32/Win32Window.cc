@@ -9,8 +9,10 @@
 #include <Platform/OpenGL.h>
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
+#include <Input/Keyboard.h>
 
 #define GENE_EVENT_CALLBACK_ID "_GeneCallbacksId"
+#define GENE_KEYBOARD_PROP "_GeneKeyboardStateId"
 #define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
 
 using namespace Gene::Platform::Win32;
@@ -19,16 +21,27 @@ static HDC s_HDC;
 
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	using namespace Gene::Input;
 	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
+	KeyboardState *keyState = static_cast<KeyboardState*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
 	switch(msg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
 	case WM_SIZE:
-		if(callbacks->Resize)
-			callbacks->Resize(LOWORD(lParam), HIWORD(lParam));
+		if (callbacks)
+		{
+			if (callbacks->Resize)
+				callbacks->Resize(LOWORD(lParam), HIWORD(lParam));
+		}
 		break;
+	case WM_KEYDOWN:
+		keyState->KeyMap[wParam] = true;	
+		return 0;
+	case WM_KEYUP:
+		keyState->KeyMap[wParam] = false;
+		return 0;
 	default: break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -64,7 +77,7 @@ void Win32Window::Create()
 		0,
 		GENE_WINDOW_CLASS_NAME,	
 		m_WindowConfig.Title,
-		WS_OVERLAPPEDWINDOW,
+		m_WindowConfig.Borderless ? WS_POPUP : WS_OVERLAPPEDWINDOW,
 		200, 200,
 		Width(), Height(),
 		nullptr,
@@ -73,8 +86,10 @@ void Win32Window::Create()
 	);
 
 	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
+	SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, &m_KeyState);
 
 	Input::Mouse::SetPrimaryWindow(this);
+	Input::Keyboard::SetPrimaryWindow(this);
 }
 
 static HMODULE s_OpenGL32 = LoadLibraryA("opengl32.dll");
