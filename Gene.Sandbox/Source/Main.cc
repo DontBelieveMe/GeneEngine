@@ -122,21 +122,21 @@ int main()
 		window->PollEvents();
 
 
-		KeyboardState s = Keyboard::GetState();
-		if (s.IsKeyDown(Keys::W))
+		KeyboardState keyboardState = Keyboard::GetState();
+		if (keyboardState.IsKeyDown(Keys::W))
 		{
 			x += 0.04f;
 		}
-		else if (s.IsKeyDown(Keys::S))
+		else if (keyboardState.IsKeyDown(Keys::S))
 		{
 			x -= 0.04f;
 		}
+
 		x = Maths::Clamp(x, 0.25f, 1.75f);
 		Matrix4 transform = Matrix4::Identity();
 		Vector2 mPos = Mouse::GetState().Position;
 		transform.Scale(x);
 		shader.LoadUniformMatrix4f("u_Transform", transform);
-		//transform.Translate({0.f, 0.f, 100.f});
 		
 		vao.DebugDrawElements(ebo);
 		window->SwapBuffers();
