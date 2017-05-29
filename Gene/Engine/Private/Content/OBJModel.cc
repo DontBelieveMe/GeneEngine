@@ -20,18 +20,19 @@ OBJModel::~OBJModel()
 void OBJModel::Load(const char *filepath)
 {
 	using namespace Math;
+	using namespace std;
 
-	std::vector<std::string> lines = IO::File::ReadLines(filepath);
+	vector<string> lines = IO::File::ReadLines(filepath);
 	
-	for (std::string line : lines)
+	for (string line : lines)
 	{
 		// Found comment - skip
 		if (line[0] == '#') continue;
 
-		std::string identifier = line.substr(0, 2);
+		string identifier = line.substr(0, 2);
 		if (identifier == "v ")
 		{
-			std::istringstream stream(line.substr(2));
+			istringstream stream(line.substr(2));
 			Vector3 vector;
 			stream >> vector.X;
 			stream >> vector.Y;

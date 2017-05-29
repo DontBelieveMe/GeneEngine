@@ -1,9 +1,10 @@
-#include <IO/File.h>
 #include <Platform/OS.h>
 
 #if defined(GENE_OS_WINDOWS) && defined(GENE_COMPILER_MSVC) 
-	#define _CRT_SECURE_NO_WARNINGS
+	#define _CRT_SECURE_NO_WARNINGS 
 #endif
+
+#include <IO/File.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -52,11 +53,12 @@ void File::Free()
 
 std::vector<std::string> File::ReadLines(const char *path)
 {
-	std::vector<std::string> lines;
+	using namespace std;
+	vector<string> lines;
 
-	std::ifstream file(path);
-	std::string line;
-	while (std::getline(file, line))
+	ifstream file(path);
+	string line;
+	while (getline(file, line))
 	{
 		lines.push_back(line);
 	}
