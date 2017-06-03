@@ -16,9 +16,17 @@ Plans for future platforms
 Version: (Prealpha) 000
 
 ### How do I get set up? ###
+#### Windows  
   - Download/Clone the repository
   - Open the Gene.sln in Visual Studio 2017 (other versions may work, but not tested as of writing)
   - Any dependencies should already be setup/packaged within the repository/solution.
+
+#### Linux  
+  - Download/Clone the repository
+  - Make sure CMake, a C++11 compliant GCC compiler and make is installed. If not install them.  
+  - Execute `cmake -H. -BBuild` in the root directory  
+  - Enter the `Build` directory and run `make` to build
+  - Run `.\Gene.Sandbox` to run the sandbox project
 
 ### Contribution guidelines ###
 
