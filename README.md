@@ -2,7 +2,15 @@
 
 ### What is this repository for? ###
 
-A Multiplatform, custom written OpenGL game engine, designed for ease of use and speed.
+A Multiplatform, custom written OpenGL game engine, designed for ease of use and speed  
+
+Currently supported platforms:
+  - Windows
+  - Linux
+Plans for future platforms
+  - Android
+  - Mac
+  - iOS
 
 Version: (Prealpha) 000
 
