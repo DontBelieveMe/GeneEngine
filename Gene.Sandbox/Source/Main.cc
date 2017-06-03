@@ -12,40 +12,40 @@
 #include <Input/Keyboard.h>
 #include <memory>
 #include <Graphics/Texture2D.h>
+#include <Graphics/PreBuiltVertices.h>
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo)
 {
 	using namespace Gene::Graphics;
 
-	GLfloat vertices[] = {
+	/*GLfloat vertices[] = PreBuiltVertices::CubeVertices; /*{
 		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 
 		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f 
-	};	
+		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f
+	};*/	
 
-	GLuint indices[] = { 
+	/*GLuint indices[] = { 
 		0, 1, 3,  
 		1, 2, 3 
-	};  
+	};  */
 	
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 	
 	vao.Enable();
 	
 	BufferDescriptor vertexBufferDesc;
-	vertexBufferDesc.Data     = vertices;
+	vertexBufferDesc.Data     = PreBuiltVertices::RectangleVertices;
 	vertexBufferDesc.DataType = Gene::OpenGL::GLType::Float;
-	vertexBufferDesc.Size     = sizeof(vertices);
+	vertexBufferDesc.Size     = sizeof(PreBuiltVertices::RectangleVertices);
 	vertexBufferDesc.DrawType = BufferDrawType::Static;
 	vbo->SetData(vertexBufferDesc);
 
 	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
-	
 	BufferDescriptor indexBufferDesc;
-	indexBufferDesc.Data	  = indices;
+	indexBufferDesc.Data = PreBuiltVertices::RectangleIndices;
 	indexBufferDesc.DataType  = Gene::OpenGL::GLType::UnsignedInt;
-	indexBufferDesc.Size      = sizeof(indices);
+	indexBufferDesc.Size      = sizeof(PreBuiltVertices::RectangleIndices);
 	indexBufferDesc.DrawType  = BufferDrawType::Static;
 	(*ebo)->SetData(indexBufferDesc);
 
@@ -111,12 +111,15 @@ int main()
 	VertexArray vao;
 	CreateTriangle(vao, &ebo);
 
-	Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 1, 0.01);
+	Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Matrix", matrix);
 	
 	window->Show();
 	
 	float x = 1;
+	float a = 1;
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 	while (window->Running())
 	{
 		window->PollEvents();
@@ -132,12 +135,16 @@ int main()
 			x -= 0.04f;
 		}
 
-		x = Maths::Clamp(x, 0.25f, 1.75f);
+		a += 1.f;
+		
+		//x = Maths::Clamp(x, 0.25f, 1.75f);
 		Matrix4 transform = Matrix4::Identity();
 		Vector2 mPos = Mouse::GetState().Position;
-		transform.Scale(x);
+		transform.Translate({ 0, 0, x });
 		shader.LoadUniformMatrix4f("u_Transform", transform);
-		
+
+		//transform.RotateZ(a);
+		//vao.DebugDraw();
 		vao.DebugDrawElements(ebo);
 		window->SwapBuffers();
 	}

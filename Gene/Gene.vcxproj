@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
     <ClInclude Include="Engine\Public\Content\OBJModel.h" />
+    <ClInclude Include="Engine\Public\Graphics\PreBuiltVertices.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\Keyboard.h" />
     <ClInclude Include="Engine\Public\Input\KeyboardState.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
+    <ClCompile Include="Engine\Private\Graphics\PreBuiltVertices.cc" />
     <ClCompile Include="Engine\Private\Graphics\Texture2D.cc" />
     <ClCompile Include="Engine\Private\Graphics\VertexArray.cc" />
     <ClCompile Include="Engine\Private\Input\Keyboard.cc" />

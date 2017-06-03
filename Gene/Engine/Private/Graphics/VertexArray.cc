@@ -30,7 +30,7 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 void VertexArray::DebugDraw()
 {
 	Enable();
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
 	Disable();
 }
 
