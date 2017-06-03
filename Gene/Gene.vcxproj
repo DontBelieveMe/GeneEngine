@@ -143,7 +143,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
-    <ClInclude Include="Engine\Public\Content\OBJModel.h" />
+    <ClInclude Include="Engine\Public\Content\GeneModel.h" />
+    <ClInclude Include="Engine\Public\Content\IModelLoader.h" />
+    <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
     <ClInclude Include="Engine\Public\Graphics\PreBuiltVertices.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\Keyboard.h" />
@@ -174,7 +176,7 @@
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_simple_proto__.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Private\Content\OBJModel.cc" />
+    <ClCompile Include="Engine\Private\Content\OBJModelLoader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
