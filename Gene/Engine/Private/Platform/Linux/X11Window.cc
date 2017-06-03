@@ -1,14 +1,15 @@
 #include <Platform/OS.h>
+
 #ifdef GENE_OS_LINUX
 
 #include "X11Window.h"
-//#include <Platform/OpenGL.h>
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
+
 #include "../GLFLLoad.h"
 
 using namespace Gene::Platform::X11;
@@ -38,7 +39,7 @@ void X11Window::Create()
 
 static void *GetProcAddress(const char *address)
 {
-    return (void*)glXGetProcAddress((const GLubyte*)address);
+    return (void*)glXGetProcAddress((GLubyte*)address);
 }
 
 void X11Window::CreateGLContext()
@@ -46,10 +47,13 @@ void X11Window::CreateGLContext()
     GLXContext glc = glXCreateContext((Display*)m_Display, (XVisualInfo*)m_VisualInfo, NULL, GL_TRUE);
     glXMakeCurrent((Display*)m_Display, s_XWindow, glc);
     m_Context->Context = glc;
-    Gene::Platform::GLFLUtil::GLFLInit(GetProcAddress);
-    glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
+
+    GLFLUtil::GLFLInit(GetProcAddress);
+   
+    glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion)); 
     glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
 }
+
 void X11Window::Show()
 {
     XMapWindow((Display*)m_Display, s_XWindow);
@@ -57,8 +61,14 @@ void X11Window::Show()
 
 void X11Window::PollEvents()
 {
-    static XEvent xev;
-    XNextEvent((Display*)m_Display, &xev);
+    Display *dpy = static_cast<Display*>(m_Display);
+    int pending = XPending(dpy);
+    while(pending--) 
+    {
+        XEvent evt;
+        XNextEvent(dpy, &evt);
+    }
+    XFlush(dpy);
 }
 
 void X11Window::SwapBuffers()

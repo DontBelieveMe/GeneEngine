@@ -18,7 +18,7 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 {
 	using namespace Gene::Graphics;
 
-	/*GLfloat vertices[] = PreBuiltVertices::CubeVertices; /*{
+	/*GLfloat vertices[] = PreBuiltVertices::CubeVertices; {
 		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 
 		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
@@ -84,8 +84,8 @@ int main()
 	using namespace Gene::Input;
 
 	WindowInfo info;
-	info.Width = 800;
-	info.Height = 600;
+	info.Width = 600;
+	info.Height = 400;
 	info.Title = "Hello World!";
 	info.Borderless = false;
 
@@ -95,9 +95,12 @@ int main()
 
 	GLSLShader shader;
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
-	shader.Enable();
-
-	window->SetWindowResizeCallback([](int w, int h) {
+    shader.Enable();
+    shader.BindAttributeIndex(0, "position");
+    shader.BindAttributeIndex(1, "color");
+    shader.BindAttributeIndex(2, "uv");
+	
+    window->SetWindowResizeCallback([](int w, int h) {
 		glViewport(0, 0, w, h);
 	});
 
@@ -105,7 +108,7 @@ int main()
 	texture.Filtering = Texture2D::FilteringOptions::Linear;
 	texture.Enable();	
 	
-	window->SetClearColor(Color::Black);
+	window->SetClearColor(Color::CornflowerBlue);
 
 	Buffer *ebo;
 	VertexArray vao;
@@ -116,37 +119,20 @@ int main()
 	
 	window->Show();
 	
-	float x = 1;
-	float a = 1;
-	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	while (window->Running())
+
+    while (window->Running())
 	{
-		window->PollEvents();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+  	    Matrix4 transform = Matrix4::Identity();
+	    shader.LoadUniformMatrix4f("u_Transform", transform);
 
-
-		KeyboardState keyboardState = Keyboard::GetState();
-		if (keyboardState.IsKeyDown(Keys::W))
-		{
-			x += 0.04f;
-		}
-		else if (keyboardState.IsKeyDown(Keys::S))
-		{
-			x -= 0.04f;
-		}
-
-		a += 1.f;
+    	vao.DebugDrawElements(ebo);
 		
-		//x = Maths::Clamp(x, 0.25f, 1.75f);
-		Matrix4 transform = Matrix4::Identity();
-		Vector2 mPos = Mouse::GetState().Position;
-		transform.Translate({ 0, 0, x });
-		shader.LoadUniformMatrix4f("u_Transform", transform);
-
-		//transform.RotateZ(a);
-		//vao.DebugDraw();
-		vao.DebugDrawElements(ebo);
-		window->SwapBuffers();
+        window->SwapBuffers();
+		window->PollEvents();
 	}
 
 	return 0;

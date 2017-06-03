@@ -14,6 +14,7 @@ namespace Gene { namespace Graphics {
 	public:
 		void CompileFromText(const std::string& vert, const std::string& frag);
 		void CompileFromFiles(std::string vertPath, std::string fragPath);
+        void BindAttributeIndex(GLint index, const char *name);
 
 		inline void Enable() const { glUseProgram(m_Program); }
 		inline void Disable() const { glUseProgram(0); }

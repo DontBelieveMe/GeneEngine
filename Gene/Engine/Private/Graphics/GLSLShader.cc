@@ -25,6 +25,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 
 void GLSLShader::CompileFromText(const std::string& vert, const std::string& frag)
 {
+    printf("HI\n");
 	GLuint vertexShader = CompileShader(vert.c_str(), GL_VERTEX_SHADER);
 	GLuint fragmentShader = CompileShader(frag.c_str(), GL_FRAGMENT_SHADER);
 	m_Program = glCreateProgram();
@@ -38,11 +39,17 @@ void GLSLShader::CompileFromText(const std::string& vert, const std::string& fra
 void GLSLShader::CompileFromFiles(std::string vertPath, std::string fragPath)
 {
 	using namespace Gene::IO;
-
 	File vert(vertPath.c_str());
 	File frag(fragPath.c_str());
+    printf("HI\n");
+    std::string v = vert.Contents();
+    std::string f = frag.Contents();
+	CompileFromText(v, f);
+}
 
-	CompileFromText(vert.Contents(), frag.Contents());
+void GLSLShader::BindAttributeIndex(GLint index, const char *name) 
+{
+    glBindAttribLocation(m_Program, index, name);
 }
 
 GLint GLSLShader::UniformLocation(const char *uniform)

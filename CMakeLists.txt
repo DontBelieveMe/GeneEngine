@@ -11,3 +11,9 @@ add_executable("Gene.Sandbox" ${SandboxSrc})
 target_link_libraries("Gene.Sandbox" "Gene")
 target_link_libraries("Gene.Sandbox" "X11")
 target_link_libraries("Gene.Sandbox" "GL")
+add_custom_command(TARGET Gene.Sandbox PRE_BUILD
+    COMMAND rm -r "${CMAKE_BINARY_DIR}/Data")
+add_custom_command(TARGET Gene.Sandbox PRE_BUILD
+    COMMAND cp -r
+    "../Gene.Sandbox/Data" 
+    ${CMAKE_BINARY_DIR})

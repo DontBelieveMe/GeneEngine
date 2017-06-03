@@ -3,6 +3,8 @@
 #include <Math/Vector3.h>
 
 #include <sstream>
+#include <string>
+#include <vector>
 
 using namespace Gene::Content;
 
