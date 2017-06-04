@@ -5,6 +5,7 @@
 #include <Input/KeyboardState.h>
 
 using namespace Gene::Input;
+
 #if defined(GENE_OS_LINUX)
 MouseState &Mouse::GetState() {
     static MouseState s;

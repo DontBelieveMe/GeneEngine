@@ -30,7 +30,7 @@ void X11Window::Create()
     Colormap cmap = XCreateColormap(dpy, s_XRoot, vi->visual, AllocNone);
     XSetWindowAttributes swa;
     swa.colormap = cmap;
-    swa.event_mask = ExposureMask | KeyPressMask;
+    swa.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask;
     s_XWindow = XCreateWindow(dpy, s_XRoot, 0, 0, Width(), Height(), 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
     XStoreName(dpy, s_XWindow, m_WindowConfig.Title);    
     m_Display = dpy;
@@ -67,6 +67,19 @@ void X11Window::PollEvents()
     {
         XEvent evt;
         XNextEvent(dpy, &evt);
+        if(evt.type == ConfigureNotify) 
+        {
+            XConfigureEvent confEvent = evt.xconfigure;
+            if(confEvent.width != Width() || confEvent.height != Height())
+            {
+                if(m_Callbacks.Resize) 
+                {
+                    m_WindowConfig.Width = confEvent.width;
+                    m_WindowConfig.Height = confEvent.height;
+                    m_Callbacks.Resize(confEvent.width, confEvent.height);
+                }
+            }
+        }
     }
     XFlush(dpy);
 }
