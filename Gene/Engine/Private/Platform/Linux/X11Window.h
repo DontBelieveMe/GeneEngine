@@ -9,6 +9,7 @@ namespace Gene { namespace Platform { namespace X11 {
     private:
         void *m_Display;
         void *m_VisualInfo;
+        void *m_Window;
     public:
         virtual ~X11Window();
         X11Window(WindowInfo info) : Gene::Platform::Window(info) {}

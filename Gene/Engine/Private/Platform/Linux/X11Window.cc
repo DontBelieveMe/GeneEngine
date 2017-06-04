@@ -35,6 +35,8 @@ void X11Window::Create()
     XStoreName(dpy, s_XWindow, m_WindowConfig.Title);    
     m_Display = dpy;
     m_VisualInfo = vi;
+    Input::Mouse::SetPrimaryWindow(this);
+    m_Window = &s_XWindow;
 }
 
 static void *GetProcAddress(const char *address)
@@ -81,6 +83,15 @@ void X11Window::PollEvents()
             }
         }
     }
+    
+    int x,y;
+    ::Window a, b;
+    int c, d;
+    unsigned e;
+    XQueryPointer(dpy, s_XWindow, &a, &b, &c, &d, &x, &y, &e);
+    m_MouseState.Position.X = x;
+    m_MouseState.Position.Y = y;
+ 
     XFlush(dpy);
 }
 

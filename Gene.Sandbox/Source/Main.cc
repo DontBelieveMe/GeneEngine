@@ -128,7 +128,8 @@ int main()
         
   	    Matrix4 transform = Matrix4::Identity();
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
-
+        MouseState state = Mouse::GetState();
+        printf("%f %f\n", state.Position.X, state.Position.Y);
     	vao.DebugDrawElements(ebo);
 		
         window->SwapBuffers();
