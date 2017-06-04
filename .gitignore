@@ -6,3 +6,7 @@ Gene/Release
 Gene.Sandbox/Binaries
 *.vcxproj.filters
 *.vcxproj.user
+
+# Vim Temporary files
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
