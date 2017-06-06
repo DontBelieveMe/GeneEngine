@@ -176,6 +176,7 @@
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_simple_proto__.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Private\Content\GeneModel.cc" />
     <ClCompile Include="Engine\Private\Content\OBJModelLoader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />

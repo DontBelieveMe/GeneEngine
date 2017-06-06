@@ -17,18 +17,6 @@
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo)
 {
 	using namespace Gene::Graphics;
-
-	/*GLfloat vertices[] = PreBuiltVertices::CubeVertices; {
-		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 
-		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f
-	};*/	
-
-	/*GLuint indices[] = { 
-		0, 1, 3,  
-		1, 2, 3 
-	};  */
 	
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 	
@@ -129,7 +117,7 @@ int main()
   	    Matrix4 transform = Matrix4::Identity();
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
         MouseState state = Mouse::GetState();
-        printf("%f %f\n", state.Position.X, state.Position.Y);
+        
     	vao.DebugDrawElements(ebo);
 		
         window->SwapBuffers();
