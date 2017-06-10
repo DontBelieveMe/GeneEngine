@@ -7,6 +7,7 @@ using namespace Gene::Graphics;
 Texture2D::Texture2D(const char *filepath)
 {
 	Load(filepath);
+	
 }
 
 void Texture2D::Load(const char *filepath)
