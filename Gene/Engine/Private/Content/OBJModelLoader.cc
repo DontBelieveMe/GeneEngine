@@ -60,6 +60,5 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
 		normals[ia] = normals[ib] = normals[ic] = normal;
 	}
 
-	GeneModel *model = new GeneModel(vertices, normals, indices);
-	return model;
+	return nullptr;
 }
