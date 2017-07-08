@@ -1,5 +1,6 @@
 #include "GLFLLoad.h"
-#include <GLFL/glfl.h>
+//#include <GLFL/glfl.h>
+#include <Platform/OpenGL.h>
 
 using namespace Gene::Platform;
 

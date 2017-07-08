@@ -41,9 +41,12 @@ void File::Load(const char *filepath)
 		{
 			fread(m_Data, 1, len, file);
 			m_Data[len] = '\0';
-		}
+		} 
 		fclose(file);
-	}
+	} else 
+    {
+        printf("Cannot find resource %s\n", filepath);
+    }
 }
 
 void File::Free()

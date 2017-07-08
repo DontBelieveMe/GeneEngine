@@ -1,5 +1,3 @@
-#pragma once
-
 #include <Graphics/PreBuiltVertices.h>
 
 using namespace Gene::Graphics;
