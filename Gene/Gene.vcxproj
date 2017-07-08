@@ -80,26 +80,34 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Include\freetype2;$(ProjectDir)ThirdParty\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>freetype.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Lib\Win32\FreeType</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Binaries\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)ThirdParty\Shared\freetype6.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Include\freetype2;$(ProjectDir)ThirdParty\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Lib\Win32\FreeType</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Binaries\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)ThirdParty\Shared\freetype6.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -115,11 +123,14 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Lib\Win32\FreeType</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)ThirdParty\Shared\freetype6.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -135,17 +146,22 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Lib\Win32\FreeType</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)ThirdParty\Shared\freetype6.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
     <ClInclude Include="Engine\Public\Content\GeneModel.h" />
     <ClInclude Include="Engine\Public\Content\IModelLoader.h" />
     <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
+    <ClInclude Include="Engine\Public\GeneCommon.h" />
+    <ClInclude Include="Engine\Public\Graphics\Font.h" />
     <ClInclude Include="Engine\Public\Graphics\PreBuiltVertices.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\Keyboard.h" />
@@ -181,6 +197,7 @@
     <ClCompile Include="Engine\Private\Content\OBJModelLoader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
+    <ClCompile Include="Engine\Private\Graphics\Font.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
     <ClCompile Include="Engine\Private\Graphics\PreBuiltVertices.cc" />
     <ClCompile Include="Engine\Private\Graphics\Texture2D.cc" />

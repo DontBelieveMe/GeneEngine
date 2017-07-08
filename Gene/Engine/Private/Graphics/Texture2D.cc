@@ -21,6 +21,16 @@ void Texture2D::Load(const char *filepath)
 	}
 }
 
+void Texture2D::Load(unsigned char *data, unsigned width, unsigned height)
+{
+	m_Pixels = std::vector<unsigned char>(data, data + width * height);
+	m_Width = width;
+	m_Height = height;
+
+	GenerateGLId();
+	m_Loaded = true;
+}
+
 void Texture2D::GenerateGLId()
 {
 	glActiveTexture(GL_TEXTURE0);

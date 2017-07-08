@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace Gene::Content;
 
@@ -47,18 +48,30 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
 	}
 
 	normals.resize(vertices.size(), { 0.f, 0.f, 0.f });
-	for (int i = 0; i < indices.size(); i++)
+    int x = *(std::max_element(indices.begin(), indices.end()));
+	for (int i = 0; i < indices.size(); i+=3)
 	{
 		GLuint ia = indices[i];
 		GLuint ib = indices[i + 1];
 		GLuint ic = indices[i + 2];
+
+		Vector3 q = vertices[ib];
+		Vector3 r = vertices[ic];
+		Vector3 p = vertices[ia];
+
 		Vector3 normal = Vector3::CrossProduct(
-			vertices[ib] - vertices[ia],
-			vertices[ic] - vertices[ia]
+			q - p,
+			r - p
 		);
+
 		normal.Normalize();
 		normals[ia] = normals[ib] = normals[ic] = normal;
 	}
 
-	return nullptr;
+	GeneModel *model = new GeneModel();
+	model->Vertices = vertices;
+	model->Normals = normals;
+	model->Indices = indices;
+
+	return model;
 }
