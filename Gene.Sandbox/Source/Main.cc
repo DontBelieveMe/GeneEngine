@@ -13,66 +13,49 @@
 #include <memory>
 #include <Graphics/Texture2D.h>
 #include <Graphics/PreBuiltVertices.h>
+#include <Content/OBJModelLoader.h>
 
-static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo)
+static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
 	using namespace Gene::Graphics;
-
-	/*GLfloat vertices[] = PreBuiltVertices::CubeVertices; {
-		0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, 
-		0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f
-	};*/	
-
-	/*GLuint indices[] = { 
-		0, 1, 3,  
-		1, 2, 3 
-	};  */
 	
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 	
 	vao.Enable();
 	
 	BufferDescriptor vertexBufferDesc;
-	vertexBufferDesc.Data     = PreBuiltVertices::RectangleVertices;
+    vertexBufferDesc.Data = &(model->Vertices[0]);//PreBuiltVertices::RectangleVertices;
 	vertexBufferDesc.DataType = Gene::OpenGL::GLType::Float;
-	vertexBufferDesc.Size     = sizeof(PreBuiltVertices::RectangleVertices);
+    vertexBufferDesc.Size = model->Vertices.size() * sizeof(GLfloat); //sizeof(PreBuiltVertices::RectangleVertices);
 	vertexBufferDesc.DrawType = BufferDrawType::Static;
 	vbo->SetData(vertexBufferDesc);
 
 	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 	BufferDescriptor indexBufferDesc;
-	indexBufferDesc.Data = PreBuiltVertices::RectangleIndices;
+    indexBufferDesc.Data = &(model->Indices[0]);//PreBuiltVertices::RectangleIndices;
 	indexBufferDesc.DataType  = Gene::OpenGL::GLType::UnsignedInt;
-	indexBufferDesc.Size      = sizeof(PreBuiltVertices::RectangleIndices);
+    indexBufferDesc.Size = model->Indices.size() * sizeof(GLuint); //sizeof(PreBuiltVertices::RectangleIndices);
 	indexBufferDesc.DrawType  = BufferDrawType::Static;
 	(*ebo)->SetData(indexBufferDesc);
 
 	#pragma region Attributes
 
-	AttributeDescriptor vertexAttrib, colorAttrib, uvAttrib;
+	AttributeDescriptor vertexAttrib;
 	
 	vertexAttrib.Index			= 0;
 	vertexAttrib.ComponentCount = 3;
-	vertexAttrib.Stride		    = 8 * sizeof(GLfloat);
+	vertexAttrib.Stride		    = 6 * sizeof(GLfloat);
 	vertexAttrib.ByteOfffset    = 0;
 
-	colorAttrib.Index		    = 1;
-	colorAttrib.ComponentCount  = 3;
-	colorAttrib.Stride		    = 8 * sizeof(GLfloat);
-	colorAttrib.ByteOfffset     = 3 * sizeof(GLfloat);
-
-	uvAttrib.Index              = 2;
-	uvAttrib.ComponentCount	    = 2;
-	uvAttrib.Stride             = 8 * sizeof(GLfloat);
-	uvAttrib.ByteOfffset        = 6 * sizeof(GLfloat);
+	AttributeDescriptor normalAttrib;
+	normalAttrib.Index = 1;
+	normalAttrib.ComponentCount = 3;
+	normalAttrib.Stride = 6 * sizeof(GLfloat);
+	normalAttrib.Stride = 3 * sizeof(GLfloat);
 
 	#pragma endregion
 
 	vao.RegisterAttribute(vbo.get(), vertexAttrib);
-	vao.RegisterAttribute(vbo.get(), colorAttrib);
-	vao.RegisterAttribute(vbo.get(), uvAttrib);
 }
 
 int main()
@@ -82,6 +65,7 @@ int main()
 	using namespace Gene::Math;
 	using namespace Gene::IO;
 	using namespace Gene::Input;
+	using namespace Gene::Content;
 
 	WindowInfo info;
 	info.Width = 600;
@@ -109,29 +93,40 @@ int main()
 	texture.Enable();	
 	
 	window->SetClearColor(Color::CornflowerBlue);
+	OBJModelLoader loader;
+	GeneModel *model = loader.Load("Data/suzanne.obj");
 
 	Buffer *ebo;
 	VertexArray vao;
-	CreateTriangle(vao, &ebo);
+	CreateTriangle(vao, &ebo, model);
 
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Matrix", matrix);
-	
+	 
+	//GeneModel *model = new OBJModelLoader()->Load("Data/suzanne.obj");
+
 	window->Show();
 	
     glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-
+	float x = 0.f;
     while (window->Running())
 	{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
   	    Matrix4 transform = Matrix4::Identity();
+		transform.RotateY(x);
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
-        MouseState state = Mouse::GetState();
-        printf("%f %f\n", state.Position.X, state.Position.Y);
+        //MouseState state = Mouse::GetState();
+        
     	vao.DebugDrawElements(ebo);
 		
+		KeyboardState state = Keyboard::GetState();
+		if (state.IsKeyDown(Keys::W))
+		{
+			x += 1.f;
+		}
+
         window->SwapBuffers();
 		window->PollEvents();
 	}

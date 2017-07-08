@@ -38,7 +38,9 @@ void VertexArray::DebugDrawElements(Buffer *ebo)
 {
 	Enable();
 	ebo->Enable();
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+    int size;  
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+    glDrawElements(GL_TRIANGLES, size / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 	ebo->Disable();
 	Disable();
 }

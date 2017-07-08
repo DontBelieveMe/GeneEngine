@@ -11,6 +11,8 @@
 #include <fstream>
 #include <string>
 
+#include <GeneCommon.h>
+
 using namespace Gene::IO;
 
 File::~File()
@@ -46,6 +48,7 @@ void File::Load(const char *filepath)
 	} else 
     {
         printf("Cannot find resource %s\n", filepath);
+        GE_ASSERT(false);
     }
 }
 
@@ -60,10 +63,16 @@ std::vector<std::string> File::ReadLines(const char *path)
 	vector<string> lines;
 
 	ifstream file(path);
-	string line;
-	while (getline(file, line))
+	if (file.is_open())
 	{
-		lines.push_back(line);
+		string line;
+		while (getline(file, line))
+		{
+			lines.push_back(line);
+		}
+	}
+	else {
+		GE_ASSERT(false);
 	}
 
 	return lines;
