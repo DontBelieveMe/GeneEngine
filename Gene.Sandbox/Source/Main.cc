@@ -14,6 +14,9 @@
 #include <Graphics/Texture2D.h>
 #include <Graphics/PreBuiltVertices.h>
 #include <Content/OBJModelLoader.h>
+#include <GeneCommon.h>
+
+std::vector<Gene::Math::Vector3> g_ModelData;
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
@@ -22,11 +25,13 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 	
 	vao.Enable();
-	
+ 
+    g_ModelData = Gene::MixVectors(model->Vertices, model->Normals, 3, 3);
+     
 	BufferDescriptor vertexBufferDesc;
-    vertexBufferDesc.Data = &(model->Vertices[0]);//PreBuiltVertices::RectangleVertices;
+    vertexBufferDesc.Data = &(g_ModelData[0]); //&(model->Vertices[0]);//PreBuiltVertices::RectangleVertices;
 	vertexBufferDesc.DataType = Gene::OpenGL::GLType::Float;
-    vertexBufferDesc.Size = model->Vertices.size() * sizeof(GLfloat); //sizeof(PreBuiltVertices::RectangleVertices);
+    vertexBufferDesc.Size = g_ModelData.size() * sizeof(GLfloat); //sizeof(PreBuiltVertices::RectangleVertices);
 	vertexBufferDesc.DrawType = BufferDrawType::Static;
 	vbo->SetData(vertexBufferDesc);
 
@@ -56,6 +61,7 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	#pragma endregion
 
 	vao.RegisterAttribute(vbo.get(), vertexAttrib);
+    vao.RegisterAttribute(vbo.get(), normalAttrib);
 }
 
 int main()
@@ -66,6 +72,7 @@ int main()
 	using namespace Gene::IO;
 	using namespace Gene::Input;
 	using namespace Gene::Content;
+    using namespace Gene;
 
 	WindowInfo info;
 	info.Width = 600;
@@ -107,6 +114,13 @@ int main()
 
 	window->Show();
 	
+    std::vector<int> a = { 1,1,1,1,1,1,1,1,1 };
+    std::vector<int> b = { 0,0,0,0,0,0,0,0,0 };
+    std::vector<int> c = MixVectors(a, b, 3, 3);
+    for(int i : c) {
+        printf("%i ", i);
+    }
+
     glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	float x = 0.f;
