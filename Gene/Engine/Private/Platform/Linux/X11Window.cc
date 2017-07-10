@@ -5,11 +5,11 @@
 #include "X11Window.h"
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
-
+#include <Input/Keyboard.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
-
+#include <stdio.h>
 #include "../GLFLLoad.h"
 
 using namespace Gene::Platform::X11;
@@ -36,6 +36,7 @@ void X11Window::Create()
     m_Display = dpy;
     m_VisualInfo = vi;
     Input::Mouse::SetPrimaryWindow(this);
+    Input::Keyboard::SetPrimaryWindow(this);
     m_Window = &s_XWindow;
 }
 
@@ -81,6 +82,10 @@ void X11Window::PollEvents()
                     m_Callbacks.Resize(confEvent.width, confEvent.height);
                 }
             }
+        } else if(evt.type == KeyPress) {
+            m_KeyState.KeyMap[evt.type] = true;
+        } else if(evt.type == KeyRelease) {
+            m_KeyState.KeyMap[evt.type] = false;
         }
     }
     

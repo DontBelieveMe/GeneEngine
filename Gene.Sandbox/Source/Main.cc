@@ -9,6 +9,8 @@
 #include <memory>
 #include <Content/OBJModelLoader.h>
 #include <GeneCommon.h>
+#include <Graphics/Light.h>
+#include <Input/Keyboard.h>
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
@@ -123,8 +125,10 @@ int main()
         
     	vao.DebugDrawElements(ebo);
 
-		theta += 1.f;
-
+		//theta += 1.f;
+        KeyboardState state = Keyboard::GetState();
+        if(state.IsKeyDown(Keys::R))
+            theta += 1.f;
         window->SwapBuffers();
 		window->PollEvents();
 	}

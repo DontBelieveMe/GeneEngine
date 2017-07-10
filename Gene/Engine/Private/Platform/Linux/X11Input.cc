@@ -14,7 +14,7 @@ MouseState &Mouse::GetState() {
 }
 
 KeyboardState &Keyboard::GetState() {
-    static KeyboardState s;
-    return s;
+//    static KeyboardState s;
+    return s_PrimaryWindow->m_KeyState;
 }
 #endif

@@ -24,7 +24,7 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 	glEnableVertexAttribArray(attrib.Index);
 	glVertexAttribPointer(
 		attrib.Index, attrib.ComponentCount, static_cast<GLenum>(buffer->DataType()),
-		GL_FALSE, attrib.Stride, (GLvoid*)attrib.ByteOfffset);
+		GL_FALSE, attrib.Stride, (const GLvoid*) attrib.ByteOfffset);
 	buffer->Disable();
 	Disable();
 }

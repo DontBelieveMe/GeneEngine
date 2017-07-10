@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="Gene" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/blaclegi/Dev/geneengine/bin/Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Gene">
+         <Option output="/home/blaclegi/Dev/geneengine/bin/Default/libGene.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/blaclegi/Dev/geneengine/bin/Default" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/blaclegi/Dev/geneengine/Gene/Engine/Public" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/6" />
+            <Add directory="/usr/include/c++/6/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/6" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 Gene" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Gene/fast">
+         <Option output="/home/blaclegi/Dev/geneengine/bin/Default/libGene.so" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/blaclegi/Dev/geneengine/bin/Default" />
+         <Option object_output="./" />
+         <Option type="3" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/blaclegi/Dev/geneengine/Gene/Engine/Public" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/6" />
+            <Add directory="/usr/include/c++/6/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/6" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 Gene/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Gene.Sandbox">
+         <Option output="/home/blaclegi/Dev/geneengine/bin/Default/Gene.Sandbox" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/blaclegi/Dev/geneengine/bin/Default" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/blaclegi/Dev/geneengine/Gene/Engine/Public" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/6" />
+            <Add directory="/usr/include/c++/6/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/6" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 Gene.Sandbox" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Gene.Sandbox/fast">
+         <Option output="/home/blaclegi/Dev/geneengine/bin/Default/Gene.Sandbox" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/blaclegi/Dev/geneengine/bin/Default" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/blaclegi/Dev/geneengine/Gene/Engine/Public" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/6" />
+            <Add directory="/usr/include/c++/6/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/6" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 Gene.Sandbox/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/blaclegi/Dev/geneengine/bin/Default" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/blaclegi/Dev/geneengine/bin/Default/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene.Sandbox/Source/Main.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Content/GeneModel.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Content/OBJModelLoader.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/Buffer.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/Color.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/External/lodepng.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/Font.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/GLSLShader.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/PreBuiltVertices.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/Texture2D.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/VertexArray.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/IO/File.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Input/Keyboard.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Input/Mouse.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Math/Matrix4.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Math/Vector2.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Math/Vector3.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/GLFLLoad.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Linux/X11Input.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Linux/X11Window.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Win32/Win32Input.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Win32/Win32Window.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Window.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/ThirdParty/glfl/pregenerated/glfl.cc">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Graphics/External/lodepng.h">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/GLFLLoad.h">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Linux/X11Window.h">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/Gene/Engine/Private/Platform/Win32/Win32Window.h">
+      </Unit>
+      <Unit filename="/home/blaclegi/Dev/geneengine/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
