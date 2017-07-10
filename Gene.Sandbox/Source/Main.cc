@@ -2,21 +2,13 @@
 #include <Graphics/GLSLShader.h>
 #include <Math/Vector3.h>
 #include <Graphics/Color.h>
-#include <IO/File.h>
 #include <Graphics/Buffer.h>
 #include <Platform/OpenGL.h>
 #include <Graphics/VertexArray.h>
 #include <Math/Math.h>
-#include <math.h>
-#include <Input/Mouse.h>
-#include <Input/Keyboard.h>
 #include <memory>
-#include <Graphics/Texture2D.h>
-#include <Graphics/PreBuiltVertices.h>
 #include <Content/OBJModelLoader.h>
 #include <GeneCommon.h>
-
-std::vector<Gene::Math::Vector3> g_ModelData;
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
@@ -33,14 +25,14 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	BufferDescriptor vertexBufferDesc;
 	vertexBufferDesc.Data		 = &(model->Vertices[0]);
 	vertexBufferDesc.DataType	 = GLType::Float;
-    vertexBufferDesc.Size		 = model->Vertices.size()* 3 * sizeof(GLfloat);
+    vertexBufferDesc.Size		 = model->Vertices.size() * 3 * sizeof(GLfloat);
 	vertexBufferDesc.DrawType	 = BufferDrawType::Static;
 	vbo->SetData(vertexBufferDesc);
 
 	BufferDescriptor normalBufferDesc;
 	normalBufferDesc.Data		 = &(model->Normals[0]);
 	normalBufferDesc.DataType	 = GLType::Float;
-	normalBufferDesc.Size		 = model->Normals.size()* 3 * sizeof(GLfloat);
+	normalBufferDesc.Size		 = model->Normals.size() * 3 * sizeof(GLfloat);
 	normalBufferDesc.DrawType	 = BufferDrawType::Static;
 	nbo->SetData(normalBufferDesc);
 
@@ -76,7 +68,6 @@ int main()
 	using namespace Gene::Platform;
 	using namespace Gene::Graphics;
 	using namespace Gene::Math;
-	using namespace Gene::IO;
 	using namespace Gene::Input;
 	using namespace Gene::Content;
     using namespace Gene;
@@ -100,10 +91,6 @@ int main()
     window->SetWindowResizeCallback([](int w, int h) {
 		glViewport(0, 0, w, h);
 	});
-
-	Texture2D texture("Data/brickTexture.png");
-	texture.Filtering = Texture2D::FilteringOptions::Linear;
-	texture.Enable();	
 	
 	window->SetClearColor(Color::CornflowerBlue);
 	OBJModelLoader loader;
