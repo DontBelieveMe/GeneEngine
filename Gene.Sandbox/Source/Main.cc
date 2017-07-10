@@ -23,17 +23,23 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	using namespace Gene::Graphics;
 	
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-	
+	std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+
 	vao.Enable();
  
-    g_ModelData = Gene::MixVectors(model->Vertices, model->Normals, 3, 3);
-     
 	BufferDescriptor vertexBufferDesc;
-    vertexBufferDesc.Data = &(g_ModelData[0]); //&(model->Vertices[0]);//PreBuiltVertices::RectangleVertices;
+    vertexBufferDesc.Data = &(model->Vertices[0]);//PreBuiltVertices::RectangleVertices;
 	vertexBufferDesc.DataType = Gene::OpenGL::GLType::Float;
-    vertexBufferDesc.Size = g_ModelData.size() * sizeof(GLfloat); //sizeof(PreBuiltVertices::RectangleVertices);
+    vertexBufferDesc.Size = model->Vertices.size() * sizeof(GLfloat); //sizeof(PreBuiltVertices::RectangleVertices);
 	vertexBufferDesc.DrawType = BufferDrawType::Static;
 	vbo->SetData(vertexBufferDesc);
+
+	BufferDescriptor normalBufferDesc;
+	normalBufferDesc.Data = &(model->Normals[0]);
+	normalBufferDesc.DataType = Gene::OpenGL::GLType::Float;
+	normalBufferDesc.Size = model->Normals.size() * sizeof(GLfloat);
+	normalBufferDesc.DrawType = BufferDrawType::Static;
+	nbo->SetData(normalBufferDesc);
 
 	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 	BufferDescriptor indexBufferDesc;
@@ -46,22 +52,21 @@ static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buf
 	#pragma region Attributes
 
 	AttributeDescriptor vertexAttrib;
-	
 	vertexAttrib.Index			= 0;
 	vertexAttrib.ComponentCount = 3;
-	vertexAttrib.Stride		    = 6 * sizeof(GLfloat);
+	vertexAttrib.Stride = 0;//3 * sizeof(GLfloat);
 	vertexAttrib.ByteOfffset    = 0;
 
 	AttributeDescriptor normalAttrib;
-	normalAttrib.Index = 1;
+	normalAttrib.Index			= 1;
 	normalAttrib.ComponentCount = 3;
-	normalAttrib.Stride = 6 * sizeof(GLfloat);
-	normalAttrib.Stride = 3 * sizeof(GLfloat);
+	normalAttrib.Stride = 0;// 3 * sizeof(GLfloat);
+	normalAttrib.ByteOfffset	= 0;
 
 	#pragma endregion
 
 	vao.RegisterAttribute(vbo.get(), vertexAttrib);
-    vao.RegisterAttribute(vbo.get(), normalAttrib);
+	vao.RegisterAttribute(nbo.get(), normalAttrib);
 }
 
 int main()
@@ -88,8 +93,7 @@ int main()
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
     shader.Enable();
     shader.BindAttributeIndex(0, "position");
-    shader.BindAttributeIndex(1, "color");
-    shader.BindAttributeIndex(2, "uv");
+    shader.BindAttributeIndex(1, "normal");
 	
     window->SetWindowResizeCallback([](int w, int h) {
 		glViewport(0, 0, w, h);
@@ -109,37 +113,38 @@ int main()
 
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Matrix", matrix);
-	 
-	//GeneModel *model = new OBJModelLoader()->Load("Data/suzanne.obj");
 
 	window->Show();
-	
-    std::vector<int> a = { 1,1,1,1,1,1,1,1,1 };
-    std::vector<int> b = { 0,0,0,0,0,0,0,0,0 };
-    std::vector<int> c = MixVectors(a, b, 3, 3);
-    for(int i : c) {
-        printf("%i ", i);
-    }
 
     glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	float x = 0.f;
+	float inAndOut = 0.f;
     while (window->Running())
 	{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
   	    Matrix4 transform = Matrix4::Identity();
 		transform.RotateY(x);
+		transform.Translate(Vector3(0, 0, inAndOut));
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
-        //MouseState state = Mouse::GetState();
         
     	vao.DebugDrawElements(ebo);
 		
 		KeyboardState state = Keyboard::GetState();
-		if (state.IsKeyDown(Keys::W))
+		if (state.IsKeyDown(Keys::A))
 		{
-			x += 1.f;
+			x += 3.f;
 		}
+		else if (state.IsKeyDown(Keys::D))
+		{
+			x -= 3.f;
+		}
+
+		if (state.IsKeyDown(Keys::W))
+			inAndOut += 0.1f;
+		else if (state.IsKeyDown(Keys::S))
+			inAndOut -= 0.1f;
 
         window->SwapBuffers();
 		window->PollEvents();
