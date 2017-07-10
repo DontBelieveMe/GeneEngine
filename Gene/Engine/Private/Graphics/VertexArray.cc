@@ -19,14 +19,14 @@ VertexArray::~VertexArray()
 
 void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 {
-	buffer->Enable();
 	Enable();
+	buffer->Enable();
 	glEnableVertexAttribArray(attrib.Index);
 	glVertexAttribPointer(
 		attrib.Index, attrib.ComponentCount, static_cast<GLenum>(buffer->DataType()),
 		GL_FALSE, attrib.Stride, (GLvoid*)attrib.ByteOfffset);
-	Disable();
 	buffer->Disable();
+	Disable();
 }
 
 void VertexArray::DebugDraw()
@@ -40,9 +40,7 @@ void VertexArray::DebugDrawElements(Buffer *ebo)
 {
 	Enable();
 	ebo->Enable();
-    int size;  
-    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-    glDrawElements(GL_TRIANGLES, size / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+    glDrawElements(GL_TRIANGLES, ebo->Size() / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 	ebo->Disable();
 	Disable();
 }

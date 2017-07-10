@@ -21,47 +21,49 @@ std::vector<Gene::Math::Vector3> g_ModelData;
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
 	using namespace Gene::Graphics;
+	using namespace Gene::OpenGL;
 	
 	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 	std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 
+	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
+
 	vao.Enable();
  
 	BufferDescriptor vertexBufferDesc;
-    vertexBufferDesc.Data = &(model->Vertices[0]);//PreBuiltVertices::RectangleVertices;
-	vertexBufferDesc.DataType = Gene::OpenGL::GLType::Float;
-    vertexBufferDesc.Size = model->Vertices.size() * sizeof(GLfloat); //sizeof(PreBuiltVertices::RectangleVertices);
-	vertexBufferDesc.DrawType = BufferDrawType::Static;
+	vertexBufferDesc.Data		 = &(model->Vertices[0]);
+	vertexBufferDesc.DataType	 = GLType::Float;
+    vertexBufferDesc.Size		 = model->Vertices.size()* 3 * sizeof(GLfloat);
+	vertexBufferDesc.DrawType	 = BufferDrawType::Static;
 	vbo->SetData(vertexBufferDesc);
 
 	BufferDescriptor normalBufferDesc;
-	normalBufferDesc.Data = &(model->Normals[0]);
-	normalBufferDesc.DataType = Gene::OpenGL::GLType::Float;
-	normalBufferDesc.Size = model->Normals.size() * sizeof(GLfloat);
-	normalBufferDesc.DrawType = BufferDrawType::Static;
+	normalBufferDesc.Data		 = &(model->Normals[0]);
+	normalBufferDesc.DataType	 = GLType::Float;
+	normalBufferDesc.Size		 = model->Normals.size()* 3 * sizeof(GLfloat);
+	normalBufferDesc.DrawType	 = BufferDrawType::Static;
 	nbo->SetData(normalBufferDesc);
 
-	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 	BufferDescriptor indexBufferDesc;
-    indexBufferDesc.Data = &(model->Indices[0]);//PreBuiltVertices::RectangleIndices;
-	indexBufferDesc.DataType  = Gene::OpenGL::GLType::UnsignedInt;
-    indexBufferDesc.Size = model->Indices.size() * sizeof(GLuint); //sizeof(PreBuiltVertices::RectangleIndices);
-	indexBufferDesc.DrawType  = BufferDrawType::Static;
+    indexBufferDesc.Data		 = &(model->Indices[0]);
+	indexBufferDesc.DataType	 = GLType::UnsignedInt;
+    indexBufferDesc.Size		 = model->Indices.size() * sizeof(GLuint);
+	indexBufferDesc.DrawType	 = BufferDrawType::Static;
 	(*ebo)->SetData(indexBufferDesc);
 
 	#pragma region Attributes
 
 	AttributeDescriptor vertexAttrib;
-	vertexAttrib.Index			= 0;
-	vertexAttrib.ComponentCount = 3;
-	vertexAttrib.Stride = 0;//3 * sizeof(GLfloat);
-	vertexAttrib.ByteOfffset    = 0;
+	vertexAttrib.Index			 = 0;
+	vertexAttrib.ComponentCount  = 3;
+	vertexAttrib.Stride			 = 0;
+	vertexAttrib.ByteOfffset     = 0;
 
 	AttributeDescriptor normalAttrib;
-	normalAttrib.Index			= 1;
-	normalAttrib.ComponentCount = 3;
-	normalAttrib.Stride = 0;// 3 * sizeof(GLfloat);
-	normalAttrib.ByteOfffset	= 0;
+	normalAttrib.Index			 = 1;
+	normalAttrib.ComponentCount  = 3;
+	normalAttrib.Stride		     = 0;
+	normalAttrib.ByteOfffset	 = 0;
 
 	#pragma endregion
 
@@ -111,40 +113,30 @@ int main()
 	VertexArray vao;
 	CreateTriangle(vao, &ebo, model);
 
-	Matrix4 matrix = Matrix4::Perpective(800 / 600, 90, 100, 0.1f);
-	shader.LoadUniformMatrix4f("u_Matrix", matrix);
+	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
+	shader.LoadUniformMatrix4f("u_Projection", matrix);
 
 	window->Show();
 
     glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	float x = 0.f;
-	float inAndOut = 0.f;
+	
+	float theta = 0.f;
+	
+	Vector3 pos(0, 0, -5.f);
+
     while (window->Running())
 	{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
   	    Matrix4 transform = Matrix4::Identity();
-		transform.RotateY(x);
-		transform.Translate(Vector3(0, 0, inAndOut));
+		transform.Translate(pos);
+		transform.RotateY(theta);
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
         
     	vao.DebugDrawElements(ebo);
-		
-		KeyboardState state = Keyboard::GetState();
-		if (state.IsKeyDown(Keys::A))
-		{
-			x += 3.f;
-		}
-		else if (state.IsKeyDown(Keys::D))
-		{
-			x -= 3.f;
-		}
 
-		if (state.IsKeyDown(Keys::W))
-			inAndOut += 0.1f;
-		else if (state.IsKeyDown(Keys::S))
-			inAndOut -= 0.1f;
+		theta += 1.f;
 
         window->SwapBuffers();
 		window->PollEvents();

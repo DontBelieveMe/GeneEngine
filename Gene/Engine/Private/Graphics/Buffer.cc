@@ -17,5 +17,5 @@ void Buffer::SetData(const BufferDescriptor& data)
 		data.Size, 
 		data.Data, 
 		static_cast<GLenum>(data.DrawType));
-	//Disable();
+	Disable();
 }

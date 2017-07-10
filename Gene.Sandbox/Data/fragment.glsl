@@ -9,5 +9,5 @@ in vec3 pass_position;
 
 void main()
 {
-    color = vec4(pass_position, 0f);
+    color = vec4(pass_position, 0.f);
 }
