@@ -3,4 +3,5 @@
 using namespace Gene::Graphics;
 using namespace Gene::Math;
 
-Light::Light(const Vector3& pos): m_Position(pos) {}
+Light::Light(const Vector3& pos,
+			 const Color& color): m_Position(pos) {}

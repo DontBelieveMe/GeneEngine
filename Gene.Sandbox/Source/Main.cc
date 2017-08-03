@@ -105,6 +105,7 @@ int main()
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Projection", matrix);
 
+	shader.LoadUniform3f("u_LightPos", Vector3(0, 10, 0));
 	window->Show();
 
     glEnable(GL_DEPTH_TEST);
@@ -125,10 +126,8 @@ int main()
         
     	vao.DebugDrawElements(ebo);
 
-		//theta += 1.f;
         KeyboardState state = Keyboard::GetState();
-        if(state.IsKeyDown(Keys::R))
-            theta += 1.f;
+		theta += 1.f;
         window->SwapBuffers();
 		window->PollEvents();
 	}

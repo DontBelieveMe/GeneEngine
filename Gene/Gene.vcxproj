@@ -162,6 +162,7 @@
     <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
     <ClInclude Include="Engine\Public\GeneCommon.h" />
     <ClInclude Include="Engine\Public\Graphics\Font.h" />
+    <ClInclude Include="Engine\Public\Graphics\Light.h" />
     <ClInclude Include="Engine\Public\Graphics\PreBuiltVertices.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Engine\Public\Input\Keyboard.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\Font.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
+    <ClCompile Include="Engine\Private\Graphics\Light.cc" />
     <ClCompile Include="Engine\Private\Graphics\PreBuiltVertices.cc" />
     <ClCompile Include="Engine\Private\Graphics\Texture2D.cc" />
     <ClCompile Include="Engine\Private\Graphics\VertexArray.cc" />
