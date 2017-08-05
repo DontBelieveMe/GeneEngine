@@ -29,3 +29,4 @@ namespace Gene { namespace Graphics {
 			{ glUniformMatrix4fv(UniformLocation(uniform), 1, GL_TRUE, mat.Elements); }
 	};
 }}
+.

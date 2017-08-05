@@ -104,30 +104,47 @@ int main()
 
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Projection", matrix);
-
-	shader.LoadUniform3f("u_LightPos", Vector3(0, 10, 0));
+	Vector3 lightPos= Vector3(0, 10, 0);
 	window->Show();
+	shader.LoadUniform3f("u_LightPos", lightPos);
 
     glEnable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	
-	float theta = 0.f;
+	float theta = 180.f;
 	
 	Vector3 pos(0, 0, -5.f);
 
     while (window->Running())
 	{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+		std::cout << lightPos.X << ", " << lightPos.Y << std::endl;
   	    Matrix4 transform = Matrix4::Identity();
 		transform.Translate(pos);
 		transform.RotateY(theta);
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
-        
+		//theta += 1.f;
     	vao.DebugDrawElements(ebo);
 
         KeyboardState state = Keyboard::GetState();
-		theta += 1.f;
+		if (state.IsKeyDown(Keys::D)) {
+			lightPos.X += 1.f;
+			shader.LoadUniform3f("u_LightPos", lightPos);
+		}
+		else if(state.IsKeyDown(Keys::A)) {
+			lightPos.X -= 1.f;
+			shader.LoadUniform3f("u_LightPos", lightPos);
+		}
+
+		if (state.IsKeyDown(Keys::W)) {
+			lightPos.Y += 1.f;
+			shader.LoadUniform3f("u_LightPos", lightPos);
+		}
+		else if (state.IsKeyDown(Keys::S)) {
+			lightPos.Y -= 1.f;
+			shader.LoadUniform3f("u_LightPos", lightPos);
+		}
+
         window->SwapBuffers();
 		window->PollEvents();
 	}
