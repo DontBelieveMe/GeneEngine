@@ -24,7 +24,7 @@ target_link_libraries("Gene.Sandbox" "GL")
 
 # Copy the data directory to the executable directory
 add_custom_command(TARGET Gene.Sandbox PRE_BUILD
-    COMMAND rm -r "${CMAKE_BINARY_DIR}/Data")
+    COMMAND rm -r -f "${CMAKE_BINARY_DIR}/Data")
 add_custom_command(TARGET Gene.Sandbox PRE_BUILD
     COMMAND cp -r
     "../Gene.Sandbox/Data" 

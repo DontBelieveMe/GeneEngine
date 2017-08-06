@@ -83,9 +83,9 @@ void X11Window::PollEvents()
                 }
             }
         } else if(evt.type == KeyPress) {
-            m_KeyState.KeyMap[evt.type] = true;
+            m_KeyState.KeyMap[evt.xkey.keycode] = true;
         } else if(evt.type == KeyRelease) {
-            m_KeyState.KeyMap[evt.type] = false;
+            m_KeyState.KeyMap[evt.xkey.keycode] = false;
         }
     }
     
