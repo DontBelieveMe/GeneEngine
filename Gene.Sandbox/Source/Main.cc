@@ -118,7 +118,7 @@ int main()
     while (window->Running())
 	{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		std::cout << lightPos.X << ", " << lightPos.Y << std::endl;
+//		std::cout << lightPos.X << ", " << lightPos.Y << std::endl;
   	    Matrix4 transform = Matrix4::Identity();
 		transform.Translate(pos);
 		transform.RotateY(theta);
@@ -127,7 +127,8 @@ int main()
     	vao.DebugDrawElements(ebo);
 
         KeyboardState state = Keyboard::GetState();
-		if (state.IsKeyDown(Keys::D)) {
+//		state.KeyMap[(int)Keys::D] = true;
+        if (state.IsKeyDown(Keys::D)) {
 			lightPos.X += 1.f;
 			shader.LoadUniform3f("u_LightPos", lightPos);
 		}
