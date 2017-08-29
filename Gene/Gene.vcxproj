@@ -161,6 +161,7 @@
     <ClInclude Include="Engine\Public\Content\IModelLoader.h" />
     <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
     <ClInclude Include="Engine\Public\GeneCommon.h" />
+    <ClInclude Include="Engine\Public\GeneUseAll.h" />
     <ClInclude Include="Engine\Public\Graphics\Font.h" />
     <ClInclude Include="Engine\Public\Graphics\Light.h" />
     <ClInclude Include="Engine\Public\Graphics\PreBuiltVertices.h" />

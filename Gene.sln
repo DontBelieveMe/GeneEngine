@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gene", "Gene\Gene.vcxproj", "{313B1CD3-57E8-46DE-878B-2DF7298DB036}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{EE11252F-51CC-40FA-9B17-CDF13F0189B2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeType", "Dependencies\FreeType\FreeType.vcxproj", "{59C1ECFC-F6C2-4368-98F1-26239662EEC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{A7D6C929-69F6-4F6D-A20C-32D79FAFFEC5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftClone", "Demos\MinecraftClone\MinecraftClone.vcxproj", "{54604654-B96A-472C-B5ED-B313587B3972}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,20 @@ Global
 		{59C1ECFC-F6C2-4368-98F1-26239662EEC6}.Release|x64.Build.0 = Release|x64
 		{59C1ECFC-F6C2-4368-98F1-26239662EEC6}.Release|x86.ActiveCfg = Release|Win32
 		{59C1ECFC-F6C2-4368-98F1-26239662EEC6}.Release|x86.Build.0 = Release|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|ARM.ActiveCfg = Debug|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|x64.ActiveCfg = Debug|x64
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|x64.Build.0 = Debug|x64
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|x86.ActiveCfg = Debug|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Debug|x86.Build.0 = Debug|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|Any CPU.ActiveCfg = Release|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|ARM.ActiveCfg = Release|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|ARM64.ActiveCfg = Release|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|x64.ActiveCfg = Release|x64
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|x64.Build.0 = Release|x64
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|x86.ActiveCfg = Release|Win32
+		{54604654-B96A-472C-B5ED-B313587B3972}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +100,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{313B1CD3-57E8-46DE-878B-2DF7298DB036} = {FCD6B682-7C4A-42B9-83B0-06A1696ABDD3}
 		{59C1ECFC-F6C2-4368-98F1-26239662EEC6} = {EE11252F-51CC-40FA-9B17-CDF13F0189B2}
+		{54604654-B96A-472C-B5ED-B313587B3972} = {A7D6C929-69F6-4F6D-A20C-32D79FAFFEC5}
 	EndGlobalSection
 EndGlobal

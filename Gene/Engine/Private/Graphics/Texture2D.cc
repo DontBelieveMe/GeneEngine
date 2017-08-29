@@ -3,6 +3,7 @@
 #include "External/lodepng.h"
 
 using namespace Gene::Graphics;
+using namespace Gene::Math;
 
 Texture2D::Texture2D(const char *filepath)
 {
@@ -43,4 +44,11 @@ void Texture2D::GenerateGLId()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &m_Pixels[0]);
 	Disable();
+}
+
+Vector2 Texture2D::SubTextureUV(float x, float y, float width, float height)
+{
+	float uvx = x / m_Width;
+	float uvy = y / m_Height;
+	return Vector2(uvx, uvy);
 }

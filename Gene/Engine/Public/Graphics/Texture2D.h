@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <Platform/OpenGL.h>
-
+#include <Math/Vector2.h>
 namespace Gene { namespace Graphics {
 	class Texture2D
 	{
@@ -30,6 +30,8 @@ namespace Gene { namespace Graphics {
 		inline bool         IsLoaded() const { return m_Loaded; }
 		inline void			Enable() const { glBindTexture(GL_TEXTURE_2D, m_TextureId); }
 		inline void			Disable() const { glBindTexture(GL_TEXTURE_2D, 0); }
+
+		Math::Vector2 SubTextureUV(float x, float y, float width, float height);
 
 		enum class FilteringOptions
 		{

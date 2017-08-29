@@ -109,7 +109,7 @@ int main()
 	shader.LoadUniform3f("u_LightPos", lightPos);
 
     glEnable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 	
 	float theta = 180.f;
 	
