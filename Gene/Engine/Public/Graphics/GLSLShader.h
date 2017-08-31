@@ -10,14 +10,17 @@ namespace Gene { namespace Graphics {
 	{
 	private:
 		GLuint m_Program;
+		mutable bool m_IsEnabled = false;
 
 	public:
 		void CompileFromText(const std::string& vert, const std::string& frag);
 		void CompileFromFiles(std::string vertPath, std::string fragPath);
         void BindAttributeIndex(GLint index, const char *name);
 
-		inline void Enable() const { glUseProgram(m_Program); }
-		inline void Disable() const { glUseProgram(0); }
+		inline void Enable() const { glUseProgram(m_Program); m_IsEnabled = true; }
+		inline void Disable() const { glUseProgram(0); m_IsEnabled = false; }
+
+		inline bool IsEnabled() const { return m_IsEnabled; }
 
 		GLint UniformLocation(const char *uniform);
 

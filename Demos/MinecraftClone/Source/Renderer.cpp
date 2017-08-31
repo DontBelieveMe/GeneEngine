@@ -42,9 +42,9 @@ void Renderer::SubmitMesh(GameObject *mesh)
 	vertexAttrib.ByteOfffset = 0;
 
 	AttributeDescriptor uvAttrib;
-	uvAttrib.Index = 0;
-	uvAttrib.ComponentCount = 3;
-	uvAttrib.Stride = 2;
+	uvAttrib.Index = 1;
+	uvAttrib.ComponentCount = 2;
+	uvAttrib.Stride = 0;
 	uvAttrib.ByteOfffset = 0;
 
 	item.vao->RegisterAttribute(vbo, vertexAttrib);

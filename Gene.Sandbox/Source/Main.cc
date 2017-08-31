@@ -133,12 +133,12 @@ int main()
 			shader.LoadUniform3f("u_LightPos", lightPos);
 		}
 		else if(state.IsKeyDown(Keys::A)) {
-			lightPos.X -= 1.f;
+			lightPos.X -= .5f;
 			shader.LoadUniform3f("u_LightPos", lightPos);
 		}
 
 		if (state.IsKeyDown(Keys::W)) {
-			lightPos.Y += 1.f;
+			lightPos.Y += .5f;
 			shader.LoadUniform3f("u_LightPos", lightPos);
 		}
 		else if (state.IsKeyDown(Keys::S)) {
