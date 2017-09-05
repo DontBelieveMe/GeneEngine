@@ -39,6 +39,7 @@ namespace Gene { namespace Math {
 		static Matrix4 Identity(float diag=1.f);
 		static Matrix4 Perpective(float aspectRatio, float foV, float far, float near);
 		static Matrix4 Orthographic(float right, float left, float top, float bottom, float far, float near);
+		static Matrix4 LookAt(const Vector3& eyePosition, const Vector3& lookAtPos, const Vector3& upVector);
 
 		friend std::ostream& operator<<(std::ostream& os, const Matrix4& matrix);
 	};

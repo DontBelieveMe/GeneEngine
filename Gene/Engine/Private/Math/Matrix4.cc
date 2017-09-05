@@ -147,6 +147,44 @@ Matrix4 Matrix4::Orthographic(float right, float left, float bottom, float top, 
 	return matrix;
 }
 
+Matrix4 Matrix4::LookAt(const Vector3 & eyePosition, const Vector3 & lookAtPos, const Vector3 & upVector)
+{
+	Matrix4 result;
+	Vector3 x, y, z;
+	z = Vector3(
+		eyePosition.X - lookAtPos.X,
+		eyePosition.Y - lookAtPos.Y,
+		eyePosition.Z - lookAtPos.Z
+	);
+	z.Normalize();
+	y = upVector;
+	x = Vector3::CrossProduct(y, z);
+	y = Vector3::CrossProduct(z, x);
+	x.Normalize();
+	y.Normalize();
+	
+	result.Elements[0]         = x.X;
+	result.Elements[1 + 0 * 4] = x.Y;
+	result.Elements[2 + 0 * 4] = x.Z;
+	result.Elements[3 + 0 * 4] = -Vector3::DotProduct(x, eyePosition);
+
+	result.Elements[0 + 1 * 4] = y.X;
+	result.Elements[1 + 1 * 4] = y.Y;
+	result.Elements[2 + 1 * 4] = y.Z;
+	result.Elements[3 + 1 * 4] = -Vector3::DotProduct(y, eyePosition);
+
+	result.Elements[0 + 2 * 4] = z.X;
+	result.Elements[1 + 2 * 4] = z.Y;
+	result.Elements[2 + 2 * 4] = z.Z;
+	result.Elements[3 + 2 * 4] = -Vector3::DotProduct(z, eyePosition);
+
+	result.Elements[0 + 3 * 4] = 0.f;
+	result.Elements[1 + 3 * 4] = 0.f;
+	result.Elements[2 + 3 * 4] = 0.f;
+	result.Elements[3 + 3 * 4] = 1.f;
+	return result;
+}
+
 /*
 	Copied from Sparky maths - mat4.cpp
 */

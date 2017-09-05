@@ -65,3 +65,9 @@ float Vector3::Length()
 {
 	return sqrtf((X * X) + (Y * Y) + (Z * Z));
 }
+
+float Vector3::DotProduct(const Vector3& a, const Vector3& b)
+{
+	float dot = a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+	return dot;
+}
