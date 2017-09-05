@@ -4,6 +4,9 @@
 
 void Renderer::SubmitMesh(GameObject *mesh)
 {
+	if (!mesh->HasRenderableModel())
+		return;
+	
 	GeneModel *model = mesh->Mesh;
 
 	RenderItem item;

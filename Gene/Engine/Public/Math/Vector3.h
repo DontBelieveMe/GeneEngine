@@ -13,6 +13,8 @@ namespace Gene { namespace Math {
 		static Vector3 Normalize(Vector3 vector);
 		void Normalize();
 
+		static Vector3 Negate(Vector3 vector);
+
 		static Vector3 CrossProduct(const Vector3& a, const Vector3& b);
 
 		float Length();

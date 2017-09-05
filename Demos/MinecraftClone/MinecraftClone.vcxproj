@@ -128,6 +128,7 @@
     <ClCompile Include="Source\Cube.cpp" />
     <ClCompile Include="Source\Main.cc" />
     <ClCompile Include="Source\ObjectFactory.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\Shaders.cpp" />
   </ItemGroup>
@@ -135,6 +136,7 @@
     <ClInclude Include="Source\Cube.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\ObjectFactory.h" />
+    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\RenderItem.h" />
     <ClInclude Include="Source\Shaders.h" />

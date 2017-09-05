@@ -44,6 +44,14 @@ Vector3 Vector3::Normalize(Vector3 vector)
 	return vector;
 }
 
+Vector3 Vector3::Negate(Vector3 vector)
+{
+	vector.X = -vector.X;
+	vector.Y = -vector.Y;
+	vector.Z = -vector.Z;
+	return vector;
+}
+
 void Vector3::Normalize()
 {
 	float len = Length();
