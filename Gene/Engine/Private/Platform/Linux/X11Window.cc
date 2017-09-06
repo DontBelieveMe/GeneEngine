@@ -27,6 +27,7 @@ X11Window::~X11Window()
 
 void X11Window::Destroy()
 {
+    XCloseDisplay(static_cast<Display*>(m_Display));
 }
 
 void X11Window::Create()
@@ -39,11 +40,11 @@ void X11Window::Create()
     XSetWindowAttributes swa;
     swa.colormap = cmap;
     swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask;
+    s_XEvtDestroyWIndowMessage =XInternAtom(dpy, "WM_DELETE_WINDOW", False);
     s_XWindow = XCreateWindow(dpy, s_XRoot, 0, 0, Width(), Height(), 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
     XStoreName(dpy, s_XWindow, m_WindowConfig.Title);    
     m_Display = dpy;
     m_VisualInfo = vi;
-    s_XEvtDestroyWIndowMessage =XInternAtom(dpy, "WM_DELETE_WINDOW", False);
     XSetWMProtocols(dpy, s_XWindow, &s_XEvtDestroyWIndowMessage, 1);
     Input::Mouse::SetPrimaryWindow(this);
     Input::Keyboard::SetPrimaryWindow(this);
@@ -86,7 +87,9 @@ void X11Window::PollEvents()
         {
             if(evt.xclient.data.l[0] == s_XEvtDestroyWIndowMessage)
             {
-                XDestroyWindow(dpy, s_XWindow);
+                XDestroyWindow(dpy, evt.xclient.window);
+                m_Running = false;
+                return;
             }
             break;
         }
