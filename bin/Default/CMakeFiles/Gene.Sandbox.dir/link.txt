@@ -1,1 +1,0 @@
-/usr/bin/g++       CMakeFiles/Gene.Sandbox.dir/Gene.Sandbox/Source/Main.cc.o  -o Gene.Sandbox -rdynamic libGene.so -lX11 -lGL -Wl,-rpath,/home/blaclegi/Dev/geneengine/bin/Default 
