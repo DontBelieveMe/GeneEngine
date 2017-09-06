@@ -1,0 +1,3 @@
+/home/blaclegi/Dev/geneengine/bin/Default/CMakeFiles/Gene.dir
+/home/blaclegi/Dev/geneengine/bin/Default/CMakeFiles/Gene.Sandbox.dir
+/home/blaclegi/Dev/geneengine/bin/Default/CMakeFiles/MinecraftClone.dir

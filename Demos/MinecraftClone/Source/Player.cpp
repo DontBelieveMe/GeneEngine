@@ -28,8 +28,8 @@ void Player::Tick(float delta)
 	Vector2 mousePos = mouse.Position;
 	Vector2 deltaMousePos(mousePos.X - m_LastMousePos.X, mousePos.Y - m_LastMousePos.Y);
 	printf("X: %f, Y: %f\n", deltaMousePos.X, deltaMousePos.Y);
-	Rotation.Y += sin(deltaMousePos.X);
-	Rotation.X += cos(deltaMousePos.Y);
+    //Rotation.Y += sin(deltaMousePos.X);
+    //Rotation.X += cos(deltaMousePos.Y);
 	m_LastMousePos = mousePos;
 }
 

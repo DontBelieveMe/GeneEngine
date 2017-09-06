@@ -1,5 +1,6 @@
 .vs/
 Build/
+bin/
 Debug/
 Gene/Binaries/
 Gene/Release
