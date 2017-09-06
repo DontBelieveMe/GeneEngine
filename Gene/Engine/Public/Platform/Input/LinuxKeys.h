@@ -1,5 +1,42 @@
 #include <X11/keysymdef.h>
+#include <X11/keysym.h>
 
-enum class Keys {
-
-}
+enum class Keys
+{
+    NUM0 = 0x30,
+    NUM1 = 0x31,
+    NUM2 = 0x32,
+    NUM3 = 0x33,
+    NUM4 = 0x34,
+    NUM5 = 0x35,
+    NUM6 = 0x36,
+    NUM7 = 0x37,
+    NUM8 = 0x38,
+    NUM9 = 0x39,
+    A = XK_a,
+    B = XK_b,
+    C = XK_c,
+    D = XK_d,
+    E = XK_e,
+    F = XK_f,
+    G = XK_g,
+    H = XK_h,
+    I = XK_i,
+    J = XK_j,
+    K = XK_k,
+    L = XK_l,
+    M = XK_m,
+    N = XK_n,
+    O = XK_o,
+    P = XK_p,
+    Q = XK_q,
+    R = XK_r,
+    S = XK_s,
+    T = XK_t,
+    U = XK_u,
+    V = XK_v,
+    W = XK_w,
+    X = XK_x,
+    Y = XK_y,
+    Z = XK_z
+};

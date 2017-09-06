@@ -37,7 +37,7 @@ namespace Gene { namespace Platform {
 		friend class Input::Keyboard;
 
 	public:
-		virtual ~Window() { delete m_Context; };
+        virtual ~Window() { delete m_Context; }
 		Window(WindowInfo info);
 
 		virtual void Create() = 0;
@@ -45,7 +45,8 @@ namespace Gene { namespace Platform {
 		virtual void Show() = 0;
 		virtual void PollEvents() = 0;
 		virtual void SwapBuffers() = 0;
-		
+        virtual void Destroy() = 0;
+
 		inline unsigned Width()  const { return m_WindowConfig.Width;  }
 		inline unsigned Height() const { return m_WindowConfig.Height; }
 		inline bool Running() const { return m_Running; }

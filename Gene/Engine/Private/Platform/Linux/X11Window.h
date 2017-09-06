@@ -19,5 +19,6 @@ namespace Gene { namespace Platform { namespace X11 {
         void Show() override;
         void PollEvents() override;
         void SwapBuffers() override;
+        void Destroy() override;
     };
 }}}

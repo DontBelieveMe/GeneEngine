@@ -16,7 +16,8 @@ namespace Gene { namespace Platform { namespace Win32 {
 		void Create()	       override;
 		void CreateGLContext() override;
 		void Show()			   override;
-		void PollEvents()		   override;
+        void PollEvents()      override;
 		void SwapBuffers()	   override;
+        void Destroy()         override;
 	};
 }}}

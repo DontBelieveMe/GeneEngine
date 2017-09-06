@@ -76,6 +76,7 @@ int main()
 		window->SwapBuffers();
 		window->PollEvents();
 	}
+    window->Destroy();
 
 	return 0;
 }

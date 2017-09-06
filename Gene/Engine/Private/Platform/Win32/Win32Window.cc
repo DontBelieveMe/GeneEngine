@@ -51,6 +51,10 @@ Win32Window::~Win32Window()
 {
 }
 
+void Win32Window::Destroy()
+{
+}
+
 void Win32Window::Create() 
 {
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
