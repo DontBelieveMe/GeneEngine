@@ -3,12 +3,10 @@
 #include <Graphics/Texture2D.h>
 #include <Input/Keyboard.h>
 #include <Platform/Time.h>
-#include <Windows.h>
 #include "Shaders.h"
 #include "ObjectFactory.h"
 #include "Renderer.h"
 #include "Player.h"
-#undef CreateWindow
 GLSLShader *Standard_g;
 
 int main()
@@ -57,7 +55,8 @@ int main()
 
 	Player player(Vector3(0, 0, 0));
 	Matrix4 view = player.GetViewMatrix();
-	GameTime gameTime;
+    GameTime gameTimer;
+    gameTimer.Init(); // Kick of game clock
 
 	window->Show();
 	glEnable(GL_DEPTH_TEST);
@@ -66,9 +65,9 @@ int main()
 	glCullFace(GL_FRONT_AND_BACK);
 	while (window->Running())
 	{
-		gameTime.StartFrame();
-		printf("%f\n", gameTime.DeltaInMilliSeconds());
-		player.Tick(0.f);
+        gameTimer.StartFrame();
+
+        player.Tick(0.f);
 		Standard_g->Enable();
 		Standard_g->LoadUniformMatrix4f("u_View", player.GetViewMatrix());
 		Standard_g->Disable();
@@ -77,9 +76,10 @@ int main()
 		
 		window->SwapBuffers();
 		window->PollEvents();
-		gameTime.EndFrame();
-		Sleep(1000 / 60);
-	}
+
+        gameTimer.EndFrame();
+        gameTimer.Sleep(1000/60);
+    }
     window->Destroy();
 
 	return 0;
