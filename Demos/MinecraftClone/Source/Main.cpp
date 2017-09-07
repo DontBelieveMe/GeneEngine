@@ -2,12 +2,13 @@
 #include <Platform/OpenGL.h>
 #include <Graphics/Texture2D.h>
 #include <Input/Keyboard.h>
-
+#include <Platform/Time.h>
+#include <Windows.h>
 #include "Shaders.h"
 #include "ObjectFactory.h"
 #include "Renderer.h"
 #include "Player.h"
-
+#undef CreateWindow
 GLSLShader *Standard_g;
 
 int main()
@@ -28,8 +29,6 @@ int main()
 
 	window->SetWindowResizeCallback([](int w, int h) {
 		glViewport(0, 0, w, h);
-		/*Matrix4 matrix = Matrix4::Perpective(w1 / w2, 90.f, 1000.f, 0.1f);
-		Standard_g->LoadUniformMatrix4f("u_Projection", matrix);*/
 	});
 
 	Shaders shaders;
@@ -58,7 +57,8 @@ int main()
 
 	Player player(Vector3(0, 0, 0));
 	Matrix4 view = player.GetViewMatrix();
-	
+	GameTime gameTime;
+
 	window->Show();
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -66,6 +66,8 @@ int main()
 	glCullFace(GL_FRONT_AND_BACK);
 	while (window->Running())
 	{
+		gameTime.StartFrame();
+		printf("%f\n", gameTime.DeltaInMilliSeconds());
 		player.Tick(0.f);
 		Standard_g->Enable();
 		Standard_g->LoadUniformMatrix4f("u_View", player.GetViewMatrix());
@@ -75,6 +77,8 @@ int main()
 		
 		window->SwapBuffers();
 		window->PollEvents();
+		gameTime.EndFrame();
+		Sleep(1000 / 60);
 	}
     window->Destroy();
 

@@ -187,6 +187,7 @@
     <ClInclude Include="Engine\Public\Platform\GLContext.h" />
     <ClInclude Include="Engine\Public\Platform\OS.h" />
     <ClInclude Include="Engine\Private\Platform\Win32\Win32Window.h" />
+    <ClInclude Include="Engine\Public\Platform\Time.h" />
     <ClInclude Include="Engine\Public\Platform\Window.h" />
     <ClInclude Include="Engine\Private\Graphics\External\lodepng.h" />
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Engine\Private\Math\Vector2.cc" />
     <ClCompile Include="Engine\Private\Math\Vector3.cc" />
     <ClCompile Include="Engine\Private\Platform\GLFLLoad.cc" />
+    <ClCompile Include="Engine\Private\Platform\Time.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Input.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Window.cc" />
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
