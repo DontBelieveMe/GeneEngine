@@ -2,6 +2,7 @@
 
 #include <Math/Functions.h>
 #include <Input/Keyboard.h>
+#include <Input/Keys.h>
 #include <Input/Mouse.h>
 
 Player::Player(const Vector3& pos) : GameObject(pos, NULL)
@@ -15,7 +16,7 @@ void Player::Tick(float delta)
 	input::KeyboardState state = input::Keyboard::GetState();
 
 	const float speed = 0.4f;
-	if (state.IsKeyDown(input::Keys::W))
+    if (state.IsKeyDown(input::Keys::W))
 	{
 		Position.Z -= speed;
 	}
