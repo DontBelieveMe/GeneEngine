@@ -215,6 +215,7 @@
     <ClCompile Include="Engine\Private\Platform\GLFLLoad.cc" />
     <ClCompile Include="Engine\Private\Platform\Time.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Input.cc" />
+    <ClCompile Include="Engine\Private\Platform\Win32\Win32Time.cc" />
     <ClCompile Include="Engine\Private\Platform\Win32\Win32Window.cc" />
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
     <ClCompile Include="Engine\Private\Graphics\External\lodepng.cc" />
