@@ -19,7 +19,7 @@ Matrix4::Matrix4(float diag)
 	Elements[3 + 3 * 4]  = diag;
 }
 
-Matrix4 Matrix4::operator*(const Matrix4& other)
+Matrix4 Matrix4::Multiply(const Matrix4& other)
 {
 	float data[Matrix4::ElementCount];
 	for (int row = 0; row < 4; row++)
@@ -34,8 +34,30 @@ Matrix4 Matrix4::operator*(const Matrix4& other)
 			data[col + row * 4] = sum;
 		}
 	}
-	memcpy(Elements, data, Matrix4::ElementCount * sizeof(float));
-	return *this;
+    memcpy(Elements, data, Matrix4::ElementCount * sizeof(float));
+    return *this;
+}
+
+Vector3 Matrix4::Multiply(const Vector3& other)
+{
+    float x = 0.f,
+          y = 0.f,
+          z = 0.f,
+          w = 0.f;
+    x = Elements[0] * other.X + Elements[0 + 1 * 4] * other.Y + Elements[0 + 2 * 4] * other.Z + Elements[0 + 3 * 4];
+    y = Elements[1] * other.X + Elements[1 + 1 * 4] * other.Y + Elements[1 + 2 * 4] * other.Z + Elements[1 + 3 * 4];
+    z = Elements[2] * other.X + Elements[2 + 1 * 4] * other.Y + Elements[2 + 2 * 4] * other.Z + Elements[2 + 3 * 4];
+    return Vector3(x, y, z);
+}
+
+Matrix4 operator*(Matrix4 a, const Matrix4& b)
+{
+    return a.Multiply(b);
+}
+
+Vector3 operator*(Matrix4 a, const Vector3& b)
+{
+    return a.Multiply(b);
 }
 
 void Matrix4::Translate(const Vector3& vector)
@@ -103,10 +125,6 @@ Matrix4 Matrix4::Identity(float diag)
 	return Matrix4(diag);
 }
 
-Matrix4 Matrix4::operator*(const Vector2& vector)
-{
-	return Matrix4::Identity();
-}
 
 Vector3 Matrix4::ScreenToWorld(Matrix4 projection, Matrix4 view, const Vector2& screenPos, int viewWidth, int viewHeight)
 {
@@ -149,39 +167,25 @@ Matrix4 Matrix4::Orthographic(float right, float left, float bottom, float top, 
 
 Matrix4 Matrix4::LookAt(const Vector3 & eyePosition, const Vector3 & lookAtPos, const Vector3 & upVector)
 {
-	Matrix4 result;
-	Vector3 x, y, z;
-	z = Vector3(
-		eyePosition.X - lookAtPos.X,
-		eyePosition.Y - lookAtPos.Y,
-		eyePosition.Z - lookAtPos.Z
-	);
-	z.Normalize();
-	y = upVector;
-	x = Vector3::CrossProduct(y, z);
-	y = Vector3::CrossProduct(z, x);
-	x.Normalize();
-	y.Normalize();
-	
-	result.Elements[0]         = x.X;
-	result.Elements[1 + 0 * 4] = x.Y;
-	result.Elements[2 + 0 * 4] = x.Z;
-	result.Elements[3 + 0 * 4] = -Vector3::DotProduct(x, eyePosition);
+    Matrix4 result;
+    Vector3 f = Vector3(lookAtPos.X - eyePosition.X, lookAtPos.Y - eyePosition.Y, lookAtPos.Z - eyePosition.Z);
+    Vector3::Normalize(f);
+    Vector3::Normalize(upVector);
+    Vector3 s = Vector3::CrossProduct(f, upVector);
+    Vector3 u = Vector3::CrossProduct(s, f);
 
-	result.Elements[0 + 1 * 4] = y.X;
-	result.Elements[1 + 1 * 4] = y.Y;
-	result.Elements[2 + 1 * 4] = y.Z;
-	result.Elements[3 + 1 * 4] = -Vector3::DotProduct(y, eyePosition);
+    result.Elements[0 + 0 * 4] = s.X;
+    result.Elements[0 + 1 * 4] = s.Y;
+    result.Elements[0 + 2 * 4] = s.Z;
 
-	result.Elements[0 + 2 * 4] = z.X;
-	result.Elements[1 + 2 * 4] = z.Y;
-	result.Elements[2 + 2 * 4] = z.Z;
-	result.Elements[3 + 2 * 4] = -Vector3::DotProduct(z, eyePosition);
+    result.Elements[1 + 0 * 4] = u.X;
+    result.Elements[1 + 1 * 4] = u.Y;
+    result.Elements[1 + 2 * 4] = u.Z;
 
-	result.Elements[0 + 3 * 4] = 0.f;
-	result.Elements[1 + 3 * 4] = 0.f;
-	result.Elements[2 + 3 * 4] = 0.f;
-	result.Elements[3 + 3 * 4] = 1.f;
+    result.Elements[2 + 0 * 4] = -f.X;
+    result.Elements[2 + 1 * 4] = -f.Y;
+    result.Elements[2 + 2 * 4] = -f.Z;
+
 	return result;
 }
 

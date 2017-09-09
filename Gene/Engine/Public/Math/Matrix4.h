@@ -12,9 +12,9 @@ namespace Gene { namespace Math {
 	public:
 		Matrix4(float diag=1.f);
 
-		Matrix4 operator*(const Matrix4& other);
-		Matrix4 operator*(const Vector2& vector);
-		
+        Matrix4 Multiply(const Matrix4& other);
+        Vector3 Multiply(const Vector3& other);
+
 		float Elements[ElementCount];
 
 		void Translate(const Vector3& vector);
@@ -34,12 +34,16 @@ namespace Gene { namespace Math {
 			Matrix4 projection, 
 			Matrix4 view, 
 			const Vector2& screenPos, 
-			int viewWidth, int viewHeight);
+            int viewWidth, int viewHeight
+        );
 
 		static Matrix4 Identity(float diag=1.f);
 		static Matrix4 Perpective(float aspectRatio, float foV, float far, float near);
 		static Matrix4 Orthographic(float right, float left, float top, float bottom, float far, float near);
 		static Matrix4 LookAt(const Vector3& eyePosition, const Vector3& lookAtPos, const Vector3& upVector);
+
+        friend Matrix4 operator*(Matrix4 a, const Matrix4& b);
+        friend Vector3 operator*(Matrix4 a, const Vector3& b);
 
 		friend std::ostream& operator<<(std::ostream& os, const Matrix4& matrix);
 	};

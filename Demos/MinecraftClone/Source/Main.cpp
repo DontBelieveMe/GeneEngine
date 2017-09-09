@@ -56,18 +56,20 @@ int main()
 	Player player(Vector3(0, 0, 0));
 	Matrix4 view = player.GetViewMatrix();
     GameTime gameTimer;
-    gameTimer.Init(); // Kick of game clock
+    gameTimer.Init(); // Kick off game clock
+
+    float fixed60fpsMs = 1000 / 60;
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glCullFace(GL_FRONT_AND_BACK);
 
 	window->Show();
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	Vector3 camPos(0, 0, -5);
-	glCullFace(GL_FRONT_AND_BACK);
+
 	while (window->Running())
 	{
         gameTimer.StartFrame();
-
-        player.Tick(0.f);
+        player.Tick(window, gameTimer);
 		Standard_g->Enable();
 		Standard_g->LoadUniformMatrix4f("u_View", player.GetViewMatrix());
 		Standard_g->Disable();
@@ -78,7 +80,7 @@ int main()
 		window->PollEvents();
 
         gameTimer.EndFrame();
-        gameTimer.Sleep(1000/60);
+        gameTimer.Sleep(fixed60fpsMs);
     }
     window->Destroy();
 

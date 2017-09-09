@@ -9,7 +9,7 @@ void GameTime::StartFrame()
 {
 	using namespace std::chrono;
 	m_StartFrameTime = high_resolution_clock::now();
-	auto delta = duration_cast<milliseconds>(m_StartFrameTime - m_EndFrameTime);
+    duration<float, std::milli> delta = duration_cast<milliseconds>(m_StartFrameTime - m_EndFrameTime);
 	m_Delta = delta.count();
 }
 
