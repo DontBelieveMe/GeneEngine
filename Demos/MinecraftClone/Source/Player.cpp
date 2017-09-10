@@ -27,32 +27,17 @@ void Player::Tick(Window* window, const GameTime& time)
 	{
 		Position.Z += speed;
 	}
+	else if (state.IsKeyDown(input::Keys::A)) {
+		m_Direction.Y -= speed/2;
+	} else if (state.IsKeyDown(input::Keys::D)) {
+		m_Direction.Y += speed/2;
+	}
 
 	input::MouseState mouse = input::Mouse::GetState();
 
     int winWidth = window->Width();
     int winHeight = window->Height();
     float deltaTime = 1.6f;
-
-    m_HorizontalAngle += 0.005f * deltaTime * float(winWidth / 2 - mouse.Position.X);
-    m_VerticalAngle += 0.005f * deltaTime * float(winHeight / 2 - mouse.Position.Y);
-    //printf("%f %f\n", m_HorizontalAngle, m_VerticalAngle);
-    m_HorizontalAngle = 0;
-    m_VerticalAngle = 0;
-    Vector3 direction(
-        cos(m_VerticalAngle) * sin(m_HorizontalAngle),
-        sin(m_VerticalAngle),
-        cos(m_VerticalAngle) * cos(m_HorizontalAngle)
-    );
-
-    Vector3 right(
-        sin(m_HorizontalAngle - 3.14f/2.0f),
-        0,
-        cos(m_HorizontalAngle - 3.14f/2.0f)
-    );
-
-    m_Up = Vector3::CrossProduct(right, direction);
-    m_Direction = direction;
 }
 
 Matrix4 Player::GetViewMatrix()
@@ -60,8 +45,8 @@ Matrix4 Player::GetViewMatrix()
     Vector3 negativeCamPos = Vector3::Negate(Position);
     Matrix4 translation;
     translation.Translate(negativeCamPos);
-
-    Matrix4 view = Matrix4::LookAt(Position, Position+m_Direction, m_Up);
+	translation.RotateY(m_Direction.Y);
+	Matrix4 view;// = Matrix4::LookAt(Position, Position + m_Direction, m_Up);
     view = view.Multiply(translation);
 
 	return view;
