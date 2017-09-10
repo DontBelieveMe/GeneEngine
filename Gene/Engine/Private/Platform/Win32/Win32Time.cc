@@ -7,6 +7,6 @@
 
     void GameTime::Sleep(float milliseconds)
     {
-        Sleep(milliseconds);
+        ::Sleep(milliseconds);
     }
 #endif
