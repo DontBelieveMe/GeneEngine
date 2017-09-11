@@ -1,10 +1,36 @@
 cmake_minimum_required(VERSION 2.6)
 project("Gene")
 
-add_definitions(-std=c++14 -g)
-
 file(GLOB_RECURSE Src "Gene/*.cc")
 file(GLOB_RECURSE Headers "Gene/*.h")
+
+if(WIN32)
+    file(GLOB_RECURSE _srcs "Gene/Engine/Private/Platform/Linux/*.cc")
+    file(GLOB_RECURSE _headers "Gene/Engine/Private/Platform/Linux/*.h")
+
+    foreach(s in ${_srcs})
+        list(REMOVE_ITEM Src "${s}")
+    endforeach()
+
+    foreach(s in ${_headers})
+        list(REMOVE_ITEM Headers "${s}")
+    endforeach()
+endif()
+
+if(UNIX)
+    file(GLOB_RECURSE _srcs "Gene/Engine/Private/Platform/Win32/*.cc")
+    file(GLOB_RECURSE _headers "Gene/Engine/Private/Platform/Win32/*.h")
+
+    foreach(s in ${_srcs})
+        list(REMOVE_ITEM Src "${s}")
+    endforeach()
+
+    foreach(s in ${_headers})
+        list(REMOVE_ITEM Headers "${s}")
+    endforeach()
+
+    add_definitions(-std=c++14 -g)
+endif()
 
 include_directories("Gene/Engine/Public")
 #include_directories("Gene/ThirdParty/glfl/pregenerated")
