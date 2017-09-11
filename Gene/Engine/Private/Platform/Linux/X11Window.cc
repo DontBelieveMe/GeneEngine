@@ -1,7 +1,5 @@
 #include <Platform/OS.h>
 
-#ifdef GENE_OS_LINUX
-
 #include "X11Window.h"
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
@@ -208,5 +206,3 @@ void X11Window::SwapBuffers()
 {
     glXSwapBuffers((Display*)m_Display, s_XWindow);
 }
-
-#endif
