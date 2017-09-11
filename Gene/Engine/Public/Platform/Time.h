@@ -3,23 +3,25 @@
 
 namespace Gene { namespace Platform {
 	class GameTime {
-	private:
+    private:
+        typedef std::chrono::time_point<std::chrono::high_resolution_clock> GameClock;
+
 		float m_Delta;
         float m_RunningTime;
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_StartFrameTime;
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_EndFrameTime;
 
-        std::chrono::time_point<std::chrono::high_resolution_clock> m_GameStart;
+        GameClock m_StartFrameTime;
+        GameClock m_EndFrameTime;
+        GameClock m_GameStart;
 
 	public:
         void Init();
 
-		float DeltaInMilliSeconds() const {return m_Delta; }
-        float RunningTimeSeconds() const { return m_RunningTime; }
+        float DeltaInMilliSeconds() const { return m_Delta; }
+        float RunningTimeSeconds()  const { return m_RunningTime; }
 
-		void StartFrame();
-        void EndFrame();
+        void  StartFrame();
+        void  EndFrame();
 
-        void Sleep(float milliseconds);
+        void  Sleep(float milliseconds);
 	};
 }}

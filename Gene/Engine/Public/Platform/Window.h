@@ -27,12 +27,13 @@ namespace Gene { namespace Platform {
 	class Window
 	{
 	protected:
-		WindowInfo m_WindowConfig;
-		GLContext *m_Context;
-		bool m_Running = true;
-		Input::MouseState m_MouseState;
+        WindowInfo           m_WindowConfig;
+        GLContext           *m_Context;
+        bool                 m_Running = true;
+        Input::MouseState    m_MouseState;
 		Input::KeyboardState m_KeyState;
-		EventCallbacks m_Callbacks;
+        EventCallbacks       m_Callbacks;
+
 		friend class Input::Mouse;
 		friend class Input::Keyboard;
 
@@ -40,21 +41,21 @@ namespace Gene { namespace Platform {
         virtual ~Window() { delete m_Context; }
 		Window(WindowInfo info);
 
-		virtual void Create() = 0;
-		virtual void CreateGLContext() = 0;
-		virtual void Show() = 0;
-		virtual void PollEvents() = 0;
-		virtual void SwapBuffers() = 0;
-        virtual void Destroy() = 0;
+        virtual void      Create() = 0;
+        virtual void      CreateGLContext() = 0;
+        virtual void      Show() = 0;
+        virtual void      PollEvents() = 0;
+        virtual void      SwapBuffers() = 0;
+        virtual void      Destroy() = 0;
 
-		inline unsigned Width()  const { return m_WindowConfig.Width;  }
-		inline unsigned Height() const { return m_WindowConfig.Height; }
-		inline bool Running() const { return m_Running; }
+        inline unsigned   Width()  const { return m_WindowConfig.Width;  }
+        inline unsigned   Height() const { return m_WindowConfig.Height; }
+        inline bool       Running() const { return m_Running; }
 		inline GLContext *GetGLContext() const { return m_Context; }
-		inline void SetWindowResizeCallback(void(*resize)(int,int)){ m_Callbacks.Resize = resize;  }
+        inline void       SetWindowResizeCallback(void(*resize)(int,int)) { m_Callbacks.Resize = resize;  }
 
-		static Window *CreateWindow(WindowInfo info);
+        static Window    *CreateWindow(WindowInfo info);
 
-		void SetClearColor(Graphics::Color color);
+        void              SetClearColor(Graphics::Color color);
 	};
 }}

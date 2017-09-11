@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <GLFL/glfl.h>
 #include "../../../ThirdParty/glfl/pregenerated/GLFL/glfl.h"
 
 namespace Gene { namespace OpenGL {
