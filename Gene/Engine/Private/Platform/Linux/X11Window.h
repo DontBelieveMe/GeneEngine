@@ -2,6 +2,7 @@
 
 #include <Platform/Window.h>
 #include <Platform/GLContext.h>
+#include <GeneCommon.h>
 
 namespace Gene { namespace Platform { namespace X11 {
     class X11Window : public Gene::Platform::Window
@@ -20,5 +21,7 @@ namespace Gene { namespace Platform { namespace X11 {
         void PollEvents() override;
         void SwapBuffers() override;
         void Destroy() override;
+
+        void SetPointerPosition(int32 x, int32 y);
     };
 }}}
