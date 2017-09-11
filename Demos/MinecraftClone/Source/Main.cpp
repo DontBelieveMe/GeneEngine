@@ -3,6 +3,7 @@
 #include <Graphics/Texture2D.h>
 #include <Input/Keyboard.h>
 #include <Platform/Time.h>
+#include <Input/Mouse.h>
 #include "Shaders.h"
 #include "ObjectFactory.h"
 #include "Renderer.h"
@@ -73,6 +74,10 @@ int main()
 		Standard_g->Enable();
 		Standard_g->LoadUniformMatrix4f("u_View", player.GetViewMatrix());
 		Standard_g->Disable();
+
+		KeyboardState state = Keyboard::GetState();
+		if (state.IsKeyDown(Keys::Q)) break;
+		Mouse::SetPosition({ 600 / 2,400 / 2 });
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.Draw();
 		

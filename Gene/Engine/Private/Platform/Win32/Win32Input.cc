@@ -7,10 +7,12 @@
 
 #include <Math/Vector2.h>
 
+#include "Win32Window.h"
+
 using namespace Gene::Input;
 
 #ifdef GENE_OS_WINDOWS
-#include <Windows.h>
+	#include <Windows.h>
 	static MouseState& GetDefaultState()
 	{
 		static MouseState state;
@@ -39,5 +41,14 @@ using namespace Gene::Input;
 	KeyboardState& Keyboard::GetState()
 	{
 		return s_PrimaryWindow->m_KeyState;
+	}
+	
+	void Mouse::SetPosition(const Gene::Math::Vector2& pos)
+	{
+		HWND activeWindow = GetActiveWindow();
+		RECT winRect;
+		GetWindowRect(activeWindow, &winRect);
+
+		SetCursorPos(winRect.left + (int)(pos.X), winRect.top + (int)(pos.Y));
 	}
 #endif
