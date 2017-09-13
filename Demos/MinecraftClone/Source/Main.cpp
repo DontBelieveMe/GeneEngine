@@ -77,7 +77,6 @@ int main()
 
 		KeyboardState state = Keyboard::GetState();
 		if (state.IsKeyDown(Keys::Q)) break;
-		Mouse::SetPosition({ 600 / 2,400 / 2 });
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.Draw();
 		

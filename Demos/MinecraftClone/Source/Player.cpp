@@ -27,17 +27,23 @@ void Player::Tick(Window* window, const GameTime& time)
 	{
 		Position.Z += speed;
 	}
-	else if (state.IsKeyDown(input::Keys::A)) {
-		m_Direction.Y -= speed/2;
-	} else if (state.IsKeyDown(input::Keys::D)) {
-		m_Direction.Y += speed/2;
-	}
-
-	input::MouseState mouse = input::Mouse::GetState();
-
-    int winWidth = window->Width();
+	
+	int winWidth = window->Width();
     int winHeight = window->Height();
-    float deltaTime = 1.6f;
+    
+	static Vector2 lastMouse = input::Mouse::GetState().Position;
+	Vector2 delta = window->WindowToScreen(input::Mouse::GetState().Position) - m_LastMousePos;
+	static auto const BOUND = 89.9999;
+	Rotation = Rotation + Vector3(delta.X*0.05f, delta.Y*0.05f, 0.f);
+	if (Rotation.X >  BOUND) Rotation.X = BOUND;
+	else if (Rotation.X < -BOUND) Rotation.X = -BOUND;
+
+	if (Rotation.Y >  360) Rotation.Y = 0;
+	else if (Rotation.Y <  0)   Rotation.Y = 360;
+
+	//std::cout << delta.X << std::endl;
+	input::Mouse::SetPosition({ winWidth / 2.f, winHeight / 2.f });
+	lastMouse = window->WindowToScreen(input::Mouse::GetState().Position);
 }
 
 Matrix4 Player::GetViewMatrix()
@@ -45,7 +51,8 @@ Matrix4 Player::GetViewMatrix()
     Vector3 negativeCamPos = Vector3::Negate(Position);
     Matrix4 translation;
     translation.Translate(negativeCamPos);
-	translation.RotateY(m_Direction.Y);
+	translation.RotateY(Rotation.X);
+	translation.RotateX(Rotation.Y);
 	Matrix4 view;// = Matrix4::LookAt(Position, Position + m_Direction, m_Up);
     view = view.Multiply(translation);
 

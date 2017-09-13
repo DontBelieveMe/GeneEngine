@@ -6,6 +6,8 @@
 #include <Input/MouseState.h>
 #include <Input/KeyboardState.h>
 
+#include <Math/Vector2.h>
+
 namespace Gene { namespace Input {
 	class Mouse;
 	class Keyboard;
@@ -27,6 +29,8 @@ namespace Gene { namespace Platform {
 	class Window
 	{
 	protected:
+		using Vector2 = Gene::Math::Vector2;
+
 		WindowInfo m_WindowConfig;
 		GLContext *m_Context;
 		bool m_Running = true;
@@ -46,6 +50,9 @@ namespace Gene { namespace Platform {
 		virtual void PollEvents() = 0;
 		virtual void SwapBuffers() = 0;
         virtual void Destroy() = 0;
+
+		virtual Vector2 ScreenToWindow(const Vector2& point) = 0;
+		virtual Vector2 WindowToScreen(const Vector2& point) = 0;
 
 		inline unsigned Width()  const { return m_WindowConfig.Width;  }
 		inline unsigned Height() const { return m_WindowConfig.Height; }

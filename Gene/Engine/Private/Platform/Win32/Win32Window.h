@@ -19,5 +19,7 @@ namespace Gene { namespace Platform { namespace Win32 {
         void PollEvents()      override;
 		void SwapBuffers()	   override;
         void Destroy()         override;
+		Vector2 ScreenToWindow(const Vector2& point) override;
+		Vector2 WindowToScreen(const Vector2& point) override;
 	};
 }}}

@@ -18,3 +18,10 @@ Vector2 Vector2::operator+(const Vector2& b)
 	Y += b.Y;
 	return *this;
 }
+
+Vector2 Vector2::operator-(const Vector2& b)
+{
+	X -= b.X;
+	Y -= b.Y;
+	return *this;
+}

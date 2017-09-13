@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{A7D6C929-69F6-4F6D-A20C-32D79FAFFEC5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftClone", "Demos\MinecraftClone\MinecraftClone.vcxproj", "{54604654-B96A-472C-B5ED-B313587B3972}"
+	ProjectSection(ProjectDependencies) = postProject
+		{313B1CD3-57E8-46DE-878B-2DF7298DB036} = {313B1CD3-57E8-46DE-878B-2DF7298DB036}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

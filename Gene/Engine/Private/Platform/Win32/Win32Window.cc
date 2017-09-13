@@ -16,6 +16,7 @@
 #define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
 
 using namespace Gene::Platform::Win32;
+using namespace Gene::Math;
 
 static HDC s_HDC;
 
@@ -188,4 +189,21 @@ void Win32Window::SwapBuffers()
 {
 	::SwapBuffers(s_HDC);
 }
+
+Vector2 Win32Window::ScreenToWindow(const Vector2& point)
+{
+	RECT winRect;
+	GetWindowRect((HWND)m_Handle, &winRect);
+	Vector2 screenPos(point.X - winRect.left, point.Y - winRect.top);
+	return screenPos;
+}
+
+Vector2 Win32Window::WindowToScreen(const Vector2& point)
+{
+	RECT winRect;
+	GetWindowRect((HWND)m_Handle, &winRect);
+	Vector2 screenPos(point.X + winRect.left, point.Y + winRect.top);
+	return screenPos;
+}
+
 #endif
