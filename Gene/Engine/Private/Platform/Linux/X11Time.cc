@@ -1,14 +1,10 @@
-#include <Platform/OS.h>
+#include <Platform/Time.h>
+#include <unistd.h>
 
-#if defined(GENE_OS_LINUX)
-    #include <Platform/Time.h>
-    #include <unistd.h>
+using namespace Gene::Platform;
 
-    using namespace Gene::Platform;
-
-    void GameTime::Sleep(float milliseconds)
-    {
-        float microseconds = milliseconds * 1000;
-        usleep(microseconds);
-    }
-#endif
+void GameTime::Sleep(float milliseconds)
+{
+    float microseconds = milliseconds * 1000;
+    usleep(microseconds);
+}

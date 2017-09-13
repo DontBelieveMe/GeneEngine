@@ -1,7 +1,5 @@
 #include <Platform/OS.h>
 
-#ifdef GENE_OS_LINUX
-
 #include "X11Window.h"
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
@@ -28,6 +26,39 @@ X11Window::~X11Window()
 void X11Window::Destroy()
 {
     XCloseDisplay(static_cast<Display*>(m_Display));
+}
+
+void X11Window::SetPointerPosition(int32 x, int32 y)
+{
+    Display *dpy = static_cast<Display*>(m_Display);
+    int32 tmpX, tmpY;
+    ::Window child;
+
+    XWindowAttributes attribs;
+    XGetWindowAttributes(dpy, s_XWindow, &attribs);
+    XTranslateCoordinates(
+                dpy,
+                s_XWindow,
+                s_XRoot,
+                0, 0,
+                &tmpX, &tmpY,
+                &child
+    );
+
+    /*
+        Make the specified mouse coordinates be relative to window
+        and not screen
+    */
+    x += tmpX - attribs.x;
+    y += tmpY - attribs.y;
+
+    XWarpPointer(
+                dpy,
+                None,
+                s_XRoot,
+                0, 0, 0, 0,
+                x, y
+    );
 }
 
 void X11Window::Create()
@@ -175,5 +206,3 @@ void X11Window::SwapBuffers()
 {
     glXSwapBuffers((Display*)m_Display, s_XWindow);
 }
-
-#endif
