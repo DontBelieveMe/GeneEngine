@@ -33,7 +33,7 @@ Vector3 Vector3::operator-(const Vector3& b)
 Vector3 Vector3::CrossProduct(const Vector3& a, const Vector3& b)
 {
 	float cx = (a.Y * b.Z) - (a.Z * b.Y);
-	float cy = (a.Z * b.X) - (a.X - b.Z);
+	float cy = (a.Z * b.X) - (a.X * b.Z);
 	float cz = (a.X * b.Y) - (a.Y * b.X);
 	return { cx, cy, cz };
 }
