@@ -30,9 +30,9 @@ TEST_CASE("Vector3 addition provides correct xyz components using overload opera
 	Vector3 b(3.5f, 2.4f, 1.3f);
 	Vector3 result = a + b;
 
-	REQUIRE(result.X == Approx(1 + 3.5f));
-	REQUIRE(result.Y == Approx(2 + 2.4f));
-	REQUIRE(result.Z == Approx(3 + 1.3f));
+	REQUIRE(result.X == Approx(a.X + b.X));
+	REQUIRE(result.Y == Approx(a.Y + b.Y));
+	REQUIRE(result.Z == Approx(a.Z + b.Z));
 }
 
 TEST_CASE("Vector3 subtraction provides correct xyz components using overload operator-()", "[Vector3]")
@@ -41,9 +41,9 @@ TEST_CASE("Vector3 subtraction provides correct xyz components using overload op
 	Vector3 b(3.5f, 2.4f, 1.3f);
 	Vector3 result = a - b;
 
-	REQUIRE(result.X == Approx(10 - 3.5f));
-	REQUIRE(result.Y == Approx(20 - 2.4f));
-	REQUIRE(result.Z == Approx(30 - 1.3f));
+	REQUIRE(result.X == Approx(a.X - b.X));
+	REQUIRE(result.Y == Approx(a.Y - b.Y));
+	REQUIRE(result.Z == Approx(a.Z - b.Z));
 }
 
 TEST_CASE("Vector3 static Normalize() method correctly normalizes input vector", "[Vector3]")

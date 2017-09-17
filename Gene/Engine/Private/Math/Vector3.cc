@@ -16,18 +16,12 @@ Vector3::Vector3(float x, float y, float z):
 
 Vector3 Vector3::operator+(const Vector3& b)
 {
-	X += b.X;
-	Y += b.Y;
-	Z += b.Z;
-	return *this;
+	return Vector3(X + b.X, Y + b.Y, Z + b.Z);
 }
 
 Vector3 Vector3::operator-(const Vector3& b)
 {
-	X -= b.X;
-	Y -= b.Y;
-	Z -= b.Z;
-	return *this;
+	return Vector3(X - b.X, Y - b.Y, Z - b.Z);
 }
 
 Vector3 Vector3::CrossProduct(const Vector3& a, const Vector3& b)

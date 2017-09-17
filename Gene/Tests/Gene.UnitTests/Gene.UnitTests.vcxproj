@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CatchMain.cc" />
+    <ClCompile Include="Tests\Math\TestVector2.cc" />
     <ClCompile Include="Tests\Math\TestVector3.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

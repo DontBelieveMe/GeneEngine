@@ -14,14 +14,13 @@ Vector2::Vector2(float x, float y) :
 
 Vector2 Vector2::operator+(const Vector2& b)
 {
-	X += b.X;
-	Y += b.Y;
-	return *this;
+	Vector2 result;
+	result.X = X + b.X;
+	result.Y = Y + b.Y;
+	return result;
 }
 
 Vector2 Vector2::operator-(const Vector2& b)
 {
-	X -= b.X;
-	Y -= b.Y;
-	return *this;
+	return Vector2(X - b.X, Y - b.Y);
 }
