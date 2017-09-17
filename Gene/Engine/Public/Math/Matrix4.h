@@ -11,6 +11,7 @@ namespace Gene { namespace Math {
 
 	public:
 		Matrix4(float diag=1.f);
+		Matrix4(float elements[ElementCount]);
 
         Matrix4 Multiply(const Matrix4& other);
         Vector3 Multiply(const Vector3& other);

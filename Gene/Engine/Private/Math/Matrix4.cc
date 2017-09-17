@@ -38,6 +38,11 @@ Matrix4 Matrix4::Multiply(const Matrix4& other)
     return *this;
 }
 
+Matrix4::Matrix4(float elements[ElementCount])
+{
+	memcpy(Elements, elements, ElementCount*4);
+}
+
 Vector3 Matrix4::Multiply(const Vector3& other)
 {
     float x = 0.f,
@@ -98,8 +103,8 @@ void Matrix4::RotateX(float theta)
 	float radians = Maths::ToRadians(theta);
 	Elements[1 + 1 * 4] = ::cos(radians);
 	Elements[2 + 2 * 4] = ::cos(radians);
-	Elements[1 + 2 * 4] = ::sin(radians);
-	Elements[2 + 1 * 4] = -(::sin(radians));
+	Elements[1 + 2 * 4] = -(::sin(radians));
+	Elements[2 + 1 * 4] = (::sin(radians));
 }
 
 void Matrix4::RotateY(float theta)
@@ -107,8 +112,8 @@ void Matrix4::RotateY(float theta)
 	float radians = Maths::ToRadians(theta);
 	Elements[0] = ::cos(radians);
 	Elements[2 + 2 * 4] = ::cos(radians);
-	Elements[0 + 2 * 4] = -(::sin(radians));
-	Elements[2 + 0 * 4] = ::sin(radians);
+	Elements[0 + 2 * 4] = (::sin(radians));
+	Elements[2 + 0 * 4] = -(::sin(radians));
 }
 
 void Matrix4::RotateZ(float theta)
@@ -116,8 +121,8 @@ void Matrix4::RotateZ(float theta)
 	float radians = Maths::ToRadians(theta);
 	Elements[0] = ::cos(radians);
 	Elements[1 + 1 * 4] = ::cos(radians);
-	Elements[0 + 1 * 4] = ::sin(radians);
-	Elements[1 + 0 * 4] = -(::sin(radians));
+	Elements[0 + 1 * 4] = -(::sin(radians));
+	Elements[1 + 0 * 4] = (::sin(radians));
 }
 
 Matrix4 Matrix4::Identity(float diag)

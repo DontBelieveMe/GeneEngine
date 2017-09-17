@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CatchMain.cc" />
+    <ClCompile Include="Tests\Math\TestMatrix4.cc" />
     <ClCompile Include="Tests\Math\TestVector2.cc" />
     <ClCompile Include="Tests\Math\TestVector3.cc" />
   </ItemGroup>
