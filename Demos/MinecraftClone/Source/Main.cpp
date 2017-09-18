@@ -59,7 +59,7 @@ int main()
     GameTime gameTimer;
     gameTimer.Init(); // Kick off game clock
 
-    float fixed60fpsMs = 1000 / 60;
+    float fixed60fpsMs = 1000 / 120;
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
