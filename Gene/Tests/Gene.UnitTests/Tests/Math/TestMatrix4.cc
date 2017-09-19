@@ -3,7 +3,7 @@
 
 using namespace Gene::Math;
 
-static bool DoesMatrixCompare(Matrix4 matrix, 
+static bool CompareMatrices(Matrix4 matrix, 
 	float m00, float m10, float m20, float m30,
 	float m01, float m11, float m21, float m31,
 	float m02, float m12, float m22, float m32,
@@ -34,11 +34,11 @@ static bool DoesMatrixCompare(Matrix4 matrix,
 	return compares;
 }
 
-#define CheckMatrix4(matrix, m00, m10, m20, m30, \
+#define AssertMatrixElements(matrix, m00, m10, m20, m30, \
 							 m01, m11, m21, m31, \
 							 m02, m12, m22, m32, \
 							 m03, m13, m23, m33 ) \
-						REQUIRE(DoesMatrixCompare(matrix, m00,m10,m20,m30, \
+						REQUIRE(CompareMatrices(matrix, m00,m10,m20,m30, \
 														  m01,m11,m21,m31, \
 													      m02,m12,m22,m32, \
 													      m03,m13,m23,m33))
@@ -51,7 +51,7 @@ TEST_CASE("Matrix4 element count is correct", "[Matrix4]")
 TEST_CASE("Matrix4 default constructor initalizes to identity 1.f", "[Matrix4]")
 {
 	Matrix4 matrix;
-	CheckMatrix4(matrix, 
+	AssertMatrixElements(matrix, 
 		1.f, 0,   0,   0,
 		0,   1.f, 0,   0,
 		0,   0,   1.f, 0,
@@ -63,7 +63,7 @@ TEST_CASE("Matrix4 constructor implements identity matrix with given diagonal", 
 {
 	float diag = 5.7f;
 	Matrix4 matrix(diag);
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		diag, 0, 0, 0,
 		0, diag, 0, 0,
 		0, 0, diag, 0,
@@ -82,7 +82,7 @@ TEST_CASE("Test Matrix4 initalization from matrix array", "[Matrix4]")
 	
 	Matrix4 mat4(data);
 
-	CheckMatrix4(mat4,
+	AssertMatrixElements(mat4,
 		10,    20,   30,    40,
 		40,    50,   60,    70,
 		2340,  0234, 0,     30,
@@ -110,7 +110,7 @@ TEST_CASE("Matrix4 & Matrix4 multiplication via Multiply() method", "[Matrix4]")
 	Matrix4 matB(mat2);
 
 	Matrix4 result = matA.Multiply(matB);
-	CheckMatrix4(result,
+	AssertMatrixElements(result,
 		6390.f,  10304.f,  5206.8f,           1302858.f,
 		1677.f,  2024.f,   1143.f,            255882.f,
 		4373.f,  11829.f,  6104.799f,         1558675.f,
@@ -124,7 +124,7 @@ TEST_CASE("Matrix4 Vector3 translation via Translate() method", "[Matrix4]")
 	Matrix4 matrix;
 	matrix.Translate(translation);
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		1.f, 0.f, 0.f, 10.f,
 		0.f, 1.f, 0.f, -10.f,
 		0.f, 0.f, 1.f, 4.5f,
@@ -138,7 +138,7 @@ TEST_CASE("Matrix4 Vector2 translation via Translate() method", "[Matrix4]")
 	Matrix4 matrix;
 	matrix.Translate(translation);
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		1.f, 0.f, 0.f, -67.5f,
 		0.f, 1.f, 0.f, 10.f,
 		0.f, 0.f, 1.f, 0.f,
@@ -152,7 +152,7 @@ TEST_CASE("Matrix4 Vector3 scale via Scale(Vector3) method", "[Matrix4]")
 	Matrix4 matrix;
 	matrix.Scale(scale);
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		10.f, 0.f, 0.f, 0.f,
 		0.f, -10.f, 0.f, 0.f,
 		0.f, 0.f, 4.5f, 0.f,
@@ -166,7 +166,7 @@ TEST_CASE("Matrix4 Vector2 scale via Scale(Vector2) method", "[Matrix4]")
 	Matrix4 matrix;
 	matrix.Scale(scale);
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		4.5f, 0.f, 0.f, 0.f,
 		0.f, 92.7f, 0.f, 0.f,
 		0.f, 0.f, 1.f, 0.f,
@@ -180,7 +180,7 @@ TEST_CASE("Matrix4 scale by given factor via Scale(float) method", "[Matrix4]")
 	Matrix4 matrix;
 	matrix.Scale(scaleFactor);
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		scaleFactor, 0.f, 0.f, 0.f,
 		0.f, scaleFactor, 0.f, 0.f,
 		0.f, 0.f, scaleFactor, 0.f,
@@ -196,7 +196,7 @@ TEST_CASE("Matrix4 rotation by angle (in degrees) along X axis using RotateX()",
 
 	float radians = 0.401426f; // 23 degrees in radians
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		1.f, 0.f,            0.f,            0.f,
 		0.f, cos(radians),  sin(radians),  0.f,
 		0.f, -sin(radians), cos(radians),  0.f,
@@ -212,7 +212,7 @@ TEST_CASE("Matrix4 rotation by angle (in degrees) along Y axis using RotateY()",
 
 	float radians = 0.785398f; // 45 degrees in radians
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		cos(radians), 0.f, -sin(radians), 0.f,
 		0.f,          1.f, 0.f,           0.f,
 		sin(radians), 0.f, cos(radians),  0.f,
@@ -228,7 +228,7 @@ TEST_CASE("Matrix4 rotation by angle (in degrees) along Z axis using RotateZ()",
 
 	float radians = 3.40339f; // 195 degrees in radians
 
-	CheckMatrix4(matrix,
+	AssertMatrixElements(matrix,
 		cos(radians),  sin(radians), 0.f, 0.f,
 		-sin(radians), cos(radians), 0.f, 0.f,
 		0.f,           0.f,          1.f, 0.f,
@@ -240,7 +240,7 @@ TEST_CASE("Matrix4 static Identity method defaults to diaganol 1", "[Matrix4]")
 {
 	Matrix4 mat4 = Matrix4::Identity();
 
-	CheckMatrix4(mat4,
+	AssertMatrixElements(mat4,
 		1.f, 0.f, 0.f, 0.f,
 		0.f, 1.f, 0.f, 0.f,
 		0.f, 0.f, 1.f, 0.f,
@@ -253,7 +253,7 @@ TEST_CASE("Matrix4 static Identity() method allows a specified diaganol", "[Matr
 	float diag = 346.f;
 	Matrix4 mat4 = Matrix4::Identity(diag);
 
-	CheckMatrix4(mat4,
+	AssertMatrixElements(mat4,
 		diag, 0.f, 0.f, 0.f,
 		0.f, diag, 0.f, 0.f,
 		0.f, 0.f, diag, 0.f,
