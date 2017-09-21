@@ -2,6 +2,7 @@
 Build/
 bin/
 Debug/
+Exclude/
 Gene/Binaries/
 Gene/Release
 Gene.Sandbox/Binaries

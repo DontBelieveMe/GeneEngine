@@ -11,9 +11,14 @@
 #include <GeneCommon.h>
 #include <Graphics/Light.h>
 #include <Input/Keyboard.h>
+#include <ft2build.h>
+
+#include <freetype/freetype.h>
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
+	FT_Library *lib = NULL;
+	FT_Init_FreeType(lib);
 	using namespace Gene::Graphics;
 	using namespace Gene::OpenGL;
 	

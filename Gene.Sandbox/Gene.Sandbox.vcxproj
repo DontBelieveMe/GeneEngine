@@ -70,19 +70,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include\freetype2;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\src;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\src;$(IncludePath)</IncludePath>
+    <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Binaries\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include\freetype2;$(SolutionDir)Gene\ThirdParty\Include;$(IncludePath)</IncludePath>
+    <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include\freetype2;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\src;$(IncludePath)</IncludePath>
+    <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\src;$(IncludePath)</IncludePath>
+    <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include\freetype2;$(SolutionDir)Gene\ThirdParty\Include;$(IncludePath)</IncludePath>
+    <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,7 +96,7 @@
       </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FreeType.lib;Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -111,6 +114,9 @@
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Gene\ThirdParty\Shared\freetype6.dll $(ProjectDir)Binaries\$(Configuration)\freetype6.dll</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>FreeType.lib;Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,6 +131,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>FreeType.lib;Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Gene\ThirdParty\Shared\freetype6.dll $(ProjectDir)Binaries\$(Configuration)\freetype6.dll</Command>
@@ -143,6 +150,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>FreeType.lib;Gene.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Gene\ThirdParty\Shared\freetype6.dll $(ProjectDir)Binaries\$(Configuration)\freetype6.dll</Command>
