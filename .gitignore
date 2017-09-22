@@ -4,6 +4,7 @@ bin/
 Debug/
 Exclude/
 Gene/Binaries/
+Gene/Dependencies/FreeType/Output
 Gene/Release
 Gene.Sandbox/Binaries
 *.vcxproj.filters

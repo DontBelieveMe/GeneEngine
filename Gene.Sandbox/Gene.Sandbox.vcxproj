@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\src;$(IncludePath)</IncludePath>
-    <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\FreeType\Output\Debug;I:\Dev\Gene\Debug;$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Binaries\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -80,8 +80,8 @@
     <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\src;$(IncludePath)</IncludePath>
-    <LibraryPath>I:\Dev\Gene\Gene\Binaries\Librarys\Debug;I:\Dev\Gene\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\FreeType\Output\Debug;I:\Dev\Gene\Debug;$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>I:\Dev\Gene\Exclude\freetype-2.4.0\devel;I:\Dev\Gene\Exclude\freetype-2.4.0\include;I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(IncludePath)</IncludePath>
