@@ -77,7 +77,7 @@ set(CommonHeaders
     ${HeaderDir}/GeneUseAll.h
 )
 
-set(PlatformSrc )
+set(PlatformSrc)
 
 if(UNIX)
     list(APPEND PlatformSrc
@@ -86,6 +86,15 @@ if(UNIX)
         ${SrcDir}/Platform/Linux/X11Window.cc
         ${SrcDir}/Platform/Linux/X11Window.h
      )
+endif()
+
+if(WIN32)
+    list(APPEND PlatformSrc
+        ${SrcDir}/Platform/Win32/Win32Input.cc
+        ${SrcDir}/Platform/Win32/Win32Time.cc
+        ${SrcDir}/Platform/Win32/Win32Window.cc
+        ${SrcDir}/Platform/Win32/Win32Window.h
+    )
 endif()
 
 add_library(Gene SHARED ${CommonSource} ${CommonHeaders} ${PlatformSrc})
