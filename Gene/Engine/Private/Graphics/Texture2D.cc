@@ -35,14 +35,18 @@ void Texture2D::Load(unsigned char *data, unsigned width, unsigned height)
 void Texture2D::GenerateGLId()
 {
 	glActiveTexture(GL_TEXTURE0);
-	GLenum filtering = static_cast<GLenum>(Filtering);
+	GLenum filtering   = static_cast<GLenum>(Filtering);
+	GLenum pixelFormat = static_cast<GLenum>(Format);
 
 	glGenTextures(1, &m_TextureId);
 	Enable();
+
 	glBindTexture(GL_TEXTURE_2D, m_TextureId); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &m_Pixels[0]);
+	
+	unsigned char *pData = m_Pixels.data();
+	glTexImage2D(GL_TEXTURE_2D, 0, pixelFormat, m_Width, m_Height, 0, pixelFormat, GL_UNSIGNED_BYTE, pData);
 	Disable();
 }
 

@@ -40,6 +40,17 @@ namespace Gene { namespace Graphics {
 			Default = GL_LINEAR
 		};
 
+		enum class PixelFormat
+		{
+			RGBA = GL_RGBA,
+			RGB = GL_RGBA,
+			BGRA = GL_BGRA,
+			Red = GL_RED,
+
+			Default = GL_RGBA
+		};
+
 		FilteringOptions Filtering = FilteringOptions::Default;
+		PixelFormat		 Format    = PixelFormat::Default;
 	};
 }}

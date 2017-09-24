@@ -11,6 +11,7 @@
 #include <GeneCommon.h>
 #include <Graphics/Light.h>
 #include <Input/Keyboard.h>
+#include <Graphics/Font.h>
 
 static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
@@ -101,6 +102,8 @@ int main()
 	Buffer *ebo;
 	VertexArray vao;
 	CreateTriangle(vao, &ebo, model);
+
+	Font wendyOneFont("Data/WendyOne-Regular.ttf");
 
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Projection", matrix);

@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)Engine\Public;$(ProjectDir)ThirdParty\glfl\pregenerated\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\Public;$(ProjectDir)ThirdParty\glfl\pregenerated\;$(SolutionDir)Dependencies\FreeType\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Binaries\Librarys\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediate\$(Configuration)\</IntDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
@@ -158,6 +158,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Private\Graphics\FreetypeGL.h" />
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
     <ClInclude Include="Engine\Public\Content\GeneModel.h" />
     <ClInclude Include="Engine\Public\Content\IModelLoader.h" />
@@ -231,6 +232,11 @@
     <None Include="ThirdParty\glfl\pregenerated\functions" />
     <None Include="ThirdParty\glfl\pregenerated\types" />
     <None Include="ThirdParty\glfl\pregenerated\versions" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dependencies\FreeType\FreeType.vcxproj">
+      <Project>{59c1ecfc-f6c2-4368-98f1-26239662eec6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
