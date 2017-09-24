@@ -1,7 +1,5 @@
 project(GeneEngine.Core)
 
-include_directories("${CMAKE_CURRENT_LIST_DIR}/Engine/Public")
-
 set(SrcDir ${CMAKE_CURRENT_LIST_DIR}/Engine/Private)
 set(HeaderDir ${CMAKE_CURRENT_LIST_DIR}/Engine/Public)
 
@@ -35,6 +33,8 @@ set(CommonSource
 
     ${SrcDir}/Graphics/External/lodepng.h    
     ${SrcDir}/Graphics/FreetypeGL.h
+
+    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/glfl/pregenerated/glfl.cc    
 )
 
 set(CommonHeaders

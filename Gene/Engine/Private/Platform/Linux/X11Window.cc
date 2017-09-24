@@ -206,3 +206,13 @@ void X11Window::SwapBuffers()
 {
     glXSwapBuffers((Display*)m_Display, s_XWindow);
 }
+
+X11Window::Vector2 X11Window::ScreenToWindow(const Vector2 &point)
+{
+
+}
+
+X11Window::Vector2 X11Window::WindowToScreen(const Vector2 &point)
+{
+
+}

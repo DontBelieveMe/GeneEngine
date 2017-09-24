@@ -103,7 +103,7 @@ int main()
 	VertexArray vao;
 	CreateTriangle(vao, &ebo, model);
 
-	Font wendyOneFont("Data/WendyOne-Regular.ttf");
+    //Font wendyOneFont("Data/WendyOne-Regular.ttf");
 
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Projection", matrix);
@@ -125,9 +125,6 @@ int main()
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
 		theta += 1.f;
     	vao.DebugDrawElements(ebo);
-
-        KeyboardState state = Keyboard::GetState();
-
 
         window->SwapBuffers();
 		window->PollEvents();
