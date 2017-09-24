@@ -1,4 +1,4 @@
-#include "FreetypeGL.h"
+/*#include "FreetypeGL.h"
 
 #include <Graphics/Font.h>
 #include <iostream>
@@ -32,3 +32,4 @@ Font::~Font()
 	texture_font_delete(m_Font);
 	texture_atlas_delete(m_Atlas);
 }
+*/
