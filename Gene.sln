@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gene", "Gene\Gene.vcxproj", "{313B1CD3-57E8-46DE-878B-2DF7298DB036}"
+	ProjectSection(ProjectDependencies) = postProject
+		{59C1ECFC-F6C2-4368-98F1-26239662EEC6} = {59C1ECFC-F6C2-4368-98F1-26239662EEC6}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gene.Sandbox", "Gene.Sandbox\Gene.Sandbox.vcxproj", "{AC5573EE-0271-4629-B7C8-ED328A345481}"
 	ProjectSection(ProjectDependencies) = postProject

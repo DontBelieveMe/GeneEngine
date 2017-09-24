@@ -88,7 +88,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Binaries\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)ThirdParty\Shared\freetype6.dll</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -129,7 +130,8 @@
       <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\Lib\Win32\FreeType</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)ThirdParty\Shared\freetype6.dll</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -119,8 +119,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)Output\Binaries\</OutDir>
-    <IntDir>$(ProjectDir)Output\ObjectFiles\</IntDir>
+    <OutDir>$(SolutionDir)Gene\Binaries\Librarys\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Gene\Binaries\Intermediate\$(Configuration)\FreeType\</IntDir>
     <TargetName>GFreeType</TargetName>
     <IncludePath>I:\Dev\Gene\Dependencies\FreeType\devel;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -132,8 +132,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)Output\Binaries\</OutDir>
-    <IntDir>$(ProjectDir)Output\ObjectFiles\</IntDir>
+    <OutDir>$(SolutionDir)Gene\Binaries\Librarys\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Gene\Binaries\Intermediate\$(Configuration)\FreeType\</IntDir>
     <TargetName>GFreeType</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
