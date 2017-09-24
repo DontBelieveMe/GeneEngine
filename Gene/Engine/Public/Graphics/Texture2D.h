@@ -2,14 +2,17 @@
 #pragma once
 
 #include <vector>
+
 #include <Platform/OpenGL.h>
 #include <Math/Vector2.h>
+#include <GeneCommon.h>
+
 namespace Gene { namespace Graphics {
 	class Texture2D
 	{
 	private:
 		bool					   m_Loaded;
-		std::vector<unsigned char> m_Pixels;
+		std::vector<uint8> m_Pixels;
 		GLuint					   m_TextureId;
 		unsigned int			   m_Width;
 		unsigned int			   m_Height;
@@ -22,7 +25,7 @@ namespace Gene { namespace Graphics {
 		Texture2D(): m_Loaded(false) {}
 
 		void Load(const char *path);
-		void Load(unsigned char *data, unsigned width, unsigned height);
+		void Load(uint8 *data, unsigned width, unsigned height);
 
 		inline GLuint       Id() const { return m_TextureId; }
 		inline unsigned int Width() const { return m_Width; }

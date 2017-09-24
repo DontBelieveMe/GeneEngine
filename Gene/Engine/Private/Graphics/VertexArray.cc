@@ -21,10 +21,17 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 {
 	Enable();
 	buffer->Enable();
+
 	glEnableVertexAttribArray(attrib.Index);
+	
 	glVertexAttribPointer(
-		attrib.Index, attrib.ComponentCount, static_cast<GLenum>(buffer->DataType()),
-		GL_FALSE, attrib.Stride, (const GLvoid*) attrib.ByteOfffset);
+		attrib.Index, 
+		attrib.ComponentCount, 
+		static_cast<GLenum>(buffer->DataType()),
+		GL_FALSE, attrib.Stride, 
+		(const GLvoid*) attrib.ByteOfffset
+	);
+
 	buffer->Disable();
 	Disable();
 }

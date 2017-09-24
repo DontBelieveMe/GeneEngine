@@ -22,9 +22,9 @@ void Texture2D::Load(const char *filepath)
 	}
 }
 
-void Texture2D::Load(unsigned char *data, unsigned width, unsigned height)
+void Texture2D::Load(uint8 *data, unsigned width, unsigned height)
 {
-	m_Pixels = std::vector<unsigned char>(data, data + width * height);
+	m_Pixels = std::vector<uint8>(data, data + width * height);
 	m_Width = width;
 	m_Height = height;
 
@@ -35,18 +35,29 @@ void Texture2D::Load(unsigned char *data, unsigned width, unsigned height)
 void Texture2D::GenerateGLId()
 {
 	glActiveTexture(GL_TEXTURE0);
+
 	GLenum filtering   = static_cast<GLenum>(Filtering);
 	GLenum pixelFormat = static_cast<GLenum>(Format);
 
 	glGenTextures(1, &m_TextureId);
+
 	Enable();
 
-	glBindTexture(GL_TEXTURE_2D, m_TextureId); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
 	
-	unsigned char *pData = m_Pixels.data();
-	glTexImage2D(GL_TEXTURE_2D, 0, pixelFormat, m_Width, m_Height, 0, pixelFormat, GL_UNSIGNED_BYTE, pData);
+	uint8 *pData = m_Pixels.data();
+	glTexImage2D(
+		GL_TEXTURE_2D, 
+		0, 
+		pixelFormat, 
+		m_Width, m_Height, 
+		0, 
+		pixelFormat, 
+		GL_UNSIGNED_BYTE, 
+		pData
+	);
+
 	Disable();
 }
 

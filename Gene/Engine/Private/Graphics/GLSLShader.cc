@@ -7,16 +7,18 @@ using namespace Gene::Graphics;
 
 static GLuint CompileShader(const char *src, GLenum type)
 {
+	const int SHADER_LOG_BUFFER_SIZE = 512;	// Bytes
+
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &src, NULL);
 	glCompileShader(shader);
 
 	GLint success;
-	GLchar log[512];
+	GLchar log[SHADER_LOG_BUFFER_SIZE];
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
-		glGetShaderInfoLog(shader, 512, NULL, log);
+		glGetShaderInfoLog(shader, SHADER_LOG_BUFFER_SIZE, NULL, log);
 		printf("Shader Error: [%s] -> %s\n", type == GL_VERTEX_SHADER ? "Vertex Shader" : "Fragment Shader", log);
 		abort();
 	}

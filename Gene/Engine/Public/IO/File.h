@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <assert.h>
+#include <GeneCommon.h>
 
 namespace Gene { namespace IO {
 	class File {
@@ -16,7 +17,8 @@ namespace Gene { namespace IO {
 
 		const char *Contents() const 
         { 
-            assert(m_Data != NULL); 
+            GE_ASSERT(m_Data != NULL); 
+
             return static_cast<const char*>(m_Data); 
         }
 		void Free();
