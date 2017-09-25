@@ -9,11 +9,13 @@ set(TestSource
     ${SrcDir}/Math/TestMatrix4.cc
     ${SrcDir}/Math/TestVector2.cc
     ${SrcDir}/Math/TestVector3.cc
-
-    ${SrcDir}/Math/CatchMain.cc
 )
 
-add_executable(GeneEngine.UnitTests ${TestSource})
+add_executable(GeneEngine.UnitTests
+    ${TestSource}
+
+    ${SrcDir}/CatchMain.cc
+)
 
 target_link_libraries(GeneEngine.UnitTests "Gene")
 target_link_libraries(GeneEngine.UnitTests "X11")
