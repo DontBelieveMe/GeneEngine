@@ -21,6 +21,7 @@ namespace Gene { namespace IO {
 
             return static_cast<const char*>(m_Data); 
         }
+
 		void Free();
 
 		static std::vector<std::string> ReadLines(const char *path);

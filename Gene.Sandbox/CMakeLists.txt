@@ -1,4 +1,4 @@
-project(GeneEngine.Sandbox)
+`project(GeneEngine.Sandbox)
 
 set(SourceDir ${CMAKE_CURRENT_LIST_DIR}/Source)
 

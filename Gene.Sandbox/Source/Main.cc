@@ -13,58 +13,11 @@
 #include <Input/Keyboard.h>
 #include <Graphics/Font.h>
 
-static void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
-{
-	using namespace Gene::Graphics;
-	using namespace Gene::OpenGL;
-	
-	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-	std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-
-	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
-
-	vao.Enable();
- 
-	BufferDescriptor vertexBufferDesc;
-	vertexBufferDesc.Data		 = &(model->Vertices[0]);
-	vertexBufferDesc.DataType	 = GLType::Float;
-    vertexBufferDesc.Size		 = model->Vertices.size() * 3 * sizeof(GLfloat);
-	vertexBufferDesc.DrawType	 = BufferDrawType::Static;
-	vbo->SetData(vertexBufferDesc);
-
-	BufferDescriptor normalBufferDesc;
-	normalBufferDesc.Data		 = &(model->Normals[0]);
-	normalBufferDesc.DataType	 = GLType::Float;
-	normalBufferDesc.Size		 = model->Normals.size() * 3 * sizeof(GLfloat);
-	normalBufferDesc.DrawType	 = BufferDrawType::Static;
-	nbo->SetData(normalBufferDesc);
-
-	BufferDescriptor indexBufferDesc;
-    indexBufferDesc.Data		 = &(model->Indices[0]);
-	indexBufferDesc.DataType	 = GLType::UnsignedInt;
-    indexBufferDesc.Size		 = model->Indices.size() * sizeof(GLuint);
-	indexBufferDesc.DrawType	 = BufferDrawType::Static;
-	(*ebo)->SetData(indexBufferDesc);
-
-	#pragma region Attributes
-
-	AttributeDescriptor vertexAttrib;
-	vertexAttrib.Index			 = 0;
-	vertexAttrib.ComponentCount  = 3;
-	vertexAttrib.Stride			 = 0;
-	vertexAttrib.ByteOfffset     = 0;
-
-	AttributeDescriptor normalAttrib;
-	normalAttrib.Index			 = 1;
-	normalAttrib.ComponentCount  = 3;
-	normalAttrib.Stride		     = 0;
-	normalAttrib.ByteOfffset	 = 0;
-
-	#pragma endregion
-
-	vao.RegisterAttribute(vbo.get(), vertexAttrib);
-	vao.RegisterAttribute(nbo.get(), normalAttrib);
-}
+void CreateTriangle(
+        Gene::Graphics::VertexArray &vao,
+        Gene::Graphics::Buffer **ebo,
+        Gene::Content::GeneModel *model
+);
 
 int main()
 {
@@ -132,3 +85,57 @@ int main()
 
 	return 0;
 }
+
+void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
+{
+    using namespace Gene::Graphics;
+    using namespace Gene::OpenGL;
+
+    std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+    std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+
+    (*ebo) = new Buffer(Buffer::Type::ElementBuffer);
+
+    vao.Enable();
+
+    BufferDescriptor vertexBufferDesc;
+    vertexBufferDesc.Data		 = &(model->Vertices[0]);
+    vertexBufferDesc.DataType	 = GLType::Float;
+    vertexBufferDesc.Size		 = model->Vertices.size() * 3 * sizeof(GLfloat);
+    vertexBufferDesc.DrawType	 = BufferDrawType::Static;
+    vbo->SetData(vertexBufferDesc);
+
+    BufferDescriptor normalBufferDesc;
+    normalBufferDesc.Data		 = &(model->Normals[0]);
+    normalBufferDesc.DataType	 = GLType::Float;
+    normalBufferDesc.Size		 = model->Normals.size() * 3 * sizeof(GLfloat);
+    normalBufferDesc.DrawType	 = BufferDrawType::Static;
+    nbo->SetData(normalBufferDesc);
+
+    BufferDescriptor indexBufferDesc;
+    indexBufferDesc.Data		 = &(model->Indices[0]);
+    indexBufferDesc.DataType	 = GLType::UnsignedInt;
+    indexBufferDesc.Size		 = model->Indices.size() * sizeof(GLuint);
+    indexBufferDesc.DrawType	 = BufferDrawType::Static;
+    (*ebo)->SetData(indexBufferDesc);
+
+    #pragma region Attributes
+
+    AttributeDescriptor vertexAttrib;
+    vertexAttrib.Index			 = 0;
+    vertexAttrib.ComponentCount  = 3;
+    vertexAttrib.Stride			 = 0;
+    vertexAttrib.ByteOfffset     = 0;
+
+    AttributeDescriptor normalAttrib;
+    normalAttrib.Index			 = 1;
+    normalAttrib.ComponentCount  = 3;
+    normalAttrib.Stride		     = 0;
+    normalAttrib.ByteOfffset	 = 0;
+
+    #pragma endregion
+
+    vao.RegisterAttribute(vbo.get(), vertexAttrib);
+    vao.RegisterAttribute(nbo.get(), normalAttrib);
+}
+
