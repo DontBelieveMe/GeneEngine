@@ -5,16 +5,16 @@
 namespace Gene { namespace Graphics {
 	enum class BufferDrawType
 	{
-		Static = GL_STATIC_DRAW,
+        Static  = GL_STATIC_DRAW,
 		Dynamic = GL_DYNAMIC_DRAW,
-		Stream = GL_STREAM_DRAW
+        Stream  = GL_STREAM_DRAW
 	};
 
 
 	struct BufferDescriptor
 	{
-		size_t Size;
-		void *Data;
+        size_t         Size;
+        void          *Data;
 		BufferDrawType DrawType;
 		OpenGL::GLType DataType;
 	};
@@ -23,7 +23,7 @@ namespace Gene { namespace Graphics {
 	public:
 		enum class Type
 		{
-			ArrayBuffer = GL_ARRAY_BUFFER,
+            ArrayBuffer   = GL_ARRAY_BUFFER,
 			ElementBuffer = GL_ELEMENT_ARRAY_BUFFER
 		};
 
@@ -37,8 +37,8 @@ namespace Gene { namespace Graphics {
 		inline size_t		  Size()		   const { return m_Descriptor.Size; }
 		inline OpenGL::GLType DataType()	   const { return m_Descriptor.DataType; }
 	private:
-		GLuint m_ID;
-		Type m_Type;
+        GLuint           m_ID;
+        Type             m_Type;
 		BufferDescriptor m_Descriptor;
 	};
 }}

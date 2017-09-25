@@ -6,8 +6,8 @@ namespace Gene { namespace Platform {
     private:
         typedef std::chrono::time_point<std::chrono::high_resolution_clock> GameClock;
 
-		float m_Delta;
-        float m_RunningTime;
+        float     m_Delta;
+        float     m_RunningTime;
 
         GameClock m_StartFrameTime;
         GameClock m_EndFrameTime;

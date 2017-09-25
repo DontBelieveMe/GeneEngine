@@ -46,10 +46,10 @@ namespace Gene { namespace Graphics {
 
 		enum class PixelFormat
 		{
-			RGBA = GL_RGBA,
-			RGB = GL_RGBA,
-			BGRA = GL_BGRA,
-			Red = GL_RED,
+            RGBA    = GL_RGBA,
+            RGB     = GL_RGBA,
+            BGRA    = GL_BGRA,
+            Red     = GL_RED,
 
 			Default = GL_RGBA
 		};

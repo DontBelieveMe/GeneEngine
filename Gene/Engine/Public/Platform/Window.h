@@ -16,9 +16,9 @@ namespace Gene { namespace Input {
 namespace Gene { namespace Platform {
 	struct WindowInfo
 	{
-		int Width, Height;
+        int         Width, Height;
 		const char *Title;
-		bool Borderless = false;
+        bool        Borderless = false;
 	};
 
 	struct EventCallbacks
@@ -31,12 +31,13 @@ namespace Gene { namespace Platform {
 	protected:
 		using Vector2 = Gene::Math::Vector2;
 
-		WindowInfo m_WindowConfig;
-		GLContext *m_Context;
-		bool m_Running = true;
-		Input::MouseState m_MouseState;
-		Input::KeyboardState m_KeyState;
-		EventCallbacks m_Callbacks;
+        WindowInfo            m_WindowConfig;
+        GLContext            *m_Context;
+        bool                  m_Running = true;
+        Input::MouseState     m_MouseState;
+        Input::KeyboardState  m_KeyState;
+        EventCallbacks        m_Callbacks;
+
 		friend class Input::Mouse;
 		friend class Input::Keyboard;
 
@@ -54,11 +55,13 @@ namespace Gene { namespace Platform {
 		virtual Vector2 ScreenToWindow(const Vector2& point) = 0;
 		virtual Vector2 WindowToScreen(const Vector2& point) = 0;
 
-		inline unsigned Width()  const { return m_WindowConfig.Width;  }
-		inline unsigned Height() const { return m_WindowConfig.Height; }
-		inline bool Running() const { return m_Running; }
+        inline unsigned   Width()        const { return m_WindowConfig.Width;  }
+        inline unsigned   Height()       const { return m_WindowConfig.Height; }
+        inline bool       Running()      const { return m_Running; }
 		inline GLContext *GetGLContext() const { return m_Context; }
-		inline void SetWindowResizeCallback(void(*resize)(int,int)){ m_Callbacks.Resize = resize;  }
+
+        inline void SetWindowResizeCallback(void(*resize)(int,int))
+            { m_Callbacks.Resize = resize;  }
 
 		static Window *CreateWindow(WindowInfo info);
 

@@ -18,7 +18,7 @@ namespace Gene { namespace Graphics {
 	class VertexArray
 	{
 	private:
-		GLuint m_ID;
+        GLuint               m_ID;
 		std::vector<Buffer*> m_Buffers;
 
 	public:
