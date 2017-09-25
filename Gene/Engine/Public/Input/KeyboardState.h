@@ -7,6 +7,6 @@ namespace Gene { namespace Input {
 	{
 		Key KeyMap[512];
 
-		inline bool IsKeyDown(Keys key) { return KeyMap[static_cast<int>(key)]; }
+        inline bool IsKeyDown(Keys key) const { return KeyMap[static_cast<int>(key)]; }
 	};
 }}

@@ -1,4 +1,6 @@
 .vs/
+
+# Binary/Output folders
 Build/
 bin/
 Debug/
@@ -7,8 +9,13 @@ Gene/Binaries/
 Dependencies/FreeType/Output/
 Gene/Release
 Gene.Sandbox/Binaries
+
+# Visual Studio user files
 *.vcxproj.filters
 *.vcxproj.user
+
+# Qt Creator user files
+CMakeLists.txt.user
 
 # Vim Temporary files
 [._]*.s[a-w][a-z]

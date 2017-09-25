@@ -75,15 +75,16 @@ int main()
 	using namespace Gene::Content;
     using namespace Gene;
 
-	WindowInfo info;
-	info.Width = 600;
-	info.Height = 400;
-	info.Title = "Hello World!";
-	info.Borderless = false;
+    WindowInfo info = { 600, 400, "Hello from GeneEngine.Sandbox", false };
 
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
+    window->SetClearColor(Color::CornflowerBlue);
+
+    window->SetWindowResizeCallback([](int w, int h) {
+        glViewport(0, 0, w, h);
+    });
 
 	GLSLShader shader;
 	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
@@ -91,11 +92,6 @@ int main()
     shader.BindAttributeIndex(0, "position");
     shader.BindAttributeIndex(1, "normal");
 	
-    window->SetWindowResizeCallback([](int w, int h) {
-		glViewport(0, 0, w, h);
-	});
-	
-	window->SetClearColor(Color::CornflowerBlue);
 	OBJModelLoader loader;
 	GeneModel *model = loader.Load("Data/suzanne.obj");
 
@@ -107,15 +103,13 @@ int main()
 
 	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
 	shader.LoadUniformMatrix4f("u_Projection", matrix);
-	Vector3 lightPos= Vector3(0, 10, 0);
+
+    glEnable(GL_DEPTH_TEST);
+    float theta = 180.f;
+    Vector3 pos(0, 0, -5.f);
+
 	window->Show();
 	
-    glEnable(GL_DEPTH_TEST);
-	
-	float theta = 180.f;
-	
-	Vector3 pos(0, 0, -5.f);
-
     while (window->Running())
 	{
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -125,6 +119,12 @@ int main()
 	    shader.LoadUniformMatrix4f("u_Transform", transform);
 		theta += 1.f;
     	vao.DebugDrawElements(ebo);
+
+        const KeyboardState& keys = Keyboard::GetState();
+        if(keys.IsKeyDown(Keys::W))
+            pos.Z += 0.3f;
+        else if(keys.IsKeyDown(Keys::S))
+            pos.Z -= 0.3f;
 
         window->SwapBuffers();
 		window->PollEvents();
