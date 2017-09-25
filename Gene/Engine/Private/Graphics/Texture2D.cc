@@ -22,9 +22,9 @@ void Texture2D::Load(const char *filepath)
 	}
 }
 
-void Texture2D::Load(uint8 *data, unsigned width, unsigned height)
+void Texture2D::Load(Gene::uint8 *data, unsigned width, unsigned height)
 {
-	m_Pixels = std::vector<uint8>(data, data + width * height);
+	m_Pixels = std::vector<Gene::uint8>(data, data + width * height);
 	m_Width = width;
 	m_Height = height;
 

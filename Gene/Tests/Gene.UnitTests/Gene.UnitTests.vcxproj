@@ -145,7 +145,7 @@
     <ClInclude Include="Catch\catch.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Tests\Math\CatchMain.cc" />
+    <ClCompile Include="Tests\CatchMain.cc" />
     <ClCompile Include="Tests\Math\TestMathFunctions.cc" />
     <ClCompile Include="Tests\Math\TestMatrix4.cc" />
     <ClCompile Include="Tests\Math\TestVector2.cc" />
