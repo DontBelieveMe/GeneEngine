@@ -7,7 +7,7 @@ namespace Gene { namespace Math {
 	class Matrix4
 	{
 	public:
-		static const int ElementCount = 16; // 4 x 4 matrix
+        static constexpr int ElementCount = 16; // 4 x 4 matrix
 
 	public:
 		Matrix4(float diag=1.f);

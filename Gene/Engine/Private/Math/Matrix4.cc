@@ -6,6 +6,9 @@
 
 using namespace Gene::Math;
 
+const     int   Matrix4::ElementCount;
+constexpr float Maths::PI;              // TODO: This should not go in here -> move it to a Math/Functions.cc
+
 Matrix4::Matrix4(float diag)
 {
 	for (int i = 0; i < Matrix4::ElementCount; ++i)

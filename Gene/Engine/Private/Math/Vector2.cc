@@ -15,7 +15,7 @@ Vector2::Vector2(float x, float y) :
 Vector2 Vector2::operator+(const Vector2& b)
 {
 	Vector2 result;
-	result.X = X + b.X;
+    result.X = X + b.X;
 	result.Y = Y + b.Y;
 	return result;
 }
