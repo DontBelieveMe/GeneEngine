@@ -9,6 +9,7 @@ set(Source
 add_executable(Gene.Sandbox ${Source})
 
 target_link_libraries(Gene.Sandbox "Gene")
+target_link_libraries(Gene.Sandbox "FreeType")
 target_link_libraries(Gene.Sandbox "X11")
 target_link_libraries(Gene.Sandbox "GL")
 

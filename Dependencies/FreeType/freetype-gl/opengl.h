@@ -20,11 +20,8 @@
 #   else
 #     include <OpenGL/gl.h>
 #   endif
-#elif defined(GENE_OS_WINDOWS) || defined(_WIN64)
+#elif defined(GENE_OS_WINDOWS) || defined(_WIN64) || defined(GENE_OS_LINUX)
 #include <Platform/OpenGL.h>
-#else
-#  include <GL/glew.h>
-#  include <GL/gl.h>
 #endif
 
 #endif /* OPEN_GL_H */

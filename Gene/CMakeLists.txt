@@ -98,3 +98,4 @@ if(WIN32)
 endif()
 
 add_library(Gene SHARED ${CommonSource} ${CommonHeaders} ${PlatformSrc})
+target_link_libraries(FreeType)

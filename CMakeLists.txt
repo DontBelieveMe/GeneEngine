@@ -3,6 +3,7 @@ project("GeneEngine")
 
 # This is going to be used in every (sub) project, so its ok to put it here
 include_directories(Gene/Engine/Public)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/include)
 
 add_subdirectory(Dependencies/FreeType)
 add_subdirectory(Gene)
