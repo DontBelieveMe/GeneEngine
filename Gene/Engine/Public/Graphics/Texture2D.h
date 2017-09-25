@@ -27,12 +27,13 @@ namespace Gene { namespace Graphics {
 		void Load(const char *path);
 		void Load(uint8 *data, unsigned width, unsigned height);
 
-		inline GLuint       Id() const { return m_TextureId; }
-		inline unsigned int Width() const { return m_Width; }
-		inline unsigned int Height() const { return m_Height; }
+        inline GLuint       Id()       const { return m_TextureId; }
+        inline unsigned int Width()    const { return m_Width; }
+        inline unsigned int Height()   const { return m_Height; }
 		inline bool         IsLoaded() const { return m_Loaded; }
-		inline void			Enable() const { glBindTexture(GL_TEXTURE_2D, m_TextureId); }
-		inline void			Disable() const { glBindTexture(GL_TEXTURE_2D, 0); }
+        inline void			Enable()   const { glBindTexture(GL_TEXTURE_2D, m_TextureId); }
+        inline void			Disable()  const { glBindTexture(GL_TEXTURE_2D, 0); }
+        int8               *Data()     const { return &m_Pixels[0]; }
 
 		Math::Vector2 SubTextureUV(float x, float y, float width, float height);
 
