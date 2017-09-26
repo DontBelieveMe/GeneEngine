@@ -16,7 +16,8 @@ set(CommonSource
     ${SrcDir}/Graphics/PreBuiltVertices.cc
     ${SrcDir}/Graphics/Texture2D.cc
     ${SrcDir}/Graphics/VertexArray.cc
-    
+    ${SrcDir}/Graphics/Renderer2D.cc
+
     ${SrcDir}/Input/Keyboard.cc
     ${SrcDir}/Input/Mouse.cc
 
@@ -49,6 +50,7 @@ set(CommonHeaders
     ${HeaderDir}/Graphics/PreBuiltVertices.h
     ${HeaderDir}/Graphics/Texture2D.h
     ${HeaderDir}/Graphics/VertexArray.h
+    ${HeaderDir}/Graphics/Renderer2D.h
 
     ${HeaderDir}/Input/Keyboard.h
     ${HeaderDir}/Input/KeyboardState.h
