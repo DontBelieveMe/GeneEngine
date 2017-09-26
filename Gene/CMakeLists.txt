@@ -13,7 +13,6 @@ set(CommonSource
     ${SrcDir}/Graphics/Font.cc
     ${SrcDir}/Graphics/GLSLShader.cc
     ${SrcDir}/Graphics/Light.cc
-    ${SrcDir}/Graphics/PreBuiltVertices.cc
     ${SrcDir}/Graphics/Texture2D.cc
     ${SrcDir}/Graphics/VertexArray.cc
     ${SrcDir}/Graphics/Renderer2D.cc
@@ -47,7 +46,6 @@ set(CommonHeaders
     ${HeaderDir}/Graphics/Font.h
     ${HeaderDir}/Graphics/GLSLShader.h
     ${HeaderDir}/Graphics/Light.h
-    ${HeaderDir}/Graphics/PreBuiltVertices.h
     ${HeaderDir}/Graphics/Texture2D.h
     ${HeaderDir}/Graphics/VertexArray.h
     ${HeaderDir}/Graphics/Renderer2D.h
