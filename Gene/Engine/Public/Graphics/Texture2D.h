@@ -33,7 +33,7 @@ namespace Gene { namespace Graphics {
 		inline bool         IsLoaded() const { return m_Loaded; }
         inline void			Enable()   const { glBindTexture(GL_TEXTURE_2D, m_TextureId); }
         inline void			Disable()  const { glBindTexture(GL_TEXTURE_2D, 0); }
-        int8               *Data()     const { return &m_Pixels[0]; }
+        const uint8        *Data()     const { return &m_Pixels[0]; }
 
 		Math::Vector2 SubTextureUV(float x, float y, float width, float height);
 
