@@ -19,3 +19,17 @@ void Buffer::SetData(const BufferDescriptor& data)
 		static_cast<GLenum>(data.DrawType));
 	Disable();
 }
+
+void Buffer::Resize(size_t newSize)
+{
+	m_Descriptor.Size = newSize;
+
+	Enable();
+	glBufferData(
+		OpenGL::GeneToGLType(m_Type),
+		newSize,
+		NULL,
+		static_cast<GLenum>(m_Descriptor.DrawType)
+	);
+	Disable();
+}

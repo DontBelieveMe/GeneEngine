@@ -31,11 +31,20 @@ namespace Gene { namespace Graphics {
 		~Buffer() {}
 
 		void SetData(const BufferDescriptor& data);
-		
+		void Resize(size_t newSize);
+
+		template <typename T>
+		T *GetPointer()
+		{
+			void *data = glMapBuffer(OpenGL::GeneToGLType(DataType()), GL_WRITE_ONLY);
+			return reinterpret_cast<T*>(data);
+		}
+
 		inline void			  Enable()		   const { glBindBuffer(static_cast<GLenum>(m_Type), m_ID); }
 		inline void			  Disable()		   const { glBindBuffer(static_cast<GLenum>(m_Type), 0); }
 		inline size_t		  Size()		   const { return m_Descriptor.Size; }
 		inline OpenGL::GLType DataType()	   const { return m_Descriptor.DataType; }
+
 	private:
         GLuint           m_ID;
         Type             m_Type;

@@ -17,7 +17,8 @@ namespace Gene { namespace Graphics {
 		Font(const char *fontFile, float size = DEFAULT_SIZE);
 		~Font();
 
-		inline float Size() const { return m_Size; }
+		inline float		  Size()	   const { return m_Size; }
+		ftgl::texture_font_t *TextureFont()		 { return m_Font; }
 
 	private:
 		Texture2D			  *m_Texture;

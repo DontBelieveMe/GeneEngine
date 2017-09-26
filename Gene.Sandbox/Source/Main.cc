@@ -12,6 +12,7 @@
 #include <Graphics/Light.h>
 #include <Input/Keyboard.h>
 #include <Graphics/Font.h>
+#include <Graphics/Renderer2D.h>
 
 void CreateTriangle(
         Gene::Graphics::VertexArray &vao,
@@ -61,6 +62,9 @@ int main()
     float theta = 180.f;
     Vector3 pos(0, 0, -5.f);
 
+	Renderer2D renderer;
+	renderer.Init();
+	
 	window->Show();
 	
     while (window->Running())
