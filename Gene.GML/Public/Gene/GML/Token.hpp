@@ -9,6 +9,7 @@
 namespace Gene {
 	namespace GML {
 		typedef std::variant<int, float, std::string, char> Variant;
+
 		class Token {
 		private:
 			TokenType m_Type;
@@ -17,10 +18,12 @@ namespace Gene {
 
 		public:
 			template <typename T>
-			Token(TokenType type, T value)
+            static Token Create(TokenType type, T value)
 			{
-				m_Type = type;
-				m_Value = value;
+                Token tok;
+                tok.m_Type = type;
+                tok.m_Value = value;
+                return tok;
 			}
 
 			void Print()
@@ -30,13 +33,8 @@ namespace Gene {
 				}, m_Value);
 			}
 
-			inline TokenType Type() const {
-				return m_Type;
-			}
-
-			inline const Variant& Variant() const {
-				return m_Value;
-			}
+            inline TokenType Type() const { return m_Type; }
+            inline Variant Value() const { return m_Value; }
 		};
 	}
 }

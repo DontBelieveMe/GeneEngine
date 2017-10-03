@@ -12,7 +12,7 @@ Token Parser::ConstructSingleToken(char& actual, TokenType type)
 	std::string str(1, actual);
 	m_Index++;
 	actual = m_Source[m_Index];
-	Token tok(type, str);
+    Token tok = Token::Create(type, str);
 	return tok;
 }
 
@@ -26,7 +26,7 @@ Token Parser::GetNextToken()
 	}
 
 	if (_char == '\0') {
-		Token tok(TokenType::EndOfFile, '\0');
+        Token tok = Token::Create(TokenType::EndOfFile, '\0');
 		return tok;
 	}
 
@@ -43,7 +43,7 @@ Token Parser::GetNextToken()
 			_char = m_Source[m_Index];
 		}
 
-		Token tok(TokenType::Identifier, tokenStr);
+        Token tok = Token::Create(TokenType::Identifier, tokenStr);
 		return tok;
 	}
 
@@ -60,7 +60,7 @@ Token Parser::GetNextToken()
 			_char = m_Source[m_Index];
 		}
 				
-		Token tok(TokenType::Integer, atoi(tokenStr.c_str()));
+        Token tok = Token::Create(TokenType::Integer, atoi(tokenStr.c_str()));
 		return tok;
 	}
 
