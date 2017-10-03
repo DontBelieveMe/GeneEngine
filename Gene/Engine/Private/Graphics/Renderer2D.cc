@@ -20,10 +20,6 @@ void Renderer2D::Init()
 	desc.Size = RendererBatchSize;
 	m_VBO->SetData(desc);
 
-	AttributeDescriptor attribDesc;
-	attribDesc.ByteOfffset 
-
-	m_VAO->RegisterAttribute(m_VBO, )
 
 	m_VBO->Enable();
 
