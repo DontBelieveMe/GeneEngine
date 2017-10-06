@@ -33,3 +33,10 @@ void Buffer::Resize(size_t newSize)
 	);
 	Disable();
 }
+
+void Buffer::UnmapPointer()
+{
+	Enable();
+	glUnmapBuffer(Gene::OpenGL::GeneToGLType(m_Type));
+	Disable();
+}

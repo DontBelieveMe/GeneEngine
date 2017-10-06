@@ -36,9 +36,13 @@ namespace Gene { namespace Graphics {
 		template <typename T>
 		T *GetPointer()
 		{
-			void *data = glMapBuffer(OpenGL::GeneToGLType(DataType()), GL_WRITE_ONLY);
+			Enable();
+			void *data = glMapBuffer(OpenGL::GeneToGLType(m_Type), GL_WRITE_ONLY);
+			Disable();
 			return reinterpret_cast<T*>(data);
 		}
+		
+		void UnmapPointer();
 
 		inline void			  Enable()		   const { glBindBuffer(static_cast<GLenum>(m_Type), m_ID); }
 		inline void			  Disable()		   const { glBindBuffer(static_cast<GLenum>(m_Type), 0); }

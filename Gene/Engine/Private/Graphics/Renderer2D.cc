@@ -12,23 +12,27 @@ void Renderer2D::Init()
 {
 	m_VAO = new VertexArray;
 	m_VBO = new Buffer(Buffer::Type::ArrayBuffer);
+
+	m_VAO->Enable();
 	
 	BufferDescriptor desc;
-	desc.Data = NULL;
+	desc.Data = new float[123];
 	desc.DataType = OpenGL::GLType::Float;
 	desc.DrawType = BufferDrawType::Dynamic;
 	desc.Size = RendererBatchSize;
 	m_VBO->SetData(desc);
 
+	AttributeDescriptor positionAttribDesc;
+	positionAttribDesc.Index = 0;
+	positionAttribDesc.ComponentCount = 3;
+	positionAttribDesc.Stride = 3 * sizeof(GLfloat);
+	positionAttribDesc.ByteOfffset = 0;
 
-	m_VBO->Enable();
+	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 
-	m_Buffer = m_VBO->GetPointer<Vertex>();
-	m_Buffer->Position.X = 1;
-	m_Buffer->Position.Y = 2;
-	m_Buffer->Position.Z = 3;
-	m_Buffer++;
-	m_VBO->Disable();
+	Vertex *data = m_VBO->GetPointer<Vertex>();
+
+	m_VBO->UnmapPointer();
 }
 
 void Renderer2D::DrawString(Font *font, 

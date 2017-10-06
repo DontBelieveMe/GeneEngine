@@ -11,6 +11,7 @@ namespace Gene { namespace GML {
 		Identifier = 5,
 		EndOfFile = 6,
 		Semicolon = 7,
-		Assignment = 8
+		Assignment = 8,
+		None
 	};
 }}
