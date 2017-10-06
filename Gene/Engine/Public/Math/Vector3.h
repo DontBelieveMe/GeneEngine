@@ -21,3 +21,7 @@ namespace Gene { namespace Math {
         float          Length();
 	};
 }}
+
+namespace Gene {
+	typedef Math::Vector3 Vector3;
+}

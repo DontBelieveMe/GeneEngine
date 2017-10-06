@@ -11,4 +11,6 @@ namespace Gene {
 			Quaternion(const Vector3& n, float a);
 		};
 	}
+
+	typedef Math::Quaternion Quaternion;
 }

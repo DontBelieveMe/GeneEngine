@@ -2,6 +2,7 @@
 
 #include <Math/Vector2.h>
 #include <Math/Vector3.h>
+#include <Math/Matrix4.h>
 
 #include <Graphics/Font.h>
 #include <Graphics/Color.h>
@@ -23,6 +24,7 @@ namespace Gene { namespace Graphics {
 		VertexArray *m_VAO;
 		Buffer *m_VBO;
 		Vertex *m_Buffer;
+		Matrix4 m_ProjectionMatrix;
 
     public:
         void DrawString(Font *font, 
@@ -31,7 +33,7 @@ namespace Gene { namespace Graphics {
 						const Graphics::Color color
 		);
 
-		void Init();
+		void Init(const Matrix4& projectionMatrix);
 		void Destroy();
 		void Present();
     };

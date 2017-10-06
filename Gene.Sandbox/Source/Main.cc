@@ -63,7 +63,7 @@ int main()
     Vector3 pos(0, 0, -5.f);
 
 	Renderer2D renderer;
-	renderer.Init();
+	renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 100.f, 0.1f));
 	
 	window->Show();
 	
@@ -86,6 +86,8 @@ int main()
         window->SwapBuffers();
 		window->PollEvents();
 	}
+	
+	renderer.Destroy();
 
 	return 0;
 }

@@ -13,4 +13,6 @@ namespace Gene {
 			Vector2 operator-(const Vector2& b);
 		};
 	}
+
+	typedef Math::Vector2 Vector2;
 }

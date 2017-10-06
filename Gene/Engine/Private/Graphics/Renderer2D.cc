@@ -8,15 +8,17 @@ static const int RenderableSize     = sizeof(Vertex) * 4; // 4 vertices in a cub
 static const int MaxRenderables		= 100;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 
-void Renderer2D::Init()
+void Renderer2D::Init(const Matrix4& projectionMatrix)
 {
+	m_ProjectionMatrix = projectionMatrix;
+
 	m_VAO = new VertexArray;
 	m_VBO = new Buffer(Buffer::Type::ArrayBuffer);
 
 	m_VAO->Enable();
 	
 	BufferDescriptor desc;
-	desc.Data = new float[123];
+	desc.Data = NULL;
 	desc.DataType = OpenGL::GLType::Float;
 	desc.DrawType = BufferDrawType::Dynamic;
 	desc.Size = RendererBatchSize;
@@ -30,9 +32,7 @@ void Renderer2D::Init()
 
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 
-	Vertex *data = m_VBO->GetPointer<Vertex>();
-
-	m_VBO->UnmapPointer();
+	m_Buffer = m_VBO->GetPointer<Vertex>();
 }
 
 void Renderer2D::DrawString(Font *font, 
@@ -44,6 +44,10 @@ void Renderer2D::DrawString(Font *font,
 
 	texture_font_t *ftFont = font->TextureFont();
 
+	for (size_t i = 0; i < text.length(); i++)
+	{
+
+	}
 }
 
 void Renderer2D::Present()
@@ -51,4 +55,12 @@ void Renderer2D::Present()
 	m_VAO->Enable();
 
 	m_VAO->Disable();
+}
+
+void Renderer2D::Destroy()
+{
+	m_VBO->UnmapPointer();
+
+	delete m_VAO;
+	delete m_VBO;
 }

@@ -62,3 +62,7 @@ namespace Gene { namespace Math {
 		return os;
 	}
 }}
+
+namespace Gene {
+	typedef Math::Matrix4 Matrix4;
+}
