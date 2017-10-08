@@ -35,12 +35,12 @@ int main()
 	window->Create();
 	window->CreateGLContext();
     window->SetClearColor(Color::CornflowerBlue);
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
     });
-/*
+
 	GLSLShader shader3d;
 	shader3d.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
     shader3d.Enable();
@@ -52,13 +52,12 @@ int main()
 
 	Buffer *modelEbo;
 	VertexArray modelVao;
-	CreateTriangle(modelVao, &modelEbo, suzanneModel);
-	*/
+    CreateModelMesh(modelVao, &modelEbo, suzanneModel);
+
     //Font wendyOneFont("Data/WendyOne-Regular.ttf");
-	/*
+
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
-	*/
 
 	GLSLShader shader2d;
 	shader2d.CompileFromFiles("Data/vertex2d.glsl", "Data/fragment2d.glsl");
@@ -74,31 +73,32 @@ int main()
 	 
 	window->Show();
 	
-    //float suzanneTheta = 180.f;
-    //Vector3 suzannePosition(0, 0, -5.f);
+    float suzanneTheta = 180.f;
+    Vector3 suzannePosition(0, 0, -5.f);
     while (window->Running())
-	{
-		/*
+    {
+
 		shader3d.Enable();
 		
-		suzanneTheta += 1.f;
+        suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
 		transform.Translate(suzannePosition);
 		transform.RotateY(suzanneTheta);
 	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-    	modelVao.DebugDrawElements(modelEbo);
-		*/
-		printf("%i\n", glGetError());
-
-		//shader3d.Disable();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderer2d.Begin();
-        renderer2d.DrawRectangle({ -0.5f, -0.5f }, 1.f, 1.f, Color::Blue);
-		renderer2d.End();
-		renderer2d.Present();
+        modelVao.Enable();
+        modelEbo->Enable();
+    	modelVao.DebugDrawElements(modelEbo);
+        modelEbo->Disable();
+        modelVao.Disable();
+
+        shader3d.Disable();
+
+        renderer2d.Begin();
+        renderer2d.DrawRectangle({ -0.5f, -0.5f }, 0.5f, 0.5f, Color::Blue);
+        renderer2d.End();
+        renderer2d.Present();
 		
         window->SwapBuffers();
 		window->PollEvents();
