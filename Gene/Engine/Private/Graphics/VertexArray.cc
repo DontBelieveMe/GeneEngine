@@ -1,6 +1,8 @@
 #include <Graphics/VertexArray.h>
 #include <Graphics/Buffer.h>
 
+#include <GeneCommon.h>
+
 using namespace Gene::Graphics;
 
 VertexArray::VertexArray()
@@ -10,15 +12,13 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
-	for(Buffer* ptr : m_Buffers)
-	{
-		/*delete ptr;
-		ptr = nullptr;*/
-	}
 }
 
 void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 {
+    GE_ASSERT(attrib.Index >= 0);
+    GE_ASSERT(attrib.ComponentCount > 0);
+
 	Enable();
 	buffer->Enable();
 
@@ -38,18 +38,24 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 
 void VertexArray::DebugDraw()
 {
+    printf("I'm sorry, DebugDraw() [On VertexArray] should not be used, please see descriptive comments\n");
+    GE_ASSERT(false);
+
 	Enable();
-	glDrawArrays(GL_TRIANGLES, 0, 10000);
+    // VRAW ALL DA FRYANGLES! (Seriously though, TODO: Fix the hell outa this shit
+    glDrawArrays(GL_TRIANGLES, 0, 10000);
+
 	Disable();
 }
 
 void VertexArray::DebugDrawElements(Buffer *ebo, int count)
 {
-	int _count = count < 0 ? ebo->Size() / sizeof(GLuint) : count;
+    int _count = count < 0 ? ebo->Size() / sizeof(GLuint) : count;
+    GE_ASSERT(_count >= 0);
 
-    //Enable();
-    //ebo->Enable();
+    Enable();
+    ebo->Enable();
     glDrawElements(GL_TRIANGLES, _count, GL_UNSIGNED_INT, NULL);
-    //ebo->Disable();
-    //Disable();
+    ebo->Disable();
+    Disable();
 }
