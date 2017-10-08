@@ -163,13 +163,13 @@ Matrix4 Matrix4::Perpective(float aspectRatio, float foV, float near, float far)
 Matrix4 Matrix4::Orthographic(float right, float left, float bottom, float top, float far, float near)
 {
 	Matrix4 matrix = Matrix4::Identity();
-	matrix.Elements[0] = 0.5f * (right - left);
-	matrix.Elements[1 + 1 * 4] = 0.5f * (top - bottom);
+	matrix.Elements[0] = 2.f / (right - left);
+	matrix.Elements[1 + 1 * 4] = 2.f / (top - bottom);
 	matrix.Elements[2 + 2 * 4] = -2 / (far - near);
 	matrix.Elements[3 + 3 * 4] = 1.0f;
-	matrix.Elements[3 + 0 * 4] = -((right + left) / (right - left));
-	matrix.Elements[3 + 1 * 4] = -((top + bottom) / (top - bottom));
-	matrix.Elements[3 + 2 * 4] = -((far + near) / (far - near));
+	matrix.Elements[3 + 0 * 4] = (left + right) / (left - right); //-((right + left) / (right - left));
+	matrix.Elements[3 + 1 * 4] = (bottom + top) / (bottom - top); //-((top + bottom) / (top - bottom));
+	matrix.Elements[3 + 2 * 4] = (far + near) / (far - near); //-((far + near) / (far - near));
 	return matrix;
 }
 

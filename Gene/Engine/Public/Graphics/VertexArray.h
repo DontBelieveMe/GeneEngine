@@ -31,6 +31,6 @@ namespace Gene { namespace Graphics {
 		void RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib);
 
 		void DebugDraw();
-		void DebugDrawElements(Buffer *ebo);
+		void DebugDrawElements(Buffer *ebo, int count=-1);
 	};
 }}

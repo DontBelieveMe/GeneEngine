@@ -163,10 +163,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\fragment.glsl" />
+    <None Include="Data\fragment2d.glsl" />
     <None Include="Data\vertex.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Data\brickTexture.png" />
+    <None Include="Data\vertex2d.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gene\Gene.vcxproj">

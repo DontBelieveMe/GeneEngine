@@ -14,6 +14,11 @@ Vector3::Vector3(float x, float y, float z):
 {
 }
 
+Vector3::Vector3(Vector2 vector, float z) :
+	X(vector.X), Y(vector.Y), Z(z) 
+{
+}
+
 Vector3 Vector3::operator+(const Vector3& b)
 {
 	return Vector3(X + b.X, Y + b.Y, Z + b.Z);

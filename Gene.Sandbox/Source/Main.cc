@@ -14,7 +14,7 @@
 #include <Graphics/Font.h>
 #include <Graphics/Renderer2D.h>
 
-void CreateTriangle(
+void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
         Gene::Graphics::Buffer **ebo,
         Gene::Content::GeneModel *model
@@ -35,64 +35,85 @@ int main()
 	window->Create();
 	window->CreateGLContext();
     window->SetClearColor(Color::CornflowerBlue);
+    //glEnable(GL_DEPTH_TEST);
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
     });
-
-	GLSLShader shader;
-	shader.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
-    shader.Enable();
-    shader.BindAttributeIndex(0, "position");
-    shader.BindAttributeIndex(1, "normal");
+/*
+	GLSLShader shader3d;
+	shader3d.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
+    shader3d.Enable();
+    shader3d.BindAttributeIndex(0, "position");
+    shader3d.BindAttributeIndex(1, "normal");
 	
-	OBJModelLoader loader;
-	GeneModel *model = loader.Load("Data/suzanne.obj");
+	OBJModelLoader objLoader;
+	GeneModel *suzanneModel = objLoader.Load("Data/suzanne.obj");
 
-	Buffer *ebo;
-	VertexArray vao;
-	CreateTriangle(vao, &ebo, model);
+	Buffer *modelEbo;
+	VertexArray modelVao;
+	CreateTriangle(modelVao, &modelEbo, suzanneModel);
+	*/
+    //Font wendyOneFont("Data/WendyOne-Regular.ttf");
+	/*
+	Matrix4 perspectiveMatrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
+	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
+	*/
 
-    Font wendyOneFont("Data/WendyOne-Regular.ttf");
+	GLSLShader shader2d;
+	shader2d.CompileFromFiles("Data/vertex2d.glsl", "Data/fragment2d.glsl");
+	shader2d.Enable();
+	shader2d.BindAttributeIndex(0, "position");
+	shader2d.BindAttributeIndex(1, "color");
 
-	Matrix4 matrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
-	shader.LoadUniformMatrix4f("u_Projection", matrix);
+	Renderer2D renderer2d;
+	renderer2d.Init(
+		Matrix4::Orthographic(info.Width, 0, 0, info.Height, 100.f, 0.1f),
+		&shader2d
+	);
 
-    glEnable(GL_DEPTH_TEST);
-    float theta = 180.f;
-    Vector3 pos(0, 0, -5.f);
+	int x1 = sizeof(Vertex);
+	int x3 = sizeof(Vector3);
+	int x4 = sizeof(Color);
 
-	Renderer2D renderer;
-	renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 100.f, 0.1f));
-	
+	 
 	window->Show();
 	
+    //float suzanneTheta = 180.f;
+    //Vector3 suzannePosition(0, 0, -5.f);
     while (window->Running())
 	{
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		/*
+		shader3d.Enable();
+		
+		suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
-		transform.Translate(pos);
-		transform.RotateY(theta);
-	    shader.LoadUniformMatrix4f("u_Transform", transform);
-		theta += 1.f;
-    	vao.DebugDrawElements(ebo);
+		transform.Translate(suzannePosition);
+		transform.RotateY(suzanneTheta);
+	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+    	modelVao.DebugDrawElements(modelEbo);
+		*/
+		printf("%i\n", glGetError());
 
-        const KeyboardState& keys = Keyboard::GetState();
-        if(keys.IsKeyDown(Keys::W))
-            pos.Z += 0.3f;
-        else if(keys.IsKeyDown(Keys::S))
-            pos.Z -= 0.3f;
-
+		//shader3d.Disable();
+		
+		renderer2d.Begin();
+		renderer2d.DrawRectangle({ 10, 10 }, 100, 100, Color::Red);
+		renderer2d.End();
+		renderer2d.Present();
+		
         window->SwapBuffers();
 		window->PollEvents();
 	}
 	
-	renderer.Destroy();
+	renderer2d.Destroy();
 
 	return 0;
 }
 
-void CreateTriangle(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
+void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
     using namespace Gene::Graphics;
     using namespace Gene::OpenGL;

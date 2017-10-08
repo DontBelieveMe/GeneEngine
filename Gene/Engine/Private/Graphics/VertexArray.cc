@@ -12,8 +12,8 @@ VertexArray::~VertexArray()
 {
 	for(Buffer* ptr : m_Buffers)
 	{
-		delete ptr;
-		ptr = nullptr;
+		/*delete ptr;
+		ptr = nullptr;*/
 	}
 }
 
@@ -31,7 +31,7 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 		GL_FALSE, attrib.Stride, 
 		(const GLvoid*) attrib.ByteOfffset
 	);
-
+	
 	buffer->Disable();
 	Disable();
 }
@@ -39,15 +39,17 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 void VertexArray::DebugDraw()
 {
 	Enable();
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDrawArrays(GL_TRIANGLES, 0, 10000);
 	Disable();
 }
 
-void VertexArray::DebugDrawElements(Buffer *ebo)
+void VertexArray::DebugDrawElements(Buffer *ebo, int count)
 {
+	int _count = count < 0 ? ebo->Size() / sizeof(GLuint) : count;
+
 	Enable();
 	ebo->Enable();
-    glDrawElements(GL_TRIANGLES, ebo->Size() / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+    glDrawElements(GL_TRIANGLES, _count, GL_UNSIGNED_INT, NULL);
 	ebo->Disable();
 	Disable();
 }
