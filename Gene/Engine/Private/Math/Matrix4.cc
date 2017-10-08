@@ -160,7 +160,7 @@ Matrix4 Matrix4::Perpective(float aspectRatio, float foV, float near, float far)
 	return matrix;
 }
 
-Matrix4 Matrix4::Orthographic(float right, float left, float bottom, float top, float far, float near)
+Matrix4 Matrix4::Orthographic(float right, float left, float top, float bottom, float far, float near)
 {
 	Matrix4 matrix = Matrix4::Identity();
 	matrix.Elements[0] = 2.f / (right - left);

@@ -67,7 +67,7 @@ int main()
 
 	Renderer2D renderer2d;
 	renderer2d.Init(
-		Matrix4::Orthographic(info.Width, 0, 0, info.Height, 100.f, 0.1f),
+        Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.f, -1.f),
 		&shader2d
 	);
 	 
@@ -77,8 +77,7 @@ int main()
     Vector3 suzannePosition(0, 0, -5.f);
     while (window->Running())
     {
-
-		shader3d.Enable();
+        shader3d.Enable();
 		
         suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
@@ -96,7 +95,7 @@ int main()
         shader3d.Disable();
 
         renderer2d.Begin();
-        renderer2d.DrawRectangle({ -0.5f, -0.5f }, 0.5f, 0.5f, Color::Blue);
+        renderer2d.DrawRectangle({ 100, 100 }, 100, 100, Color::Blue);
         renderer2d.End();
         renderer2d.Present();
 		
