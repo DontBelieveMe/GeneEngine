@@ -71,11 +71,6 @@ int main()
 		Matrix4::Orthographic(info.Width, 0, 0, info.Height, 100.f, 0.1f),
 		&shader2d
 	);
-
-	int x1 = sizeof(Vertex);
-	int x3 = sizeof(Vector3);
-	int x4 = sizeof(Color);
-
 	 
 	window->Show();
 	
@@ -98,9 +93,10 @@ int main()
 		printf("%i\n", glGetError());
 
 		//shader3d.Disable();
-		
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer2d.Begin();
-		renderer2d.DrawRectangle({ 10, 10 }, 100, 100, Color::Red);
+        renderer2d.DrawRectangle({ -0.5f, -0.5f }, 1.f, 1.f, Color::Blue);
 		renderer2d.End();
 		renderer2d.Present();
 		

@@ -17,7 +17,7 @@ namespace Gene { namespace Graphics {
 	struct Vertex 
 	{
 		Vector3 Position;
-		Color	Color;
+        Graphics::ColorRGB Color;
 	};
 
     class Renderer2D

@@ -61,7 +61,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 
 	AttributeDescriptor colorAttribDesc;
 	colorAttribDesc.Index = 1;
-	colorAttribDesc.ComponentCount = 3;
+    colorAttribDesc.ComponentCount = 1;
 	colorAttribDesc.Stride = sizeof(Vertex);
 	colorAttribDesc.ByteOfffset = sizeof(Vector3);
 
@@ -86,20 +86,22 @@ void Renderer2D::DrawString(Font *font,
 
 void Renderer2D::DrawRectangle(Vector2 position, float width, float height, const Color& color)
 {
+    ColorRGB rgbCol = color.GetRGBStruct();
+
 	m_Buffer->Position = Vector3(position, 0.f);
-	m_Buffer->Color = color;
+    m_Buffer->Color = rgbCol;
 	m_Buffer++;
 	
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
-	m_Buffer->Color = color;
+    m_Buffer->Color = rgbCol;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
-	m_Buffer->Color = color;
+    m_Buffer->Color = rgbCol;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
-	m_Buffer->Color = color;
+    m_Buffer->Color = rgbCol;
 	m_Buffer++;
 
 	m_IndexCount += 6;
@@ -121,10 +123,33 @@ void Renderer2D::Present()
 {
 	m_Shader->Enable();
 	m_VAO->Enable();
-	m_VAO->DebugDrawElements(m_EBO, m_IndexCount);
-	printf("%i\n", glGetError());
+    m_VBO->Enable();
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(
+        0,
+        3,
+        GL_FLOAT,
+        GL_FALSE, sizeof(Vertex),
+        0
+    );
+
+    glVertexAttribPointer(
+        1,
+        3,
+        GL_FLOAT,
+        GL_FALSE, sizeof(Vertex),
+        (const GLvoid*) sizeof(Vector3)
+    );
+    int i = glGetError();
+
+    m_EBO->Enable();
+    m_VAO->DebugDrawElements(m_EBO, m_IndexCount);
+
 	m_IndexCount = 0;
-	m_VAO->Disable();
+    m_EBO->Disable();
+    m_VAO->Disable();
 	m_Shader->Disable();
 }
 

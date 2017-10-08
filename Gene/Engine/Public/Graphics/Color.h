@@ -1,6 +1,11 @@
 #pragma once
 
 namespace Gene { namespace Graphics {
+    struct ColorRGB {
+        float R, G, B;
+        ColorRGB(float r, float g, float b): R(r), G(g), B(b) {}
+    };
+
 	class Color
 	{
 	private:
@@ -23,6 +28,11 @@ namespace Gene { namespace Graphics {
 		inline int G() const { return (Hex & 0x00FF0000) >> 16; }
 		inline int B() const { return (Hex & 0x0000FF00) >> 8; }
 		inline int A() const { return (Hex & 0x000000FF); }
+
+        ColorRGB GetRGBStruct() const
+        {
+            return ColorRGB(LinearR(), LinearG(), LinearB());
+        }
 
 		inline float LinearR() const { return static_cast<float>(R()) * OneOver255; }
 		inline float LinearG() const { return static_cast<float>(G()) * OneOver255; }

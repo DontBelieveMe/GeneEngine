@@ -6,5 +6,5 @@ in vec3 passColor;
 
 void main()
 {
-	color = vec4(passColor.r, passColor.g, passColor.b, 1.0f);
+   color = vec4(passColor.rgb, 1.0f);
 }

@@ -47,9 +47,9 @@ void VertexArray::DebugDrawElements(Buffer *ebo, int count)
 {
 	int _count = count < 0 ? ebo->Size() / sizeof(GLuint) : count;
 
-	Enable();
-	ebo->Enable();
+    //Enable();
+    //ebo->Enable();
     glDrawElements(GL_TRIANGLES, _count, GL_UNSIGNED_INT, NULL);
-	ebo->Disable();
-	Disable();
+    //ebo->Disable();
+    //Disable();
 }
