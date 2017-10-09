@@ -53,9 +53,9 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    //Font wendyOneFont("Data/WendyOne-Regular.ttf");
+    Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
 
-	Matrix4 perspectiveMatrix = Matrix4::Perpective(800 / 600, 45, 100, 0.1f);
+	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
 
 	GLSLShader shader2d;
@@ -99,7 +99,9 @@ int main()
         shader3d.Disable();
 
         renderer2d.Begin();
-        renderer2d.DrawRectangle(pos, 100, 100, Color::Blue);
+		renderer2d.DrawString(&wendyOneFont, "Hello World!", { 10, 10 }, Color::Red);
+        renderer2d.FillRectangle(pos, 100, 100, Color::Blue);
+		renderer2d.FillRectangle({ 200, 200 }, 50, 50, Color::Black);
         renderer2d.End();
         renderer2d.Present();
 		
@@ -152,7 +154,7 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
     vertexAttrib.ComponentCount  = 3;
     vertexAttrib.Stride			 = 0;
     vertexAttrib.ByteOfffset     = 0;
-
+	
     AttributeDescriptor normalAttrib;
     normalAttrib.Index			 = 1;
     normalAttrib.ComponentCount  = 3;

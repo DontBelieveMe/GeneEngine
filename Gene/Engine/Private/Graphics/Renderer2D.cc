@@ -85,14 +85,40 @@ void Renderer2D::DrawString(Font *font,
 	using namespace ftgl;
 
 	texture_font_t *ftFont = font->TextureFont();
+	ColorRGB rgbPack = color.GetRGBStruct();
+
+	float xPos = pos.X;
+	float yPos = pos.Y;
 
 	for (size_t i = 0; i < text.length(); i++)
 	{
+		char character = text[i];
+		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &character);
+		xPos += glyph->advance_x;
+		
+		/*float topLeftX = position.X + 
 
+		m_Buffer->Position = Vector3(position, 0.f);
+		m_Buffer->Color = rgbCol;
+		m_Buffer++;
+
+		m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
+		m_Buffer->Color = rgbCol;
+		m_Buffer++;
+
+		m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
+		m_Buffer->Color = rgbCol;
+		m_Buffer++;
+
+		m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
+		m_Buffer->Color = rgbCol;
+		m_Buffer++;
+
+		m_IndexCount += 6;*/
 	}
 }
 
-void Renderer2D::DrawRectangle(Vector2 position, float width, float height, const Color& color)
+void Renderer2D::FillRectangle(Vector2 position, float width, float height, const Color& color)
 {
     ColorRGB rgbCol = color.GetRGBStruct();
 

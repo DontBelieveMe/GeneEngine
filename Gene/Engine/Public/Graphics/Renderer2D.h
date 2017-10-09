@@ -17,7 +17,7 @@ namespace Gene { namespace Graphics {
 	struct Vertex 
 	{
 		Vector3 Position;
-        Graphics::ColorRGB Color;
+        ColorRGB Color;
 	};
 
     class Renderer2D
@@ -41,7 +41,7 @@ namespace Gene { namespace Graphics {
 						const Graphics::Color color
 		);
 
-		void DrawRectangle(Vector2 position, float width, float height, const Color& color);
+		void FillRectangle(Vector2 position, float width, float height, const Color& color);
 
 		void Init(const Matrix4& projectionMatrix, GLSLShader *shader);
 		void Destroy();

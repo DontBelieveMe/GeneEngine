@@ -29,7 +29,7 @@ namespace Gene { namespace Graphics {
 		inline int B() const { return (Hex & 0x0000FF00) >> 8; }
 		inline int A() const { return (Hex & 0x000000FF); }
 
-        ColorRGB GetRGBStruct() const
+        inline ColorRGB GetRGBStruct() const
         {
             return ColorRGB(LinearR(), LinearG(), LinearB());
         }
