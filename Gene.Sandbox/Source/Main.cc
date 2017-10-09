@@ -35,7 +35,6 @@ int main()
 	window->Create();
 	window->CreateGLContext();
     window->SetClearColor(Color::CornflowerBlue);
-    glEnable(GL_DEPTH_TEST);
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
@@ -75,8 +74,12 @@ int main()
 	
     float suzanneTheta = 180.f;
     Vector3 suzannePosition(0, 0, -5.f);
+	Vector2 pos(100, 100);
+
     while (window->Running())
     {
+		KeyboardState state = Keyboard::GetState();
+
         shader3d.Enable();
 		
         suzanneTheta += 1.f;
@@ -86,16 +89,17 @@ int main()
 	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
         modelVao.Enable();
         modelEbo->Enable();
     	modelVao.DebugDrawElements(modelEbo);
         modelEbo->Disable();
         modelVao.Disable();
-
+		glDisable(GL_DEPTH_TEST);
         shader3d.Disable();
 
         renderer2d.Begin();
-        renderer2d.DrawRectangle({ 100, 100 }, 100, 100, Color::Blue);
+        renderer2d.DrawRectangle(pos, 100, 100, Color::Blue);
         renderer2d.End();
         renderer2d.Present();
 		
