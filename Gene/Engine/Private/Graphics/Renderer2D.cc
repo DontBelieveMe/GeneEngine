@@ -71,7 +71,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
     colorAttribDesc.Index               = 1;
     colorAttribDesc.ComponentCount      = 3;
     colorAttribDesc.Stride              = sizeof(Vertex);
-    colorAttribDesc.ByteOfffset         = sizeof(Vector3);
+	colorAttribDesc.ByteOfffset			= offsetof(Vertex, Color);
 
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
