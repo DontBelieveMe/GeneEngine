@@ -73,8 +73,15 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
     colorAttribDesc.Stride              = sizeof(Vertex);
 	colorAttribDesc.ByteOfffset			= offsetof(Vertex, Color);
 
+	AttributeDescriptor					uvAttribDesc;
+	uvAttribDesc.Index					= 2;
+	uvAttribDesc.ComponentCount			= 2;
+	uvAttribDesc.Stride					= sizeof(Vertex);
+	uvAttribDesc.ByteOfffset			= offsetof(Vertex, UV);
+
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
+	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
 }
 
 void Renderer2D::DrawString(Font *font, 
@@ -87,38 +94,44 @@ void Renderer2D::DrawString(Font *font,
 	texture_font_t *ftFont = font->TextureFont();
 	ColorRGB rgbPack = color.GetRGBStruct();
 
+	Texture2D *glTexture = font->GLTexture();
+	
 	float xPos = pos.X;
 	float yPos = pos.Y;
 
 	const char *cText = text.c_str();
-
+	
 	for (size_t i = 0; i < text.length(); i++)
 	{
 		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, cText + i);
 
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
 
+		//FillRectangle({ xPos, yPos }, glyph->width, glyph->height, color);
+
+		m_Buffer->Position = Vector3(xPos, yPos, 0.f);
+		m_Buffer->Color = rgbPack;
+		m_Buffer->UV = Vector2(glyph->s0, glyph->t0);
+		m_Buffer++;
+
+		m_Buffer->Position = Vector3(xPos + glyph->width, yPos, 0.f);
+		m_Buffer->Color = rgbPack;
+		m_Buffer->UV = Vector2(glyph->s1, glyph->t0);
+		m_Buffer++;
+
+		m_Buffer->Position = Vector3(xPos + glyph->width, yPos + glyph->height, 0.f);
+		m_Buffer->Color = rgbPack;
+		m_Buffer->UV = Vector2(glyph->s1, glyph->t1);
+		m_Buffer++;
+
+		m_Buffer->Position = Vector3(xPos, yPos + glyph->height, 0.f);
+		m_Buffer->Color = rgbPack;
+		m_Buffer->UV = Vector2(glyph->s0, glyph->t1);
+		m_Buffer++;
+
 		xPos += glyph->advance_x;
-		FillRectangle({ xPos, yPos }, glyph->width, glyph->height, color);
-		/*float topLeftX = position.X + 
 
-		m_Buffer->Position = Vector3(position, 0.f);
-		m_Buffer->Color = rgbCol;
-		m_Buffer++;
-
-		m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
-		m_Buffer->Color = rgbCol;
-		m_Buffer++;
-
-		m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
-		m_Buffer->Color = rgbCol;
-		m_Buffer++;
-
-		m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
-		m_Buffer->Color = rgbCol;
-		m_Buffer++;
-
-		m_IndexCount += 6;*/
+		m_IndexCount += 6;
 	}
 }
 

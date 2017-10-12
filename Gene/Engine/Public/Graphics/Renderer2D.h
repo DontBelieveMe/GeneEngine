@@ -18,6 +18,7 @@ namespace Gene { namespace Graphics {
 	{
 		Vector3 Position;
         ColorRGB Color;
+		Vector2 UV;
 	};
 
     class Renderer2D

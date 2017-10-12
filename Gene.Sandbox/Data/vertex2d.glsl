@@ -2,8 +2,10 @@
 
 in vec3 position; 
 in vec3 color;
+in vec2 uv;
 
 out vec3 passColor;
+out vec2 passUv;
 
 uniform mat4 u_Projection;
 

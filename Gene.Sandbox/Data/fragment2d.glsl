@@ -3,8 +3,11 @@
 out vec4 color;
 
 in vec3 passColor;
+in vec2 passUv;
+
+uniform sampler2D textureSampler;
 
 void main()
 {
-   color = vec4(passColor.rgb, 1.0f);
+   color = texture(textureSampler, passUv); //vec4(passColor.rgb, 1.0f);
 }

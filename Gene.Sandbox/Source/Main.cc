@@ -63,6 +63,7 @@ int main()
 	shader2d.Enable();
 	shader2d.BindAttributeIndex(0, "position");
 	shader2d.BindAttributeIndex(1, "color");
+	shader2d.BindAttributeIndex(2, "uv");
 
 	Renderer2D renderer2d;
 	renderer2d.Init(
@@ -97,14 +98,13 @@ int main()
         modelVao.Disable();
 		glDisable(GL_DEPTH_TEST);
         shader3d.Disable();
-
         renderer2d.Begin();
 		renderer2d.DrawString(&wendyOneFont, "Hello World!", { 10, 10 }, Color::Red);
-        renderer2d.FillRectangle(pos, 100, 100, Color::Blue);
-		renderer2d.FillRectangle({ 200, 200 }, 50, 50, Color::Black);
         renderer2d.End();
+		wendyOneFont.GLTexture()->Enable();
         renderer2d.Present();
-		
+		wendyOneFont.GLTexture()->Disable();
+
         window->SwapBuffers();
 		window->PollEvents();
 	}
