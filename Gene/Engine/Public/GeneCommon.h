@@ -2,8 +2,16 @@
 #include <assert.h>
 #include <vector>
 
-#define GE_ASSERT(cond) \
-	assert(cond)
+inline void logf() {}
+
+template <typename... Args>
+inline void logf(const char *t, Args... args)
+{
+	printf(t, args...);
+}
+
+#define GE_ASSERT(cond, ...) \
+	logf(__VA_ARGS__); assert(cond)
 
 namespace Gene { 
     typedef unsigned char  byte;

@@ -90,12 +90,15 @@ void Renderer2D::DrawString(Font *font,
 	float xPos = pos.X;
 	float yPos = pos.Y;
 
+	const char *cText = text.c_str();
+
 	for (size_t i = 0; i < text.length(); i++)
 	{
-		char character = text[i];
-		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &character);
+		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, cText + i);
+		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
+
 		xPos += glyph->advance_x;
-		
+		FillRectangle({ xPos, yPos }, glyph->width, glyph->height, color);
 		/*float topLeftX = position.X + 
 
 		m_Buffer->Position = Vector3(position, 0.f);
