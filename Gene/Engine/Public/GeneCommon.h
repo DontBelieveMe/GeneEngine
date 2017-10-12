@@ -2,16 +2,29 @@
 #include <assert.h>
 #include <vector>
 
-inline void logf() {}
+#include <Platform/OS.h>
+
+#ifdef GENE_COMPILER_MSVC
+	#define GE_FORCEINLINE __forceinline
+#else
+	#define GE_FORCEINLINE inline
+#endif
+
+#define GE_ASSERT(cond, ...) \
+	do { \
+		if(!cond){ \
+			logf(__VA_ARGS__); \
+			assert(cond); \
+		} \
+	} while(0) \
+
+GE_FORCEINLINE void logf() {}
 
 template <typename... Args>
-inline void logf(const char *t, Args... args)
+GE_FORCEINLINE void logf(const char *t, Args... args)
 {
 	printf(t, args...);
 }
-
-#define GE_ASSERT(cond, ...) \
-	logf(__VA_ARGS__); assert(cond)
 
 namespace Gene { 
     typedef unsigned char  byte;
