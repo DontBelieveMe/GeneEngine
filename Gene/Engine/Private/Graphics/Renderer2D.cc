@@ -29,6 +29,31 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
+void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
+{
+	float width = texture->Width();
+	float height = texture->Height();
+
+	m_Texture = texture;
+	m_Buffer->Position = Vector3(position, 0.f);
+	m_Buffer->UV = Vector2(0, 0);
+	m_Buffer++;
+
+	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
+	m_Buffer->UV = Vector2(1, 0);
+	m_Buffer++;
+
+	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
+	m_Buffer->UV = Vector2(1, 1);
+	m_Buffer++;
+
+	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
+	m_Buffer->UV = Vector2(0, 1);
+	m_Buffer++;
+
+	m_IndexCount += 6;
+}
+
 void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 {
     m_ProjectionMatrix  = projectionMatrix;
@@ -107,8 +132,6 @@ void Renderer2D::DrawString(Font *font,
 
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
 
-		//FillRectangle({ xPos, yPos }, glyph->width, glyph->height, color);
-
 		m_Buffer->Position = Vector3(xPos, yPos, 0.f);
 		m_Buffer->Color = rgbPack;
 		m_Buffer->UV = Vector2(glyph->s0, glyph->t0);
@@ -175,7 +198,9 @@ void Renderer2D::End()
 void Renderer2D::Present()
 {
 	m_Shader->Enable();
+	m_Texture->Enable();
     m_VAO->DebugDrawElements(m_EBO, m_IndexCount);
+	m_Texture->Disable();
 	m_IndexCount = 0;
 	m_Shader->Disable();
 }

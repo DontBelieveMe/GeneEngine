@@ -53,7 +53,7 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
+    //Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
 
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
@@ -70,7 +70,8 @@ int main()
         Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.f, -1.f),
 		&shader2d
 	);
-	 
+
+	Texture2D texture("Data/face.png");
 	window->Show();
 	
     float suzanneTheta = 180.f;
@@ -81,7 +82,7 @@ int main()
     {
 		KeyboardState state = Keyboard::GetState();
 
-        shader3d.Enable();
+        /*shader3d.Enable();
 		
         suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
@@ -90,20 +91,20 @@ int main()
 	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		glEnable(GL_DEPTH_TEST);
         modelVao.Enable();
         modelEbo->Enable();
     	modelVao.DebugDrawElements(modelEbo);
         modelEbo->Disable();
         modelVao.Disable();
-		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_DEPTH_TEST);*/
+
         shader3d.Disable();
         renderer2d.Begin();
-		renderer2d.DrawString(&wendyOneFont, "Hello World!", { 10, 10 }, Color::Red);
-        renderer2d.End();
-		wendyOneFont.GLTexture()->Enable();
+		renderer2d.DrawTexture({ 10, 10 }, &texture);
+		renderer2d.End();
         renderer2d.Present();
-		wendyOneFont.GLTexture()->Disable();
 
         window->SwapBuffers();
 		window->PollEvents();

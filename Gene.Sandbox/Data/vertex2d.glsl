@@ -13,4 +13,5 @@ void main()
 {
 	gl_Position = u_Projection * vec4(position, 1.0);
 	passColor = color;
+	passUv = uv;
 }     

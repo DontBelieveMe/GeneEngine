@@ -9,6 +9,7 @@
 #include <Graphics/VertexArray.h>
 #include <Graphics/Buffer.h>
 #include <Graphics/GLSLShader.h>
+#include <Graphics/Texture2D.h>
 
 #include <string>
 
@@ -32,7 +33,7 @@ namespace Gene { namespace Graphics {
 		Vertex *m_Buffer;
 		GLSLShader *m_Shader;
 		Matrix4 m_ProjectionMatrix;
-
+		Texture2D *m_Texture;
     public:
 		Renderer2D();
 
@@ -42,6 +43,7 @@ namespace Gene { namespace Graphics {
 						const Graphics::Color color
 		);
 
+		void DrawTexture(Vector2 position, Texture2D *texture);
 		void FillRectangle(Vector2 position, float width, float height, const Color& color);
 
 		void Init(const Matrix4& projectionMatrix, GLSLShader *shader);

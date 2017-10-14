@@ -31,7 +31,7 @@ namespace Gene { namespace Graphics {
         inline unsigned int Width()    const { return m_Width; }
         inline unsigned int Height()   const { return m_Height; }
 		inline bool         IsLoaded() const { return m_Loaded; }
-        inline void			Enable()   const { glBindTexture(GL_TEXTURE_2D, m_TextureId); }
+		inline void			Enable()   const { glBindTexture(GL_TEXTURE_2D, m_TextureId); glActiveTexture(GL_TEXTURE0); }
         inline void			Disable()  const { glBindTexture(GL_TEXTURE_2D, 0); }
         const uint8        *Data()     const { return &m_Pixels[0]; }
 
