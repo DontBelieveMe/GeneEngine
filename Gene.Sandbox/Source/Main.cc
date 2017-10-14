@@ -9,6 +9,7 @@
 #include <memory>
 #include <Content/OBJModelLoader.h>
 #include <GeneCommon.h>
+#include <Platform/Time.h>
 #include <Graphics/Light.h>
 #include <Input/Keyboard.h>
 #include <Graphics/Font.h>
@@ -64,6 +65,7 @@ int main()
 	shader2d.BindAttributeIndex(0, "position");
 	shader2d.BindAttributeIndex(1, "color");
 	shader2d.BindAttributeIndex(2, "uv");
+	shader2d.BindAttributeIndex(3, "texId");
 
 	Renderer2D renderer2d;
 	renderer2d.Init(
@@ -71,17 +73,24 @@ int main()
 		&shader2d
 	);
 
-	Texture2D texture("Data/face.png");
+	Texture2D texture;
+	texture.Filtering = Texture2D::FilteringOptions::Linear;
+	texture.Load("Data/face.png");
 	window->Show();
 	
     float suzanneTheta = 180.f;
     Vector3 suzannePosition(0, 0, -5.f);
-	Vector2 pos(100, 100);
+	Vector2 pos(10, 10);
+	GameTime gameTime;
+	gameTime.Init();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     while (window->Running())
     {
 		KeyboardState state = Keyboard::GetState();
-
+		gameTime.StartFrame();
         /*shader3d.Enable();
 		
         suzanneTheta += 1.f;
@@ -99,15 +108,17 @@ int main()
         modelEbo->Disable();
         modelVao.Disable();
 		glDisable(GL_DEPTH_TEST);*/
-
+		
         shader3d.Disable();
         renderer2d.Begin();
-		renderer2d.DrawTexture({ 10, 10 }, &texture);
+		renderer2d.DrawTexture(pos, &texture);
 		renderer2d.End();
         renderer2d.Present();
 
         window->SwapBuffers();
 		window->PollEvents();
+		gameTime.EndFrame();
+		gameTime.Sleep(1000 / 60);
 	}
 	
 	renderer2d.Destroy();

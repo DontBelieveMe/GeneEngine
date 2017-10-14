@@ -61,7 +61,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 
 	m_Shader->Enable();
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
-	
+
 	m_VAO = new VertexArray;
     m_VAO->Enable();
 
@@ -104,9 +104,16 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 	uvAttribDesc.Stride					= sizeof(Vertex);
 	uvAttribDesc.ByteOfffset			= offsetof(Vertex, UV);
 
+	AttributeDescriptor					texIdAttrib;
+	texIdAttrib.Index					= 3;
+	texIdAttrib.ComponentCount			= 1;
+	texIdAttrib.Stride					= sizeof(Vertex);
+	texIdAttrib.ByteOfffset			= offsetof(Vertex, TextureId);
+
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
+	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
 }
 
 void Renderer2D::DrawString(Font *font, 

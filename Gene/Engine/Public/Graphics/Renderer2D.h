@@ -20,6 +20,7 @@ namespace Gene { namespace Graphics {
 		Vector3 Position;
         ColorRGB Color;
 		Vector2 UV;
+		float TextureId;
 	};
 
     class Renderer2D
@@ -34,7 +35,7 @@ namespace Gene { namespace Graphics {
 		GLSLShader *m_Shader;
 		Matrix4 m_ProjectionMatrix;
 		Texture2D *m_Texture;
-    public:
+	public:
 		Renderer2D();
 
         void DrawString(Font *font, 

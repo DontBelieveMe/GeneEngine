@@ -4,6 +4,7 @@ out vec4 color;
 
 in vec3 passColor;
 in vec2 passUv;
+in float passTexId;
 
 uniform sampler2D textureSampler;
 
