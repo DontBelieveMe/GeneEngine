@@ -49,7 +49,7 @@ int main()
 	
 	Texture2D texture;
 	texture.Filtering = Texture2D::FilteringOptions::Nearest;
-	texture.Load("Data/textures.png");
+	texture.Load("Data/textures.png", 0);
 	texture.Enable();
 
 	window->SetClearColor(Color::CornflowerBlue);

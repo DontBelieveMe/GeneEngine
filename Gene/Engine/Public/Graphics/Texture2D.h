@@ -16,26 +16,28 @@ namespace Gene { namespace Graphics {
 		GLuint					   m_TextureId;
 		unsigned int			   m_Width;
 		unsigned int			   m_Height;
-	
+		int32					   m_Index;
+
 	private:
 		void GenerateGLId();
 
 	public:
-		Texture2D(const char *filepath);
+		Texture2D(const char *filepath, Gene::int32 index);
 		Texture2D(): m_Loaded(false) {}
+		~Texture2D();
 
-		void Load(const char *path);
-		void Load(uint8 *data, unsigned width, unsigned height);
+		void Load(const char *path, int32 index);
+		void Load(uint8 *data, unsigned width, unsigned height, int32 index);
 
         inline GLuint       Id()       const { return m_TextureId; }
         inline unsigned int Width()    const { return m_Width; }
         inline unsigned int Height()   const { return m_Height; }
 		inline bool         IsLoaded() const { return m_Loaded; }
-		inline void			Enable()   const { glBindTexture(GL_TEXTURE_2D, m_TextureId); glActiveTexture(GL_TEXTURE0); }
-        inline void			Disable()  const { glBindTexture(GL_TEXTURE_2D, 0); }
+		void				Enable(int32 index); 
+		void				Disable(int32 index);   
         const uint8        *Data()     const { return &m_Pixels[0]; }
 
-		Math::Vector2 SubTextureUV(float x, float y, float width, float height);
+		Vector2 SubTextureUV(float x, float y, float width, float height);
 
 		enum class FilteringOptions
 		{

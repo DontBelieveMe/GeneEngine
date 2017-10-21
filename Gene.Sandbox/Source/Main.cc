@@ -75,7 +75,7 @@ int main()
 
 	Texture2D texture;
 	texture.Filtering = Texture2D::FilteringOptions::Linear;
-	texture.Load("Data/face.png");
+	texture.Load("Data/face.png", 0);
 	window->Show();
 	
     float suzanneTheta = 180.f;

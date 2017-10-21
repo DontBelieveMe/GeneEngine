@@ -22,7 +22,7 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	m_Texture->Format    = Texture2D::PixelFormat::Red;
 	m_Texture->Filtering = Texture2D::FilteringOptions::Linear;
 
-	m_Texture->Load(m_Atlas->data, ATLAS_SIZE, ATLAS_SIZE);
+	m_Texture->Load(m_Atlas->data, ATLAS_SIZE, ATLAS_SIZE, 0);
 }
 
 Font::~Font() 
