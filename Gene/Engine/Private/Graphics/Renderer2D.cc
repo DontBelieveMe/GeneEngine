@@ -32,23 +32,29 @@ Renderer2D::Renderer2D() : m_IndexCount(0) {}
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 {
 	float width = texture->Width();
-	float height = texture->Height();
+    float height = texture->Height();
+
+    float tid = this->GetTextureSlot(texture);
 
 	m_Texture = texture;
 	m_Buffer->Position = Vector3(position, 0.f);
 	m_Buffer->UV = Vector2(0, 0);
+    m_Buffer->TextureId = tid;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
 	m_Buffer->UV = Vector2(1, 0);
+    m_Buffer->TextureId = tid;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(1, 1);
+    m_Buffer->TextureId = tid;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(0, 1);
+    m_Buffer->TextureId = tid;
 	m_Buffer++;
 
 	m_IndexCount += 6;
@@ -132,7 +138,8 @@ void Renderer2D::DrawString(Font *font,
 	float yPos = pos.Y;
 
 	const char *cText = text.c_str();
-	
+    float tid = GetTextureSlot(glTexture);
+
 	for (size_t i = 0; i < text.length(); i++)
 	{
 		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, cText + i);
@@ -142,27 +149,49 @@ void Renderer2D::DrawString(Font *font,
 		m_Buffer->Position = Vector3(xPos, yPos, 0.f);
 		m_Buffer->Color = rgbPack;
 		m_Buffer->UV = Vector2(glyph->s0, glyph->t0);
+        m_Buffer->TextureId = tid;
 		m_Buffer++;
 
 		m_Buffer->Position = Vector3(xPos + glyph->width, yPos, 0.f);
 		m_Buffer->Color = rgbPack;
 		m_Buffer->UV = Vector2(glyph->s1, glyph->t0);
+        m_Buffer->TextureId = tid;
 		m_Buffer++;
 
 		m_Buffer->Position = Vector3(xPos + glyph->width, yPos + glyph->height, 0.f);
 		m_Buffer->Color = rgbPack;
 		m_Buffer->UV = Vector2(glyph->s1, glyph->t1);
-		m_Buffer++;
+        m_Buffer->TextureId = tid;
+        m_Buffer++;
 
 		m_Buffer->Position = Vector3(xPos, yPos + glyph->height, 0.f);
 		m_Buffer->Color = rgbPack;
 		m_Buffer->UV = Vector2(glyph->s0, glyph->t1);
-		m_Buffer++;
+        m_Buffer->TextureId = tid;
+        m_Buffer++;
 
 		xPos += glyph->advance_x;
 
 		m_IndexCount += 6;
 	}
+}
+
+float Renderer2D::GetTextureSlot(Texture2D *texture)
+{
+    GE_ASSERT(m_Textures.size() <= 32);
+    GE_ASSERT(m_Textures.size() >= 0);
+
+    for(int i = 0; i < m_Textures.size(); i++)
+    {
+        if(texture == m_Textures[i])
+        {
+            return static_cast<float>(i);
+        }
+    }
+
+    // The texture is not in the list...
+    m_Textures.push_back(texture);
+    return m_Textures.size() - 1;
 }
 
 void Renderer2D::FillRectangle(Vector2 position, float width, float height, const Color& color)
@@ -171,19 +200,23 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
 
 	m_Buffer->Position = Vector3(position, 0.f);
     m_Buffer->Color = rgbCol;
-	m_Buffer++;
+    m_Buffer->TextureId = -1;
+    m_Buffer++;
 	
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
     m_Buffer->Color = rgbCol;
-	m_Buffer++;
+    m_Buffer->TextureId = -1;
+    m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
     m_Buffer->Color = rgbCol;
-	m_Buffer++;
+    m_Buffer->TextureId = -1;
+    m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
     m_Buffer->Color = rgbCol;
-	m_Buffer++;
+    m_Buffer->TextureId = -1;
+    m_Buffer++;
 
 	m_IndexCount += 6;
 }
@@ -205,11 +238,23 @@ void Renderer2D::End()
 void Renderer2D::Present()
 {
 	m_Shader->Enable();
-	m_Texture->Enable();
+
+    for(int i = 0; i < m_Textures.size(); i++)
+    {
+        m_Textures[i]->Enable(i);
+    }
+
     m_VAO->DebugDrawElements(m_EBO, m_IndexCount);
-	m_Texture->Disable();
-	m_IndexCount = 0;
+
+    for(int i = 0; i < m_Textures.size(); i++)
+    {
+        m_Textures[i]->Disable(i);
+    }
+
+    m_IndexCount = 0;
 	m_Shader->Disable();
+
+    m_Textures.clear();
 }
 
 void Renderer2D::Destroy()

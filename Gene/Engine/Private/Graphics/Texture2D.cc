@@ -56,7 +56,7 @@ void Texture2D::GenerateGLId()
 
 	glGenTextures(1, &m_TextureId);
 
-	Enable();
+    glBindTexture(GL_TEXTURE_2D, m_TextureId);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
@@ -73,7 +73,7 @@ void Texture2D::GenerateGLId()
 		pData
 	);
 
-	Disable();
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Vector2 Texture2D::SubTextureUV(float x, float y, float width, float height)
@@ -87,11 +87,12 @@ void Texture2D::Enable(int32 index)
 {
 	// This is safe, as GL_TEXTURE<index> = GL_TEXTURE0 + <index>
 	// https://www.khronos.org/registry/OpenGL-Refpages/es1.1/xhtml/glActiveTexture.xml
-	glBindTexture(GL_TEXTURE_2D, m_TextureId); 
-	glActiveTexture(GL_TEXTURE0 + index);
+    glActiveTexture(GL_TEXTURE0 + index);
+    glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }
 
 void Texture2D::Disable(int32 index)
 {
+    glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

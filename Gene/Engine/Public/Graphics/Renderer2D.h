@@ -12,29 +12,35 @@
 #include <Graphics/Texture2D.h>
 
 #include <string>
+#include <vector>
 
 namespace Gene { namespace Graphics {
     
 	struct Vertex 
 	{
-		Vector3 Position;
-        ColorRGB Color;
-		Vector2 UV;
-		float TextureId;
+        Vector3     Position;
+        ColorRGB    Color;
+        Vector2     UV;
+        float       TextureId;
 	};
 
     class Renderer2D
     {
 	private:
-		VertexArray *m_VAO;
-		Buffer *m_VBO;
-		Buffer *m_EBO;
-		int m_IndexCount;
+        VertexArray             *m_VAO;
+        Buffer                  *m_VBO;
+        Buffer                  *m_EBO;
+        int                      m_IndexCount;
 
-		Vertex *m_Buffer;
-		GLSLShader *m_Shader;
-		Matrix4 m_ProjectionMatrix;
-		Texture2D *m_Texture;
+        Vertex                  *m_Buffer;
+        GLSLShader              *m_Shader;
+        Matrix4                  m_ProjectionMatrix;
+        Texture2D               *m_Texture;
+        std::vector<Texture2D*>  m_Textures;
+
+    private:
+        float GetTextureSlot(Texture2D *texture);
+
 	public:
 		Renderer2D();
 

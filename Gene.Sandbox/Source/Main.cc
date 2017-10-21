@@ -35,7 +35,7 @@ int main()
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
-    window->SetClearColor(Color::CornflowerBlue);
+    window->SetClearColor(Color::Green);
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
@@ -54,7 +54,7 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    //Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
+    Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
 
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
@@ -73,9 +73,18 @@ int main()
 		&shader2d
 	);
 
-	Texture2D texture;
-	texture.Filtering = Texture2D::FilteringOptions::Linear;
-	texture.Load("Data/face.png", 0);
+    Texture2D texture1;
+    texture1.Filtering = Texture2D::FilteringOptions::Linear;
+    texture1.Load("Data/face.png", 0);
+
+    Texture2D texture2;
+    texture2.Filtering = Texture2D::FilteringOptions::Linear;
+    texture2.Load("Data/twitter.png", 0);
+
+    GLint texIds[] = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    };
+    shader2d.LoadUniform1iv("textureSamplers", texIds, 10);
 	window->Show();
 	
     float suzanneTheta = 180.f;
@@ -91,7 +100,7 @@ int main()
     {
 		KeyboardState state = Keyboard::GetState();
 		gameTime.StartFrame();
-        /*shader3d.Enable();
+        shader3d.Enable();
 		
         suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
@@ -100,18 +109,22 @@ int main()
 	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		glEnable(GL_DEPTH_TEST);
         modelVao.Enable();
         modelEbo->Enable();
     	modelVao.DebugDrawElements(modelEbo);
         modelEbo->Disable();
         modelVao.Disable();
-		glDisable(GL_DEPTH_TEST);*/
-		
         shader3d.Disable();
+        glDisable(GL_DEPTH_TEST);
+
+
         renderer2d.Begin();
-		renderer2d.DrawTexture(pos, &texture);
+        renderer2d.DrawTexture(pos, &texture1);
+        renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
+        renderer2d.FillRectangle({425, 50}, 100, 100, Color::Red);
+        //renderer2d.DrawString(&wendyOneFont, "Hello World!", {100, 100}, Color::Red);
 		renderer2d.End();
         renderer2d.Present();
 

@@ -32,5 +32,8 @@ namespace Gene { namespace Graphics {
 
 		inline void LoadUniformMatrix4f(const char *uniform, const Math::Matrix4& mat)
             { glUniformMatrix4fv(UniformLocation(uniform), 1, GL_TRUE, mat.Elements); }
-	};
+
+        inline void LoadUniform1iv(const char *uniform, int * value, int count)
+            { glUniform1iv(UniformLocation(uniform), count, value); }
+    };
 }}
