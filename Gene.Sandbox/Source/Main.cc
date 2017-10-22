@@ -75,16 +75,13 @@ int main()
 
     Texture2D texture1;
     texture1.Filtering = Texture2D::FilteringOptions::Linear;
-    texture1.Load("Data/face.png", 0);
+    texture1.Load("Data/face.png");
 
     Texture2D texture2;
     texture2.Filtering = Texture2D::FilteringOptions::Linear;
-    texture2.Load("Data/twitter.png", 0);
+    texture2.Load("Data/twitter.png");
 
-    GLint texIds[] = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-    };
-    shader2d.LoadUniform1iv("textureSamplers", texIds, 10);
+    
 	window->Show();
 	
     float suzanneTheta = 180.f;
@@ -121,10 +118,13 @@ int main()
 
 
         renderer2d.Begin();
-        renderer2d.DrawTexture(pos, &texture1);
-        renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
+        //renderer2d.DrawTexture(pos, &texture1);
+        
+        //renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
         renderer2d.FillRectangle({425, 50}, 100, 100, Color::Red);
-        //renderer2d.DrawString(&wendyOneFont, "Hello World!", {100, 100}, Color::Red);
+
+
+        renderer2d.DrawString(&wendyOneFont, "Hello World!", {100, 100}, Color::Red);
 		renderer2d.End();
         renderer2d.Present();
 

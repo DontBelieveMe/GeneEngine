@@ -29,36 +29,6 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
-void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
-{
-	float width = texture->Width();
-    float height = texture->Height();
-
-    float tid = this->GetTextureSlot(texture);
-
-	m_Texture = texture;
-	m_Buffer->Position = Vector3(position, 0.f);
-	m_Buffer->UV = Vector2(0, 0);
-    m_Buffer->TextureId = tid;
-	m_Buffer++;
-
-	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
-	m_Buffer->UV = Vector2(1, 0);
-    m_Buffer->TextureId = tid;
-	m_Buffer++;
-
-	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
-	m_Buffer->UV = Vector2(1, 1);
-    m_Buffer->TextureId = tid;
-	m_Buffer++;
-
-	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
-	m_Buffer->UV = Vector2(0, 1);
-    m_Buffer->TextureId = tid;
-	m_Buffer++;
-
-	m_IndexCount += 6;
-}
 
 void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 {
@@ -67,6 +37,11 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 
 	m_Shader->Enable();
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
+
+	GLint texIds[] = {
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	};
+	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
 
 	m_VAO = new VertexArray;
     m_VAO->Enable();
@@ -122,6 +97,37 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
 }
 
+void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
+{
+	float width = texture->Width();
+    float height = texture->Height();
+
+    float tid = this->GetTextureSlot(texture);
+
+	m_Texture = texture;
+	m_Buffer->Position = Vector3(position, 0.f);
+	m_Buffer->UV = Vector2(0, 0);
+    m_Buffer->TextureId = tid;
+	m_Buffer++;
+
+	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
+	m_Buffer->UV = Vector2(1, 0);
+    m_Buffer->TextureId = tid;
+	m_Buffer++;
+
+	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
+	m_Buffer->UV = Vector2(1, 1);
+    m_Buffer->TextureId = tid;
+	m_Buffer++;
+
+	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
+	m_Buffer->UV = Vector2(0, 1);
+    m_Buffer->TextureId = tid;
+	m_Buffer++;
+
+	m_IndexCount += 6;
+}
+
 void Renderer2D::DrawString(Font *font, 
 						    const std::string &text, 
 						    const Math::Vector2& pos, 
@@ -139,10 +145,13 @@ void Renderer2D::DrawString(Font *font,
 
 	const char *cText = text.c_str();
     float tid = GetTextureSlot(glTexture);
+    //DrawTexture(pos, glTexture);
 
+    
 	for (size_t i = 0; i < text.length(); i++)
 	{
-		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, cText + i);
+        char c = text[i];
+		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &c);
 
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
 

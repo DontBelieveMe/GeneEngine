@@ -15,25 +15,15 @@ void main()
         color = vec4(passColor.rgb, 1.0f);
     } else {
         int index = int(passTexId);
-        // You know, because fuck non constant integral expressions for indexing sampler arrays
-        if(index < 8)
-        {
-            if(index < 4)
-            {
-                if(index < 2)
-                {
-                    if(index == 0) color = texture(textureSamplers[0], passUv);
-                    else color = texture(textureSamplers[1], passUv);
-                } else
-                {
-                    if(index == 2) color = texture(textureSamplers[2], passUv);
-                    else color = texture(textureSamplers[3], passUv);
-                }
-            } else {
-                if(index == 4) color = texture(textureSamplers[4], passUv);
-                else color = texture(textureSamplers[5], passUv);
-            }
-        }
+		for(int i = 0; i < 32; i++)
+		{
+			if(i == index)
+			{
+				vec4 col = texture(textureSamplers[i], passUv);
+				col.a = 1.0;
+				color = col * vec4(passColor, 1.0);
+				break;
+			}
+		}
     }
-//    color = texture(textureSamplers[1], passUv); //vec4(passColor.rgb, 1.0f);
 }

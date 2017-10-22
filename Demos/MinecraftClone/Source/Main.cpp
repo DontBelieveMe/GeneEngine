@@ -49,8 +49,8 @@ int main()
 	
 	Texture2D texture;
 	texture.Filtering = Texture2D::FilteringOptions::Nearest;
-	texture.Load("Data/textures.png", 0);
-	texture.Enable();
+	texture.Load("Data/textures.png");
+	texture.Enable(0);
 
 	window->SetClearColor(Color::CornflowerBlue);
 
@@ -77,6 +77,7 @@ int main()
 
 		KeyboardState state = Keyboard::GetState();
 		if (state.IsKeyDown(Keys::Q)) break;
+        
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.Draw();
 		

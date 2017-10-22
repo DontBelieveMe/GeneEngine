@@ -16,18 +16,17 @@ namespace Gene { namespace Graphics {
 		GLuint					   m_TextureId;
 		unsigned int			   m_Width;
 		unsigned int			   m_Height;
-		int32					   m_Index;
-
+		
 	private:
 		void GenerateGLId();
 
 	public:
-		Texture2D(const char *filepath, Gene::int32 index);
+		Texture2D(const char *filepath);
 		Texture2D(): m_Loaded(false) {}
 		~Texture2D();
 
-		void Load(const char *path, int32 index);
-		void Load(uint8 *data, unsigned width, unsigned height, int32 index);
+		void Load(const char *path);
+		void Load(uint8 *data, unsigned width, unsigned height);
 
         inline GLuint       Id()       const { return m_TextureId; }
         inline unsigned int Width()    const { return m_Width; }
