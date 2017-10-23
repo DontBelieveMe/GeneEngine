@@ -15,8 +15,10 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	
 	m_Atlas = texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
 	m_Font  = texture_font_new_from_file(m_Atlas, size, fontFile);
-    //texture_font_load_glyphs(m_Font, "The quick brown fox jumps over the lazy dog 1234567890");
-    
+
+    // For now just hack it and load all the ASCII characters
+    // TODO: Remove this and do glyph loading on the fly when drawing the string
+    //       Hence only loading the characters we need
     for (char c = '!'; c <= '~'; ++c) {
         texture_font_load_glyph(m_Font, &c);
     }

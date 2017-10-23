@@ -97,6 +97,7 @@ int main()
     {
 		KeyboardState state = Keyboard::GetState();
 		gameTime.StartFrame();
+        std::cout << gameTime.DeltaInMilliSeconds() << std::endl;
         shader3d.Enable();
 		
         suzanneTheta += 1.f;
@@ -121,10 +122,9 @@ int main()
         //renderer2d.DrawTexture(pos, &texture1);
         
         //renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
-        renderer2d.FillRectangle({425, 50}, 100, 100, Color::Red);
+        renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
 
-
-        renderer2d.DrawString(&wendyOneFont, "Hello World!", {100, 100}, Color::Red);
+        renderer2d.DrawString(&wendyOneFont, "Hello World!", {50, 50}, Color::CornflowerBlue);
 		renderer2d.End();
         renderer2d.Present();
 

@@ -29,7 +29,6 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
-
 void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 {
     m_ProjectionMatrix  = projectionMatrix;
@@ -143,39 +142,37 @@ void Renderer2D::DrawString(Font *font,
 	float xPos = pos.X;
 	float yPos = pos.Y;
 
-	const char *cText = text.c_str();
     float tid = GetTextureSlot(glTexture);
-    //DrawTexture(pos, glTexture);
 
-    
 	for (size_t i = 0; i < text.length(); i++)
 	{
         char c = text[i];
 		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &c);
 
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
+        float tmpY = yPos + glyph->advance_y;
 
-		m_Buffer->Position = Vector3(xPos, yPos, 0.f);
-		m_Buffer->Color = rgbPack;
-		m_Buffer->UV = Vector2(glyph->s0, glyph->t0);
+        m_Buffer->Position  = Vector3(xPos, tmpY, 0.f);
+        m_Buffer->Color     = rgbPack;
+        m_Buffer->UV        = Vector2(glyph->s0, glyph->t0);
         m_Buffer->TextureId = tid;
 		m_Buffer++;
 
-		m_Buffer->Position = Vector3(xPos + glyph->width, yPos, 0.f);
-		m_Buffer->Color = rgbPack;
-		m_Buffer->UV = Vector2(glyph->s1, glyph->t0);
+        m_Buffer->Position  = Vector3(xPos + glyph->width, tmpY, 0.f);
+        m_Buffer->Color     = rgbPack;
+        m_Buffer->UV        = Vector2(glyph->s1, glyph->t0);
         m_Buffer->TextureId = tid;
 		m_Buffer++;
 
-		m_Buffer->Position = Vector3(xPos + glyph->width, yPos + glyph->height, 0.f);
-		m_Buffer->Color = rgbPack;
-		m_Buffer->UV = Vector2(glyph->s1, glyph->t1);
+        m_Buffer->Position  = Vector3(xPos + glyph->width, tmpY + glyph->height, 0.f);
+        m_Buffer->Color     = rgbPack;
+        m_Buffer->UV        = Vector2(glyph->s1, glyph->t1);
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-		m_Buffer->Position = Vector3(xPos, yPos + glyph->height, 0.f);
-		m_Buffer->Color = rgbPack;
-		m_Buffer->UV = Vector2(glyph->s0, glyph->t1);
+        m_Buffer->Position  = Vector3(xPos, tmpY + glyph->height, 0.f);
+        m_Buffer->Color     = rgbPack;
+        m_Buffer->UV        = Vector2(glyph->s0, glyph->t1);
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
