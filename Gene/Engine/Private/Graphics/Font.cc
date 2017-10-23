@@ -15,7 +15,7 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	
 	m_Atlas = texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
 	m_Font  = texture_font_new_from_file(m_Atlas, size, fontFile);
-
+    
     // For now just hack it and load all the ASCII characters
     // TODO: Remove this and do glyph loading on the fly when drawing the string
     //       Hence only loading the characters we need

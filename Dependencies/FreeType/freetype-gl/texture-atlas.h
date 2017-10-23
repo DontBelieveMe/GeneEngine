@@ -70,6 +70,8 @@ namespace ftgl {
  */
 
 
+#define GE_FONT_DEPTH 2
+
 /**
  * A texture atlas is used to pack several small regions into a single texture.
  */

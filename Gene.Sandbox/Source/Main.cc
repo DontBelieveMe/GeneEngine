@@ -54,7 +54,7 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
+    Font wendyOneFont("Data/WendyOne-Regular.ttf", 80);
 
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
@@ -119,7 +119,7 @@ int main()
 
 
         renderer2d.Begin();
-        //renderer2d.DrawTexture(pos, &texture1);
+        renderer2d.DrawTexture(pos, &texture1);
         
         //renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
         renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);

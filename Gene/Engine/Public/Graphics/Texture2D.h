@@ -45,14 +45,15 @@ namespace Gene { namespace Graphics {
 			Default = GL_LINEAR
 		};
 
-		enum class PixelFormat
-		{
-            RGBA    = GL_RGBA,
-            RGB     = GL_RGBA,
-            BGRA    = GL_BGRA,
-            Red     = GL_RED,
+        enum class PixelFormat
+        {
+            RGBA = GL_RGBA,
+            RGB = GL_RGBA,
+            BGRA = GL_BGRA,
+            Red = GL_RED,
 
-			Default = GL_RGBA
+            Default = GL_RGBA,
+            LuminanceAlpha = GL_LUMINANCE_ALPHA
 		};
 
 		FilteringOptions Filtering = FilteringOptions::Default;

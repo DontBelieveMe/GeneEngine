@@ -15,16 +15,7 @@ void main()
         color = vec4(passColor.rgb, 1.0f);
     } else {
         int index = int(passTexId);
-/*		for(int i = 0; i < 32; i++)
-		{
-			if(i == index)
-			{
-				vec4 col = texture(textureSamplers[i], passUv);
-				col.a = 1.0;
-				color = col * vec4(passColor, 1.0);
-				break;
-			}
-		} */
+
         switch(index) {
             case 0: color = texture(textureSamplers[0], passUv); break;
             case 1: color = texture(textureSamplers[1], passUv); break;
@@ -37,6 +28,17 @@ void main()
             case 8: color = texture(textureSamplers[8], passUv); break;
             default: color = texture(textureSamplers[0], passUv); break;
         }
-        color = vec4(passColor.r, passColor.g, passColor.b, color.r);
+
+		//if((color.r <= 1.f && color.r >= 0.9f) && color.g <= 0.1f && color.b <= 0.1f)
+		//	color = vec4(passColor.r, passColor.g, passColor.b, color.r);
+		
+		if(color.r >= 1.f)
+			color = vec4(passColor.r, passColor.g, passColor.b, color.r);
+		/*
+		// Font I think...?
+		if(color.r > 0.9 && color.g < 0.1 && color.b < 0.1 && color.a < 0.1) 
+		{
+			color = vec4(passColor.r, passColor.g, passColor.b, color.r);
+		}*/
     }
 }

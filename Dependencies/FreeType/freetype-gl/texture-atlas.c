@@ -23,7 +23,8 @@ texture_atlas_new( const size_t width,
     // sampling texture
     ivec3 node = {{1,1,width-2}};
 
-    assert( (depth == 1) || (depth == 3) || (depth == 4) );
+    assert( (depth == 1) || (depth == 3) || (depth == 4) || (depth == GE_FONT_DEPTH) );
+
     if( self == NULL)
     {
         fprintf( stderr,
@@ -76,9 +77,12 @@ texture_atlas_set_region( texture_atlas_t * self,
                           const unsigned char * data,
                           const size_t stride )
 {
-    size_t i;
+    size_t i, j;
     size_t depth;
     size_t charsize;
+
+    unsigned char *row;
+    unsigned char *src;
 
     assert( self );
     assert( x > 0);
@@ -96,8 +100,20 @@ texture_atlas_set_region( texture_atlas_t * self,
     charsize = sizeof(char);
     for( i=0; i<height; ++i )
     {
-        memcpy( self->data+((y+i)*self->width + x ) * charsize * depth,
-                data + (i*stride) * charsize, width * charsize * depth  );
+        if (depth == GE_FONT_DEPTH)
+        {
+            row = self->data + ((y + i) * self->width + x) * charsize * depth;
+            src = data + (i * stride) * charsize;
+            for (j = 0; j < width; j++)
+            {
+                row[j * 2 + 0] = 0xff;
+                row[j * 2 + 1] = src[j];
+            }
+        }
+        else {
+            memcpy(self->data + ((y + i)*self->width + x) * charsize * depth,
+                data + (i*stride) * charsize, width * charsize * depth);
+        }
     }
 }
 
