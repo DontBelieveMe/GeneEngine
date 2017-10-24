@@ -11,6 +11,9 @@ static const int MaxRenderables		= 100;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
+#define VERTEX_TYPE_FONT 1
+#define VERTEX_TYPE_NON_FONT -1
+
 static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 {
     GLuint offset = 0;
@@ -90,10 +93,18 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 	texIdAttrib.Stride					= sizeof(Vertex);
 	texIdAttrib.ByteOfffset			= offsetof(Vertex, TextureId);
 
+    AttributeDescriptor					vertxTypeAttribDesc;
+    vertxTypeAttribDesc.Index = 4;
+    vertxTypeAttribDesc.ComponentCount = 1;
+    vertxTypeAttribDesc.Stride = sizeof(Vertex);
+    vertxTypeAttribDesc.ByteOfffset = offsetof(Vertex, VertexType);
+
+
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
+    m_VAO->RegisterAttribute(m_VBO, vertxTypeAttribDesc);
 }
 
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
@@ -107,21 +118,25 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 	m_Buffer->Position = Vector3(position, 0.f);
 	m_Buffer->UV = Vector2(0, 0);
     m_Buffer->TextureId = tid;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
 	m_Buffer->UV = Vector2(1, 0);
     m_Buffer->TextureId = tid;
-	m_Buffer++;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
+    m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(1, 1);
     m_Buffer->TextureId = tid;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
 	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(0, 1);
     m_Buffer->TextureId = tid;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
 	m_Buffer++;
 
 	m_IndexCount += 6;
@@ -156,24 +171,28 @@ void Renderer2D::DrawString(Font *font,
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = Vector2(glyph->s0, glyph->t0);
         m_Buffer->TextureId = tid;
+        m_Buffer->VertexType = VERTEX_TYPE_FONT;
 		m_Buffer++;
 
         m_Buffer->Position  = Vector3(xPos + glyph->width, tmpY, 0.f);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = Vector2(glyph->s1, glyph->t0);
         m_Buffer->TextureId = tid;
+        m_Buffer->VertexType = VERTEX_TYPE_FONT;
 		m_Buffer++;
 
         m_Buffer->Position  = Vector3(xPos + glyph->width, tmpY + glyph->height, 0.f);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = Vector2(glyph->s1, glyph->t1);
         m_Buffer->TextureId = tid;
+        m_Buffer->VertexType = VERTEX_TYPE_FONT;
         m_Buffer++;
 
         m_Buffer->Position  = Vector3(xPos, tmpY + glyph->height, 0.f);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = Vector2(glyph->s0, glyph->t1);
         m_Buffer->TextureId = tid;
+        m_Buffer->VertexType = VERTEX_TYPE_FONT;
         m_Buffer++;
 
 		xPos += glyph->advance_x;
@@ -207,21 +226,25 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
 	m_Buffer->Position = Vector3(position, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 	
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
+    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_IndexCount += 6;

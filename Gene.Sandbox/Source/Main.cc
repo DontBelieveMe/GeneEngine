@@ -14,6 +14,9 @@
 #include <Input/Keyboard.h>
 #include <Graphics/Font.h>
 #include <Graphics/Renderer2D.h>
+#include <Input/Mouse.h>
+#include <sstream>
+#include <iomanip>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
@@ -54,7 +57,7 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/WendyOne-Regular.ttf", 80);
+    Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
 
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
@@ -66,6 +69,7 @@ int main()
 	shader2d.BindAttributeIndex(1, "color");
 	shader2d.BindAttributeIndex(2, "uv");
 	shader2d.BindAttributeIndex(3, "texId");
+    shader2d.BindAttributeIndex(4, "vertexType");
 
 	Renderer2D renderer2d;
 	renderer2d.Init(
@@ -117,14 +121,25 @@ int main()
         shader3d.Disable();
         glDisable(GL_DEPTH_TEST);
 
+        MouseState mState = Mouse::GetState();
+        std::stringstream stream;
+        stream << std::fixed << std::setprecision(2) << mState.Position.X;
+        std::string s = stream.str();
 
+        std::string posStr = "Mouse Pos: " + s + ", ";
+        stream.clear();
+        stream << std::fixed << std::setprecision(2) << mState.Position.Y;
+        s = stream.str();
+        posStr += s;
         renderer2d.Begin();
+        
+        
         renderer2d.DrawTexture(pos, &texture1);
         
-        //renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
+        renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
         renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
 
-        renderer2d.DrawString(&wendyOneFont, "Hello World!", {50, 50}, Color::CornflowerBlue);
+        renderer2d.DrawString(&wendyOneFont, posStr, {0, 375}, Color::Black);
 		renderer2d.End();
         renderer2d.Present();
 

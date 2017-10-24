@@ -5,6 +5,7 @@ out vec4 color;
 in vec3 passColor;
 in vec2 passUv;
 in float passTexId;
+in float passVertexType;
 
 uniform sampler2D textureSamplers[32];
 
@@ -29,16 +30,7 @@ void main()
             default: color = texture(textureSamplers[0], passUv); break;
         }
 
-		//if((color.r <= 1.f && color.r >= 0.9f) && color.g <= 0.1f && color.b <= 0.1f)
-		//	color = vec4(passColor.r, passColor.g, passColor.b, color.r);
-		
-		if(color.r >= 1.f)
+		if(passVertexType > 0)
 			color = vec4(passColor.r, passColor.g, passColor.b, color.r);
-		/*
-		// Font I think...?
-		if(color.r > 0.9 && color.g < 0.1 && color.b < 0.1 && color.a < 0.1) 
-		{
-			color = vec4(passColor.r, passColor.g, passColor.b, color.r);
-		}*/
     }
 }

@@ -22,6 +22,7 @@ namespace Gene { namespace Graphics {
         ColorRGB    Color;
         Vector2     UV;
         float       TextureId;
+        float       VertexType;
 	};
 
     class Renderer2D
