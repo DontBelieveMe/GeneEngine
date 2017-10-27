@@ -54,7 +54,7 @@ namespace Gene { namespace Graphics {
 		void DrawTexture(Vector2 position, Texture2D *texture);
 		void FillRectangle(Vector2 position, float width, float height, const Color& color);
 
-		void Init(const Matrix4& projectionMatrix, GLSLShader *shader);
+        void Init(const Matrix4& projectionMatrix);
 		void Destroy();
 
 		void Begin();

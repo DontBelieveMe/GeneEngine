@@ -66,5 +66,6 @@ namespace Gene { namespace Platform {
 		static Window *CreateWindow(WindowInfo info);
 
 		void SetClearColor(Graphics::Color color);
-	};
+        void Clear();
+    };
 }}

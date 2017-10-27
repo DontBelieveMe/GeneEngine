@@ -38,7 +38,7 @@ int main()
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
-    window->SetClearColor(Color::Green);
+    window->SetClearColor(Color::CornflowerBlue);
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
@@ -62,20 +62,10 @@ int main()
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
 
-	GLSLShader shader2d;
-	shader2d.CompileFromFiles("Data/vertex2d.glsl", "Data/fragment2d.glsl");
-	shader2d.Enable();
-	shader2d.BindAttributeIndex(0, "position");
-	shader2d.BindAttributeIndex(1, "color");
-	shader2d.BindAttributeIndex(2, "uv");
-	shader2d.BindAttributeIndex(3, "texId");
-    shader2d.BindAttributeIndex(4, "vertexType");
-
 	Renderer2D renderer2d;
 	renderer2d.Init(
-        Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.f, -1.f),
-		&shader2d
-	);
+        Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.f, -1.f)
+     );
 
     Texture2D texture1;
     texture1.Filtering = Texture2D::FilteringOptions::Linear;
@@ -85,7 +75,6 @@ int main()
     texture2.Filtering = Texture2D::FilteringOptions::Linear;
     texture2.Load("Data/twitter.png");
 
-    
 	window->Show();
 	
     float suzanneTheta = 180.f;
@@ -94,23 +83,19 @@ int main()
 	GameTime gameTime;
 	gameTime.Init();
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     while (window->Running())
     {
 		KeyboardState state = Keyboard::GetState();
 		gameTime.StartFrame();
-        std::cout << gameTime.DeltaInMilliSeconds() << std::endl;
         shader3d.Enable();
-		
+
         suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
 		transform.Translate(suzannePosition);
 		transform.RotateY(suzanneTheta);
 	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        window->Clear();
 
 		glEnable(GL_DEPTH_TEST);
         modelVao.Enable();
@@ -121,30 +106,19 @@ int main()
         shader3d.Disable();
         glDisable(GL_DEPTH_TEST);
 
-        MouseState mState = Mouse::GetState();
-        std::stringstream stream;
-        stream << std::fixed << std::setprecision(2) << mState.Position.X;
-        std::string s = stream.str();
-
-        std::string posStr = "Mouse Pos: " + s + ", ";
-        stream.clear();
-        stream << std::fixed << std::setprecision(2) << mState.Position.Y;
-        s = stream.str();
-        posStr += s;
         renderer2d.Begin();
-        
-        
-        renderer2d.DrawTexture(pos, &texture1);
-        
-        renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
-        renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
 
-        renderer2d.DrawString(&wendyOneFont, posStr, {0, 375}, Color::Black);
+        renderer2d.DrawTexture(pos, &texture1);
+        renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
+
+        renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
+        renderer2d.DrawString(&wendyOneFont, "Hello World!", {0, 375}, Color::Black);
 		renderer2d.End();
         renderer2d.Present();
 
         window->SwapBuffers();
 		window->PollEvents();
+
 		gameTime.EndFrame();
 		gameTime.Sleep(1000 / 60);
 	}

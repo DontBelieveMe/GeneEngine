@@ -7,7 +7,7 @@ using namespace Gene::Graphics;
 using namespace Gene;
 
 static const int RenderableSize     = sizeof(Vertex) * 4; // 4 vertices in a cube
-static const int MaxRenderables		= 100;
+static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
@@ -32,17 +32,28 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
-void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
+void Renderer2D::Init(const Matrix4& projectionMatrix)
 {
-    m_ProjectionMatrix  = projectionMatrix;
-    m_Shader            = shader;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	m_Shader->Enable();
+    m_ProjectionMatrix  = projectionMatrix;
+    m_Shader = new GLSLShader;
+    m_Shader->CompileFromFiles("Data/vertex2d.glsl", "Data/fragment2d.glsl");
+    m_Shader->Enable();
+
+    m_Shader->BindAttributeIndex(0, "position");
+    m_Shader->BindAttributeIndex(1, "color");
+    m_Shader->BindAttributeIndex(2, "uv");
+    m_Shader->BindAttributeIndex(3, "texId");
+    m_Shader->BindAttributeIndex(4, "vertexType");
+
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
 
 	GLint texIds[] = {
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
+
 	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
 
 	m_VAO = new VertexArray;
@@ -91,14 +102,13 @@ void Renderer2D::Init(const Matrix4& projectionMatrix, GLSLShader * shader)
 	texIdAttrib.Index					= 3;
 	texIdAttrib.ComponentCount			= 1;
 	texIdAttrib.Stride					= sizeof(Vertex);
-	texIdAttrib.ByteOfffset			= offsetof(Vertex, TextureId);
+    texIdAttrib.ByteOfffset             = offsetof(Vertex, TextureId);
 
     AttributeDescriptor					vertxTypeAttribDesc;
-    vertxTypeAttribDesc.Index = 4;
-    vertxTypeAttribDesc.ComponentCount = 1;
-    vertxTypeAttribDesc.Stride = sizeof(Vertex);
-    vertxTypeAttribDesc.ByteOfffset = offsetof(Vertex, VertexType);
-
+    vertxTypeAttribDesc.Index           = 4;
+    vertxTypeAttribDesc.ComponentCount  = 1;
+    vertxTypeAttribDesc.Stride          = sizeof(Vertex);
+    vertxTypeAttribDesc.ByteOfffset     = offsetof(Vertex, VertexType);
 
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
