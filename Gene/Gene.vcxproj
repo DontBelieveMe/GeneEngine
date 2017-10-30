@@ -166,6 +166,8 @@
     <ClInclude Include="Engine\Public\GeneCommon.h" />
     <ClInclude Include="Engine\Public\GeneUseAll.h" />
     <ClInclude Include="Engine\Public\Graphics\Font.h" />
+    <ClInclude Include="Engine\Public\Graphics\GUI\TextBox.h" />
+    <ClInclude Include="Engine\Public\Graphics\GUI\Widget.h" />
     <ClInclude Include="Engine\Public\Graphics\Light.h" />
     <ClInclude Include="Engine\Public\Graphics\Renderer2D.h" />
     <ClInclude Include="Engine\Public\Graphics\Texture2D.h" />
@@ -206,6 +208,7 @@
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\Font.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
+    <ClCompile Include="Engine\Private\Graphics\GUI\TextBox.cc" />
     <ClCompile Include="Engine\Private\Graphics\Light.cc" />
     <ClCompile Include="Engine\Private\Graphics\Renderer2D.cc" />
     <ClCompile Include="Engine\Private\Graphics\Texture2D.cc" />

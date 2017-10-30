@@ -13,5 +13,7 @@ namespace Gene { namespace Input {
 	public:
 		static void SetPrimaryWindow(Platform::Window *window);
 		static KeyboardState& GetState();
+
+        static char KeyToASCII(Keys key);
 	};
 }}
