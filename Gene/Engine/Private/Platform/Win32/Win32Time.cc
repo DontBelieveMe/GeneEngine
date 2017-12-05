@@ -7,6 +7,6 @@
 
     void GameTime::Sleep(float milliseconds)
     {
-        ::Sleep(milliseconds);
+        ::Sleep(static_cast<DWORD>(milliseconds));
     }
 #endif

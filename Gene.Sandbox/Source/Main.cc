@@ -57,14 +57,14 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/comic.ttf", 48);
+    Font wendyOneFont("Data/Meteora.ttf", 48);
 
-	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 1000, 0.001f);
+	Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(info.Width / info.Height), 45, 1000, 0.001f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
 
 	Renderer2D renderer2d;
 	renderer2d.Init(
-        Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.f, -1.f)
+        Matrix4::Orthographic(static_cast<float>(info.Width), 0.f, 0.f, static_cast<float>(info.Height), 1.f, -1.f)
      );
 
     Texture2D texture1;
@@ -112,7 +112,7 @@ int main()
         renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
 
         renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
-        renderer2d.DrawString(&wendyOneFont, "Hello World!", {0, 375}, Color::Black);
+        renderer2d.DrawString(&wendyOneFont, "Hello World!", {0, 375}, Color::Red);
 		renderer2d.End();
         renderer2d.Present();
 

@@ -5,6 +5,14 @@
 
 using namespace Gene::Platform;
 
+float GameTime::RunningTimeMilliseconds() const
+{
+    auto x = std::chrono::high_resolution_clock::now() - m_GameStart;
+    auto c = std::chrono::duration_cast<std::chrono::milliseconds>(x);
+
+    return static_cast<float>(c.count());
+}
+
 void GameTime::StartFrame()
 {
 	using namespace std::chrono;
@@ -18,7 +26,7 @@ void GameTime::EndFrame()
     using namespace std::chrono;
     m_EndFrameTime = high_resolution_clock::now();
     auto runningDuration = duration_cast<seconds>(m_EndFrameTime - m_GameStart);
-    m_RunningTime = runningDuration.count();
+    m_RunningTime = static_cast<float>(runningDuration.count());
 }
 
 void GameTime::Init()

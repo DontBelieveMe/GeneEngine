@@ -19,7 +19,8 @@ namespace Gene { namespace Platform {
 
         float DeltaInMilliSeconds() const { return m_Delta; }
         float RunningTimeSeconds()  const { return m_RunningTime; }
-		float RunningTimeMilliseconds() const { return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - m_GameStart).count(); }
+        float RunningTimeMilliseconds() const;
+
         void  StartFrame();
         void  EndFrame();
 
