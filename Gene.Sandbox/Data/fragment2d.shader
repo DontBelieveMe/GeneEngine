@@ -30,7 +30,13 @@ void main()
             default: color = texture(textureSamplers[0], passUv); break;
         }
 
-		if(passVertexType > 0)
-			color = vec4(passColor.r, passColor.g, passColor.b, color.r);
+        // This is a font we are processing
+        if (passVertexType > 0) {
+            float dist = color.r;
+            float width = fwidth(dist);
+            float c = 0.5f;
+            float alpha = smoothstep(c - width, c + width, dist);
+            color = vec4(passColor.r, passColor.g, passColor.b, alpha);
+        }
     }
 }

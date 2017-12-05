@@ -57,9 +57,9 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/WendyOne-Regular.ttf", 48);
+    Font wendyOneFont("Data/comic.ttf", 48);
 
-	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 100, 0.1f);
+	Matrix4 perspectiveMatrix = Matrix4::Perpective(info.Width / info.Height, 45, 1000, 0.001f);
 	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
 
 	Renderer2D renderer2d;

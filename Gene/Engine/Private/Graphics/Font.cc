@@ -4,6 +4,8 @@
 #include <iostream>
 #include <IO/File.h>
 
+#include <Platform/OpenGL.h>
+
 using namespace Gene::Graphics;
 
 const float Font::DEFAULT_SIZE = 11.f;
@@ -13,9 +15,11 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	const size_t ATLAS_SIZE  = 512;
 	const int	 ATLAS_DEPTH = 1;
 	
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	m_Atlas = texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
+
 	m_Font  = texture_font_new_from_file(m_Atlas, size, fontFile);
-    
+    m_Font->rendermode = RENDER_SIGNED_DISTANCE_FIELD;
     // For now just hack it and load all the ASCII characters
     // TODO: Remove this and do glyph loading on the fly when drawing the string
     //       Hence only loading the characters we need
@@ -25,6 +29,7 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 
 	m_Texture = new Texture2D();
 
+    
 	// TODO: The texture options should be put into a `TextureParamaters` struct  
 	m_Texture->Format    = Texture2D::PixelFormat::Red;
 	m_Texture->Filtering = Texture2D::FilteringOptions::Linear;

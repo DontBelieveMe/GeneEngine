@@ -44,11 +44,16 @@ void Texture2D::GenerateGLId()
 
     glGenTextures(1, &m_TextureId);
 
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering); 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
-    
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
     uint8 *pData = m_Pixels.data();
     glTexImage2D(
         GL_TEXTURE_2D, 
