@@ -175,6 +175,7 @@ void Renderer2D::DrawString(Font *font,
 		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &c);
 
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
+
         float tmpY = yPos - glyph->offset_y;
 
         m_Buffer->Position  = Vector3(xPos, tmpY, 0.f);

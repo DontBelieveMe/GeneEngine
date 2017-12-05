@@ -30,7 +30,7 @@ void main()
             default: color = texture(textureSamplers[0], passUv); break;
         }
 
-        // This is a font we are processing
+        // This is a font we are processing (font type = 1 and non font = -1)
         if (passVertexType > 0) {
             float dist = color.r;
             float width = fwidth(dist);
