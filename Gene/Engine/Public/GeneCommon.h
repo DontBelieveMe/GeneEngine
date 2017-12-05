@@ -12,7 +12,7 @@
 
 #define GE_ASSERT(cond, ...) \
 	do { \
-		if(!cond){ \
+		if(!(cond)){ \
 			logf(__VA_ARGS__); \
 			assert(cond); \
 		} \

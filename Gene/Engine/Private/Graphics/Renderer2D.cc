@@ -16,8 +16,8 @@ static const int RendererIndexNum   = MaxRenderables * 6;
 
 static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 {
-    GLuint offset = 0;
-    for (GLuint i = 0; i < indicesNum; i += 6)
+    int offset = 0;
+    for (int i = 0; i < indicesNum; i += 6)
     {
         buffer[i] = offset + 0;
         buffer[i+1] = offset + 1;
@@ -39,7 +39,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
-    m_Shader->CompileFromFiles("Data/vertex2d.glsl", "Data/fragment2d.glsl");
+    m_Shader->CompileFromFiles("Data/vertex2d.shader", "Data/fragment2d.shader");
     m_Shader->Enable();
 
     m_Shader->BindAttributeIndex(0, "position");
@@ -119,8 +119,8 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 {
-	float width = texture->Width();
-    float height = texture->Height();
+	float width = static_cast<float>(texture->Width());
+    float height = static_cast<float>(texture->Height());
 
     float tid = this->GetTextureSlot(texture);
 
@@ -216,7 +216,7 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
     GE_ASSERT(m_Textures.size() <= 32);
     GE_ASSERT(m_Textures.size() >= 0);
 
-    for(int i = 0; i < m_Textures.size(); i++)
+    for(size_t i = 0; i < m_Textures.size(); i++)
     {
         if(texture == m_Textures[i])
         {
@@ -226,7 +226,7 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
 
     // The texture is not in the list...
     m_Textures.push_back(texture);
-    return m_Textures.size() - 1;
+    return m_Textures.size() - 1.f;
 }
 
 void Renderer2D::FillRectangle(Vector2 position, float width, float height, const Color& color)
@@ -278,14 +278,14 @@ void Renderer2D::Present()
 {
 	m_Shader->Enable();
 
-    for(int i = 0; i < m_Textures.size(); i++)
+    for(size_t i = 0; i < m_Textures.size(); i++)
     {
         m_Textures[i]->Enable(i);
     }
 
     m_VAO->DebugDrawElements(m_EBO, m_IndexCount);
 
-    for(int i = 0; i < m_Textures.size(); i++)
+    for(size_t i = 0; i < m_Textures.size(); i++)
     {
         m_Textures[i]->Disable(i);
     }

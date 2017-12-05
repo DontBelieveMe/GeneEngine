@@ -45,7 +45,7 @@ int main()
     });
 
 	GLSLShader shader3d;
-	shader3d.CompileFromFiles("Data/vertex.glsl", "Data/fragment.glsl");
+	shader3d.CompileFromFiles("Data/vertex.shader", "Data/fragment.shader");
     shader3d.Enable();
     shader3d.BindAttributeIndex(0, "position");
     shader3d.BindAttributeIndex(1, "normal");

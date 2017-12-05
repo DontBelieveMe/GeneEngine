@@ -162,10 +162,10 @@
     <ClCompile Include="Source\Main.cc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\fragment.glsl" />
-    <None Include="Data\fragment2d.glsl" />
-    <None Include="Data\vertex.glsl" />
-    <None Include="Data\vertex2d.glsl" />
+    <None Include="Data\fragment.shader" />
+    <None Include="Data\fragment2d.shader" />
+    <None Include="Data\vertex.shader" />
+    <None Include="Data\vertex2d.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gene\Gene.vcxproj">

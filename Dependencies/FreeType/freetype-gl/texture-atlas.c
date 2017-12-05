@@ -103,7 +103,7 @@ texture_atlas_set_region( texture_atlas_t * self,
         if (depth == GE_FONT_DEPTH)
         {
             row = self->data + ((y + i) * self->width + x) * charsize * depth;
-            src = data + (i * stride) * charsize;
+            src = (char*)(data) + (i * stride) * charsize;
             for (j = 0; j < width; j++)
             {
                 row[j * 2 + 0] = 0xff;

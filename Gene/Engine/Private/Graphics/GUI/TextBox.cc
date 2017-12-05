@@ -1,5 +1,6 @@
 #include <Graphics/GUI/TextBox.h>
 #include <Input/Keyboard.h>
+#include <Input/Keys.h>
 
 using namespace Gene::Graphics::GUI;
 using namespace Gene::Graphics;
@@ -13,7 +14,7 @@ void TextBox::Draw(Renderer2D *renderer)
     renderer->DrawString(TextFont, Text, Position, Color::Black);
 }
 
-void TextBox::KeyDown(Input::Keys key)
+void TextBox::KeyDown(Gene::Input::Keys key)
 {
     Text += Input::Keyboard::KeyToASCII(key);
 }
