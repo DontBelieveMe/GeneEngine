@@ -165,6 +165,7 @@
     <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
     <ClInclude Include="Engine\Public\GeneCommon.h" />
     <ClInclude Include="Engine\Public\GeneUseAll.h" />
+    <ClInclude Include="Engine\Public\Graphics\Factorys\ShaderFactory.h" />
     <ClInclude Include="Engine\Public\Graphics\Font.h" />
     <ClInclude Include="Engine\Public\Graphics\GUI\TextBox.h" />
     <ClInclude Include="Engine\Public\Graphics\GUI\Widget.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Engine\Private\Content\OBJModelLoader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
+    <ClCompile Include="Engine\Private\Graphics\Factorys\ShaderFactory.cpp" />
     <ClCompile Include="Engine\Private\Graphics\Font.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
     <ClCompile Include="Engine\Private\Graphics\GUI\TextBox.cc" />

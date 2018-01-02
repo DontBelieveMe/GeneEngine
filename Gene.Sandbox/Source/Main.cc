@@ -17,6 +17,7 @@
 #include <Input/Mouse.h>
 #include <sstream>
 #include <iomanip>
+#include <Graphics/Factorys/ShaderFactory.h>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
@@ -33,7 +34,7 @@ int main()
 	using namespace Gene::Content;
     using namespace Gene;
 
-    WindowInfo info = { 600, 400, "Hello from GeneEngine.Sandbox", false };
+    WindowInfo info = { 600, 600, "Hello from GeneEngine.Sandbox", false };
 
 	Window *window = Window::CreateWindow(info);
 	window->Create();
@@ -44,12 +45,13 @@ int main()
         glViewport(0, 0, w, h);
     });
 
-	GLSLShader shader3d;
-	shader3d.CompileFromFiles("Data/vertex.shader", "Data/fragment.shader");
-    shader3d.Enable();
-    shader3d.BindAttributeIndex(0, "position");
-    shader3d.BindAttributeIndex(1, "normal");
-	
+    GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader", 
+    {
+        {0, "position"},
+        {1, "normal"}
+    });
+    shader3d->Enable();
+
 	OBJModelLoader objLoader;
 	GeneModel *suzanneModel = objLoader.Load("Data/suzanne.obj");
 
@@ -57,10 +59,10 @@ int main()
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/Meteora.ttf", 48);
+    Font wendyOneFont("Data/impact.ttf", 48);
 
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(info.Width / info.Height), 45, 1000, 0.001f);
-	shader3d.LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
+	shader3d->LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
 
 	Renderer2D renderer2d;
 	renderer2d.Init(
@@ -87,13 +89,13 @@ int main()
     {
 		KeyboardState state = Keyboard::GetState();
 		gameTime.StartFrame();
-        shader3d.Enable();
+        shader3d->Enable();
 
         suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
 		transform.Translate(suzannePosition);
 		transform.RotateY(suzanneTheta);
-	    shader3d.LoadUniformMatrix4f("u_Transform", transform);
+	    shader3d->LoadUniformMatrix4f("u_Transform", transform);
 
         window->Clear();
 
@@ -103,7 +105,7 @@ int main()
     	modelVao.DebugDrawElements(modelEbo);
         modelEbo->Disable();
         modelVao.Disable();
-        shader3d.Disable();
+        shader3d->Disable();
         glDisable(GL_DEPTH_TEST);
 
         renderer2d.Begin();
@@ -112,7 +114,10 @@ int main()
         renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
 
         renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
-        renderer2d.DrawString(&wendyOneFont, "Hello World!", {0, 375}, Color::Red);
+
+        MouseState mState = Mouse::GetState();
+        std::string s = std::to_string((int)mState.Position.X) + ", " + std::to_string((int)mState.Position.Y);
+        renderer2d.DrawString(&wendyOneFont, s, {0, 375}, Color::Red);
 		renderer2d.End();
         renderer2d.Present();
 
