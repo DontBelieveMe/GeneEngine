@@ -2,6 +2,8 @@
 
 using namespace Gene::Graphics;
 
+std::vector<GLSLShader*> ShaderFactory::m_Handles;
+
 GLSLShader *ShaderFactory::CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout layout)
 {
     GLSLShader *shader = new GLSLShader();
@@ -16,6 +18,7 @@ GLSLShader *ShaderFactory::CreateShader(std::string vertexPath, std::string frag
     shader->Disable();
 
     m_Handles.push_back(shader);
+    return shader;
 }
 
 void ShaderFactory::FreeResources()

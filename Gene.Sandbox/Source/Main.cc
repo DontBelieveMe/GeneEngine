@@ -116,6 +116,7 @@ int main()
         renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
 
         MouseState mState = Mouse::GetState();
+        
         std::string s = std::to_string((int)mState.Position.X) + ", " + std::to_string((int)mState.Position.Y);
         renderer2d.DrawString(&wendyOneFont, s, {0, 375}, Color::Red);
 		renderer2d.End();
