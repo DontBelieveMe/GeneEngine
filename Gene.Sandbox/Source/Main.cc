@@ -118,7 +118,8 @@ int main()
         MouseState mState = Mouse::GetState();
         
         std::string s = std::to_string((int)mState.Position.X) + ", " + std::to_string((int)mState.Position.Y);
-        renderer2d.DrawString(&wendyOneFont, s, {0, 375}, Color::Red);
+        Vector2 size = wendyOneFont.MeasureString(s);
+        renderer2d.DrawString(&wendyOneFont, s, {20, info.Height-size.Y-20}, Color(0x373c44));
 		renderer2d.End();
         renderer2d.Present();
 

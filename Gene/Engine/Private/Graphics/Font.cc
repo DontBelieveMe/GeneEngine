@@ -7,6 +7,7 @@
 #include <Platform/OpenGL.h>
 
 using namespace Gene::Graphics;
+using namespace Gene;
 
 const float Font::DEFAULT_SIZE = 11.f;
 
@@ -43,4 +44,20 @@ Font::~Font()
 
 	texture_font_delete(m_Font);
 	texture_atlas_delete(m_Atlas);
+}
+
+Vector2 Font::MeasureString(const std::string & str)
+{
+    float width = 0.0f;
+    float height = 0.0f;
+
+    for (char character : str) {
+        ftgl::texture_glyph_t *glyph = texture_font_get_glyph(m_Font, &character);
+        width += glyph->advance_x;
+        if (glyph->advance_y > height) {
+            height = glyph->advance_y;
+        }
+    }
+
+    return Vector2(width, height);
 }
