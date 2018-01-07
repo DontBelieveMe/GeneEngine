@@ -10,4 +10,5 @@ int main(int argc, char *argv[])
 		return cmdLineExecErr;
 
 	session.run();
+    system("PAUSE");
 }

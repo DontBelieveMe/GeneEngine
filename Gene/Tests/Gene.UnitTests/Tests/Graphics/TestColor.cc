@@ -15,10 +15,10 @@ TEST_CASE("Test color can store colors (range 0 -> 255) and output in format RGB
 
 TEST_CASE("Test color can store colors (range 0 -> 255) and output in format RGBA (range 0.f -> 1.f)", "[Color]")
 {
-	Color color(123, 225, 0, 255);
+	Color color(123, 255, 0, 255);
 
 	REQUIRE(color.LinearR() == Approx(0.48235f));
 	REQUIRE(color.LinearG() == Approx(1.f));
 	REQUIRE(color.LinearB() == Approx(0.f));
-	REQUIRE(color.A() == Approx(1.f));
+	REQUIRE(color.LinearA() == Approx(1.f));
 }
