@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Math/Vector3.h>
+
 namespace Gene { namespace Graphics {
     struct ColorRGB {
         float R, G, B;
@@ -29,9 +31,9 @@ namespace Gene { namespace Graphics {
 		inline int B() const { return (Hex & 0x0000FF00) >> 8; }
 		inline int A() const { return (Hex & 0x000000FF); }
 
-        inline ColorRGB GetRGBStruct() const
+        inline Vector3 ToNormalizedVector3() const
         {
-            return ColorRGB(LinearR(), LinearG(), LinearB());
+            return Vector3(LinearR(), LinearG(), LinearB());
         }
 
 		inline float LinearR() const { return static_cast<float>(R()) * OneOver255; }

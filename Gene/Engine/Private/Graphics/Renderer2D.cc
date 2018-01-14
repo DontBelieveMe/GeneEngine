@@ -160,7 +160,7 @@ void Renderer2D::DrawString(Font *font,
 	using namespace ftgl;
 
 	texture_font_t *ftFont = font->TextureFont();
-	ColorRGB rgbPack = color.GetRGBStruct();
+	Vector3 rgbPack = color.ToNormalizedVector3();
 
 	Texture2D *glTexture = font->GLTexture();
 	
@@ -232,7 +232,7 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
 
 void Renderer2D::FillRectangle(Vector2 position, float width, float height, const Color& color)
 {
-    ColorRGB rgbCol = color.GetRGBStruct();
+    Vector3 rgbCol = color.ToNormalizedVector3();
 
 	m_Buffer->Position = Vector3(position, 0.f);
     m_Buffer->Color = rgbCol;
