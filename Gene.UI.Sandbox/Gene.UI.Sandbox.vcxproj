@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)Binaries\Output\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)Gene.UI\Source\Public;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Gene.UI\Source\Public;$(SolutionDir)Gene\Engine\Public;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Gene.UI\Binaries\Librarys\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,6 +127,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Forms\Main.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

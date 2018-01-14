@@ -1,7 +1,9 @@
-#include <Test.hpp>
-#include <stdio.h>
-int main() {
+#include <GeneUI/Form.hpp>
 
-    printf("%i\n", a());
-    getchar();
+int main() 
+{
+    GeneUI::Form form;
+    form.LoadFromFile("Forms/Main.xml");
+    form.Show();
+    form.Destroy();
 }

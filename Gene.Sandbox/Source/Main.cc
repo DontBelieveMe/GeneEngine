@@ -126,6 +126,7 @@ int main()
         window->SwapBuffers();
 		window->PollEvents();
 
+
 		gameTime.EndFrame();
 		gameTime.Sleep(1000 / 60);
 	}
