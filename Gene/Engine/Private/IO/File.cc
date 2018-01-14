@@ -71,7 +71,8 @@ std::vector<std::string> File::ReadLines(const char *path)
 			lines.push_back(line);
 		}
 	}
-	else {
+	else 
+    {
 		GE_ASSERT(false);
 	}
 

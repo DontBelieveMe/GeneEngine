@@ -25,6 +25,7 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	using namespace Gene::Input;
 	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
 	KeyboardState *keyState = static_cast<KeyboardState*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
+
 	switch(msg)
 	{
 	case WM_DESTROY:
@@ -45,6 +46,7 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return 0;
 	default: break;
 	}
+
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
@@ -62,18 +64,18 @@ void Win32Window::Create()
 
 	WNDCLASSEX _class = { 0 };
 	
-	_class.cbClsExtra = 0;
-	_class.cbSize = sizeof(WNDCLASSEX);
-	_class.cbWndExtra = 0;
+	_class.cbClsExtra    = 0;
+	_class.cbSize        = sizeof(WNDCLASSEX);
+	_class.cbWndExtra    = 0;
 	_class.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	_class.hCursor = LoadCursor(NULL, IDC_ARROW);
-	_class.hIcon = nullptr;
-	_class.hIconSm = nullptr;
-	_class.hInstance = hInstance;
-	_class.lpfnWndProc = (WNDPROC)WinProc;
+	_class.hCursor       = LoadCursor(NULL, IDC_ARROW);
+	_class.hIcon         = nullptr;
+	_class.hIconSm       = nullptr;
+	_class.hInstance     = hInstance;
+	_class.lpfnWndProc   = (WNDPROC)WinProc;
 	_class.lpszClassName = GENE_WINDOW_CLASS_NAME;
-	_class.lpszMenuName = nullptr;
-	_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	_class.lpszMenuName  = nullptr;
+	_class.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 
 	// TODO: Error handling
 	RegisterClassEx(&_class);
@@ -151,7 +153,7 @@ void Win32Window::Show()
 {
 	if (m_WindowConfig.Borderless)
 		SetWindowLongPtr((HWND)m_Handle, GWL_STYLE, 
-						WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);//SetWindowLong((HWND)m_Handle, GWL_STYLE, 0);
+						WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
 	ShowWindow((HWND)m_Handle, SW_SHOW);
 }
 

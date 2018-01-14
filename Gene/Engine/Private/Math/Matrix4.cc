@@ -16,7 +16,7 @@ Matrix4::Matrix4(float diag)
 		Elements[i] = 0.f;
 	}
 
-	Elements[0]		   = diag;
+	Elements[0]		     = diag;
 	Elements[1 + 1 * 4]  = diag;
 	Elements[2 + 2 * 4]  = diag;
 	Elements[3 + 3 * 4]  = diag;
@@ -133,7 +133,6 @@ Matrix4 Matrix4::Identity(float diag)
 	return Matrix4(diag);
 }
 
-
 Vector3 Matrix4::ScreenToWorld(Matrix4 projection, Matrix4 view, const Vector2& screenPos, int viewWidth, int viewHeight)
 {
 	Vector3 pos;
@@ -167,9 +166,9 @@ Matrix4 Matrix4::Orthographic(float right, float left, float top, float bottom, 
 	matrix.Elements[1 + 1 * 4] = 2.f / (top - bottom);
 	matrix.Elements[2 + 2 * 4] = -2 / (far - near);
 	matrix.Elements[3 + 3 * 4] = 1.0f;
-	matrix.Elements[3 + 0 * 4] = (left + right) / (left - right); //-((right + left) / (right - left));
-	matrix.Elements[3 + 1 * 4] = (bottom + top) / (bottom - top); //-((top + bottom) / (top - bottom));
-	matrix.Elements[3 + 2 * 4] = (far + near) / (far - near); //-((far + near) / (far - near));
+	matrix.Elements[3 + 0 * 4] = (left + right) / (left - right);
+	matrix.Elements[3 + 1 * 4] = (bottom + top) / (bottom - top); 
+	matrix.Elements[3 + 2 * 4] = (far + near) / (far - near);
 	return matrix;
 }
 

@@ -19,7 +19,7 @@ namespace Gene { namespace Graphics {
 	struct Vertex 
 	{
         Vector3     Position;
-        Vector3    Color;
+        Vector3     Color;
         Vector2     UV;
         float       TextureId;
         float       VertexType;
