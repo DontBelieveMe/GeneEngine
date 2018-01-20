@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Graphics/GLSLShader.h>
-#include <vector>
+#include <GeneCommon.h>
 #include <algorithm>
 
 namespace Gene { namespace Graphics {
@@ -14,7 +14,7 @@ namespace Gene { namespace Graphics {
         typedef std::initializer_list<ShaderAttributeLayout> InitalizerListLayout;
 
 
-        std::vector<ShaderAttributeLayout> Attributes;
+        Array<ShaderAttributeLayout> Attributes;
 
         template <typename... Args>
         ShaderLayout(Args... args) 
@@ -35,7 +35,7 @@ namespace Gene { namespace Graphics {
 
     class ShaderFactory {
     private:
-        static std::vector<GLSLShader*> m_Handles;
+        static Array<GLSLShader*> m_Handles;
 
     public:
         static GLSLShader *CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout = ShaderLayout());

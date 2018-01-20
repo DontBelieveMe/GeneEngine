@@ -128,9 +128,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Main.cc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Forms\Main.xml" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

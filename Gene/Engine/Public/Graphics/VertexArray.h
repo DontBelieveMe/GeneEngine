@@ -2,6 +2,7 @@
 
 #include <Platform/OpenGL.h>
 #include <Graphics/Buffer.h>
+#include <GeneCommon.h>
 
 #include <memory>
 #include <vector>
@@ -19,7 +20,7 @@ namespace Gene { namespace Graphics {
 	{
 	private:
         GLuint               m_ID;
-		std::vector<Buffer*> m_Buffers;
+		Array<Buffer*> m_Buffers;
 
 	public:
 		VertexArray();

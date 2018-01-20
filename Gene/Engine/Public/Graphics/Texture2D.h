@@ -12,7 +12,7 @@ namespace Gene { namespace Graphics {
 	{
 	private:
 		bool					   m_Loaded;
-        std::vector<uint8>         m_Pixels;
+        Array<uint8>               m_Pixels;
 		GLuint					   m_TextureId;
 		unsigned int			   m_Width;
 		unsigned int			   m_Height;

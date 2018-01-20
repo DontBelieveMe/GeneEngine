@@ -57,7 +57,7 @@ void File::Free()
 	delete[] m_Data;
 }
 
-std::vector<std::string> File::ReadLines(const char *path)
+Gene::Array<std::string> File::ReadLines(const char *path)
 {
 	using namespace std;
 	vector<string> lines;

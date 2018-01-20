@@ -129,14 +129,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Private\DocumentParser.cc" />
-    <ClCompile Include="Source\Private\Form.cc" />
+    <ClCompile Include="Source\Private\Window.cc" />
     <ClCompile Include="Source\ThirdParty\pugixml\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Private\DocumentParser.hpp" />
-    <ClInclude Include="Source\Public\GeneUI\Form.hpp" />
-    <ClInclude Include="Source\Public\GeneUI\PugiXML.hpp" />
+    <ClInclude Include="Source\Public\GeneUI\Window.hpp" />
     <ClInclude Include="Source\ThirdParty\pugixml\pugiconfig.hpp" />
     <ClInclude Include="Source\ThirdParty\pugixml\pugixml.hpp" />
   </ItemGroup>

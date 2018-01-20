@@ -24,6 +24,6 @@ namespace Gene { namespace IO {
 
 		void Free();
 
-		static std::vector<std::string> ReadLines(const char *path);
+		static Array<std::string> ReadLines(const char *path);
 	};
 }}

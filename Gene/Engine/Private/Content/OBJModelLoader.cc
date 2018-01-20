@@ -4,7 +4,6 @@
 #include <Platform/OpenGL.h>
 #include <sstream>
 #include <string>
-#include <vector>
 #include <algorithm>
 
 using namespace Gene::Content;
@@ -15,11 +14,11 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
 	using namespace Gene::Math;
 
 
-	std::vector<std::string> lines = File::ReadLines(filepath);
+	Array<std::string> lines = File::ReadLines(filepath);
 
-	std::vector<Vector3> vertices;
-	std::vector<Vector3> normals;
-	std::vector<GLuint> indices;
+	Array<Vector3> vertices;
+    Array<Vector3> normals;
+    Array<GLuint> indices;
 
 	for (std::string line : lines)
 	{
@@ -48,7 +47,7 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
 	}
 
 	normals.resize(vertices.size(), { 0.f, 0.f, 0.f });
-	for (int i = 0; i < indices.size(); i+=3)
+	for (size_t i = 0; i < indices.size(); i+=3)
 	{
 		GLuint ia = indices[i];
 		GLuint ib = indices[i + 1];
