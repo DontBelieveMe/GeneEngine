@@ -53,7 +53,7 @@ int main()
     shader3d->Enable();
 
 	OBJModelLoader objLoader;
-	GeneModel *suzanneModel = objLoader.Load("Data/suzanne.obj");
+	GeneModel *suzanneModel = objLoader.Load("Data/dognut.obj");
 
 	Buffer *modelEbo;
 	VertexArray modelVao;
@@ -94,8 +94,14 @@ int main()
         suzanneTheta += 1.f;
   	    Matrix4 transform = Matrix4::Identity();
 		transform.Translate(suzannePosition);
-		transform.RotateY(suzanneTheta);
-	    shader3d->LoadUniformMatrix4f("u_Transform", transform);
+		
+        Matrix4 rx, ry;
+        rx.RotateX(suzanneTheta);
+        ry.RotateY(suzanneTheta);
+
+        transform = transform.Multiply(rx).Multiply(ry);
+
+        shader3d->LoadUniformMatrix4f("u_Transform", transform);
 
         window->Clear();
 
@@ -108,7 +114,7 @@ int main()
         shader3d->Disable();
         glDisable(GL_DEPTH_TEST);
 
-        renderer2d.Begin();
+        /*renderer2d.Begin();
 
         renderer2d.DrawTexture(pos, &texture1);
         renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
@@ -119,9 +125,10 @@ int main()
         
         std::string s = std::to_string((int)mState.Position.X) + ", " + std::to_string((int)mState.Position.Y);
         Vector2 size = wendyOneFont.MeasureString(s);
+        
         renderer2d.DrawString(&wendyOneFont, s, {20, info.Height-size.Y-20}, Color(0x373c44));
 		renderer2d.End();
-        renderer2d.Present();
+        renderer2d.Present();*/
 
         window->SwapBuffers();
 		window->PollEvents();
