@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Gene\ThirdParty\Include;$(SolutionDir)Dependencies\FreeType\include;$(SolutionDir)Gene.GML\Public;$(IncludePath)</IncludePath>
+    <IncludePath>I:\Dev\Gene\Gene\Engine\Public;$(SolutionDir)Dependencies\FreeType\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\FreeType\Output\Debug;I:\Dev\Gene\Debug;$(SolutionDir)Gene\Binaries\Librarys\Debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)Binaries\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediates\$(Configuration)\</IntDir>

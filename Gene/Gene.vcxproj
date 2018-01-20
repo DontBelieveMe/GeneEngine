@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)Engine\Public;$(ProjectDir)ThirdParty\glfl\pregenerated\;$(SolutionDir)Dependencies\FreeType\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Engine\Public;$(SolutionDir)Dependencies\FreeType\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Binaries\Librarys\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)Binaries\Intermediate\$(Configuration)\</IntDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>

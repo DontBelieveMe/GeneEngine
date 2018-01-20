@@ -41,7 +41,7 @@ char Keyboard::KeyToASCII(Keys key)
     case Keys::X: _out = 'x'; break;
     case Keys::Y: _out = 'y'; break;
     case Keys::Z: _out = 'z'; break;
-    default: _out = '<UC>'; break;
+    default: _out = '0'; break;
     }
 
     return _out;

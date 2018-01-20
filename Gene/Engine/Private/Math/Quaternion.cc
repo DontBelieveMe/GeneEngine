@@ -11,7 +11,7 @@ Quaternion::Quaternion(const Vector3& n, float a)
 
 	W = ::cosf(halfA);
 
-	X = n.X * ::sin(halfA);
-	Y = n.Y * ::sin(halfA);
-	Z = n.Z * ::sin(halfA);
+	X = n.X * ::sinf(halfA);
+	Y = n.Y * ::sinf(halfA);
+	Z = n.Z * ::sinf(halfA);
 }
