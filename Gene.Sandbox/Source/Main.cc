@@ -34,7 +34,7 @@ int main()
 	using namespace Gene::Content;
     using namespace Gene;
 
-    WindowInfo info = { 600, 600, "Hello from GeneEngine.Sandbox", false };
+    WindowInfo info = { 800, 600, "Hello from GeneEngine.Sandbox", false };
 
 	Window *window = Window::CreateWindow(info);
 	window->Create();
@@ -49,6 +49,7 @@ int main()
     {
         {0, "position"},
         {1, "tex_coord"},
+        {2, "normal"}
     });
     shader3d->Enable();
 
@@ -61,13 +62,17 @@ int main()
 
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(info.Width / info.Height), 45, 1000, 0.001f);
 	shader3d->LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
-
+    shader3d->LoadUniform3f("light_pos", { 100000.0f,0,0 });
     Texture2D doughnut("Data/doughnut_texture.png");
 
 	window->Show();
 	
     float suzanneTheta = 180.f;
     Vector3 suzannePosition(0, 0, -5.f);
+    
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CW);
+    glCullFace(GL_BACK);
 
     GameTime gameTime;
 	gameTime.Init();
@@ -101,11 +106,9 @@ int main()
 
         shader3d->Disable();
         glDisable(GL_DEPTH_TEST);
-
        
         window->SwapBuffers();
 		window->PollEvents();
-
 
 		gameTime.EndFrame();
 		gameTime.Sleep(1000 / 60);
@@ -121,6 +124,7 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
 
     std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
     std::shared_ptr<Buffer> tbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+    std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 
     (*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 
@@ -132,6 +136,13 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
     vertexBufferDesc.Size		 = model->Vertices.size() * 3 * sizeof(GLfloat);
     vertexBufferDesc.DrawType	 = BufferDrawType::Static;
     vbo->SetData(vertexBufferDesc);
+
+    BufferDescriptor normalBufferDesc;
+    normalBufferDesc.Data = &(model->Normals[0]);
+    normalBufferDesc.DataType = GLType::Float;
+    normalBufferDesc.Size = model->Normals.size() * 3 * sizeof(GLfloat);
+    normalBufferDesc.DrawType = BufferDrawType::Static;
+    nbo->SetData(normalBufferDesc);
 
     BufferDescriptor texCoordBufferDesc;
     texCoordBufferDesc.Data		 = &(model->UVs[0]);
@@ -161,9 +172,17 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
     texCoordAttrib.Stride		     = 0;
     texCoordAttrib.ByteOfffset	     = 0;
 
+    AttributeDescriptor normalAttrib;
+    normalAttrib.Index = 2;
+    normalAttrib.ComponentCount = 3;
+    normalAttrib.Stride = 0;
+    normalAttrib.ByteOfffset = 0;
+
+
     #pragma endregion
 
     vao.RegisterAttribute(vbo.get(), vertexAttrib);
     vao.RegisterAttribute(tbo.get(), texCoordAttrib);
+    vao.RegisterAttribute(nbo.get(), normalAttrib);
 }
 

@@ -34,7 +34,14 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
             vertices.push_back({ 
                 attrib.vertices[3 * index.vertex_index + 0], 
                 attrib.vertices[3 * index.vertex_index + 1], 
-                attrib.vertices[3 * index.vertex_index + 2] });
+                attrib.vertices[3 * index.vertex_index + 2] 
+            });
+
+            normals.push_back({
+                attrib.normals[3 * index.normal_index + 0],
+                attrib.normals[3 * index.normal_index + 1],
+                attrib.normals[3 * index.normal_index + 2]
+            });
 
             texCoords.push_back({
                 attrib.texcoords[2 * index.texcoord_index + 0],
@@ -48,6 +55,7 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
     model->Indices = indices;
     model->Vertices = vertices;
     model->UVs = texCoords;
+    model->Normals = normals;
 
     return model;
 }
