@@ -1,7 +1,7 @@
 ## Attribution for tinyobjloader
 
 `tiny_obj_loader.cc` & `tiny_obj_loader.h` provided by  
-    (https://github.com/syoyo/tinyobjloader)[https://github.com/syoyo/tinyobjloader]  
+    [https://github.com/syoyo/tinyobjloader](https://github.com/syoyo/tinyobjloader)
 
 ---
 LICENSE
