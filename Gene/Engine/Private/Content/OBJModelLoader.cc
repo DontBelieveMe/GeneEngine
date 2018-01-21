@@ -1,10 +1,7 @@
 #include <Content/OBJModelLoader.h>
-#include <IO/File.h>
 #include <Math/Vector3.h>
 #include <Platform/OpenGL.h>
-#include <sstream>
 #include <string>
-#include <algorithm>
 #include <Content/TinyObjLoader.h>
 
 using namespace Gene::Content;
@@ -23,39 +20,38 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
 
     GeneModel *model = new GeneModel();
     
-    Array<Vector3> vertices, normals;
-    Array<Vector2> texCoords;
-    Array<GLuint> indices;
+    Array<Vector3>& vertices = model->Vertices;
+    Array<Vector3>& normals = model->Normals;
+    Array<Vector2>& texCoords = model->UVs;
+    Array<GLuint>& indices = model->Indices;
     
     for (const tinyobj::shape_t& shape : shapes)
     {
         for (const tinyobj::index_t& index : shape.mesh.indices)
         {
+            int vindex = index.vertex_index * 3;
             vertices.push_back({ 
-                attrib.vertices[3 * index.vertex_index + 0], 
-                attrib.vertices[3 * index.vertex_index + 1], 
-                attrib.vertices[3 * index.vertex_index + 2] 
+                attrib.vertices[vindex + 0],
+                attrib.vertices[vindex + 1],
+                attrib.vertices[vindex + 2]
             });
 
+            int nindex = index.normal_index * 3;
             normals.push_back({
-                attrib.normals[3 * index.normal_index + 0],
-                attrib.normals[3 * index.normal_index + 1],
-                attrib.normals[3 * index.normal_index + 2]
+                attrib.normals[nindex + 0],
+                attrib.normals[nindex + 1],
+                attrib.normals[nindex + 2]
             });
 
+            int tindex = index.texcoord_index * 2;
             texCoords.push_back({
-                attrib.texcoords[2 * index.texcoord_index + 0],
-                1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+                attrib.texcoords[tindex + 0],
+                1.0f - attrib.texcoords[tindex + 1] // Invert the Y coordinate
             });
 
             indices.push_back(indices.size());
         }
     }
-
-    model->Indices = indices;
-    model->Vertices = vertices;
-    model->UVs = texCoords;
-    model->Normals = normals;
 
     return model;
 }

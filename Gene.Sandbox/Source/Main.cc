@@ -1,23 +1,13 @@
 #include <Platform/Window.h>
-#include <Graphics/GLSLShader.h>
-#include <Math/Vector3.h>
 #include <Graphics/Color.h>
 #include <Graphics/Buffer.h>
-#include <Platform/OpenGL.h>
 #include <Graphics/VertexArray.h>
 #include <Math/Math.h>
 #include <memory>
 #include <Content/OBJModelLoader.h>
-#include <GeneCommon.h>
 #include <Platform/Time.h>
-#include <Graphics/Light.h>
-#include <Input/Keyboard.h>
-#include <Graphics/Font.h>
-#include <Graphics/Renderer2D.h>
-#include <Input/Mouse.h>
-#include <sstream>
-#include <iomanip>
 #include <Graphics/Factorys/ShaderFactory.h>
+#include <GeneCommon.h>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
@@ -34,7 +24,7 @@ int main()
 	using namespace Gene::Content;
     using namespace Gene;
 
-    WindowInfo info = { 800, 600, "Hello from GeneEngine.Sandbox", false };
+    WindowInfo info = { 600, 600, "Hello from GeneEngine.Sandbox", false };
 
 	Window *window = Window::CreateWindow(info);
 	window->Create();
