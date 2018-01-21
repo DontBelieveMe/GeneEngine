@@ -4,7 +4,6 @@ set(SrcDir ${CMAKE_CURRENT_LIST_DIR}/Engine/Private)
 set(HeaderDir ${CMAKE_CURRENT_LIST_DIR}/Engine/Public)
 
 set(CommonSource
-    ${SrcDir}/Content/GeneModel.cc
     ${SrcDir}/Content/OBJModelLoader.cc
 
     ${SrcDir}/Graphics/External/lodepng.cc
@@ -16,6 +15,8 @@ set(CommonSource
     ${SrcDir}/Graphics/Texture2D.cc
     ${SrcDir}/Graphics/VertexArray.cc
     ${SrcDir}/Graphics/Renderer2D.cc
+
+    ${SrcDir}/Graphics/Factorys/ShaderFactory.cc
 
     ${SrcDir}/Input/Keyboard.cc
     ${SrcDir}/Input/Mouse.cc
@@ -34,7 +35,10 @@ set(CommonSource
     ${SrcDir}/Graphics/External/lodepng.h    
     ${SrcDir}/Graphics/FreetypeGL.h
 
-    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/glfl/pregenerated/glfl.cc    
+    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/glfl/pregenerated/glfl.cpp
+    
+    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/tinyobjloader/tiny_obj_loader.cc
+    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/tinyobjloader/tiny_obj_loader.h
 )
 
 set(CommonHeaders
@@ -49,6 +53,8 @@ set(CommonHeaders
     ${HeaderDir}/Graphics/Texture2D.h
     ${HeaderDir}/Graphics/VertexArray.h
     ${HeaderDir}/Graphics/Renderer2D.h
+
+    ${HeaderDir}/Graphics/Factorys/ShaderFactory.h
 
     ${HeaderDir}/Input/Keyboard.h
     ${HeaderDir}/Input/KeyboardState.h
@@ -96,6 +102,7 @@ if(WIN32)
         ${SrcDir}/Platform/Win32/Win32Window.h
     )
 endif()
+add_definitions(-m32)
 
-add_library(Gene SHARED ${CommonSource} ${CommonHeaders} ${PlatformSrc})
+add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
 target_link_libraries(FreeType)

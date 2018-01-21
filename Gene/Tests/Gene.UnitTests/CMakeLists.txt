@@ -19,5 +19,10 @@ add_executable(GeneEngine.UnitTests
 
 target_link_libraries(GeneEngine.UnitTests "Gene")
 target_link_libraries(GeneEngine.UnitTests "FreeType")
+if(UNIX)
 target_link_libraries(GeneEngine.UnitTests "X11")
 target_link_libraries(GeneEngine.UnitTests "GL")
+endif()
+if(WIN32)
+target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
+endif()

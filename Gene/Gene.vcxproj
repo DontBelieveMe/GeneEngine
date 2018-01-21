@@ -208,7 +208,7 @@
     <ClCompile Include="Engine\Private\Content\OBJModelLoader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Buffer.cc" />
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
-    <ClCompile Include="Engine\Private\Graphics\Factorys\ShaderFactory.cpp" />
+    <ClCompile Include="Engine\Private\Graphics\Factorys\ShaderFactory.cc" />
     <ClCompile Include="Engine\Private\Graphics\Font.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
     <ClCompile Include="Engine\Private\Graphics\GUI\TextBox.cc" />

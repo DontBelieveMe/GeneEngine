@@ -8,6 +8,7 @@
 #include <Platform/Time.h>
 #include <Graphics/Factorys/ShaderFactory.h>
 #include <GeneCommon.h>
+#include <Graphics/Texture2D.h>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
@@ -17,6 +18,7 @@ void CreateModelMesh(
 
 int main()
 {
+    GE_ASSERT(false);
 	using namespace Gene::Platform;
 	using namespace Gene::Graphics;
 	using namespace Gene::Math;

@@ -103,11 +103,11 @@ static HMODULE s_OpenGL32 = LoadLibraryA("opengl32.dll");
 
 static void *Win32GetProcAddress(const char* path)
 {
-	void * ptr = wglGetProcAddress((LPCSTR)path);
+	PROC ptr = wglGetProcAddress((LPCSTR)path);
 	if (ptr == NULL)
-		return ::GetProcAddress(s_OpenGL32, (LPCSTR)path);
+		return (void*)::GetProcAddress(s_OpenGL32, (LPCSTR)path);
 	else
-		return ptr;
+		return (void*)ptr;
 }
 
 void Win32Window::CreateGLContext()

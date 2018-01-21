@@ -3,6 +3,7 @@ project(FreeType)
 set(FTRoot ${CMAKE_CURRENT_LIST_DIR}/src)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/devel)
 
 set(FreeTypeSource
     ${FTRoot}/base/ftbase.c
@@ -64,8 +65,6 @@ file(GLOB_RECURSE FTGLHeaders
     ${CMAKE_CURRENT_LIST_DIR}/freetype-gl/*.h
 )
 
-if(UNIX)
-    add_definitions(-DFT2_BUILD_LIBRARY)
-endif()
+add_definitions(-DFT2_BUILD_LIBRARY -m32)
 
-add_library(FreeType SHARED ${FreeTypeSource} ${FTGLSrc} ${FTGLHeaders})
+add_library(FreeType STATIC ${FreeTypeSource} ${FTGLSrc} ${FTGLHeaders})

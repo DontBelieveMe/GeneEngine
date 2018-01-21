@@ -9,7 +9,7 @@ Gene/Binaries/
 Dependencies/FreeType/Output/
 Gene/Release
 Gene.Sandbox/Binaries
-
+CMakeFiles/
 # Visual Studio user files
 *.vcxproj.filters
 *.vcxproj.user
