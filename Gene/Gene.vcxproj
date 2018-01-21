@@ -163,6 +163,7 @@
     <ClInclude Include="Engine\Public\Content\GeneModel.h" />
     <ClInclude Include="Engine\Public\Content\IModelLoader.h" />
     <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
+    <ClInclude Include="Engine\Public\Content\TinyObjLoader.h" />
     <ClInclude Include="Engine\Public\GeneCommon.h" />
     <ClInclude Include="Engine\Public\GeneUseAll.h" />
     <ClInclude Include="Engine\Public\Graphics\Factorys\ShaderFactory.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_func_indices.h" />
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_proxy_proto__.h" />
     <ClInclude Include="ThirdParty\glfl\pregenerated\GLFL\glfl_simple_proto__.h" />
+    <ClInclude Include="ThirdParty\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Private\Content\GeneModel.cc" />
@@ -230,6 +232,7 @@
     <ClCompile Include="Engine\Private\Platform\Window.cc" />
     <ClCompile Include="Engine\Private\Graphics\External\lodepng.cc" />
     <ClCompile Include="ThirdParty\glfl\pregenerated\glfl.cpp" />
+    <ClCompile Include="ThirdParty\tinyobjloader\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThirdParty\glfl\pregenerated\enumerators" />

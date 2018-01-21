@@ -48,46 +48,31 @@ int main()
     GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader", 
     {
         {0, "position"},
-        {1, "normal"}
+        {1, "tex_coord"},
     });
     shader3d->Enable();
 
 	OBJModelLoader objLoader;
-	GeneModel *suzanneModel = objLoader.Load("Data/dognut.obj");
+	GeneModel *suzanneModel = objLoader.Load("Data/doughnut.obj");
 
 	Buffer *modelEbo;
 	VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-    Font wendyOneFont("Data/impact.ttf", 48);
-
 	Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(info.Width / info.Height), 45, 1000, 0.001f);
 	shader3d->LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
 
-	Renderer2D renderer2d;
-	renderer2d.Init(
-        Matrix4::Orthographic(static_cast<float>(info.Width), 0.f, 0.f, static_cast<float>(info.Height), 1.f, -1.f)
-     );
-
-    Texture2D texture1;
-    texture1.Filtering = Texture2D::FilteringOptions::Linear;
-    texture1.Load("Data/face.png");
-
-    Texture2D texture2;
-    texture2.Filtering = Texture2D::FilteringOptions::Linear;
-    texture2.Load("Data/twitter.png");
+    Texture2D doughnut("Data/doughnut_texture.png");
 
 	window->Show();
 	
     float suzanneTheta = 180.f;
     Vector3 suzannePosition(0, 0, -5.f);
-	Vector2 pos(10, 10);
-	GameTime gameTime;
-	gameTime.Init();
 
+    GameTime gameTime;
+	gameTime.Init();
     while (window->Running())
     {
-		KeyboardState state = Keyboard::GetState();
 		gameTime.StartFrame();
         shader3d->Enable();
 
@@ -106,30 +91,18 @@ int main()
         window->Clear();
 
 		glEnable(GL_DEPTH_TEST);
+        doughnut.Enable(0);
         modelVao.Enable();
         modelEbo->Enable();
     	modelVao.DebugDrawElements(modelEbo);
         modelEbo->Disable();
         modelVao.Disable();
+        doughnut.Disable(0);
+
         shader3d->Disable();
         glDisable(GL_DEPTH_TEST);
 
-        /*renderer2d.Begin();
-
-        renderer2d.DrawTexture(pos, &texture1);
-        renderer2d.DrawTexture(pos + Vector2(0, 100), &texture2);
-
-        renderer2d.FillRectangle({425, 50}, 100, 100, Color::Blue);
-
-        MouseState mState = Mouse::GetState();
-        
-        std::string s = std::to_string((int)mState.Position.X) + ", " + std::to_string((int)mState.Position.Y);
-        Vector2 size = wendyOneFont.MeasureString(s);
-        
-        renderer2d.DrawString(&wendyOneFont, s, {20, info.Height-size.Y-20}, Color(0x373c44));
-		renderer2d.End();
-        renderer2d.Present();*/
-
+       
         window->SwapBuffers();
 		window->PollEvents();
 
@@ -137,8 +110,6 @@ int main()
 		gameTime.EndFrame();
 		gameTime.Sleep(1000 / 60);
 	}
-	
-	renderer2d.Destroy();
 
 	return 0;
 }
@@ -149,7 +120,7 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
     using namespace Gene::OpenGL;
 
     std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-    std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+    std::shared_ptr<Buffer> tbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 
     (*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 
@@ -162,12 +133,12 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
     vertexBufferDesc.DrawType	 = BufferDrawType::Static;
     vbo->SetData(vertexBufferDesc);
 
-    BufferDescriptor normalBufferDesc;
-    normalBufferDesc.Data		 = &(model->Normals[0]);
-    normalBufferDesc.DataType	 = GLType::Float;
-    normalBufferDesc.Size		 = model->Normals.size() * 3 * sizeof(GLfloat);
-    normalBufferDesc.DrawType	 = BufferDrawType::Static;
-    nbo->SetData(normalBufferDesc);
+    BufferDescriptor texCoordBufferDesc;
+    texCoordBufferDesc.Data		 = &(model->UVs[0]);
+    texCoordBufferDesc.DataType	 = GLType::Float;
+    texCoordBufferDesc.Size		 = model->UVs.size() * 2 * sizeof(GLfloat);
+    texCoordBufferDesc.DrawType	 = BufferDrawType::Static;
+    tbo->SetData(texCoordBufferDesc);
 
     BufferDescriptor indexBufferDesc;
     indexBufferDesc.Data		 = &(model->Indices[0]);
@@ -184,15 +155,15 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
     vertexAttrib.Stride			 = 0;
     vertexAttrib.ByteOfffset     = 0;
 	
-    AttributeDescriptor normalAttrib;
-    normalAttrib.Index			 = 1;
-    normalAttrib.ComponentCount  = 3;
-    normalAttrib.Stride		     = 0;
-    normalAttrib.ByteOfffset	 = 0;
+    AttributeDescriptor texCoordAttrib;
+    texCoordAttrib.Index			 = 1;
+    texCoordAttrib.ComponentCount    = 2;
+    texCoordAttrib.Stride		     = 0;
+    texCoordAttrib.ByteOfffset	     = 0;
 
     #pragma endregion
 
     vao.RegisterAttribute(vbo.get(), vertexAttrib);
-    vao.RegisterAttribute(nbo.get(), normalAttrib);
+    vao.RegisterAttribute(tbo.get(), texCoordAttrib);
 }
 

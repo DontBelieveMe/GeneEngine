@@ -5,71 +5,49 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
+#include <Content/TinyObjLoader.h>
 
 using namespace Gene::Content;
+using namespace Gene;
 
 GeneModel *OBJModelLoader::Load(const char * filepath)
 {
-	using namespace Gene::IO;
-	using namespace Gene::Math;
+    tinyobj::attrib_t attrib;
+    Array<tinyobj::shape_t> shapes;
+    Array<tinyobj::material_t> materials;
+    std::string err;
 
+    bool errCode = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, filepath);
 
-	Array<std::string> lines = File::ReadLines(filepath);
+    GE_ASSERT(errCode, err.c_str());
 
-	Array<Vector3> vertices;
-    Array<Vector3> normals;
+    GeneModel *model = new GeneModel();
+    
+    Array<Vector3> vertices, normals;
+    Array<Vector2> texCoords;
     Array<GLuint> indices;
+    
+    for (const tinyobj::shape_t& shape : shapes)
+    {
+        for (const tinyobj::index_t& index : shape.mesh.indices)
+        {
+            vertices.push_back({ 
+                attrib.vertices[3 * index.vertex_index + 0], 
+                attrib.vertices[3 * index.vertex_index + 1], 
+                attrib.vertices[3 * index.vertex_index + 2] });
 
-	for (std::string line : lines)
-	{
-		std::string id = line.substr(0, 2);
-		if (id == "v ") 
-		{
-			std::istringstream stream(line.substr(2));
-			Vector3 vector;
-			stream >> vector.X;
-			stream >> vector.Y;
-			stream >> vector.Z;
-			vertices.push_back(vector);
-		}
-		else if (id == "f ")
-		{
-			std::istringstream stream(line.substr(2));
-			GLuint a, b, c;
-			stream >> a;
-			stream >> b;
-			stream >> c;
-			a--; b--; c--;
-			indices.push_back(a);
-			indices.push_back(b);
-			indices.push_back(c);
-		}
-	}
+            texCoords.push_back({
+                attrib.texcoords[2 * index.texcoord_index + 0],
+                1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+            });
 
-	normals.resize(vertices.size(), { 0.f, 0.f, 0.f });
-	for (size_t i = 0; i < indices.size(); i+=3)
-	{
-		GLuint ia = indices[i];
-		GLuint ib = indices[i + 1];
-		GLuint ic = indices[i + 2];
+            indices.push_back(indices.size());
+        }
+    }
 
-		Vector3 q = vertices[ib];
-		Vector3 r = vertices[ic];
-		Vector3 p = vertices[ia];
+    model->Indices = indices;
+    model->Vertices = vertices;
+    model->UVs = texCoords;
 
-		Vector3 normal = Vector3::CrossProduct(
-			q - p,
-			r - p
-		);
-
-		normal.Normalize();
-		normals[ia] = normals[ib] = normals[ic] = normal;
-	}
-
-	GeneModel *model = new GeneModel();
-	model->Vertices = vertices;
-	model->Normals = normals;
-	model->Indices = indices;
-
-	return model;
+    return model;
 }
