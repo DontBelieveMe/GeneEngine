@@ -18,8 +18,7 @@ void CreateModelMesh(
 
 int main()
 {
-    GE_ASSERT(false);
-	using namespace Gene::Platform;
+    using namespace Gene::Platform;
 	using namespace Gene::Graphics;
 	using namespace Gene::Math;
 	using namespace Gene::Input;

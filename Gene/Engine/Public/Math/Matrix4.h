@@ -1,7 +1,6 @@
 #pragma once
 #include <Math/Vector3.h>
 #include <Math/Vector2.h>
-#include <iostream>
 
 namespace Gene { namespace Math {
 	class Matrix4
@@ -45,22 +44,7 @@ namespace Gene { namespace Math {
 
         friend Matrix4 operator*(Matrix4 a, const Matrix4& b);
         friend Vector3 operator*(Matrix4 a, const Vector3& b);
-
-		friend std::ostream& operator<<(std::ostream& os, const Matrix4& matrix);
 	};
-
-	inline std::ostream& operator<<(std::ostream& os, const Matrix4& matrix)
-	{
-		for (int i = 0; i < 4; ++i)
-		{
-			for (int j = 0; j < 4; ++j)
-			{
-				os << matrix.Elements[j + i * 4] << ",";
-			}
-			os << std::endl;
-		}
-		return os;
-	}
 }}
 
 namespace Gene {
