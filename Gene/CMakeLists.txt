@@ -3,85 +3,8 @@ project(GeneEngine.Core)
 set(SrcDir ${CMAKE_CURRENT_LIST_DIR}/Engine/Private)
 set(HeaderDir ${CMAKE_CURRENT_LIST_DIR}/Engine/Public)
 
-set(CommonSource
-    ${SrcDir}/Content/OBJModelLoader.cc
-
-    ${SrcDir}/Graphics/External/lodepng.cc
-    ${SrcDir}/Graphics/Buffer.cc
-    ${SrcDir}/Graphics/Color.cc
-    ${SrcDir}/Graphics/Font.cc
-    ${SrcDir}/Graphics/GLSLShader.cc
-    ${SrcDir}/Graphics/Light.cc
-    ${SrcDir}/Graphics/Texture2D.cc
-    ${SrcDir}/Graphics/VertexArray.cc
-    ${SrcDir}/Graphics/Renderer2D.cc
-
-    ${SrcDir}/Graphics/Factorys/ShaderFactory.cc
-
-    ${SrcDir}/Input/Keyboard.cc
-    ${SrcDir}/Input/Mouse.cc
-
-    ${SrcDir}/IO/File.cc
-
-    ${SrcDir}/Math/Matrix4.cc
-    ${SrcDir}/Math/Quaternion.cc
-    ${SrcDir}/Math/Vector2.cc
-    ${SrcDir}/Math/Vector3.cc
-
-    ${SrcDir}/Platform/GLFLLoad.cc
-    ${SrcDir}/Platform/Time.cc
-    ${SrcDir}/Platform/Window.cc
-
-    ${SrcDir}/Graphics/External/lodepng.h    
-    ${SrcDir}/Graphics/FreetypeGL.h
-
-    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/glfl/pregenerated/glfl.cpp
-    
-    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/tinyobjloader/tiny_obj_loader.cc
-    ${CMAKE_CURRENT_LIST_DIR}/ThirdParty/tinyobjloader/tiny_obj_loader.h
-)
-
-set(CommonHeaders
-    ${HeaderDir}/Content/IModelLoader.h
-    ${HeaderDir}/Content/OBJModelLoader.h
-
-    ${HeaderDir}/Graphics/Buffer.h
-    ${HeaderDir}/Graphics/Color.h
-    ${HeaderDir}/Graphics/Font.h
-    ${HeaderDir}/Graphics/GLSLShader.h
-    ${HeaderDir}/Graphics/Light.h
-    ${HeaderDir}/Graphics/Texture2D.h
-    ${HeaderDir}/Graphics/VertexArray.h
-    ${HeaderDir}/Graphics/Renderer2D.h
-
-    ${HeaderDir}/Graphics/Factorys/ShaderFactory.h
-
-    ${HeaderDir}/Input/Keyboard.h
-    ${HeaderDir}/Input/KeyboardState.h
-    ${HeaderDir}/Input/Keys.h
-    ${HeaderDir}/Input/Mouse.h
-    ${HeaderDir}/Input/MouseState.h
-
-    ${HeaderDir}/IO/File.h
-
-    ${HeaderDir}/Math/Functions.h
-    ${HeaderDir}/Math/Math.h
-    ${HeaderDir}/Math/Matrix4.h
-    ${HeaderDir}/Math/Quaternion.h
-    ${HeaderDir}/Math/Vector2.h
-    ${HeaderDir}/Math/Vector3.h
-
-    ${HeaderDir}/Platform/FreeType.h
-    ${HeaderDir}/Platform/GLContext.h
-    ${HeaderDir}/Platform/OpenAL.h
-    ${HeaderDir}/Platform/OpenGL.h
-    ${HeaderDir}/Platform/OS.h
-    ${HeaderDir}/Platform/Time.h
-    ${HeaderDir}/Platform/Window.h
-
-    ${HeaderDir}/GeneCommon.h
-    ${HeaderDir}/GeneUseAll.h
-)
+include(${CMAKE_CURRENT_LIST_DIR}/Engine/Private/CMakeLists.txt)
+include(${CMAKE_CURRENT_LIST_DIR}/Engine/Public/CMakeLists.txt)
 
 set(PlatformSrc)
 
@@ -102,7 +25,8 @@ if(WIN32)
         ${SrcDir}/Platform/Win32/Win32Window.h
     )
 endif()
-add_definitions(-m32)
+
+source_group("Source Files\\Platform\\Win32" FILES ${PlatformSrc})
 
 add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
 target_link_libraries(FreeType)
