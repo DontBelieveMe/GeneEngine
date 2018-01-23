@@ -30,3 +30,5 @@ source_group("Source Files\\Platform\\Win32" FILES ${PlatformSrc})
 
 add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
 target_link_libraries(FreeType)
+
+set_property(TARGET Gene PROPERTY FOLDER "Engine")

@@ -68,3 +68,5 @@ file(GLOB_RECURSE FTGLHeaders
 add_definitions(-DFT2_BUILD_LIBRARY -m32)
 
 add_library(FreeType STATIC ${FreeTypeSource} ${FTGLSrc} ${FTGLHeaders})
+
+set_property(TARGET FreeType PROPERTY FOLDER "Dependencies")

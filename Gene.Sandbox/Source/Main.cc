@@ -42,6 +42,7 @@ int main()
         {1, "tex_coord"},
         {2, "normal"}
     });
+    
     shader3d->Enable();
 
 	OBJModelLoader objLoader;
