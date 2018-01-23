@@ -29,4 +29,5 @@ if(WIN32)
 	target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
 endif()
 
+# Set Visual Studio project folder.
 set_property(TARGET GeneEngine.UnitTests PROPERTY FOLDER "Engine/Tests")

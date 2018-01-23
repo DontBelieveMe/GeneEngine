@@ -52,14 +52,23 @@ set(RootHeaders
     ${HeaderDir}/GeneUseAll.h
 )
 
-source_group("Header Files\\Content" FILES ${ContentHeaders})
-source_group("Header Files\\Graphics" FILES ${GraphicsHeaders})
-source_group("Header Files\\Input" FILES ${InputHeaders})
-source_group("Header Files\\IO" FILES ${IOHeaders})
-source_group("Header Files\\Math" FILES ${MathHeaders})
-source_group("Header Files\\Platform" FILES ${PlatformHeaders})
-source_group("Header Files" FILES ${RootHeaders})
+set(VSHeaderFilterName "Header Files")
+
+# Set Visual Studio filters.
+source_group("${VSHeaderFilterName}\\Content"  FILES ${ContentHeaders})
+source_group("${VSHeaderFilterName}\\Graphics" FILES ${GraphicsHeaders})
+source_group("${VSHeaderFilterName}\\Input"    FILES ${InputHeaders})
+source_group("${VSHeaderFilterName}\\IO" 	   FILES ${IOHeaders})
+source_group("${VSHeaderFilterName}\\Math" 	   FILES ${MathHeaders})
+source_group("${VSHeaderFilterName}\\Platform" FILES ${PlatformHeaders})
+source_group("${VSHeaderFilterName}" 		   FILES ${RootHeaders})
 
 set(CommonHeaders
-    ${ContentHeaders} ${GraphicsHeaders} ${InputHeaders} ${IOHeaders} ${MathHeaders} ${PlatformHeaders} ${RootHeaders}
+    ${ContentHeaders} 
+	${GraphicsHeaders} 
+	${InputHeaders} 
+	${IOHeaders} 
+	${MathHeaders} 
+	${PlatformHeaders} 
+	${RootHeaders}
 )

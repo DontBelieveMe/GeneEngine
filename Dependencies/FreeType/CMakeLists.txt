@@ -65,8 +65,9 @@ file(GLOB_RECURSE FTGLHeaders
     ${CMAKE_CURRENT_LIST_DIR}/freetype-gl/*.h
 )
 
-add_definitions(-DFT2_BUILD_LIBRARY -m32)
+add_definitions(-DFT2_BUILD_LIBRARY)
 
 add_library(FreeType STATIC ${FreeTypeSource} ${FTGLSrc} ${FTGLHeaders})
 
+# Set the Visual Studio project filter.
 set_property(TARGET FreeType PROPERTY FOLDER "Dependencies")

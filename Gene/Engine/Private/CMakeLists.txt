@@ -3,8 +3,7 @@ set(ContentSrc
 )
 
 set(GraphicsSrc 
-	${SrcDir}/Graphics/External/lodepng.cc
-    ${SrcDir}/Graphics/Buffer.cc
+	${SrcDir}/Graphics/Buffer.cc
     ${SrcDir}/Graphics/Color.cc
     ${SrcDir}/Graphics/Font.cc
     ${SrcDir}/Graphics/GLSLShader.cc
@@ -14,6 +13,8 @@ set(GraphicsSrc
     ${SrcDir}/Graphics/Renderer2D.cc
 
     ${SrcDir}/Graphics/Factorys/ShaderFactory.cc
+	
+	${SrcDir}/Graphics/FreetypeGL.h
 )
 
 set(InputSrc 
@@ -40,22 +41,30 @@ set(PlatformSrc
 
 set(ThirdPartySrc 
 	${SrcDir}/Graphics/External/lodepng.h    
-    ${SrcDir}/Graphics/FreetypeGL.h
-
+    ${SrcDir}/Graphics/External/lodepng.cc
+    
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/glfl/pregenerated/glfl.cpp
     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.cc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.h
 )
 
-source_group("Source Files\\Content" FILES ${ContentSrc})
-source_group("Source Files\\Graphics" FILES ${GraphicsSrc})
-source_group("Source Files\\Input" FILES ${InputSrc})
-source_group("Source Files\\IO" FILES ${IOSrc})
-source_group("Source Files\\Math" FILES ${MathSrc})
-source_group("Source Files\\Platform" FILES ${PlatformSrc})
-source_group("Source Files\\Third Party" FILES ${ThirdPartySrc})
+set(VSSourceFilterName "Source Files")
+
+source_group("${VSSourceFilterName}\\Content"  	  FILES ${ContentSrc})
+source_group("${VSSourceFilterName}\\Graphics" 	  FILES ${GraphicsSrc})
+source_group("${VSSourceFilterName}\\Input"    	  FILES ${InputSrc})
+source_group("${VSSourceFilterName}\\IO" 	  	  FILES ${IOSrc})
+source_group("${VSSourceFilterName}\\Math" 	  	  FILES ${MathSrc})
+source_group("${VSSourceFilterName}\\Platform" 	  FILES ${PlatformSrc})
+source_group("${VSSourceFilterName}\\Third Party" FILES ${ThirdPartySrc})
 
 set(CommonSource
-    ${ContentSrc} ${GraphicsSrc} ${InputSrc} ${IOSrc} ${MathSrc} ${PlatformSrc} ${ThirdPartySrc}
+    ${ContentSrc} 
+	${GraphicsSrc} 
+	${InputSrc} 
+	${IOSrc} 
+	${MathSrc} 
+	${PlatformSrc} 
+	${ThirdPartySrc}
 )
