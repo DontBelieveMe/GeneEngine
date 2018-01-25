@@ -2,6 +2,7 @@
 #include <IO/File.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 using namespace Gene::Graphics;
 

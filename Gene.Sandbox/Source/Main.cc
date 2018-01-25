@@ -25,8 +25,12 @@ int main()
 	using namespace Gene::Content;
     using namespace Gene;
 
-    WindowInfo info = { 600, 600, "Hello from GeneEngine.Sandbox", false };
-
+    WindowInfo info;//= { 600, 600, "Hello from GeneEngine.Sandbox", false };
+	info.Width = 600;
+	info.Height = 600;
+	info.Title = "Hello Android!";
+	info.Borderless = false;
+	
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
