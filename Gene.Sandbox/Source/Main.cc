@@ -39,8 +39,8 @@ int main()
     GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader", 
     {
         {0, "position"},
-        {1, "tex_coord"},
-        {2, "normal"}
+        {1, "normal"},
+        {2, "tex_coord"}
     });
     
     shader3d->Enable();
@@ -109,39 +109,48 @@ int main()
 	return 0;
 }
 
+struct Vertex 
+{
+    Gene::Vector3 position;
+    Gene::Vector3 normal;
+    Gene::Vector2 uv;
+};
+
+
 void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
     using namespace Gene::Graphics;
     using namespace Gene::OpenGL;
+    using namespace Gene;
+    Gene::Array<Vertex> data;
 
     std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-    std::shared_ptr<Buffer> tbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-    std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-
+    
     (*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 
     vao.Enable();
 
+    data.reserve(model->Vertices.size() + model->Normals.size() + model->UVs.size());
+
+    const Array<Vector3> vertices = model->Vertices;
+    const Array<Vector3> normals = model->Normals;
+    const Array<Vector2> uvs = model->UVs;
+
+    for (size_t i = 0; i < model->Vertices.size(); ++i)
+    {
+        Vector3 vertex = vertices[i];
+        Vector3 normal = normals[i];
+        Vector2 uv = uvs[i];
+
+        data.push_back({ vertex, normal,uv });
+    }
+
     BufferDescriptor vertexBufferDesc;
-    vertexBufferDesc.Data		 = &(model->Vertices[0]);
+    vertexBufferDesc.Data		 = &(data[0]);
     vertexBufferDesc.DataType	 = GLType::Float;
-    vertexBufferDesc.Size		 = model->Vertices.size() * 3 * sizeof(GLfloat);
+    vertexBufferDesc.Size		 = data.size() * sizeof(Vertex);
     vertexBufferDesc.DrawType	 = BufferDrawType::Static;
     vbo->SetData(vertexBufferDesc);
-
-    BufferDescriptor normalBufferDesc;
-    normalBufferDesc.Data = &(model->Normals[0]);
-    normalBufferDesc.DataType = GLType::Float;
-    normalBufferDesc.Size = model->Normals.size() * 3 * sizeof(GLfloat);
-    normalBufferDesc.DrawType = BufferDrawType::Static;
-    nbo->SetData(normalBufferDesc);
-
-    BufferDescriptor texCoordBufferDesc;
-    texCoordBufferDesc.Data		 = &(model->UVs[0]);
-    texCoordBufferDesc.DataType	 = GLType::Float;
-    texCoordBufferDesc.Size		 = model->UVs.size() * 2 * sizeof(GLfloat);
-    texCoordBufferDesc.DrawType	 = BufferDrawType::Static;
-    tbo->SetData(texCoordBufferDesc);
 
     BufferDescriptor indexBufferDesc;
     indexBufferDesc.Data		 = &(model->Indices[0]);
@@ -152,29 +161,30 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
 
     #pragma region Attributes
 
+    int32 stride = sizeof(Vertex);
+
     AttributeDescriptor vertexAttrib;
-    vertexAttrib.Index			 = 0;
-    vertexAttrib.ComponentCount  = 3;
-    vertexAttrib.Stride			 = 0;
-    vertexAttrib.ByteOfffset     = 0;
+    vertexAttrib.Index			  = 0;
+    vertexAttrib.ComponentCount   = 3;
+    vertexAttrib.Stride			  = stride;
+    vertexAttrib.ByteOfffset      = offsetof(Vertex, position);
 	
-    AttributeDescriptor texCoordAttrib;
-    texCoordAttrib.Index			 = 1;
-    texCoordAttrib.ComponentCount    = 2;
-    texCoordAttrib.Stride		     = 0;
-    texCoordAttrib.ByteOfffset	     = 0;
-
     AttributeDescriptor normalAttrib;
-    normalAttrib.Index = 2;
-    normalAttrib.ComponentCount = 3;
-    normalAttrib.Stride = 0;
-    normalAttrib.ByteOfffset = 0;
+    normalAttrib.Index			  = 1;
+    normalAttrib.ComponentCount   = 3;
+    normalAttrib.Stride		      = stride;
+    normalAttrib.ByteOfffset	  = offsetof(Vertex, normal);
 
+    AttributeDescriptor texCoordAttrib;
+    texCoordAttrib.Index          = 2;
+    texCoordAttrib.ComponentCount = 2;
+    texCoordAttrib.Stride         = stride;
+    texCoordAttrib.ByteOfffset    = offsetof(Vertex, uv);
 
     #pragma endregion
 
     vao.RegisterAttribute(vbo.get(), vertexAttrib);
-    vao.RegisterAttribute(tbo.get(), texCoordAttrib);
-    vao.RegisterAttribute(nbo.get(), normalAttrib);
+    vao.RegisterAttribute(vbo.get(), normalAttrib);
+    vao.RegisterAttribute(vbo.get(), texCoordAttrib);
 }
 

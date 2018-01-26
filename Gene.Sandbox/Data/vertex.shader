@@ -1,8 +1,8 @@
 #version 130
 
 in vec3 position; 
-in vec2 tex_coord;
 in vec3 normal;
+in vec2 tex_coord;
 
 uniform mat4 u_Projection;
 uniform mat4 u_Transform;
