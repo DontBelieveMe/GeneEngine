@@ -30,6 +30,9 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
     }
 }
 
+#include "Shaders/Fragment2D.shader"
+#include "Shaders/Vertex2D.shader"
+
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
 void Renderer2D::Init(const Matrix4& projectionMatrix)
@@ -39,9 +42,15 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
-    m_Shader->CompileFromFiles("Data/vertex2d.shader", "Data/fragment2d.shader");
-    m_Shader->Enable();
 
+    // TODO: Fix -> We need a better way of embedding shaders (maybe package in custom package & auto copy/deploy to correct
+    // directory
+    SHADER_VERTEX2D(vertexShader);
+    SHADER_FRAGMENT2D(fragmentShader);
+
+    m_Shader->CompileFromText(vertexShader, fragmentShader);
+    m_Shader->Enable();
+    
     m_Shader->BindAttributeIndex(0, "position");
     m_Shader->BindAttributeIndex(1, "color");
     m_Shader->BindAttributeIndex(2, "uv");

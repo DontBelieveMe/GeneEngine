@@ -231,6 +231,8 @@
     <ClCompile Include="ThirdParty\tinyobjloader\tiny_obj_loader.cc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\Private\Graphics\Shaders\Fragment2D.shader" />
+    <None Include="Engine\Private\Graphics\Shaders\Vertex2D.shader" />
     <None Include="ThirdParty\glfl\pregenerated\enumerators" />
     <None Include="ThirdParty\glfl\pregenerated\extensions" />
     <None Include="ThirdParty\glfl\pregenerated\functions" />
