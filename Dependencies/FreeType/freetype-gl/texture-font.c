@@ -29,7 +29,7 @@
 const struct {
     int          code;
     const char*  message;
-} FT_Errors[] =
+} FT_Errors[] = 
 #include FT_ERRORS_H
 
 // ------------------------------------------------- texture_font_load_face ---

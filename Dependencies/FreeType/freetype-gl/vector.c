@@ -9,8 +9,6 @@
 #include <stdio.h>
 #include "vector.h"
 
-
-
 // ------------------------------------------------------------- vector_new ---
 vector_t *
 vector_new( size_t item_size )

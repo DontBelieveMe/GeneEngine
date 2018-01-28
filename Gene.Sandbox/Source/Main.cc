@@ -9,6 +9,7 @@
 #include <Graphics/Factorys/ShaderFactory.h>
 #include <GeneCommon.h>
 #include <Graphics/Texture2D.h>
+#include <Graphics/Renderer2D.h>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
@@ -65,6 +66,9 @@ int main()
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
+
+    Renderer2D renderer;
+    renderer.DrawString(NULL, "a", { 0,0 }, { 0,0,0,0});
 
     GameTime gameTime;
 	gameTime.Init();
@@ -138,11 +142,7 @@ void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** 
 
     for (size_t i = 0; i < model->Vertices.size(); ++i)
     {
-        Vector3 vertex = vertices[i];
-        Vector3 normal = normals[i];
-        Vector2 uv = uvs[i];
-
-        data.push_back({ vertex, normal,uv });
+        data.push_back({ vertices[i], normals[i],uvs[i] });
     }
 
     BufferDescriptor vertexBufferDesc;

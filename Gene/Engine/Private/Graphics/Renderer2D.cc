@@ -6,7 +6,7 @@
 using namespace Gene::Graphics;
 using namespace Gene;
 
-static const int RenderableSize     = sizeof(Vertex) * 4; // 4 vertices in a cube
+static const int RenderableSize     = sizeof(Vertex2D) * 4; // 4 vertices in a cube
 static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
@@ -83,32 +83,32 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     AttributeDescriptor                 positionAttribDesc;
     positionAttribDesc.Index            = 0;
     positionAttribDesc.ComponentCount   = 3;
-    positionAttribDesc.Stride           = sizeof(Vertex);
+    positionAttribDesc.Stride           = sizeof(Vertex2D);
     positionAttribDesc.ByteOfffset      = 0;
 
     AttributeDescriptor                 colorAttribDesc;
     colorAttribDesc.Index               = 1;
     colorAttribDesc.ComponentCount      = 3;
-    colorAttribDesc.Stride              = sizeof(Vertex);
-	colorAttribDesc.ByteOfffset			= offsetof(Vertex, Color);
+    colorAttribDesc.Stride              = sizeof(Vertex2D);
+	colorAttribDesc.ByteOfffset			= offsetof(Vertex2D, Color);
 
 	AttributeDescriptor					uvAttribDesc;
 	uvAttribDesc.Index					= 2;
 	uvAttribDesc.ComponentCount			= 2;
-	uvAttribDesc.Stride					= sizeof(Vertex);
-	uvAttribDesc.ByteOfffset			= offsetof(Vertex, UV);
+	uvAttribDesc.Stride					= sizeof(Vertex2D);
+	uvAttribDesc.ByteOfffset			= offsetof(Vertex2D, UV);
 
 	AttributeDescriptor					texIdAttrib;
 	texIdAttrib.Index					= 3;
 	texIdAttrib.ComponentCount			= 1;
-	texIdAttrib.Stride					= sizeof(Vertex);
-    texIdAttrib.ByteOfffset             = offsetof(Vertex, TextureId);
+	texIdAttrib.Stride					= sizeof(Vertex2D);
+    texIdAttrib.ByteOfffset             = offsetof(Vertex2D, TextureId);
 
     AttributeDescriptor					vertxTypeAttribDesc;
     vertxTypeAttribDesc.Index           = 4;
     vertxTypeAttribDesc.ComponentCount  = 1;
-    vertxTypeAttribDesc.Stride          = sizeof(Vertex);
-    vertxTypeAttribDesc.ByteOfffset     = offsetof(Vertex, VertexType);
+    vertxTypeAttribDesc.Stride          = sizeof(Vertex2D);
+    vertxTypeAttribDesc.ByteOfffset     = offsetof(Vertex2D, VertexType);
 
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
@@ -157,9 +157,7 @@ void Renderer2D::DrawString(Font *font,
 						    const Math::Vector2& pos, 
 							const Graphics::Color color)
 {
-	using namespace ftgl;
-
-	texture_font_t *ftFont = font->TextureFont();
+    ftgl::texture_font_t *ftFont = font->TextureFont();
 	Vector3 rgbPack = color.ToNormalizedVector3();
 
 	Texture2D *glTexture = font->GLTexture();
@@ -173,7 +171,7 @@ void Renderer2D::DrawString(Font *font,
 	{
         char c = text[i];
 		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &c);
-
+        
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
 
         float tmpY = yPos - glyph->offset_y;
@@ -264,7 +262,7 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
 void Renderer2D::Begin()
 {
 	m_VAO->Enable();
-    m_Buffer = m_VBO->GetPointer<Vertex>();
+    m_Buffer = m_VBO->GetPointer<Vertex2D>();
 
     GE_ASSERT(m_Buffer);
 }

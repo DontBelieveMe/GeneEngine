@@ -16,7 +16,7 @@
 
 namespace Gene { namespace Graphics {
     
-	struct Vertex 
+	struct Vertex2D 
 	{
         Vector3     Position;
         Vector3     Color;
@@ -33,7 +33,7 @@ namespace Gene { namespace Graphics {
         Buffer                  *m_EBO;
         int                      m_IndexCount;
 
-        Vertex                  *m_Buffer;
+        Vertex2D                  *m_Buffer;
         GLSLShader              *m_Shader;
         Matrix4                  m_ProjectionMatrix;
         Texture2D               *m_Texture;
@@ -45,10 +45,10 @@ namespace Gene { namespace Graphics {
 	public:
 		Renderer2D();
 
-        void DrawString(Font *font, 
-						const std::string& text, 
-						const Vector2& pos, 
-						const Graphics::Color color
+        void DrawString(Font *font,
+            const std::string &text,
+            const Math::Vector2& pos,
+            const Graphics::Color color
 		);
 
 		void DrawTexture(Vector2 position, Texture2D *texture);

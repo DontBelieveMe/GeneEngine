@@ -17,10 +17,10 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	const int	 ATLAS_DEPTH = 1;
 	
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	m_Atlas = texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
+	m_Atlas = ftgl::texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
 
 	m_Font  = texture_font_new_from_file(m_Atlas, size, fontFile);
-    m_Font->rendermode = RENDER_SIGNED_DISTANCE_FIELD;
+    m_Font->rendermode = ftgl::RENDER_SIGNED_DISTANCE_FIELD;
     // For now just hack it and load all the ASCII characters
     // TODO: Remove this and do glyph loading on the fly when drawing the string
     //       Hence only loading the characters we need
@@ -52,7 +52,7 @@ Vector2 Font::MeasureString(const std::string & str)
     float height = 0.0f;
 
     for (char character : str) {
-        texture_glyph_t *glyph = texture_font_get_glyph(m_Font, &character);
+        ftgl::texture_glyph_t *glyph = ftgl::texture_font_get_glyph(m_Font, &character);
         width += glyph->advance_x;
         if (glyph->advance_y > height) {
             height = glyph->advance_y;

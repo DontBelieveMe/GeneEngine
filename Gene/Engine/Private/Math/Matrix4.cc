@@ -104,28 +104,28 @@ void Matrix4::Scale(float scaleFactor)
 void Matrix4::RotateX(float theta)
 {
 	float radians = Maths::ToRadians(theta);
-	Elements[1 + 1 * 4] = ::cos(radians);
-	Elements[2 + 2 * 4] = ::cos(radians);
-	Elements[1 + 2 * 4] = -(::sin(radians));
-	Elements[2 + 1 * 4] = (::sin(radians));
+	Elements[1 + 1 * 4] = ::cosf(radians);
+	Elements[2 + 2 * 4] = ::cosf(radians);
+	Elements[1 + 2 * 4] = -(::sinf(radians));
+	Elements[2 + 1 * 4] = (::sinf(radians));
 }
 
 void Matrix4::RotateY(float theta)
 {
 	float radians = Maths::ToRadians(theta);
-	Elements[0] = ::cos(radians);
-	Elements[2 + 2 * 4] = ::cos(radians);
-	Elements[0 + 2 * 4] = (::sin(radians));
-	Elements[2 + 0 * 4] = -(::sin(radians));
+	Elements[0] = ::cosf(radians);
+	Elements[2 + 2 * 4] = ::cosf(radians);
+	Elements[0 + 2 * 4] = (::sinf(radians));
+	Elements[2 + 0 * 4] = -(::sinf(radians));
 }
 
 void Matrix4::RotateZ(float theta)
 {
 	float radians = Maths::ToRadians(theta);
-	Elements[0] = ::cos(radians);
-	Elements[1 + 1 * 4] = ::cos(radians);
-	Elements[0 + 1 * 4] = -(::sin(radians));
-	Elements[1 + 0 * 4] = (::sin(radians));
+	Elements[0] = ::cosf(radians);
+	Elements[1 + 1 * 4] = ::cosf(radians);
+	Elements[0 + 1 * 4] = -(::sinf(radians));
+	Elements[1 + 0 * 4] = (::sinf(radians));
 }
 
 Matrix4 Matrix4::Identity(float diag)
