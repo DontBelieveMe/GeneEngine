@@ -67,7 +67,7 @@ void Win32Window::Create()
 	_class.cbClsExtra    = 0;
 	_class.cbSize        = sizeof(WNDCLASSEX);
 	_class.cbWndExtra    = 0;
-	_class.hbrBackground = (HBRUSH)COLOR_WINDOW;
+    _class.hbrBackground = NULL;//(HBRUSH)COLOR_WINDOW;
 	_class.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	_class.hIcon         = nullptr;
 	_class.hIconSm       = nullptr;
