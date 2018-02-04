@@ -1,6 +1,8 @@
 #include <GeneUI/Window.hpp>
+#include <Graphics/Font.h>
 
 using namespace GeneUI;
+Gene::Graphics::Font *_font;
 
 Window::Window()
 {
@@ -10,6 +12,7 @@ Window::Window()
 
     m_Renderer = std::make_unique<Gene::Graphics::Renderer2D>();
     m_Renderer->Init(Gene::Matrix4::Orthographic(800, 0, 0, 600, 1.0f, -1.0f));
+    _font = new Gene::Graphics::Font("Data/Gidole-Regular.ttf", 30);
 }
 
 void Window::Show()
@@ -19,5 +22,6 @@ void Window::Show()
 
 void Window::Redraw()
 {
-    m_Renderer->FillRectangle({ 100, 100 }, 100, 100, Gene::Graphics::Color::Red);
+    m_Renderer->FillRectangle({ 100, 100 }, 120, 100, Gene::Graphics::Color::Red);
+    m_Renderer->DrawString(_font, "Hello World", { 110, 140 }, Gene::Graphics::Color::White);
 }

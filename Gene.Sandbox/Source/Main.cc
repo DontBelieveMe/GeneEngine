@@ -67,9 +67,6 @@ int main()
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
 
-    Renderer2D renderer;
-    renderer.DrawString(NULL, "a", { 0,0 }, { 0,0,0,0});
-
     GameTime gameTime;
 	gameTime.Init();
     while (window->Running())

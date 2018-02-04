@@ -17,10 +17,14 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	const int	 ATLAS_DEPTH = 1;
 	
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	m_Atlas = ftgl::texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_POINT_SMOOTH); 
+    m_Atlas = ftgl::texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
 
 	m_Font  = texture_font_new_from_file(m_Atlas, size, fontFile);
     m_Font->rendermode = ftgl::RENDER_SIGNED_DISTANCE_FIELD;
+    
     // For now just hack it and load all the ASCII characters
     // TODO: Remove this and do glyph loading on the fly when drawing the string
     //       Hence only loading the characters we need

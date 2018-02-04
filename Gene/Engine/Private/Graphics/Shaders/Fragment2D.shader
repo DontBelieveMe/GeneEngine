@@ -36,8 +36,8 @@ void main()\n\
         // This is a font we are processing (font type = 1 and non font = -1)\n\
         if (passVertexType > 0) {\n\
             float dist = color.r; \n\
-            float width = fwidth(dist);\n\
-            float c = 0.5f; \n\
+            float width = 0.5f;//fwidth(dist);\n\
+            float c = 0.4f; \n\
             float alpha = smoothstep(c - width, c + width, dist); \n\
             color = vec4(passColor.r, passColor.g, passColor.b, alpha); \n\
         }\n\
