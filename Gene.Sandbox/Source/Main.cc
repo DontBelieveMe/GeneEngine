@@ -37,6 +37,7 @@ int main()
         glViewport(0, 0, w, h);
     });
 
+
     GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader", 
     {
         {0, "position"},
@@ -67,11 +68,20 @@ int main()
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
 
+    Renderer2D renderer;
+    renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
+    Font f("Data/Fonts/segoeui.ttf", 20);
+    
     GameTime gameTime;
 	gameTime.Init();
     while (window->Running())
     {
 		gameTime.StartFrame();
+        renderer.Begin();
+        renderer.DrawTexture({ 10, 10 }, f.GLTexture());
+        renderer.End();
+        renderer.Present();
+        /*
         shader3d->Enable();
 
         suzanneTheta += 1.f;
@@ -98,7 +108,7 @@ int main()
         doughnut.Disable(0);
 
         shader3d->Disable();
-        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);*/
        
         window->SwapBuffers();
 		window->PollEvents();

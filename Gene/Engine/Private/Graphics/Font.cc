@@ -6,6 +6,8 @@
 
 #include <Platform/OpenGL.h>
 
+#include "FreeTypeFont.h"
+
 using namespace Gene::Graphics;
 using namespace Gene;
 
@@ -13,7 +15,13 @@ const float Font::DEFAULT_SIZE = 11.f;
 
 Font::Font(const char *fontFile, float size): m_Size(size)
 {
-	const size_t ATLAS_SIZE  = 512;
+    FreeTypeFont ffFont(fontFile, size);
+    for(char c = '!'; c <= '~'; ++c) {
+        ffFont.LoadCharacter(c);
+    }
+    m_Texture = ffFont.GenerateTexture();
+
+	/*const size_t ATLAS_SIZE  = 512;
 	const int	 ATLAS_DEPTH = 1;
 	
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -39,15 +47,15 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 	m_Texture->Format    = Texture2D::PixelFormat::Red;
 	m_Texture->Filtering = Texture2D::FilteringOptions::Linear;
 
-	m_Texture->Load(m_Atlas->data, ATLAS_SIZE, ATLAS_SIZE);
+	m_Texture->Load(m_Atlas->data, ATLAS_SIZE, ATLAS_SIZE);*/
 }
 
 Font::~Font() 
 {
 	delete m_Texture;
 
-	texture_font_delete(m_Font);
-	texture_atlas_delete(m_Atlas);
+//	texture_font_delete(m_Font);
+//	texture_atlas_delete(m_Atlas);
 }
 
 Vector2 Font::MeasureString(const std::string & str)

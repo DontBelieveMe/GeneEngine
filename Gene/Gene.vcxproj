@@ -158,6 +158,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Private\Graphics\FreeTypeFont.h" />
     <ClInclude Include="Engine\Private\Graphics\FreetypeGL.h" />
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
     <ClInclude Include="Engine\Public\Content\GeneModel.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Engine\Private\Graphics\Color.cc" />
     <ClCompile Include="Engine\Private\Graphics\Factorys\ShaderFactory.cc" />
     <ClCompile Include="Engine\Private\Graphics\Font.cc" />
+    <ClCompile Include="Engine\Private\Graphics\FreeTypeFont.cc" />
     <ClCompile Include="Engine\Private\Graphics\GLSLShader.cc" />
     <ClCompile Include="Engine\Private\Graphics\Light.cc" />
     <ClCompile Include="Engine\Private\Graphics\Renderer2D.cc" />
