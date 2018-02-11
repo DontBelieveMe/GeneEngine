@@ -20,9 +20,9 @@ void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
         m_MaxHeight = 0;
     }
 
-    for (int x = m_XIndex; x < m_XIndex + w; ++x)
+    for (int y = m_YIndex; y < m_YIndex + h; ++y)
     {
-        for (int y = m_YIndex; y < m_YIndex + h; ++y)
+        for (int x = m_XIndex; x < m_XIndex + w; ++x)
         {
             m_Data[x + y * m_Width] = data[(x - m_XIndex) + (y - m_YIndex) * w];
         }
