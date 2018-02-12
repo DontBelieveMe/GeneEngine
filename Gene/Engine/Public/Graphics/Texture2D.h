@@ -27,6 +27,7 @@ namespace Gene { namespace Graphics {
 
 		void Load(const char *path);
 		void Load(uint8 *data, unsigned width, unsigned height, unsigned depth = 1);
+        void Load(const Array<uint8>& data, unsigned w, unsigned h);
 
         inline GLuint       Id()       const { return m_TextureId; }
         inline unsigned int Width()    const { return m_Width; }

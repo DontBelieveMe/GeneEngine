@@ -37,6 +37,15 @@ void Texture2D::Load(uint8 *data, unsigned width, unsigned height, unsigned dept
     m_Loaded = true;
 }
 
+void Texture2D::Load(const Array<uint8>& data, unsigned w, unsigned h)
+{
+    m_Pixels = data;
+    m_Width = w;
+    m_Height = h;
+    GenerateGLId();
+    m_Loaded = true;
+}
+
 void Texture2D::GenerateGLId()
 {
     GLenum filtering   = static_cast<GLenum>(Filtering);

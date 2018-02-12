@@ -6,7 +6,6 @@ in vec3      position;\n\
 in vec3      color;\n\
 in vec2      uv;\n\
 in float     texId;\n\
-in float     vertexType;\n\
 \n\
 out vec3     passColor;\n\
 out vec2     passUv;\n\
@@ -21,5 +20,4 @@ void main()\n\
     passColor = color;\n\
     passUv = uv;\n\
     passTexId = texId;\n\
-    passVertexType = vertexType;\n\
 }"

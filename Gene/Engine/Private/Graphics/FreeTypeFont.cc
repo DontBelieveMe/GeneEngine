@@ -9,6 +9,10 @@ const int s_AtlasDepth = 2;
 FreeTypeTexture::FreeTypeTexture(int w, int h)
     : m_Width(w), m_Height(h), m_XIndex(0), m_YIndex(0), m_MaxHeight(0)
 {
+    // TODO:
+    // Maybe we can shrink the texture afterwards if there is space available
+    // However that would screw up the generated UVs
+    // maybe store pixel coords first then generate UVs in second pass?/afterwards
     m_Data = new byte[w * h * s_AtlasDepth];
     memset(m_Data, 0, w * h * s_AtlasDepth);
 }
@@ -54,7 +58,7 @@ Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
     texture->Format = (Texture2D::PixelFormat)GL_LUMINANCE_ALPHA;
-    texture->Filtering = Texture2D::FilteringOptions::Linear;
+    texture->Filtering = Texture2D::FilteringOptions::Nearest;
     texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;
 }

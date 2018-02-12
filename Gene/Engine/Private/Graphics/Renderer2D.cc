@@ -7,7 +7,7 @@ using namespace Gene::Graphics;
 using namespace Gene;
 
 static const int RenderableSize     = sizeof(Vertex2D) * 4; // 4 vertices in a cube
-static const int MaxRenderables		= 100000;
+static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
@@ -55,8 +55,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     m_Shader->BindAttributeIndex(1, "color");
     m_Shader->BindAttributeIndex(2, "uv");
     m_Shader->BindAttributeIndex(3, "texId");
-    m_Shader->BindAttributeIndex(4, "vertexType");
-
+    
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
 
 	GLint texIds[] = {
@@ -113,17 +112,10 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	texIdAttrib.Stride					= sizeof(Vertex2D);
     texIdAttrib.ByteOfffset             = offsetof(Vertex2D, TextureId);
 
-    AttributeDescriptor					vertxTypeAttribDesc;
-    vertxTypeAttribDesc.Index           = 4;
-    vertxTypeAttribDesc.ComponentCount  = 1;
-    vertxTypeAttribDesc.Stride          = sizeof(Vertex2D);
-    vertxTypeAttribDesc.ByteOfffset     = offsetof(Vertex2D, VertexType);
-
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
-    m_VAO->RegisterAttribute(m_VBO, vertxTypeAttribDesc);
 }
 
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
@@ -137,26 +129,22 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 	m_Buffer->Position = Vector3(position, 0.f);
 	m_Buffer->UV = Vector2(0, 0);
     m_Buffer->TextureId = tid;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
-	m_Buffer++;
+    m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
 	m_Buffer->UV = Vector2(1, 0);
     m_Buffer->TextureId = tid;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(1, 1);
     m_Buffer->TextureId = tid;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
-	m_Buffer++;
+    m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(0, 1);
     m_Buffer->TextureId = tid;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
-	m_Buffer++;
+    m_Buffer++;
 
 	m_IndexCount += 6;
 }
@@ -197,28 +185,24 @@ void Renderer2D::DrawString(Font *font,
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_TopLeft;
         m_Buffer->TextureId = tid;
-        m_Buffer->VertexType = VERTEX_TYPE_FONT;
-		m_Buffer++;
+        m_Buffer++;
 
         m_Buffer->Position  = Vector3(xPos + glyph->Width, tmpY, 0.f);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_TopRight;
         m_Buffer->TextureId = tid;
-        m_Buffer->VertexType = VERTEX_TYPE_FONT;
-		m_Buffer++;
+        m_Buffer++;
 
         m_Buffer->Position  = Vector3(xPos + glyph->Width, tmpY + glyph->Height, 0.f);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_BottomRight;
         m_Buffer->TextureId = tid;
-        m_Buffer->VertexType = VERTEX_TYPE_FONT;
         m_Buffer++;
 
         m_Buffer->Position  = Vector3(xPos, tmpY + glyph->Height, 0.f);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_BottomLeft;
         m_Buffer->TextureId = tid;
-        m_Buffer->VertexType = VERTEX_TYPE_FONT;
         m_Buffer++;
 
 		xPos += glyph->Advance.X;
@@ -252,25 +236,21 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
 	m_Buffer->Position = Vector3(position, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 	
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
-    m_Buffer->VertexType = VERTEX_TYPE_NON_FONT;
     m_Buffer++;
 
 	m_IndexCount += 6;

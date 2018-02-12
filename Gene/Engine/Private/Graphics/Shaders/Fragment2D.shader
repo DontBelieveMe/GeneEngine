@@ -7,7 +7,6 @@ out vec4 color;\n\
 in vec3 passColor;\n\
 in vec2 passUv;\n\
 in float passTexId;\n\
-in float passVertexType;\n\
 \n\
 uniform sampler2D textureSamplers[32];\n\
 \n\
