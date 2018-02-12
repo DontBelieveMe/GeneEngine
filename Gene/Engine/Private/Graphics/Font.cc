@@ -15,47 +15,18 @@ const float Font::DEFAULT_SIZE = 11.f;
 
 Font::Font(const char *fontFile, float size): m_Size(size)
 {
-    FreeTypeFont ffFont(fontFile, size);
+    m_FreeTypeFont = new FreeTypeFont(fontFile, size);
+    
     for(char c = '!'; c <= '~'; ++c) {
-        ffFont.LoadCharacter(c);
+        m_FreeTypeFont->LoadCharacter(c);
     }
-    m_Texture = ffFont.GenerateTexture();
-
-	/*const size_t ATLAS_SIZE  = 512;
-	const int	 ATLAS_DEPTH = 1;
-	
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_POINT_SMOOTH); 
-    m_Atlas = ftgl::texture_atlas_new(ATLAS_SIZE, ATLAS_SIZE, ATLAS_DEPTH);
-
-	m_Font  = texture_font_new_from_file(m_Atlas, size, fontFile);
-    m_Font->rendermode = ftgl::RENDER_SIGNED_DISTANCE_FIELD;
-    
-    // For now just hack it and load all the ASCII characters
-    // TODO: Remove this and do glyph loading on the fly when drawing the string
-    //       Hence only loading the characters we need
-    for (char c = '!'; c <= '~'; ++c) {
-        texture_font_load_glyph(m_Font, &c);
-    }
-
-	m_Texture = new Texture2D();
-
-    
-	// TODO: The texture options should be put into a `TextureParamaters` struct  
-	m_Texture->Format    = Texture2D::PixelFormat::Red;
-	m_Texture->Filtering = Texture2D::FilteringOptions::Linear;
-
-	m_Texture->Load(m_Atlas->data, ATLAS_SIZE, ATLAS_SIZE);*/
+    m_FreeTypeFont->LoadCharacter(' ');
+    m_Texture = m_FreeTypeFont->GenerateTexture();
 }
 
 Font::~Font() 
 {
 	delete m_Texture;
-
-//	texture_font_delete(m_Font);
-//	texture_atlas_delete(m_Atlas);
 }
 
 Vector2 Font::MeasureString(const std::string & str)

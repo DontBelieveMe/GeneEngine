@@ -27,9 +27,9 @@ void Texture2D::Load(const char *filepath)
     }
 }
 
-void Texture2D::Load(uint8 *data, unsigned width, unsigned height)
+void Texture2D::Load(uint8 *data, unsigned width, unsigned height, unsigned depth)
 {
-    m_Pixels = Array<uint8>(data, data + width * height);
+    m_Pixels = Array<uint8>(data, data + (width * height * depth));
     m_Width  = width;
     m_Height = height;
 

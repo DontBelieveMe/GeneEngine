@@ -1,13 +1,13 @@
 #include <Graphics/Renderer2D.h>
 #include <GeneCommon.h>
-
+#include <intrin.h>
 #include "FreetypeGL.h"
 
 using namespace Gene::Graphics;
 using namespace Gene;
 
 static const int RenderableSize     = sizeof(Vertex2D) * 4; // 4 vertices in a cube
-static const int MaxRenderables		= 10000;
+static const int MaxRenderables		= 100000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
@@ -166,8 +166,9 @@ void Renderer2D::DrawString(Font *font,
 						    const Math::Vector2& pos, 
 							const Graphics::Color color)
 {
-    ftgl::texture_font_t *ftFont = font->TextureFont();
-	Vector3 rgbPack = color.ToNormalizedVector3();
+    FreeTypeFont *ftFont = font->GetFreeTypeFont();
+
+    Vector3 rgbPack = color.ToNormalizedVector3();
 
 	Texture2D *glTexture = font->GLTexture();
 	
@@ -179,41 +180,48 @@ void Renderer2D::DrawString(Font *font,
 	for (size_t i = 0; i < text.length(); i++)
 	{
         char c = text[i];
-		ftgl::texture_glyph_t *glyph = texture_font_get_glyph(ftFont, &c);
         
+        FreeTypeGlyph *glyph = ftFont->GetGlyph(c);
+
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
 
-        float tmpY = yPos - glyph->offset_y;
+        float tmpY = yPos - glyph->Offset.Y;
+        
+        // Work in any kerning
+        if (i > 0) {
+            Vector2 kerning = ftFont->GetKerning(text[i - 1], c);
+            xPos += kerning.X;
+        }
 
         m_Buffer->Position  = Vector3(xPos, tmpY, 0.f);
         m_Buffer->Color     = rgbPack;
-        m_Buffer->UV        = Vector2(glyph->s0, glyph->t0);
+        m_Buffer->UV        = glyph->UV_TopLeft;
         m_Buffer->TextureId = tid;
         m_Buffer->VertexType = VERTEX_TYPE_FONT;
 		m_Buffer++;
 
-        m_Buffer->Position  = Vector3(xPos + glyph->width, tmpY, 0.f);
+        m_Buffer->Position  = Vector3(xPos + glyph->Width, tmpY, 0.f);
         m_Buffer->Color     = rgbPack;
-        m_Buffer->UV        = Vector2(glyph->s1, glyph->t0);
+        m_Buffer->UV        = glyph->UV_TopRight;
         m_Buffer->TextureId = tid;
         m_Buffer->VertexType = VERTEX_TYPE_FONT;
 		m_Buffer++;
 
-        m_Buffer->Position  = Vector3(xPos + glyph->width, tmpY + glyph->height, 0.f);
+        m_Buffer->Position  = Vector3(xPos + glyph->Width, tmpY + glyph->Height, 0.f);
         m_Buffer->Color     = rgbPack;
-        m_Buffer->UV        = Vector2(glyph->s1, glyph->t1);
+        m_Buffer->UV        = glyph->UV_BottomRight;
         m_Buffer->TextureId = tid;
         m_Buffer->VertexType = VERTEX_TYPE_FONT;
         m_Buffer++;
 
-        m_Buffer->Position  = Vector3(xPos, tmpY + glyph->height, 0.f);
+        m_Buffer->Position  = Vector3(xPos, tmpY + glyph->Height, 0.f);
         m_Buffer->Color     = rgbPack;
-        m_Buffer->UV        = Vector2(glyph->s0, glyph->t1);
+        m_Buffer->UV        = glyph->UV_BottomLeft;
         m_Buffer->TextureId = tid;
         m_Buffer->VertexType = VERTEX_TYPE_FONT;
         m_Buffer++;
 
-		xPos += glyph->advance_x;
+		xPos += glyph->Advance.X;
 
 		m_IndexCount += 6;
 	}

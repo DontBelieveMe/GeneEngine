@@ -26,7 +26,7 @@ namespace Gene { namespace Graphics {
 		~Texture2D();
 
 		void Load(const char *path);
-		void Load(uint8 *data, unsigned width, unsigned height);
+		void Load(uint8 *data, unsigned width, unsigned height, unsigned depth = 1);
 
         inline GLuint       Id()       const { return m_TextureId; }
         inline unsigned int Width()    const { return m_Width; }

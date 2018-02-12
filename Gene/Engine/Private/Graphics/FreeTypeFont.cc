@@ -4,33 +4,41 @@
 
 using namespace Gene::Graphics;
 
+const int s_AtlasDepth = 2;
+
 FreeTypeTexture::FreeTypeTexture(int w, int h)
     : m_Width(w), m_Height(h), m_XIndex(0), m_YIndex(0), m_MaxHeight(0)
 {
-    m_Data = new byte[w * h];
-    memset(m_Data, 0, w * h);
+    m_Data = new byte[w * h * s_AtlasDepth];
+    memset(m_Data, 0, w * h * s_AtlasDepth);
 }
 
 void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
 {
+    const int padding = 2;
+
+    for (int y = 0; y < h; ++y)
+    {
+        byte *ourRow = m_Data + ((m_YIndex + y) * m_Width + m_XIndex) * s_AtlasDepth;
+        byte *srcRow = data + (y * w);
+        
+        for (int x = 0; x < w; ++x)
+        {
+            ourRow[x * s_AtlasDepth] = 0xff;
+            ourRow[x * s_AtlasDepth + 1] = srcRow[x];
+        }
+    }
+
+    m_XIndex += w + padding;
+    
     if (m_XIndex + w > m_Width) 
     {
-        m_YIndex += m_MaxHeight;
+        m_YIndex += m_MaxHeight + padding;
         m_XIndex = 0;
         m_MaxHeight = 0;
     }
 
-    for (int y = m_YIndex; y < m_YIndex + h; ++y)
-    {
-        for (int x = m_XIndex; x < m_XIndex + w; ++x)
-        {
-            m_Data[x + y * m_Width] = data[(x - m_XIndex) + (y - m_YIndex) * w];
-        }
-    }
-    
-    m_XIndex += w;
     m_MaxHeight = std::max(m_MaxHeight, h);
-
 }
 
 // TODO:
@@ -45,16 +53,31 @@ bool FreeTypeTexture::IsEnoughSpaceForCharacter(int glyphHeight)
 Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
-    texture->Format = Texture2D::PixelFormat::Red;
+    texture->Format = (Texture2D::PixelFormat)GL_LUMINANCE_ALPHA;
     texture->Filtering = Texture2D::FilteringOptions::Linear;
-    texture->Load(m_Data, m_Width, m_Height);
+    texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;
 }
 
 FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
 {
-    // TODO: Implement
-    return {};
+    FT_Glyph_Metrics metrics = slot->metrics;
+
+    FT_Pos w = metrics.width >> 6;
+    FT_Pos h = metrics.height >> 6;
+
+    FreeTypeGlyph glyph;
+    glyph.UV_TopLeft = Vector2((float)m_XIndex / m_Width, (float)m_YIndex / m_Height);
+    glyph.UV_TopRight = Vector2((float)(m_XIndex + w) / m_Width, (float)m_YIndex / m_Height);
+    glyph.UV_BottomLeft = Vector2((float)m_XIndex / m_Width, (float)(m_YIndex + h) / m_Height);
+    glyph.UV_BottomRight = Vector2((float)(m_XIndex + w) / m_Width, (float)(m_YIndex + h) / m_Height);
+    
+    glyph.Advance = Vector2(slot->advance.x >> 6, slot->advance.y >> 6);
+    glyph.Width = w;
+    glyph.Height = h;
+    glyph.Offset = Vector2(slot->bitmap_left, slot->bitmap_top);
+
+    return glyph;
 }
 
 FreeTypeFont::FreeTypeFont(const char *path, float size) 
@@ -68,6 +91,9 @@ FreeTypeFont::FreeTypeFont(const char *path, float size)
     GE_ASSERT(error != FT_Err_Unknown_File_Format, "Font has unknown file format");
     
     error = FT_Set_Char_Size(m_Face, size * 64.f, 0, 300, 300);
+
+    int x = FT_HAS_KERNING(m_Face);
+
 }
 
 Texture2D *FreeTypeFont::GenerateTexture()
@@ -85,12 +111,25 @@ void FreeTypeFont::LoadCharacter(char charcode)
 
     if (m_Texture->IsEnoughSpaceForCharacter(bitmap.rows))
     {
-        m_Texture->CopyTextureToPos(bitmap.pitch, bitmap.rows, bitmap.buffer);
-
         std::unordered_map<char, FreeTypeGlyph>::iterator it = m_Glyphs.find(charcode);
-        if (it != m_Glyphs.end())
+        if (it == m_Glyphs.end())
         {
-            m_Glyphs.insert(std::make_pair(charcode, m_Texture->GetGlyphUVs(slot)));
+            FreeTypeGlyph metrics = m_Texture->GetGlyphUVs(slot);         
+            m_Glyphs.insert(std::make_pair(charcode, metrics));
+            m_Texture->CopyTextureToPos(bitmap.pitch, bitmap.rows, bitmap.buffer);
         }
     }
+}
+
+Gene::Vector2 FreeTypeFont::GetKerning(char left, char right)
+{
+    FT_Vector kerning;
+    FT_Get_Kerning(m_Face, left, right, FT_KERNING_DEFAULT, &kerning);
+    return Vector2(kerning.x / 64.f, kerning.y / 64.f);
+}
+
+FreeTypeGlyph *FreeTypeFont::GetGlyph(char charcode)
+{
+    std::unordered_map<char, FreeTypeGlyph>::iterator it = m_Glyphs.find(charcode);
+    return it == m_Glyphs.end() ? nullptr : &((*it).second);
 }

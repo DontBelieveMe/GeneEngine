@@ -32,14 +32,7 @@ void main()\n\
         case 8: color = texture(textureSamplers[8], passUv); break;\n\
         default: color = texture(textureSamplers[0], passUv); break;\n\
         }\n\
+    color = color * vec4(passColor, 1);\n\
 \n\
-        // This is a font we are processing (font type = 1 and non font = -1)\n\
-        if (passVertexType > 0) {\n\
-            float dist = color.r; \n\
-            float width = 0.5f;//fwidth(dist);\n\
-            float c = 0.4f; \n\
-            float alpha = smoothstep(c - width, c + width, dist); \n\
-            color = vec4(passColor.r, passColor.g, passColor.b, alpha); \n\
-        }\n\
     }\n\
 }"

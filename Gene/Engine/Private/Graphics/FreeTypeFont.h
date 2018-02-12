@@ -4,13 +4,18 @@
 #include FT_FREETYPE_H
 
 #include <GeneCommon.h>
+#include <Math/Vector2.h>
 #include <Graphics/Texture2D.h>
 #include <unordered_map>
 
 namespace Gene { namespace Graphics {
     struct FreeTypeGlyph {
-        int UV_TopLeft, UV_TopRight;
-        int UV_BottomLeft, UV_BottomRight;
+        Vector2 UV_TopLeft, UV_TopRight;
+        Vector2 UV_BottomLeft, UV_BottomRight;
+
+        Vector2 Advance;
+        int Width, Height;
+        Vector2 Offset;
     };
 
     class FreeTypeTexture {
@@ -45,7 +50,8 @@ namespace Gene { namespace Graphics {
         FreeTypeFont(const char *path, float size);
 
         void LoadCharacter(char charcode);
-
         Texture2D *GenerateTexture();
+        FreeTypeGlyph *GetGlyph(char charcode);
+        Vector2 GetKerning(char left, char right);
     };
 } }

@@ -17,6 +17,10 @@ void CreateModelMesh(
         Gene::Content::GeneModel *model
 );
 
+void gen_random(char *s, int l) {
+    for (int c; c = rand() % 62, *s++ = (c + "07="[(c + 16) / 26])*(l-->0););
+}
+
 int main()
 {
     using namespace Gene::Platform;
@@ -26,17 +30,16 @@ int main()
 	using namespace Gene::Content;
     using namespace Gene;
 
-    WindowInfo info = { 600, 600, "Hello from GeneEngine.Sandbox", false };
+    WindowInfo info = { 800, 600, "Hello from GeneEngine.Sandbox", false };
 
 	Window *window = Window::CreateWindow(info);
 	window->Create();
 	window->CreateGLContext();
-    window->SetClearColor(Color::CornflowerBlue);
+    window->SetClearColor(Color(0x1E1E1EFF));
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
     });
-
 
     GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader", 
     {
@@ -44,7 +47,7 @@ int main()
         {1, "normal"},
         {2, "tex_coord"}
     });
-    
+
     shader3d->Enable();
 
 	OBJModelLoader objLoader;
@@ -70,8 +73,11 @@ int main()
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
-    Font f("Data/Fonts/segoeui.ttf", 20);
+    Font f("Data/Fonts/consola.ttf", 7);
     
+    char *str = new char[25];
+    gen_random(str, 25);
+
     GameTime gameTime;
 	gameTime.Init();
     while (window->Running())
@@ -79,6 +85,8 @@ int main()
 		gameTime.StartFrame();
         renderer.Begin();
         renderer.DrawTexture({ 10, 10 }, f.GLTexture());
+        renderer.DrawString(&f, "The quick brown fox jumps over the lazy dog", { 10, 200 }, Color(0xC8C8C8FF));
+        //renderer.FillRectangle({ 200, 100 }, 100, 100, Color::Red);
         renderer.End();
         renderer.Present();
         /*
