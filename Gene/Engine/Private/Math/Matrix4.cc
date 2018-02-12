@@ -150,8 +150,8 @@ Vector3 Matrix4::ScreenToWorld(Matrix4 projection, Matrix4 view, const Vector2& 
 Matrix4 Matrix4::Perpective(float aspectRatio, float foV, float near, float far)
 {
 	Matrix4 matrix = Matrix4::Identity();
-	matrix.Elements[0] = (1.0f / ::tan(Maths::ToRadians(0.5f * foV))) / aspectRatio;
-	matrix.Elements[1 + 1 * 4] = 1.0f / ::tan(Maths::ToRadians(0.5f * foV));
+	matrix.Elements[0] = (1.0f / ::tanf(Maths::ToRadians(0.5f * foV))) / aspectRatio;
+	matrix.Elements[1 + 1 * 4] = 1.0f / ::tanf(Maths::ToRadians(0.5f * foV));
 	matrix.Elements[2 + 2 * 4] = (near + far) / (near - far);
 	matrix.Elements[2 + 3 * 4] = -1.f;
 	matrix.Elements[3 + 2 * 4] = (2.f * near * far) / (near - far);

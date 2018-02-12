@@ -47,7 +47,7 @@ Vector2 Font::MeasureString(const std::string & str)
 
         if (glyph->Height > height)
         {
-            height = glyph->Height;
+            height = static_cast<float>(glyph->Height);
         }
 
         i++;

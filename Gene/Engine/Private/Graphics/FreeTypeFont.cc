@@ -70,8 +70,9 @@ bool FreeTypeTexture::IsEnoughSpaceForCharacter(int glyphHeight)
 Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
-    texture->Format = Texture2D::PixelFormat::LuminanceAlpha;
+    texture->Format    = Texture2D::PixelFormat::LuminanceAlpha;
     texture->Filtering = Texture2D::FilteringOptions::Nearest;
+
     texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;
 }
@@ -91,10 +92,10 @@ FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
     glyph.UV_BottomLeft  = Vector2((float)m_XIndex / m_Width, (float)(m_YIndex + h) / m_Height);
     glyph.UV_BottomRight = Vector2((float)(m_XIndex + w) / m_Width, (float)(m_YIndex + h) / m_Height);
     
-    glyph.Advance        = Vector2(slot->advance.x >> 6, slot->advance.y >> 6);
+    glyph.Advance        = Vector2(static_cast<float>(slot->advance.x >> 6), static_cast<float>(slot->advance.y >> 6));
     glyph.Width          = w;
     glyph.Height         = h;
-    glyph.Offset         = Vector2(slot->bitmap_left, slot->bitmap_top);
+    glyph.Offset         = Vector2(static_cast<float>(slot->bitmap_left), static_cast<float>(slot->bitmap_top));
 
     return glyph;
 }
@@ -111,7 +112,7 @@ FreeTypeFont::FreeTypeFont(const char *path, float size)
 
     GE_ASSERT(error != FT_Err_Unknown_File_Format, "Font has unknown file format");
     
-    error = FT_Set_Char_Size(m_Face, size * 64.f, 0, 300, 300);
+    error = FT_Set_Char_Size(m_Face, static_cast<FT_F26Dot6>(size * 64.f), 0, 300, 300);
     
     GE_ASSERT(!error);
 }
