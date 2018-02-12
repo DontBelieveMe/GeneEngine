@@ -19,14 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="freetype-gl\distance-field.c" />
-    <ClCompile Include="freetype-gl\edtaa3func.c" />
-    <ClCompile Include="freetype-gl\font-manager.c" />
-    <ClCompile Include="freetype-gl\platform.c" />
-    <ClCompile Include="freetype-gl\texture-atlas.c" />
-    <ClCompile Include="freetype-gl\texture-font.c" />
-    <ClCompile Include="freetype-gl\utf8-utils.c" />
-    <ClCompile Include="freetype-gl\vector.c" />
     <ClCompile Include="src\autofit\autofit.c" />
     <ClCompile Include="src\base\ftbase.c" />
     <ClCompile Include="src\base\ftbbox.c" />
@@ -68,18 +60,6 @@
     <ClCompile Include="src\winfonts\winfnt.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="freetype-gl\distance-field.h" />
-    <ClInclude Include="freetype-gl\edtaa3func.h" />
-    <ClInclude Include="freetype-gl\font-manager.h" />
-    <ClInclude Include="freetype-gl\freetype-gl.h" />
-    <ClInclude Include="freetype-gl\markup.h" />
-    <ClInclude Include="freetype-gl\opengl.h" />
-    <ClInclude Include="freetype-gl\platform.h" />
-    <ClInclude Include="freetype-gl\texture-atlas.h" />
-    <ClInclude Include="freetype-gl\texture-font.h" />
-    <ClInclude Include="freetype-gl\utf8-utils.h" />
-    <ClInclude Include="freetype-gl\vec234.h" />
-    <ClInclude Include="freetype-gl\vector.h" />
     <ClInclude Include="include\ft2build.h" />
     <ClInclude Include="src\psnames\psmodule.h" />
   </ItemGroup>

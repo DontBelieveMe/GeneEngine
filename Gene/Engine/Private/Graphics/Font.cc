@@ -1,5 +1,3 @@
-#include "FreetypeGL.h"
-
 #include <Graphics/Font.h>
 #include <iostream>
 #include <IO/File.h>
@@ -34,12 +32,24 @@ Vector2 Font::MeasureString(const std::string & str)
     float width = 0.0f;
     float height = 0.0f;
 
+    int i = 0;
     for (char character : str) {
-        ftgl::texture_glyph_t *glyph = ftgl::texture_font_get_glyph(m_Font, &character);
-        width += glyph->advance_x;
-        if (glyph->advance_y > height) {
-            height = glyph->advance_y;
+        FreeTypeGlyph *glyph = m_FreeTypeFont->GetGlyph(character);
+
+        if (i > 0)
+        {
+            Vector2 kerning = m_FreeTypeFont->GetKerning(str[i - 1], str[i]);
+            width += kerning.X;
         }
+
+        width += glyph->Advance.X;
+
+        if (glyph->Height > height)
+        {
+            height = glyph->Height;
+        }
+
+        i++;
     }
 
     return Vector2(width, height);

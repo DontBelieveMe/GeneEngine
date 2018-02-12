@@ -73,51 +73,58 @@ int main()
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
-    Font f("Data/Fonts/consola.ttf", 7);
+    Font font("Data/Fonts/consola.ttf", 7);
     
-    char *str = new char[25];
-    gen_random(str, 25);
+    std::string str = "The quick brown fox jumps over the lazy dog";
+    float strW = font.MeasureString(str).X;
+    float xPos = info.Width / 2 - (strW / 2);
 
     GameTime gameTime;
 	gameTime.Init();
     while (window->Running())
     {
 		gameTime.StartFrame();
-        renderer.Begin();
-        renderer.DrawTexture({ 10, 10 }, f.GLTexture());
-        renderer.DrawString(&f, "The quick brown fox jumps over the lazy dog", { 10, 200 }, Color(0xC8C8C8FF));
-        //renderer.FillRectangle({ 200, 100 }, 100, 100, Color::Red);
-        renderer.End();
-        renderer.Present();
-        /*
-        shader3d->Enable();
 
-        suzanneTheta += 1.f;
-  	    Matrix4 transform = Matrix4::Identity();
-		transform.Translate(suzannePosition);
-		
-        Matrix4 rx, ry;
-        rx.RotateX(suzanneTheta);
-        ry.RotateY(suzanneTheta);
+        // 3D rendering code
+        {
+            shader3d->Enable();
 
-        transform = transform.Multiply(rx).Multiply(ry);
+            suzanneTheta += 1.f;
+            Matrix4 transform = Matrix4::Identity();
+            transform.Translate(suzannePosition);
 
-        shader3d->LoadUniformMatrix4f("u_Transform", transform);
+            Matrix4 rx, ry;
+            rx.RotateX(suzanneTheta);
+            ry.RotateY(suzanneTheta);
 
-        window->Clear();
+            transform = transform.Multiply(rx).Multiply(ry);
 
-		glEnable(GL_DEPTH_TEST);
-        doughnut.Enable(0);
-        modelVao.Enable();
-        modelEbo->Enable();
-    	modelVao.DebugDrawElements(modelEbo);
-        modelEbo->Disable();
-        modelVao.Disable();
-        doughnut.Disable(0);
+            shader3d->LoadUniformMatrix4f("u_Transform", transform);
 
-        shader3d->Disable();
-        glDisable(GL_DEPTH_TEST);*/
-       
+            window->Clear();
+
+            glEnable(GL_DEPTH_TEST);
+            doughnut.Enable(0);
+            modelVao.Enable();
+            modelEbo->Enable();
+            modelVao.DebugDrawElements(modelEbo);
+            modelEbo->Disable();
+            modelVao.Disable();
+            doughnut.Disable(0);
+
+            shader3d->Disable();
+            glDisable(GL_DEPTH_TEST);
+        }
+        
+        // 2D rendering code
+        {
+            renderer.Begin();
+            renderer.DrawString(&font, str, { xPos, 100 }, Color(0xC8C8C8FF));
+
+            renderer.End();
+            renderer.Present();
+        }
+
         window->SwapBuffers();
 		window->PollEvents();
 

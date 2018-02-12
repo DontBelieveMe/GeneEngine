@@ -159,7 +159,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Private\Graphics\FreeTypeFont.h" />
-    <ClInclude Include="Engine\Private\Graphics\FreetypeGL.h" />
     <ClInclude Include="Engine\Private\Platform\GLFLLoad.h" />
     <ClInclude Include="Engine\Public\Content\GeneModel.h" />
     <ClInclude Include="Engine\Public\Content\IModelLoader.h" />

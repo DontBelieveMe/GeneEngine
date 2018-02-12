@@ -1,7 +1,6 @@
 #include <Graphics/Renderer2D.h>
 #include <GeneCommon.h>
 #include <intrin.h>
-#include "FreetypeGL.h"
 
 using namespace Gene::Graphics;
 using namespace Gene;
