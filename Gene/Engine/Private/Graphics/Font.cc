@@ -15,16 +15,17 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 {
     m_FreeTypeFont = new FreeTypeFont(fontFile, size);
     
-    for(char c = '!'; c <= '~'; ++c) {
+    for(char c = ' '; c <= '~'; ++c) {
         m_FreeTypeFont->LoadCharacter(c);
     }
-    m_FreeTypeFont->LoadCharacter(' ');
+
     m_Texture = m_FreeTypeFont->GenerateTexture();
 }
 
 Font::~Font() 
 {
 	delete m_Texture;
+    delete m_FreeTypeFont;
 }
 
 Vector2 Font::MeasureString(const std::string & str)

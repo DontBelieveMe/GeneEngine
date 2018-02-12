@@ -10,9 +10,6 @@ static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
-#define VERTEX_TYPE_FONT 1
-#define VERTEX_TYPE_NON_FONT -1
-
 static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
 {
     int offset = 0;

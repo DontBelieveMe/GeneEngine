@@ -25,6 +25,11 @@ FreeTypeTexture::FreeTypeTexture(int w, int h)
     memset(m_Data, 0, w * h * s_AtlasDepth);
 }
 
+FreeTypeTexture::~FreeTypeTexture()
+{
+    delete[] m_Data;
+}
+
 void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
 {
     const int padding = 2;
@@ -65,7 +70,7 @@ bool FreeTypeTexture::IsEnoughSpaceForCharacter(int glyphHeight)
 Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
-    texture->Format = (Texture2D::PixelFormat)GL_LUMINANCE_ALPHA;
+    texture->Format = Texture2D::PixelFormat::LuminanceAlpha;
     texture->Filtering = Texture2D::FilteringOptions::Nearest;
     texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;
@@ -79,15 +84,17 @@ FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
     FT_Pos h = metrics.height >> 6;
 
     FreeTypeGlyph glyph;
-    glyph.UV_TopLeft = Vector2((float)m_XIndex / m_Width, (float)m_YIndex / m_Height);
-    glyph.UV_TopRight = Vector2((float)(m_XIndex + w) / m_Width, (float)m_YIndex / m_Height);
-    glyph.UV_BottomLeft = Vector2((float)m_XIndex / m_Width, (float)(m_YIndex + h) / m_Height);
+
+    // TODO: Not sure if all of these casts are needed
+    glyph.UV_TopLeft     = Vector2((float)m_XIndex / m_Width, (float)m_YIndex / m_Height);
+    glyph.UV_TopRight    = Vector2((float)(m_XIndex + w) / m_Width, (float)m_YIndex / m_Height);
+    glyph.UV_BottomLeft  = Vector2((float)m_XIndex / m_Width, (float)(m_YIndex + h) / m_Height);
     glyph.UV_BottomRight = Vector2((float)(m_XIndex + w) / m_Width, (float)(m_YIndex + h) / m_Height);
     
-    glyph.Advance = Vector2(slot->advance.x >> 6, slot->advance.y >> 6);
-    glyph.Width = w;
-    glyph.Height = h;
-    glyph.Offset = Vector2(slot->bitmap_left, slot->bitmap_top);
+    glyph.Advance        = Vector2(slot->advance.x >> 6, slot->advance.y >> 6);
+    glyph.Width          = w;
+    glyph.Height         = h;
+    glyph.Offset         = Vector2(slot->bitmap_left, slot->bitmap_top);
 
     return glyph;
 }
@@ -95,17 +102,23 @@ FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
 FreeTypeFont::FreeTypeFont(const char *path, float size) 
 {
     m_Texture = new FreeTypeTexture(512, 512);
-    int error;
+
+    FT_Error error;
     FT_Library library;
+    
     error = FT_Init_FreeType(&library);
     error = FT_New_Face(library, path, 0, &m_Face);
 
     GE_ASSERT(error != FT_Err_Unknown_File_Format, "Font has unknown file format");
     
     error = FT_Set_Char_Size(m_Face, size * 64.f, 0, 300, 300);
+    
+    GE_ASSERT(!error);
+}
 
-    int x = FT_HAS_KERNING(m_Face);
-
+FreeTypeFont::~FreeTypeFont()
+{
+    delete m_Texture;
 }
 
 Texture2D *FreeTypeFont::GenerateTexture()
@@ -115,11 +128,13 @@ Texture2D *FreeTypeFont::GenerateTexture()
 
 void FreeTypeFont::LoadCharacter(char charcode)
 {
-    int index = FT_Get_Char_Index(m_Face, charcode);
+    FT_UInt index = FT_Get_Char_Index(m_Face, charcode);
+
     FT_Load_Glyph(m_Face, index, FT_LOAD_DEFAULT);
     FT_Render_Glyph(m_Face->glyph, FT_RENDER_MODE_NORMAL);
+
     FT_GlyphSlot slot = m_Face->glyph;
-    auto bitmap = slot->bitmap;
+    FT_Bitmap bitmap = slot->bitmap;
 
     if (m_Texture->IsEnoughSpaceForCharacter(bitmap.rows))
     {
