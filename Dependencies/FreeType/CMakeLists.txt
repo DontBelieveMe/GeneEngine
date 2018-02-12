@@ -48,26 +48,9 @@ set(FreeTypeSource
     ${FTRoot}/winfonts/winfnt.c
 )
 
-set(FTGLRoot ${CMAKE_CURRENT_LIST_DIR}/freetype-gl)
-
-set(FTGLSrc
-    ${FTGLRoot}/distance-field.c
-    ${FTGLRoot}/edtaa3func.c
-    ${FTGLRoot}/font-manager.c
-    ${FTGLRoot}/platform.c
-    ${FTGLRoot}/texture-atlas.c
-    ${FTGLRoot}/texture-font.c
-    ${FTGLRoot}/utf8-utils.c
-    ${FTGLRoot}/vector.c
-)
-
-file(GLOB_RECURSE FTGLHeaders
-    ${CMAKE_CURRENT_LIST_DIR}/freetype-gl/*.h
-)
-
 add_definitions(-DFT2_BUILD_LIBRARY)
 
-add_library(FreeType STATIC ${FreeTypeSource} ${FTGLSrc} ${FTGLHeaders})
+add_library(FreeType STATIC ${FreeTypeSource})
 
 # Set the Visual Studio project filter.
 set_property(TARGET FreeType PROPERTY FOLDER "Dependencies")

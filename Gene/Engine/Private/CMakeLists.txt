@@ -11,10 +11,10 @@ set(GraphicsSrc
     ${SrcDir}/Graphics/Texture2D.cc
     ${SrcDir}/Graphics/VertexArray.cc
     ${SrcDir}/Graphics/Renderer2D.cc
+	${SrcDir}/Graphics/FreeTypeFont.cc
+	${SrcDir}/Graphics/FreeTypeFont.h
 
     ${SrcDir}/Graphics/Factorys/ShaderFactory.cc
-	
-	${SrcDir}/Graphics/FreetypeGL.h
 )
 
 set(InputSrc 
