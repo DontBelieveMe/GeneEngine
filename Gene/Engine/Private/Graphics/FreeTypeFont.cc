@@ -6,6 +6,14 @@ using namespace Gene::Graphics;
 
 const int s_AtlasDepth = 2;
 
+/*
+TODO:
+    - Maybe?
+    - Optimal packing algorithm
+        -> Will decide where there is the the most optimal to place glyphs
+        -> E.G place `.` `,` `'` etc on top of each other etc...
+*/
+
 FreeTypeTexture::FreeTypeTexture(int w, int h)
     : m_Width(w), m_Height(h), m_XIndex(0), m_YIndex(0), m_MaxHeight(0)
 {
