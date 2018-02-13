@@ -5,6 +5,7 @@
 using namespace Gene::Graphics;
 
 const int s_AtlasDepth = 2;
+const int s_AtlasPadding = 1;
 
 /*
 TODO:
@@ -15,7 +16,7 @@ TODO:
 */
 
 FreeTypeTexture::FreeTypeTexture(int w, int h)
-    : m_Width(w), m_Height(h), m_XIndex(0), m_YIndex(0), m_MaxHeight(0)
+    : m_Width(w), m_Height(h), m_XIndex(s_AtlasPadding), m_YIndex(0), m_MaxHeight(0)
 {
     // TODO:
     // Maybe we can shrink the texture afterwards if there is space available
@@ -32,7 +33,7 @@ FreeTypeTexture::~FreeTypeTexture()
 
 void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
 {
-    const int padding = 2;
+    const int padding = s_AtlasPadding;
 
     for (int y = 0; y < h; ++y)
     {
@@ -51,7 +52,7 @@ void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
     if (m_XIndex + w > m_Width) 
     {
         m_YIndex += m_MaxHeight + padding;
-        m_XIndex = 0;
+        m_XIndex = padding;
         m_MaxHeight = 0;
     }
 
@@ -151,8 +152,11 @@ void FreeTypeFont::LoadCharacter(char charcode)
 
 Gene::Vector2 FreeTypeFont::GetKerning(char left, char right)
 {
+    FT_UInt leftIndex = FT_Get_Char_Index(m_Face, left);
+    FT_UInt rightIndex = FT_Get_Char_Index(m_Face, right);
+
     FT_Vector kerning;
-    FT_Get_Kerning(m_Face, left, right, FT_KERNING_DEFAULT, &kerning);
+    FT_Get_Kerning(m_Face, leftIndex, rightIndex, FT_KERNING_DEFAULT, &kerning);
     return Vector2(kerning.x / 64.f, kerning.y / 64.f);
 }
 

@@ -5,7 +5,6 @@ set(SourceDir ${CMAKE_CURRENT_LIST_DIR}/Source)
 set(Source 
     ${SourceDir}/Main.cc
 )
-add_definitions(-m32)
 
 add_executable(Gene.Sandbox ${Source})
 

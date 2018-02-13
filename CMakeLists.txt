@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.1)
 project("GeneEngine")
+
+set(CMAKE_CXX_STANDARD 11)
 
 # These are going to be used in every (sub) project, so its ok to put it here
 include_directories(Gene/Engine/Public)

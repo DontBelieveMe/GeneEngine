@@ -29,8 +29,11 @@ int main()
 	using namespace Gene::Input;
 	using namespace Gene::Content;
     using namespace Gene;
-
-    WindowInfo info = { 800, 600, "Hello from GeneEngine.Sandbox", false };
+	WindowInfo info;
+	info.Width = 800;
+	info.Height = 600;
+	info.Title = "Hello from GeneEngine.Sandbox";
+	info.Borderless = false;
 
 	Window *window = Window::CreateWindow(info);
 	window->Create();
@@ -73,7 +76,7 @@ int main()
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
-    Font font("Data/Fonts/consola.ttf", 7);
+    Font font("Data/Fonts/Gidole-Regular.ttf", 7);
     
     std::string str = "The quick brown fox jumps over the lazy dog";
     float strW = font.MeasureString(str).X;
@@ -119,6 +122,8 @@ int main()
         // 2D rendering code
         {
             renderer.Begin();
+            //renderer.DrawTexture({10, 10}, font.GLTexture());
+
             renderer.DrawString(&font, str, { xPos, 100 }, Color(0xC8C8C8FF));
 
             renderer.End();
