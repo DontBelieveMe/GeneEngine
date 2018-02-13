@@ -23,10 +23,15 @@
 
 GE_FORCEINLINE void logf() {}
 
-template <typename... Args>
-GE_FORCEINLINE void logf(const char *t, Args... args)
+template <typename T, typename... Args>
+GE_FORCEINLINE void logf(const char *t, T arg, Args... args)
 {
-	printf(t, args...);
+    printf(t, arg, args...);
+}
+
+GE_FORCEINLINE void logf(const char *t)
+{
+    printf("%s", t);
 }
 
 namespace Gene { 

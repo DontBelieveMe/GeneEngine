@@ -29,7 +29,7 @@ void VertexArray::RegisterAttribute(Buffer *buffer, AttributeDescriptor attrib)
 		attrib.ComponentCount, 
 		static_cast<GLenum>(buffer->DataType()),
 		GL_FALSE, attrib.Stride, 
-		(const GLvoid*) attrib.ByteOfffset
+        (void*)(intptr_t)attrib.ByteOfffset
 	);
 	
 	buffer->Disable();
