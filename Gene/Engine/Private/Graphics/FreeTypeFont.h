@@ -28,7 +28,7 @@ namespace Gene { namespace Graphics {
         FreeTypeTexture(int w, int h);
         ~FreeTypeTexture();
 
-        void          CopyTextureToPos(int w, int h, byte *data);
+        void          CopyTextureToPos(int w, int h, byte *data, FT_GlyphSlot slot);
         int           GetWidth() { return m_Width; }
         int           GetHeight() { return m_Height; }
 

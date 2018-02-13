@@ -16,7 +16,7 @@ TODO:
 */
 
 FreeTypeTexture::FreeTypeTexture(int w, int h)
-    : m_Width(w), m_Height(h), m_XIndex(s_AtlasPadding), m_YIndex(0), m_MaxHeight(0)
+    : m_Width(w), m_Height(h), m_XIndex(s_AtlasPadding), m_YIndex(s_AtlasPadding), m_MaxHeight(0)
 {
     // TODO:
     // Maybe we can shrink the texture afterwards if there is space available
@@ -31,7 +31,7 @@ FreeTypeTexture::~FreeTypeTexture()
     delete[] m_Data;
 }
 
-void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
+void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data, FT_GlyphSlot slot)
 {
     const int padding = s_AtlasPadding;
 
@@ -46,10 +46,10 @@ void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data)
             ourRow[x * s_AtlasDepth + 1] = srcRow[x];
         }
     }
-
-    m_XIndex += w + padding;
     
-    if (m_XIndex + w > m_Width) 
+    m_XIndex += slot->bitmap.width + padding;
+    
+    if (m_XIndex + slot->bitmap.width > m_Width)
     {
         m_YIndex += m_MaxHeight + padding;
         m_XIndex = padding;
@@ -79,7 +79,7 @@ Texture2D *FreeTypeTexture::GenerateTexture()
 }
 
 FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
-{
+{   
     FT_Glyph_Metrics metrics = slot->metrics;
 
     FT_Pos w = metrics.width >> 6;
@@ -137,7 +137,7 @@ void FreeTypeFont::LoadCharacter(char charcode)
 
     FT_GlyphSlot slot = m_Face->glyph;
     FT_Bitmap bitmap = slot->bitmap;
-
+    
     if (m_Texture->IsEnoughSpaceForCharacter(bitmap.rows))
     {
         std::unordered_map<char, FreeTypeGlyph>::iterator it = m_Glyphs.find(charcode);
@@ -145,7 +145,7 @@ void FreeTypeFont::LoadCharacter(char charcode)
         {
             FreeTypeGlyph metrics = m_Texture->GetGlyphUVs(slot);         
             m_Glyphs.insert(std::make_pair(charcode, metrics));
-            m_Texture->CopyTextureToPos(bitmap.pitch, bitmap.rows, bitmap.buffer);
+            m_Texture->CopyTextureToPos(bitmap.pitch, bitmap.rows, bitmap.buffer, slot);
         }
     }
 }

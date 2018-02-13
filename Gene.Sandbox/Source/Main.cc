@@ -76,7 +76,7 @@ int main()
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
-    Font font("Data/Fonts/Gidole-Regular.ttf", 7);
+    Font font("Data/Fonts/consola.ttf", 7);
     
     std::string str = "The quick brown fox jumps over the lazy dog";
     float strW = font.MeasureString(str).X;
@@ -122,9 +122,9 @@ int main()
         // 2D rendering code
         {
             renderer.Begin();
-            //renderer.DrawTexture({10, 10}, font.GLTexture());
+            renderer.DrawTexture({10, 10}, font.GLTexture());
 
-            renderer.DrawString(&font, str, { xPos, 100 }, Color(0xC8C8C8FF));
+            renderer.DrawString(&font, str, { xPos, 300 }, Color(0xC8C8C8FF));
 
             renderer.End();
             renderer.Present();

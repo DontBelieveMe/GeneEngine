@@ -9,10 +9,13 @@
 
 #if defined(GENE_COMPILER_MSVC)
 	#define GE_FORCEINLINE __forceinline
+    #define VS_BREAK_IF(cond) do{if(cond)__debugbreak();}while(0)
 #elif defined(GENE_COMPILER_GNUC)
     #define GE_FORCEINLINE inline __attribute__((always_inline))
+#define VS_BREAK_IF(cond)
 #else
 	#define GE_FORCEINLINE inline
+    #define VS_BREAK_IF(cond)
 #endif
 
 #define GE_ASSERT(cond, ...) \

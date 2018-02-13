@@ -173,7 +173,7 @@ void Renderer2D::DrawString(Font *font,
         // Work in any kerning
         if (i > 0) {
             Vector2 kerning = ftFont->GetKerning(text[i - 1], c);
-            xPos += kerning.X;
+        //    xPos += kerning.X;
         }
 
         m_Buffer->Position  = Vector3(xPos, tmpY, 0.f);
