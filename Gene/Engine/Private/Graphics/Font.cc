@@ -35,6 +35,8 @@ Vector2 Font::MeasureString(const std::string & str)
 
     int i = 0;
     for (char character : str) {
+        if (character == '\n')continue;
+        
         FreeTypeGlyph *glyph = m_FreeTypeFont->GetGlyph(character);
 
         if (i > 0)

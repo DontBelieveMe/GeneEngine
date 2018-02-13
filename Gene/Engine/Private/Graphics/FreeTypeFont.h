@@ -55,6 +55,7 @@ namespace Gene { namespace Graphics {
         FT_Face                                 m_Face;
         FreeTypeTexture                        *m_Texture;
         std::unordered_map<char, FreeTypeGlyph> m_Glyphs;
+        int                                     m_TallestGlyphSize;
 
     public:
         FreeTypeFont(const char *path, float size);
@@ -64,5 +65,6 @@ namespace Gene { namespace Graphics {
         Texture2D     *GenerateTexture();
         FreeTypeGlyph *GetGlyph(char charcode);
         Vector2        GetKerning(char left, char right);
+        int            GetTallestGlyphSize() const { return m_TallestGlyphSize; }
     };
 } }

@@ -78,7 +78,7 @@ int main()
     renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
     Font font("Data/Fonts/consola.ttf", 7);
     
-    std::string str = "The quick brown fox jumps over the lazy dog";
+    std::string str = "The quick brown fox\njumps over the\n\nlazy dog";
     float strW = font.MeasureString(str).X;
     float xPos = info.Width / 2 - (strW / 2);
 

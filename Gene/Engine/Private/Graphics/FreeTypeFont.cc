@@ -102,6 +102,7 @@ FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
 }
 
 FreeTypeFont::FreeTypeFont(const char *path, float size) 
+    : m_TallestGlyphSize(0)
 {
     m_Texture = new FreeTypeTexture(512, 512);
 
@@ -143,7 +144,8 @@ void FreeTypeFont::LoadCharacter(char charcode)
         std::unordered_map<char, FreeTypeGlyph>::iterator it = m_Glyphs.find(charcode);
         if (it == m_Glyphs.end())
         {
-            FreeTypeGlyph metrics = m_Texture->GetGlyphUVs(slot);         
+            FreeTypeGlyph metrics = m_Texture->GetGlyphUVs(slot);
+            m_TallestGlyphSize = std::max(m_TallestGlyphSize, metrics.Height);
             m_Glyphs.insert(std::make_pair(charcode, metrics));
             m_Texture->CopyTextureToPos(bitmap.pitch, bitmap.rows, bitmap.buffer, slot);
         }

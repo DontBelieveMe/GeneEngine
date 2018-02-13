@@ -164,6 +164,14 @@ void Renderer2D::DrawString(Font *font,
 	{
         char c = text[i];
         
+        if (c == '\n')
+        {
+            yPos += ftFont->GetTallestGlyphSize();
+            xPos = pos.X;
+
+            continue;
+        }
+
         FreeTypeGlyph *glyph = ftFont->GetGlyph(c);
 
 		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
