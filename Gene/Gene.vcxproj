@@ -164,6 +164,7 @@
     <ClInclude Include="Engine\Public\Content\IModelLoader.h" />
     <ClInclude Include="Engine\Public\Content\OBJModelLoader.h" />
     <ClInclude Include="Engine\Public\Content\TinyObjLoader.h" />
+    <ClInclude Include="Engine\Public\Debug\Logger.h" />
     <ClInclude Include="Engine\Public\GeneCommon.h" />
     <ClInclude Include="Engine\Public\GeneUseAll.h" />
     <ClInclude Include="Engine\Public\Graphics\Factorys\ShaderFactory.h" />

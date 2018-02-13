@@ -10,6 +10,7 @@
 #include <GeneCommon.h>
 #include <Graphics/Texture2D.h>
 #include <Graphics/Renderer2D.h>
+#include <Debug/Logger.h>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
