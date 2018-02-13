@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include <Platform/OS.h>
+#include <Debug/Logger.h>
 
 #if defined(GENE_COMPILER_MSVC)
 	#define GE_FORCEINLINE __forceinline
@@ -21,7 +22,7 @@
 #define GE_ASSERT(cond, ...) \
 	do { \
 		if(!(cond)){ \
-			logf(__VA_ARGS__); \
+			LOG(Gene::LogLevel::Assert, "", __VA_ARGS__); \
 			assert(cond); \
 		} \
 	} while(0) \

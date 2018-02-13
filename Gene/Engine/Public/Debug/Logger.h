@@ -6,15 +6,27 @@
 #define LOG_FILTER(priority) Gene::Logger::GetLogger()->SetFilter(priority)
 #define LOG_CLEAR_FILTER() Gene::Logger::GetLogger()->SetFilter(0)
 
-#define LOG Gene::Logger::GetLogger()->Log
+// #define DISABLE_LOGGING
+
+#ifdef DISABLE_LOGGING
+    #define LOG(...)
+#else
+    #define LOG Gene::Logger::GetLogger()->Log
+#endif
 
 namespace Gene {
     struct LogLevel {
         static const unsigned Error = 1;
         static const unsigned Warning = 2;
-        static const unsigned Infomation = 3;
+        static const unsigned Infomation = 4;
+        static const unsigned Assert = 8;
     };
 
+    /*
+    TODO:
+        -> Ideally I would want zero cost compile time filtering of log messages as well
+        -> The ability to log to other output streams (text files, over a network/socket stream etc)
+    */
     class Logger {
     private:
         unsigned m_Filter;
@@ -32,6 +44,7 @@ namespace Gene {
             if (priority & LogLevel::Error) return "Error";
             if (priority & LogLevel::Warning) return "Warning";
             if (priority & LogLevel::Infomation) return "Infomation";
+            if (priority & LogLevel::Assert) return "Assert";
 
             return "UnkownErrorLevel";
         }
