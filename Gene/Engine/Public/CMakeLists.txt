@@ -16,6 +16,10 @@ set(GraphicsHeaders
     ${HeaderDir}/Graphics/Factorys/ShaderFactory.h
 )
 
+set(DebugHeaders
+    ${HeaderDir}/Debug/Logger.h
+)
+
 set(InputHeaders 
     ${HeaderDir}/Input/Keyboard.h
     ${HeaderDir}/Input/KeyboardState.h
@@ -62,13 +66,15 @@ source_group("${VSHeaderFilterName}\\IO" 	   FILES ${IOHeaders})
 source_group("${VSHeaderFilterName}\\Math" 	   FILES ${MathHeaders})
 source_group("${VSHeaderFilterName}\\Platform" FILES ${PlatformHeaders})
 source_group("${VSHeaderFilterName}" 		   FILES ${RootHeaders})
+source_group("${VSHeaderFilterName}\\Debug" FILES ${DebugHeaders})
 
 set(CommonHeaders
     ${ContentHeaders} 
-	${GraphicsHeaders} 
-	${InputHeaders} 
-	${IOHeaders} 
-	${MathHeaders} 
-	${PlatformHeaders} 
-	${RootHeaders}
+    ${GraphicsHeaders}
+    ${InputHeaders}
+    ${IOHeaders}
+    ${MathHeaders}
+    ${PlatformHeaders}
+    ${DebugHeaders}
+    ${RootHeaders}
 )

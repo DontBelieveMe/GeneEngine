@@ -32,7 +32,7 @@ namespace Gene { namespace Graphics {
         Buffer                  *m_EBO;
         int                      m_IndexCount;
 
-        Vertex2D                  *m_Buffer;
+        Vertex2D                *m_Buffer;
         GLSLShader              *m_Shader;
         Matrix4                  m_ProjectionMatrix;
         Texture2D               *m_Texture;

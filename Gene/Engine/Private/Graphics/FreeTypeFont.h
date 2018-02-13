@@ -10,17 +10,17 @@
 
 namespace Gene { namespace Graphics {
     struct FreeTypeGlyph {
-        Vector2 UV_TopLeft, 
-                UV_TopRight,
-                UV_BottomLeft, 
-                UV_BottomRight;
+        Vector2          UV_TopLeft,
+                         UV_TopRight,
+                         UV_BottomLeft,
+                         UV_BottomRight;
 
-        Vector2 Advance;
+        Vector2          Advance;
         
-        int     Width, 
-                Height;
+        int              Width,
+                         Height;
 
-        Vector2 Offset;
+        Vector2          Offset;
     };
 
     class FreeTypeTexture {
@@ -28,43 +28,45 @@ namespace Gene { namespace Graphics {
         FreeTypeTexture(int w, int h);
         ~FreeTypeTexture();
 
-        void          CopyTextureToPos(int w, int h, byte *data, FT_GlyphSlot slot);
-        int           GetWidth() { return m_Width; }
-        int           GetHeight() { return m_Height; }
+        void             CopyTextureToPos(int w, int h, byte *data, FT_GlyphSlot slot);
+        int              GetWidth() { return m_Width; }
+        int              GetHeight() { return m_Height; }
 
-        Texture2D    *GenerateTexture();
+        Texture2D       *GenerateTexture();
 
-        bool          IsEnoughSpaceForCharacter(int glyphHeight);
+        bool             IsEnoughSpaceForCharacter(int glyphHeight);
 
-        FreeTypeGlyph GetGlyphUVs(FT_GlyphSlot slot);
+        FreeTypeGlyph    GetGlyphUVs(FT_GlyphSlot slot);
 
     private:
-        int           m_Width, 
-                      m_Height;
+        int              m_Width,
+                         m_Height;
 
-        byte         *m_Data;
+        byte            *m_Data;
         
-        int           m_XIndex, 
-                      m_YIndex;
+        int              m_XIndex,
+                         m_YIndex;
         
-        int           m_MaxHeight;
+        int              m_MaxHeight;
     };
 
     class FreeTypeFont {
     private:
-        FT_Face                                 m_Face;
-        FreeTypeTexture                        *m_Texture;
-        std::unordered_map<char, FreeTypeGlyph> m_Glyphs;
-        int                                     m_TallestGlyphSize;
+        typedef std::unordered_map<char, FreeTypeGlyph> GlyphMap;
+
+        FT_Face          m_Face;
+        FreeTypeTexture *m_Texture;
+        GlyphMap         m_Glyphs;
+        int              m_TallestGlyphSize;
 
     public:
+        void             LoadCharacter(char charcode);
+        Texture2D       *GenerateTexture();
+        FreeTypeGlyph   *GetGlyph(char charcode);
+        Vector2          GetKerning(char left, char right);
+        int              GetTallestGlyphSize() const { return m_TallestGlyphSize; }
+
         FreeTypeFont(const char *path, float size);
         ~FreeTypeFont();
-
-        void           LoadCharacter(char charcode);
-        Texture2D     *GenerateTexture();
-        FreeTypeGlyph *GetGlyph(char charcode);
-        Vector2        GetKerning(char left, char right);
-        int            GetTallestGlyphSize() const { return m_TallestGlyphSize; }
     };
 } }

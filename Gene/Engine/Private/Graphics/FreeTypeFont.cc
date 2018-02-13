@@ -13,6 +13,7 @@ TODO:
     - Optimal packing algorithm
         -> Will decide where there is the the most optimal to place glyphs
         -> E.G place `.` `,` `'` etc on top of each other etc...
+    - Also investigate glyph vertex instancing.
 */
 
 FreeTypeTexture::FreeTypeTexture(int w, int h)
@@ -22,6 +23,10 @@ FreeTypeTexture::FreeTypeTexture(int w, int h)
     // Maybe we can shrink the texture afterwards if there is space available
     // However that would screw up the generated UVs
     // maybe store pixel coords first then generate UVs in second pass?/afterwards
+    // EDIT: Instead of shrinking texture here is a potential algorithm.
+    //          -> PASS 1 -> Calculate the potential height of the texture with all glyphs
+    //          -> Round that height up to the nearest power of 2 & set texture to that size.
+    //          -> PASS 2 -> Go through and pack all glyphs into texture as normal.
     m_Data = new byte[w * h * s_AtlasDepth];
     memset(m_Data, 0, w * h * s_AtlasDepth);
 }

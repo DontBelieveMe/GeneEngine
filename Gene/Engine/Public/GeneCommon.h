@@ -22,8 +22,8 @@
 #define GE_ASSERT(cond, ...) \
 	do { \
 		if(!(cond)){ \
-			LOG(Gene::LogLevel::Assert, "", __VA_ARGS__); \
-			assert(cond); \
+            logf(__VA_ARGS__);\
+            assert(cond); \
 		} \
 	} while(0) \
 
