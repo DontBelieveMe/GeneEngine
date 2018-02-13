@@ -7,8 +7,10 @@
 
 #include <Platform/OS.h>
 
-#ifdef GENE_COMPILER_MSVC
+#if defined(GENE_COMPILER_MSVC)
 	#define GE_FORCEINLINE __forceinline
+#elif defined(GENE_COMPILER_GNUC)
+    #define GE_FORCEINLINE inline __attribute__((always_inline))
 #else
 	#define GE_FORCEINLINE inline
 #endif
@@ -21,10 +23,10 @@
 		} \
 	} while(0) \
 
-GE_FORCEINLINE void logf() {}
+inline void logf() {}
 
 template <typename T, typename... Args>
-GE_FORCEINLINE void logf(const char *t, T arg, Args... args)
+inline void logf(const char *t, T arg, Args... args)
 {
     printf(t, arg, args...);
 }

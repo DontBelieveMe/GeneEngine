@@ -11,3 +11,7 @@
 #ifdef _MSC_VER
 	#define GENE_COMPILER_MSVC
 #endif
+
+#ifdef __GNUC__
+    #define GENE_COMPILER_GNUC
+#endif
