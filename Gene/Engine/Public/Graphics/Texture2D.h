@@ -33,8 +33,8 @@ namespace Gene { namespace Graphics {
         inline unsigned int Width()    const { return m_Width; }
         inline unsigned int Height()   const { return m_Height; }
 		inline bool         IsLoaded() const { return m_Loaded; }
-		void				Enable(int32 index); 
-		void				Disable(int32 index);   
+        void				Enable(size_t index);
+        void				Disable(size_t index);
         const uint8        *Data()     const { return &m_Pixels[0]; }
 
 		Vector2 SubTextureUV(float x, float y, float width, float height);

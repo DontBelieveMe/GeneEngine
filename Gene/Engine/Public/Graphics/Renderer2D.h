@@ -44,6 +44,10 @@ namespace Gene { namespace Graphics {
 	public:
 		Renderer2D();
 
+        /**
+        * Draw a string the current buffer with the specified font at the specified position
+        * and with the specified colour.
+        */
         void DrawString(Font *font,
             const std::string &text,
             const Math::Vector2& pos,

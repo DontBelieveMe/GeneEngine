@@ -48,7 +48,10 @@ void Texture2D::Load(const Array<uint8>& data, unsigned w, unsigned h)
 
 void Texture2D::GenerateGLId()
 {
-    GLenum filtering   = static_cast<GLenum>(Filtering);
+    GLsizei w = static_cast<GLsizei>(m_Width);
+    GLsizei h = static_cast<GLsizei>(m_Height);
+
+    GLint filtering   = static_cast<GLint>(Filtering);
     GLenum pixelFormat = static_cast<GLenum>(Format);
 
     glGenTextures(1, &m_TextureId);
@@ -67,8 +70,8 @@ void Texture2D::GenerateGLId()
     glTexImage2D(
         GL_TEXTURE_2D, 
         0, 
-        pixelFormat, 
-        m_Width, m_Height, 
+        static_cast<GLint>(pixelFormat),
+        w, h,
         0, 
         pixelFormat, 
         GL_UNSIGNED_BYTE, 
@@ -85,15 +88,15 @@ Vector2 Texture2D::SubTextureUV(float x, float y, float width, float height)
     return Vector2(uvx, uvy);
 }
 
-void Texture2D::Enable(int32 index)
+void Texture2D::Enable(size_t index)
 {
     // This is safe, as GL_TEXTURE<index> = GL_TEXTURE0 + <index>
     // https://www.khronos.org/registry/OpenGL-Refpages/es1.1/xhtml/glActiveTexture.xml
-    glActiveTexture(GL_TEXTURE0 + index);
+    glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index));
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }
 
-void Texture2D::Disable(int32 index)
+void Texture2D::Disable(size_t index)
 {
     glActiveTexture(GL_TEXTURE0 + index);
     glBindTexture(GL_TEXTURE_2D, 0);

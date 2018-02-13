@@ -1,5 +1,6 @@
 #include <Graphics/Renderer2D.h>
 #include <GeneCommon.h>
+#include <Debug/Logger.h>
 
 using namespace Gene::Graphics;
 using namespace Gene;
@@ -9,14 +10,14 @@ static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
-static void GenerateRectIndicesIntoBuffer(GLuint *buffer, int indicesNum)
+static void GenerateRectIndicesIntoBuffer(GLuint *buffer, size_t indicesNum)
 {
-    int offset = 0;
-    for (int i = 0; i < indicesNum; i += 6)
+    GLuint offset = 0;
+    for (size_t i = 0; i < indicesNum; i += 6)
     {
         buffer[i] = offset + 0;
-        buffer[i+1] = offset + 1;
-        buffer[i+2] = offset + 2;
+        buffer[i + 1] = offset + 1;
+        buffer[i + 2] = offset + 2;
 
         buffer[i + 3] = offset + 2;
         buffer[i + 4] = offset + 3;
@@ -149,10 +150,14 @@ void Renderer2D::DrawString(Font *font,
 						    const Math::Vector2& pos, 
 							const Graphics::Color color)
 {
+    if(!font)
+    {
+        LOG(Gene::LogLevel::Warning, "Font null when trying to draw string '", text, "'! Abandoning draw.");
+        return;
+    }
+
     FreeTypeFont *ftFont = font->GetFreeTypeFont();
-
     Vector3 rgbPack = color.ToNormalizedVector3();
-
 	Texture2D *glTexture = font->GLTexture();
 	
 	float xPos = pos.X;
@@ -174,15 +179,15 @@ void Renderer2D::DrawString(Font *font,
 
         FreeTypeGlyph *glyph = ftFont->GetGlyph(c);
 
-		GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], (int)text[i]);
+        GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], static_cast<int>(text[i]));
 
         float tmpY = yPos - glyph->Offset.Y;
         
         // Work in any kerning
-        if (i > 0) {
+        /*if (i > 0) {
             Vector2 kerning = ftFont->GetKerning(text[i - 1], c);
         //    xPos += kerning.X;
-        }
+        }*/
 
         m_Buffer->Position  = Vector3(xPos, tmpY, 0.f);
         m_Buffer->Color     = rgbPack;
