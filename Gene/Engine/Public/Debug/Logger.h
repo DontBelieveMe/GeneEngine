@@ -16,10 +16,10 @@
 
 namespace Gene {
     struct LogLevel {
-        static const unsigned Error = 1;
-        static const unsigned Warning = 2;
-        static const unsigned Infomation = 4;
-        static const unsigned Assert = 8;
+        static const unsigned Error;
+        static const unsigned Warning;
+        static const unsigned Infomation;
+        static const unsigned Assert;
     };
 
     /*

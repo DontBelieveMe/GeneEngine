@@ -3,7 +3,7 @@ set(ContentSrc
 )
 
 set(GraphicsSrc 
-	${SrcDir}/Graphics/Buffer.cc
+    ${SrcDir}/Graphics/Buffer.cc
     ${SrcDir}/Graphics/Color.cc
     ${SrcDir}/Graphics/Font.cc
     ${SrcDir}/Graphics/GLSLShader.cc
@@ -11,10 +11,14 @@ set(GraphicsSrc
     ${SrcDir}/Graphics/Texture2D.cc
     ${SrcDir}/Graphics/VertexArray.cc
     ${SrcDir}/Graphics/Renderer2D.cc
-	${SrcDir}/Graphics/FreeTypeFont.cc
-	${SrcDir}/Graphics/FreeTypeFont.h
+    ${SrcDir}/Graphics/FreeTypeFont.cc
+    ${SrcDir}/Graphics/FreeTypeFont.h
 
     ${SrcDir}/Graphics/Factorys/ShaderFactory.cc
+)
+
+set(DebugSrc
+    ${SrcDir}/Debug/Logger.cc
 )
 
 set(InputSrc 
@@ -58,13 +62,15 @@ source_group("${VSSourceFilterName}\\IO" 	  	  FILES ${IOSrc})
 source_group("${VSSourceFilterName}\\Math" 	  	  FILES ${MathSrc})
 source_group("${VSSourceFilterName}\\Platform" 	  FILES ${PlatformSrc})
 source_group("${VSSourceFilterName}\\Third Party" FILES ${ThirdPartySrc})
+source_group("${VSSourceFilterName}\\Debug" FILES ${DebugSrc})
 
 set(CommonSource
     ${ContentSrc} 
-	${GraphicsSrc} 
-	${InputSrc} 
-	${IOSrc} 
-	${MathSrc} 
-	${PlatformSrc} 
-	${ThirdPartySrc}
+    ${GraphicsSrc}
+    ${InputSrc}
+    ${IOSrc}
+    ${MathSrc}
+    ${PlatformSrc}
+    ${ThirdPartySrc}
+    ${DebugSrc}
 )

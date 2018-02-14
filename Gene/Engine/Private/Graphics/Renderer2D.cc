@@ -116,6 +116,12 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 {
+    if(!texture)
+    {
+        LOG(Gene::LogLevel::Warning, "DrawTexture() called with a NULL texture parameter. Aborting draw");
+        return;
+    }
+
 	float width = static_cast<float>(texture->Width());
     float height = static_cast<float>(texture->Height());
 
