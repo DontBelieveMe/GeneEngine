@@ -14,10 +14,20 @@ namespace Gene { namespace Input {
 }}
 
 namespace Gene { namespace Platform {
+
+    /** Data about the window */
 	struct WindowInfo
 	{
-        int         Width, Height;
+        /** The width of the window in pixels. */
+        int         Width;
+
+        /** The height of the window in pixels. */
+        int         Height;
+
+        /** The title of the window */
 		const char *Title;
+
+        /** Should the window be borderless. This will remove any control box etc... */
         bool        Borderless = false;
 	};
 
@@ -26,6 +36,7 @@ namespace Gene { namespace Platform {
 		void(*Resize)(int, int) = nullptr;
 	};
 
+    /** Base class that represents a window accross all platforms, capable of being drawn to and recieving input. */
 	class Window
 	{
 	protected:
@@ -45,27 +56,53 @@ namespace Gene { namespace Platform {
         virtual ~Window() { delete m_Context; }
 		Window(WindowInfo info);
 
+        /** Creates the window itself but will not show it yet. Does initalize any graphics, use CreateGLContext for that */
 		virtual void Create() = 0;
+
+        /** Creates the OpenGL context, meaning it can now be drawn to. Should be called after Create() */
 		virtual void CreateGLContext() = 0;
+
+        /** Shows the window. */
 		virtual void Show() = 0;
+
+        /** Poll the event queue, checking for input and window modification events, such as close or resize. */
 		virtual void PollEvents() = 0;
+
+        /** Display buffer (basically draw shit to the screen) */
 		virtual void SwapBuffers() = 0;
+
+        /** Destroy any platform resources used by the window */
         virtual void Destroy() = 0;
 
+        /** Converts global screen (moniter) coordinates to local window coordinates. */
 		virtual Vector2 ScreenToWindow(const Vector2& point) = 0;
+
+        /** Converts coordinates from local window coordinates to global screen (moniter) coordinates. */
 		virtual Vector2 WindowToScreen(const Vector2& point) = 0;
 
-        inline unsigned   Width()        const { return m_WindowConfig.Width;  }
-        inline unsigned   Height()       const { return m_WindowConfig.Height; }
+        /** Retrieves the width of the window as specified in the WindowInfo */
+        inline int        Width()        const { return m_WindowConfig.Width;  }
+
+        /** Retrieves the height of the window as specified in the WindowInfo */
+        inline int        Height()       const { return m_WindowConfig.Height; }
+
+        /** Is the window open (running). This is based on the fact the window has not recieved any close event. */
         inline bool       Running()      const { return m_Running; }
+
+        /** Returns a pointer to a platform agnostic OpenGL context representation. */
 		inline GLContext *GetGLContext() const { return m_Context; }
 
-        inline void SetWindowResizeCallback(void(*resize)(int,int))
+        /** Set the callback to be called when the window is resized. */
+        inline void SetWindowResizeCallback(void(*resize)(int, int))
             { m_Callbacks.Resize = resize;  }
 
+        /** Creates a the platform window, based on the platform the code is being called from. (the platform defines) */
 		static Window *CreateWindow(WindowInfo info);
 
+        /** Set the graphical clear color of the window. The window will be reset to this color when Window::Clear is called */
 		void SetClearColor(Graphics::Color color);
+
+        /** Reset the window to the specified clear color. If no color has been specified by SetClearColor then it will reset to black. */
         void Clear();
     };
 }}

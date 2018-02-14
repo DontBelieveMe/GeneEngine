@@ -4,6 +4,7 @@
 
 namespace Gene { namespace OpenGL {
 
+    /** Utility enumeration that abstracts away OpenGL type definitions such as GL_FLOAT, GL_UNSIGNED_BYTE etc... */
 	enum class GLType {
 		Float			= GL_FLOAT,
 		Int				= GL_INT,
@@ -11,8 +12,9 @@ namespace Gene { namespace OpenGL {
 		UnsignedByte    = GL_UNSIGNED_BYTE,
 		Short		    = GL_SHORT,
 		UnsignedInt     = GL_UNSIGNED_INT
-	};
+    };
 
+    /** Casts data of type "CustomType" to a GLenum. */
 	template <typename CustomType>
 	GLenum GeneToGLType(CustomType t)
 	{
