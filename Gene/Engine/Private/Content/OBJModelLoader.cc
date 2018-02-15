@@ -3,34 +3,26 @@
 #include <Platform/OpenGL.h>
 #include <string>
 #include <Content/TinyObjLoader.h>
+#include <sstream>
 
 using namespace Gene::Content;
 using namespace Gene;
 
-GeneModel *OBJModelLoader::Load(const char * filepath)
+GeneModel *OBJModelLoader::LoadFromData(const tinyobj::attrib_t& attrib, const Array<tinyobj::shape_t>& shapes, const Array<tinyobj::material_t>& materials)
 {
-    tinyobj::attrib_t attrib;
-    Array<tinyobj::shape_t> shapes;
-    Array<tinyobj::material_t> materials;
-    std::string err;
-
-    bool errCode = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, filepath);
-
-    GE_ASSERT(errCode, err.c_str());
-
     GeneModel *model = new GeneModel();
-    
+
     Array<Vector3>& vertices = model->Vertices;
     Array<Vector3>& normals = model->Normals;
     Array<Vector2>& texCoords = model->UVs;
     Array<GLuint>& indices = model->Indices;
-    
+
     for (const tinyobj::shape_t& shape : shapes)
     {
         for (const tinyobj::index_t& index : shape.mesh.indices)
         {
             int vindex = index.vertex_index * 3;
-            vertices.push_back({ 
+            vertices.push_back({
                 attrib.vertices[vindex + 0],
                 attrib.vertices[vindex + 1],
                 attrib.vertices[vindex + 2]
@@ -54,4 +46,34 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
     }
 
     return model;
+}
+
+GeneModel *OBJModelLoader::LoadFromMemory(const char *str)
+{
+    tinyobj::attrib_t attrib;
+    Array<tinyobj::shape_t> shapes;
+    Array<tinyobj::material_t> materials;
+    std::string err;
+
+    std::stringstream sstream;
+    sstream << str;
+
+    bool errCode = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, &sstream);
+
+    GE_ASSERT(errCode, err.c_str());
+
+    return LoadFromData(attrib, shapes, materials);
+}
+
+GeneModel *OBJModelLoader::Load(const char * filepath)
+{
+    tinyobj::attrib_t attrib;
+    Array<tinyobj::shape_t> shapes;
+    Array<tinyobj::material_t> materials;
+    std::string err;
+
+    bool errCode = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, filepath);
+
+    GE_ASSERT(errCode, err.c_str());
+    return LoadFromData(attrib, shapes, materials);
 }

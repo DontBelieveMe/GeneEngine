@@ -9,6 +9,10 @@ set(TestSource
     ${SrcDir}/Math/TestMatrix4.cc
     ${SrcDir}/Math/TestVector2.cc
     ${SrcDir}/Math/TestVector3.cc
+
+    ${SrcDir}/Graphics/TestColor.cc
+
+    ${SrcDir}/Content/TestObjLoader.cc
 )
 
 add_executable(GeneEngine.UnitTests
