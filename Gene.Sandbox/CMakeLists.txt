@@ -12,12 +12,12 @@ target_link_libraries(Gene.Sandbox "Gene")
 target_link_libraries(Gene.Sandbox "FreeType")
 
 if(UNIX)
-	target_link_libraries(Gene.Sandbox "X11")
-	target_link_libraries(Gene.Sandbox "GL")
+    target_link_libraries(Gene.Sandbox "X11")
+    target_link_libraries(Gene.Sandbox "GL")
 endif()
 
 if(WIN32)
-	target_link_libraries(Gene.Sandbox "opengl32.lib")
+    target_link_libraries(Gene.Sandbox "opengl32.lib")
 endif()
 
 add_custom_command(TARGET Gene.Sandbox POST_BUILD

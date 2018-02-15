@@ -31,20 +31,20 @@ set(IOSrc
 )
 
 set(MathSrc 
-	${SrcDir}/Math/Matrix4.cc
+    ${SrcDir}/Math/Matrix4.cc
     ${SrcDir}/Math/Quaternion.cc
     ${SrcDir}/Math/Vector2.cc
     ${SrcDir}/Math/Vector3.cc
 )
 
 set(PlatformSrc 
-	${SrcDir}/Platform/GLFLLoad.cc
+    ${SrcDir}/Platform/GLFLLoad.cc
     ${SrcDir}/Platform/Time.cc
     ${SrcDir}/Platform/Window.cc
 )
 
 set(ThirdPartySrc 
-	${SrcDir}/Graphics/External/lodepng.h    
+    ${SrcDir}/Graphics/External/lodepng.h
     ${SrcDir}/Graphics/External/lodepng.cc
     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/glfl/pregenerated/glfl.cpp
@@ -58,11 +58,11 @@ set(VSSourceFilterName "Source Files")
 source_group("${VSSourceFilterName}\\Content"  	  FILES ${ContentSrc})
 source_group("${VSSourceFilterName}\\Graphics" 	  FILES ${GraphicsSrc})
 source_group("${VSSourceFilterName}\\Input"    	  FILES ${InputSrc})
-source_group("${VSSourceFilterName}\\IO" 	  	  FILES ${IOSrc})
-source_group("${VSSourceFilterName}\\Math" 	  	  FILES ${MathSrc})
+source_group("${VSSourceFilterName}\\IO"          FILES ${IOSrc})
+source_group("${VSSourceFilterName}\\Math" 	  FILES ${MathSrc})
 source_group("${VSSourceFilterName}\\Platform" 	  FILES ${PlatformSrc})
 source_group("${VSSourceFilterName}\\Third Party" FILES ${ThirdPartySrc})
-source_group("${VSSourceFilterName}\\Debug" FILES ${DebugSrc})
+source_group("${VSSourceFilterName}\\Debug"       FILES ${DebugSrc})
 
 set(CommonSource
     ${ContentSrc} 

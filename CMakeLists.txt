@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 11)
 # These are going to be used in every (sub) project, so its ok to put it here
 include_directories(Gene/Engine/Public)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/include)
-include_directories(Gene.GML/Public)
 
 # This suppresses the generation of ZERO_CHECK
 set(CMAKE_SUPPRESS_REGENERATION true)

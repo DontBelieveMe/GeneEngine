@@ -62,11 +62,11 @@ set(VSHeaderFilterName "Header Files")
 source_group("${VSHeaderFilterName}\\Content"  FILES ${ContentHeaders})
 source_group("${VSHeaderFilterName}\\Graphics" FILES ${GraphicsHeaders})
 source_group("${VSHeaderFilterName}\\Input"    FILES ${InputHeaders})
-source_group("${VSHeaderFilterName}\\IO" 	   FILES ${IOHeaders})
-source_group("${VSHeaderFilterName}\\Math" 	   FILES ${MathHeaders})
+source_group("${VSHeaderFilterName}\\IO"       FILES ${IOHeaders})
+source_group("${VSHeaderFilterName}\\Math"     FILES ${MathHeaders})
 source_group("${VSHeaderFilterName}\\Platform" FILES ${PlatformHeaders})
-source_group("${VSHeaderFilterName}" 		   FILES ${RootHeaders})
-source_group("${VSHeaderFilterName}\\Debug" FILES ${DebugHeaders})
+source_group("${VSHeaderFilterName}"           FILES ${RootHeaders})
+source_group("${VSHeaderFilterName}\\Debug"    FILES ${DebugHeaders})
 
 set(CommonHeaders
     ${ContentHeaders} 
