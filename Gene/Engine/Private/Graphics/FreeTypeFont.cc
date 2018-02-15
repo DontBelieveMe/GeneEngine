@@ -39,10 +39,11 @@ FreeTypeTexture::~FreeTypeTexture()
 void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data, FT_GlyphSlot slot)
 {
     const int padding = s_AtlasPadding;
-
+    int xIndex = m_XIndex;
+    int yIndex = m_YIndex;
     for (int y = 0; y < h; ++y)
     {
-        byte *ourRow = m_Data + ((m_YIndex + y) * m_Width + m_XIndex) * s_AtlasDepth;
+        byte *ourRow = m_Data + ((yIndex + y) * m_Width + xIndex) * s_AtlasDepth;
         byte *srcRow = data + (y * w);
         
         for (int x = 0; x < w; ++x)
@@ -92,11 +93,19 @@ FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
 
     FreeTypeGlyph glyph;
 
+    int yIndex = m_YIndex;
+    int xIndex = m_XIndex;
+
+    int padding = s_AtlasPadding;
+
+    int atlasW = m_Width;
+    int atlasH = m_Height;
+
     // TODO: Not sure if all of these casts are needed
-    glyph.UV_TopLeft     = Vector2((float)m_XIndex / m_Width, (float)m_YIndex / m_Height);
-    glyph.UV_TopRight    = Vector2((float)(m_XIndex + w) / m_Width, (float)m_YIndex / m_Height);
-    glyph.UV_BottomLeft  = Vector2((float)m_XIndex / m_Width, (float)(m_YIndex + h) / m_Height);
-    glyph.UV_BottomRight = Vector2((float)(m_XIndex + w) / m_Width, (float)(m_YIndex + h) / m_Height);
+    glyph.UV_TopLeft     = Vector2((float)xIndex / atlasW, (float)(yIndex) / atlasH);
+    glyph.UV_TopRight    = Vector2((float)(xIndex + w) / atlasW, (float)(yIndex) / atlasH);
+    glyph.UV_BottomLeft  = Vector2((float)xIndex / atlasW, (float)(yIndex + h + padding) / atlasH);
+    glyph.UV_BottomRight = Vector2((float)(xIndex + w) / atlasW, (float)(yIndex + h + padding) / atlasH);
     
     glyph.Advance        = Vector2(static_cast<float>(slot->advance.x >> 6), static_cast<float>(slot->advance.y >> 6));
     glyph.Width          = w;

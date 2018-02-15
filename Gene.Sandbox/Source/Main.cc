@@ -77,7 +77,7 @@ int main()
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
-    Font font("Data/Fonts/Gidole-Regular.ttf", 7);
+    Font font("Data/Fonts/segoeui.ttf", 7);
     
     std::string str = "The quick brown fox\njumps over the\n\nlazy dog";
     float strW = font.MeasureString(str).X;
