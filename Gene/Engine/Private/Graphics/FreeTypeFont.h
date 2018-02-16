@@ -28,15 +28,17 @@ namespace Gene { namespace Graphics {
         FreeTypeTexture(int w, int h);
         ~FreeTypeTexture();
 
-        void             CopyTextureToPos(int w, int h, byte *data, FT_GlyphSlot slot);
-        int              GetWidth() { return m_Width; }
+        FreeTypeGlyph	 CopyGlyphToTexture(FT_GlyphSlot slot);
+		
+		int              GetWidth() { return m_Width; }
         int              GetHeight() { return m_Height; }
 
         Texture2D       *GenerateTexture();
 
         bool             IsEnoughSpaceForCharacter(int glyphHeight);
-
-        FreeTypeGlyph    GetGlyphUVs(FT_GlyphSlot slot);
+	private:
+		void			 SetRegion(int x, int y, int w, int h, byte *data);
+		void		     SetGlyphsUVs(int x, int y, int w, int h, FreeTypeGlyph *glyph);
 
     private:
         int              m_Width,

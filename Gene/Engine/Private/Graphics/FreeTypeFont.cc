@@ -3,6 +3,7 @@
 #include "FreeTypeFont.h"
 
 using namespace Gene::Graphics;
+using namespace Gene;
 
 const int s_AtlasDepth = 2;
 const int s_AtlasPadding = 1;
@@ -36,33 +37,74 @@ FreeTypeTexture::~FreeTypeTexture()
     delete[] m_Data;
 }
 
-void FreeTypeTexture::CopyTextureToPos(int w, int h, Gene::byte *data, FT_GlyphSlot slot)
+FreeTypeGlyph FreeTypeTexture::CopyGlyphToTexture(FT_GlyphSlot slot)
 {
-    const int padding = s_AtlasPadding;
-    int xIndex = m_XIndex;
-    int yIndex = m_YIndex;
-    for (int y = 0; y < h; ++y)
-    {
-        byte *ourRow = m_Data + ((yIndex + y) * m_Width + xIndex) * s_AtlasDepth;
-        byte *srcRow = data + (y * w);
-        
-        for (int x = 0; x < w; ++x)
-        {
-            ourRow[x * s_AtlasDepth] = 0xff;
-            ourRow[x * s_AtlasDepth + 1] = srcRow[x];
-        }
-    }
-    
-    m_XIndex += slot->bitmap.width + padding;
-    
-    if (m_XIndex + slot->bitmap.width > m_Width)
-    {
-        m_YIndex += m_MaxHeight + padding;
-        m_XIndex = padding;
-        m_MaxHeight = 0;
-    }
+	const int padding = s_AtlasPadding;
+	
+	int w = slot->bitmap.pitch;
+	int h = slot->bitmap.rows;
 
-    m_MaxHeight = std::max(m_MaxHeight, h);
+	byte *data = slot->bitmap.buffer;
+
+	if (m_XIndex + slot->bitmap.width > m_Width)
+	{
+		m_YIndex += m_MaxHeight + padding * 2;
+		m_XIndex = padding;
+		m_MaxHeight = 0;
+	}
+
+	int xIndex = m_XIndex;
+	int yIndex = m_YIndex;
+
+	SetRegion(xIndex, yIndex, slot->bitmap.pitch, slot->bitmap.rows, data);
+
+	int atlasW = m_Width;
+	int atlasH = m_Height;
+
+	FT_Glyph_Metrics metrics = slot->metrics;
+
+	FT_Pos metricW = metrics.width >> 6;
+	FT_Pos metricH = metrics.height >> 6;
+
+	FreeTypeGlyph glyph;
+	SetGlyphsUVs(xIndex - padding, yIndex - padding, w + padding, h + padding, &glyph);
+
+	glyph.Advance = Vector2(static_cast<float>(slot->advance.x >> 6), static_cast<float>(slot->advance.y >> 6));
+	glyph.Width = metricW;
+	glyph.Height = metricH;
+	glyph.Offset = Vector2(static_cast<float>(slot->bitmap_left), static_cast<float>(slot->bitmap_top));
+
+	m_XIndex += slot->bitmap.width + padding*2;
+
+	m_MaxHeight = std::max(m_MaxHeight, (int)metricH);
+
+	return glyph;
+}
+
+void FreeTypeTexture::SetGlyphsUVs(int x, int y, int w, int h, FreeTypeGlyph *glyph)
+{
+	int atlasW = m_Width;
+	int atlasH = m_Height;
+
+	glyph->UV_TopLeft     = Vector2((float)x / atlasW, (float)(y) / atlasH);
+	glyph->UV_TopRight    = Vector2((float)(x + w) / atlasW, (float)(y) / atlasH);
+	glyph->UV_BottomLeft  = Vector2((float)x / atlasW, (float)(y + h) / atlasH);
+	glyph->UV_BottomRight = Vector2((float)(x + w) / atlasW, (float)(y + h) / atlasH);
+}
+
+void FreeTypeTexture::SetRegion(int x, int y, int w, int h, byte *data)
+{
+	for (int yy = 0; yy < h; ++yy)
+	{
+		byte *ourRow = m_Data + ((y + yy) * m_Width + x) * s_AtlasDepth;
+		byte *srcRow = data + (yy * w);
+
+		for (int xx = 0; xx < w; ++xx)
+		{
+			ourRow[xx * s_AtlasDepth] = 0xff;
+			ourRow[xx * s_AtlasDepth + 1] = srcRow[xx];
+		}
+	}
 }
 
 // TODO:
@@ -78,41 +120,10 @@ Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
     texture->Format    = Texture2D::PixelFormat::LuminanceAlpha;
-    texture->Filtering = Texture2D::FilteringOptions::Nearest;
+    texture->Filtering = Texture2D::FilteringOptions::Linear;
 
     texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;
-}
-
-FreeTypeGlyph FreeTypeTexture::GetGlyphUVs(FT_GlyphSlot slot)
-{   
-    FT_Glyph_Metrics metrics = slot->metrics;
-
-    FT_Pos w = metrics.width >> 6;
-    FT_Pos h = metrics.height >> 6;
-
-    FreeTypeGlyph glyph;
-
-    int yIndex = m_YIndex;
-    int xIndex = m_XIndex;
-
-    int padding = s_AtlasPadding;
-
-    int atlasW = m_Width;
-    int atlasH = m_Height;
-
-    // TODO: Not sure if all of these casts are needed
-    glyph.UV_TopLeft     = Vector2((float)xIndex / atlasW, (float)(yIndex) / atlasH);
-    glyph.UV_TopRight    = Vector2((float)(xIndex + w) / atlasW, (float)(yIndex) / atlasH);
-    glyph.UV_BottomLeft  = Vector2((float)xIndex / atlasW, (float)(yIndex + h + padding) / atlasH);
-    glyph.UV_BottomRight = Vector2((float)(xIndex + w) / atlasW, (float)(yIndex + h + padding) / atlasH);
-    
-    glyph.Advance        = Vector2(static_cast<float>(slot->advance.x >> 6), static_cast<float>(slot->advance.y >> 6));
-    glyph.Width          = w;
-    glyph.Height         = h;
-    glyph.Offset         = Vector2(static_cast<float>(slot->bitmap_left), static_cast<float>(slot->bitmap_top));
-
-    return glyph;
 }
 
 FreeTypeFont::FreeTypeFont(const char *path, float size) 
@@ -158,10 +169,9 @@ void FreeTypeFont::LoadCharacter(char charcode)
         std::unordered_map<char, FreeTypeGlyph>::iterator it = m_Glyphs.find(charcode);
         if (it == m_Glyphs.end())
         {
-            FreeTypeGlyph metrics = m_Texture->GetGlyphUVs(slot);
+			FreeTypeGlyph metrics = m_Texture->CopyGlyphToTexture(slot);
             m_TallestGlyphSize = std::max(m_TallestGlyphSize, metrics.Height);
             m_Glyphs.insert(std::make_pair(charcode, metrics));
-            m_Texture->CopyTextureToPos(bitmap.pitch, bitmap.rows, bitmap.buffer, slot);
         }
     }
 }

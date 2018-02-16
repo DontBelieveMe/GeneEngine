@@ -15,10 +15,14 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 {
     m_FreeTypeFont = new FreeTypeFont(fontFile, size);
     
+	
     for(char c = ' '; c <= '~'; ++c) {
         m_FreeTypeFont->LoadCharacter(c);
     }
 
+	/*m_FreeTypeFont->LoadCharacter('A');
+	m_FreeTypeFont->LoadCharacter('B');
+*/
     m_Texture = m_FreeTypeFont->GenerateTexture();
 }
 
