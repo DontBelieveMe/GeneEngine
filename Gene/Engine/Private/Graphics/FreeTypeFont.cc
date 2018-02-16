@@ -86,10 +86,13 @@ void FreeTypeTexture::SetGlyphsUVs(int x, int y, int w, int h, FreeTypeGlyph *gl
 	int atlasW = m_Width;
 	int atlasH = m_Height;
 
-	glyph->UV_TopLeft     = Vector2((float)x / atlasW, (float)(y) / atlasH);
-	glyph->UV_TopRight    = Vector2((float)(x + w) / atlasW, (float)(y) / atlasH);
-	glyph->UV_BottomLeft  = Vector2((float)x / atlasW, (float)(y + h) / atlasH);
-	glyph->UV_BottomRight = Vector2((float)(x + w) / atlasW, (float)(y + h) / atlasH);
+	float fx = static_cast<float>(x);
+	float fy = static_cast<float>(y);
+
+	glyph->UV_TopLeft     = Vector2(fx / atlasW, fy / atlasH);
+	glyph->UV_TopRight    = Vector2((fx + w) / atlasW, fy / atlasH);
+	glyph->UV_BottomLeft  = Vector2(fx / atlasW, (fy + h) / atlasH);
+	glyph->UV_BottomRight = Vector2((fx + w) / atlasW, (fy + h) / atlasH);
 }
 
 void FreeTypeTexture::SetRegion(int x, int y, int w, int h, byte *data)
