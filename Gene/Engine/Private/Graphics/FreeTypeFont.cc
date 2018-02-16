@@ -161,6 +161,12 @@ void FreeTypeFont::LoadCharacter(char charcode)
 {
     FT_UInt index = FT_Get_Char_Index(m_Face, charcode);
 
+	if (index <= 0)
+	{
+		LOG(LogLevel::Warning, "Unidentified charcode: '", charcode, "'. Aborting load!");
+		return;
+	}
+
     FT_Load_Glyph(m_Face, index, FT_LOAD_DEFAULT);
     FT_Render_Glyph(m_Face->glyph, FT_RENDER_MODE_NORMAL);
 
@@ -186,7 +192,7 @@ Gene::Vector2 FreeTypeFont::GetKerning(char left, char right)
 
     FT_Vector kerning;
     FT_Get_Kerning(m_Face, leftIndex, rightIndex, FT_KERNING_DEFAULT, &kerning);
-    return Vector2(kerning.x / 64.f, kerning.y / 64.f);
+    return Vector2(kerning.x >> 6, kerning.y >> 6);
 }
 
 FreeTypeGlyph *FreeTypeFont::GetGlyph(char charcode)

@@ -15,14 +15,10 @@ Font::Font(const char *fontFile, float size): m_Size(size)
 {
     m_FreeTypeFont = new FreeTypeFont(fontFile, size);
     
-	
     for(char c = ' '; c <= '~'; ++c) {
         m_FreeTypeFont->LoadCharacter(c);
     }
-
-	/*m_FreeTypeFont->LoadCharacter('A');
-	m_FreeTypeFont->LoadCharacter('B');
-*/
+	
     m_Texture = m_FreeTypeFont->GenerateTexture();
 }
 
@@ -42,6 +38,12 @@ Vector2 Font::MeasureString(const std::string & str)
         if (character == '\n')continue;
         
         FreeTypeGlyph *glyph = m_FreeTypeFont->GetGlyph(character);
+
+		if (!glyph)
+		{
+			LOG(LogLevel::Warning, "Cannot measure size of character '", character, "'. Aborting measure for this character and moving on!");
+			continue;
+		}
 
         if (i > 0)
         {
