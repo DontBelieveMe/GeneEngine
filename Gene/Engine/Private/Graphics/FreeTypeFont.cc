@@ -122,8 +122,12 @@ bool FreeTypeTexture::IsEnoughSpaceForCharacter(int glyphHeight)
 Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
-    texture->Format    = Texture2D::PixelFormat::LuminanceAlpha;
-    texture->Filtering = Texture2D::FilteringOptions::Linear;
+
+    TextureParameters params;
+    params.Filtering = FilteringOptions::Linear;
+    params.Format    = PixelFormat::LuminanceAlpha;
+
+    texture->Parameters = params;
 
     texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;

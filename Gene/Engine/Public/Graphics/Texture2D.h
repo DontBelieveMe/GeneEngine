@@ -8,6 +8,29 @@
 #include <GeneCommon.h>
 
 namespace Gene { namespace Graphics {
+    enum class FilteringOptions
+    {
+        Linear  = GL_LINEAR,
+        Nearest = GL_NEAREST,
+        Default = GL_LINEAR
+    };
+
+    enum class PixelFormat
+    {
+        RGBA = GL_RGBA,
+        RGB = GL_RGBA,
+        BGRA = GL_BGRA,
+        Red = GL_RED,
+
+        Default = GL_RGBA,
+        LuminanceAlpha = GL_LUMINANCE_ALPHA
+    };
+
+    struct TextureParameters {
+        FilteringOptions Filtering = FilteringOptions::Default;
+        PixelFormat		 Format    = PixelFormat::Default;
+    };
+
     /** Represents an OpenGL tetxure object as well as the texture data itself. */
 	class Texture2D
 	{
@@ -40,25 +63,6 @@ namespace Gene { namespace Graphics {
 
 		Vector2 SubTextureUV(float x, float y, float width, float height);
 
-		enum class FilteringOptions
-		{
-			Linear  = GL_LINEAR, 
-			Nearest = GL_NEAREST,
-			Default = GL_LINEAR
-		};
-
-        enum class PixelFormat
-        {
-            RGBA = GL_RGBA,
-            RGB = GL_RGBA,
-            BGRA = GL_BGRA,
-            Red = GL_RED,
-
-            Default = GL_RGBA,
-            LuminanceAlpha = GL_LUMINANCE_ALPHA
-		};
-
-		FilteringOptions Filtering = FilteringOptions::Default;
-		PixelFormat		 Format    = PixelFormat::Default;
+        TextureParameters Parameters;
 	};
 }}
