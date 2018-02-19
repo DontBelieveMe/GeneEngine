@@ -8,6 +8,7 @@
 #include <GeneCommon.h>
 
 namespace Gene { namespace Graphics {
+    /** Represents an OpenGL tetxure object as well as the texture data itself. */
 	class Texture2D
 	{
 	private:

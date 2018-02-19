@@ -11,6 +11,7 @@
 #include <Graphics/Texture2D.h>
 #include <Graphics/Renderer2D.h>
 #include <Debug/Logger.h>
+#include <Input/Keyboard.h>
 
 void CreateModelMesh(
         Gene::Graphics::VertexArray &vao,
@@ -88,6 +89,10 @@ int main()
     while (window->Running())
     {
 		gameTime.StartFrame();
+
+        KeyboardState keyState = Keyboard::GetState();
+        if(keyState.IsKeyDown(Keys::ArrowKeyLeft)) xPos--;
+        else if(keyState.IsKeyDown(Keys::ArrowKeyRight))xPos++;
 
         // 3D rendering code
         {
