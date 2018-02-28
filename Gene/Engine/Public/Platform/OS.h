@@ -11,8 +11,12 @@
 	#elif __APLE__ && __MACH__
 		#define GENE_OS_MACOS
 	#endif
+#endif
 
-	#ifdef _MSC_VER
-		#define GENE_COMPILER_MSVC
-	#endif
+#ifdef _MSC_VER
+    #define GENE_COMPILER_MSVC
+#endif
+
+#ifdef __GNUC__
+    #define GENE_COMPILER_GNUC
 #endif
