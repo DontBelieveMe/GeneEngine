@@ -1,17 +1,18 @@
 #pragma once
 
-#ifdef _WIN32
-	#define GENE_OS_WINDOWS
-#elif __linux__
-	#define GENE_OS_LINUX
-#elif __APLE__ && __MACH__
-	#define GENE_OS_MACOS
-#endif
+// GENE_OS_ANDROID is a preproccessor variable that should be set by the complier
+// As part of the build
 
-#ifdef _MSC_VER
-	#define GENE_COMPILER_MSVC
-#endif
+#ifndef GENE_OS_ANDROID
+	#ifdef _WIN32
+		#define GENE_OS_WINDOWS
+	#elif __linux__
+		#define GENE_OS_LINUX
+	#elif __APLE__ && __MACH__
+		#define GENE_OS_MACOS
+	#endif
 
-#ifdef __GNUC__
-    #define GENE_COMPILER_GNUC
+	#ifdef _MSC_VER
+		#define GENE_COMPILER_MSVC
+	#endif
 #endif

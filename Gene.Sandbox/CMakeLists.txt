@@ -12,12 +12,20 @@ target_link_libraries(Gene.Sandbox "Gene")
 target_link_libraries(Gene.Sandbox "FreeType")
 
 if(UNIX)
-    target_link_libraries(Gene.Sandbox "X11")
-    target_link_libraries(Gene.Sandbox "GL")
+	if(ANDROID)
+		target_link_libraries(Gene.Sandbox android log EGL GLESv2)
+	else()
+		target_link_libraries(Gene.Sandbox "X11")
+		target_link_libraries(Gene.Sandbox "GL")
+	endif()
 endif()
 
 if(WIN32)
-    target_link_libraries(Gene.Sandbox "opengl32.lib")
+	target_link_libraries(Gene.Sandbox "opengl32.lib")
+endif()
+
+if(ANDROID)
+	add_definitions(-DGENE_OS_ANDROID)
 endif()
 
 add_custom_command(TARGET Gene.Sandbox POST_BUILD

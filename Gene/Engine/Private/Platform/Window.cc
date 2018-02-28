@@ -9,6 +9,9 @@
 #elif defined(GENE_OS_LINUX)
     #include "Linux/X11Window.h"
 	using PlatformWindow = Gene::Platform::X11::X11Window;
+#elif defined(GENE_OS_ANDROID)
+	#include "Android/AWindow.h"
+	using PlatformWindow = Gene::Platform::Android::AWindow;
 #else
 	#error [[GENE Engine Compile Error]]: Unknown Platform/OS! - (Cannot Create Window)
 #endif

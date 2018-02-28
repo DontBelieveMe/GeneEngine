@@ -9,10 +9,6 @@ set(TestSource
     ${SrcDir}/Math/TestMatrix4.cc
     ${SrcDir}/Math/TestVector2.cc
     ${SrcDir}/Math/TestVector3.cc
-
-    ${SrcDir}/Graphics/TestColor.cc
-
-    ${SrcDir}/Content/TestObjLoader.cc
 )
 
 add_executable(GeneEngine.UnitTests
@@ -25,12 +21,16 @@ target_link_libraries(GeneEngine.UnitTests "Gene")
 target_link_libraries(GeneEngine.UnitTests "FreeType")
 
 if(UNIX)
-    target_link_libraries(GeneEngine.UnitTests "X11")
-    target_link_libraries(GeneEngine.UnitTests "GL")
+	if(ANDROID)
+		target_link_libraries(GeneEngine.UnitTests "android" "log" "EGL" "GLESv2")
+	else()
+		target_link_libraries(GeneEngine.UnitTests "X11")
+		target_link_libraries(GeneEngine.UnitTests "GL")
+	endif()
 endif()
 
 if(WIN32)
-    target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
+	target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
 endif()
 
 # Set Visual Studio project folder.

@@ -9,12 +9,22 @@ include(${CMAKE_CURRENT_LIST_DIR}/Engine/Public/CMakeLists.txt)
 set(PlatformSrc)
 
 if(UNIX)
-    list(APPEND PlatformSrc
-        ${SrcDir}/Platform/Linux/X11Input.cc
-        ${SrcDir}/Platform/Linux/X11Time.cc
-        ${SrcDir}/Platform/Linux/X11Window.cc
-        ${SrcDir}/Platform/Linux/X11Window.h
-     )
+	if(ANDROID)
+		list(APPEND PlatformSrc
+			${SrcDir}/Platform/Android/AInput.cc
+			${SrcDir}/Platform/Android/ATime.cc
+			${SrcDir}/Platform/Android/AWindow.cc
+			${SrcDir}/Platform/Android/AWindow.h
+		)
+	else()
+		# Traditional desktop linux
+		list(APPEND PlatformSrc
+			${SrcDir}/Platform/Linux/X11Input.cc
+			${SrcDir}/Platform/Linux/X11Time.cc
+			${SrcDir}/Platform/Linux/X11Window.cc
+			${SrcDir}/Platform/Linux/X11Window.h
+		 )
+	 endif()
 endif()
 
 if(WIN32)
@@ -27,6 +37,10 @@ if(WIN32)
 endif()
 
 source_group("Source Files\\Platform\\Win32" FILES ${PlatformSrc})
+
+if(ANDROID)
+	add_definitions(-DGENE_OS_ANDROID)
+endif()
 
 add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
 target_link_libraries(FreeType)

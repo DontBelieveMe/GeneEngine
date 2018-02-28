@@ -6,5 +6,14 @@ namespace Gene { namespace Input {
     #include <Platform/Input/Win32Keys.h>
 #elif defined(GENE_OS_LINUX)
     #include <Platform/Input/LinuxKeys.h>
+#elif defined(GENE_OS_ANDROID)
+	/*
+		TODO:
+			We need to think of a better way of disabling key input functionality for android
+			(which doesn't really have it).
+			We should provide an API to acess native keyboard at some point, but thats not critical functionality.
+			This is just here to get the build working.
+	*/
+	#include <Platform/Input/AndroidKeys.h>
 #endif
 }}
