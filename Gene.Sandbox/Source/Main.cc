@@ -9,176 +9,210 @@
 #include <Graphics/Factorys/ShaderFactory.h>
 #include <GeneCommon.h>
 #include <Graphics/Texture2D.h>
+#include <Graphics/Renderer2D.h>
+#include <Debug/Logger.h>
+#include <Input/Keyboard.h>
 
 void CreateModelMesh(
-        Gene::Graphics::VertexArray &vao,
-        Gene::Graphics::Buffer **ebo,
-        Gene::Content::GeneModel *model
+    Gene::Graphics::VertexArray &vao,
+    Gene::Graphics::Buffer **ebo,
+    Gene::Content::GeneModel *model
 );
+
+void gen_random(char *s, int l) {
+    for (int c; c = rand() % 62, *s++ = (c + "07="[(c + 16) / 26])*(l-->0););
+}
 
 int main()
 {
     using namespace Gene::Platform;
-	using namespace Gene::Graphics;
-	using namespace Gene::Math;
-	using namespace Gene::Input;
-	using namespace Gene::Content;
+    using namespace Gene::Graphics;
+    using namespace Gene::Math;
+    using namespace Gene::Input;
+    using namespace Gene::Content;
     using namespace Gene;
+    WindowInfo info;
+    info.Width = 800;
+    info.Height = 600;
+    info.Title = "Hello from GeneEngine.Sandbox";
+    info.Borderless = false;
 
-    WindowInfo info;//= { 600, 600, "Hello from GeneEngine.Sandbox", false };
-	info.Width = 600;
-	info.Height = 600;
-	info.Title = "Hello Android!";
-	info.Borderless = false;
-	
-	Window *window = Window::CreateWindow(info);
-	window->Create();
-	window->CreateGLContext();
-    window->SetClearColor(Color::CornflowerBlue);
+    Window *window = Window::CreateWindow(info);
+    window->Create();
+    window->CreateGLContext();
+    window->SetClearColor(Color(0x1E1E1EFF));
 
     window->SetWindowResizeCallback([](int w, int h) {
         glViewport(0, 0, w, h);
     });
 
-    GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader", 
+    GLSLShader *shader3d = ShaderFactory::CreateShader("Data/vertex.shader", "Data/fragment.shader",
     {
-        {0, "position"},
-        {1, "tex_coord"},
-        {2, "normal"}
+        { 0, "position" },
+        { 1, "normal" },
+        { 2, "tex_coord" }
     });
-    
+
     shader3d->Enable();
 
-	OBJModelLoader objLoader;
-	GeneModel *suzanneModel = objLoader.Load("Data/doughnut.obj");
+    OBJModelLoader objLoader;
+    GeneModel *suzanneModel = objLoader.Load("Data/doughnut.obj");
 
-	Buffer *modelEbo;
-	VertexArray modelVao;
+    Buffer *modelEbo;
+    VertexArray modelVao;
     CreateModelMesh(modelVao, &modelEbo, suzanneModel);
 
-	Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(info.Width / info.Height), 45, 1000, 0.001f);
-	shader3d->LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
+    Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(info.Width / info.Height), 45, 1000, 0.001f);
+    shader3d->LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
     shader3d->LoadUniform3f("light_pos", { 100000.0f,0,0 });
     Texture2D doughnut("Data/doughnut_texture.png");
 
-	window->Show();
-	
+    window->Show();
+
     float suzanneTheta = 180.f;
     Vector3 suzannePosition(0, 0, -5.f);
-    
+
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
 
+    Renderer2D renderer;
+    renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
+    Font font("Data/Fonts/Gidole-Regular.ttf", 7);
+
+    std::string str = "The quick brown fox\njumps over the\n\nlazy dog";
+    float strW = font.MeasureString(str).X;
+    float xPos = info.Width / 2 - (strW / 2);
+
     GameTime gameTime;
-	gameTime.Init();
+    gameTime.Init();
     while (window->Running())
     {
-		gameTime.StartFrame();
-        shader3d->Enable();
+        gameTime.StartFrame();
 
-        suzanneTheta += 1.f;
-  	    Matrix4 transform = Matrix4::Identity();
-		transform.Translate(suzannePosition);
-		
-        Matrix4 rx, ry;
-        rx.RotateX(suzanneTheta);
-        ry.RotateY(suzanneTheta);
+        // 3D rendering code
+        {
+            shader3d->Enable();
 
-        transform = transform.Multiply(rx).Multiply(ry);
+            suzanneTheta += 1.f;
+            Matrix4 transform = Matrix4::Identity();
+            transform.Translate(suzannePosition);
 
-        shader3d->LoadUniformMatrix4f("u_Transform", transform);
+            Matrix4 rx, ry;
+            rx.RotateX(suzanneTheta);
+            ry.RotateY(suzanneTheta);
 
-        window->Clear();
+            transform = transform.Multiply(rx).Multiply(ry);
 
-		glEnable(GL_DEPTH_TEST);
-        doughnut.Enable(0);
-        modelVao.Enable();
-        modelEbo->Enable();
-    	modelVao.DebugDrawElements(modelEbo);
-        modelEbo->Disable();
-        modelVao.Disable();
-        doughnut.Disable(0);
+            shader3d->LoadUniformMatrix4f("u_Transform", transform);
 
-        shader3d->Disable();
-        glDisable(GL_DEPTH_TEST);
-       
+            window->Clear();
+
+            glEnable(GL_DEPTH_TEST);
+            doughnut.Enable(0);
+            modelVao.Enable();
+            modelEbo->Enable();
+            modelVao.DebugDrawElements(modelEbo);
+            modelEbo->Disable();
+            modelVao.Disable();
+            doughnut.Disable(0);
+
+            shader3d->Disable();
+            glDisable(GL_DEPTH_TEST);
+        }
+
+        // 2D rendering code
+        {
+            renderer.Begin();
+            renderer.DrawTexture({ 10, 10 }, font.GLTexture());
+
+            renderer.DrawString(&font, str, { xPos, 300 }, Color(0xC8C8C8FF));
+
+            renderer.End();
+            renderer.Present();
+        }
+
         window->SwapBuffers();
-		window->PollEvents();
+        window->PollEvents();
 
-		gameTime.EndFrame();
-		gameTime.Sleep(1000 / 60);
-	}
+        gameTime.EndFrame();
+        gameTime.Sleep(1000 / 60);
+    }
 
-	return 0;
+    return 0;
 }
+
+struct Vertex
+{
+    Gene::Vector3 position;
+    Gene::Vector3 normal;
+    Gene::Vector2 uv;
+};
+
 
 void CreateModelMesh(Gene::Graphics::VertexArray& vao, Gene::Graphics::Buffer** ebo, Gene::Content::GeneModel *model)
 {
     using namespace Gene::Graphics;
     using namespace Gene::OpenGL;
+    using namespace Gene;
+    Gene::Array<Vertex> data;
 
     std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-    std::shared_ptr<Buffer> tbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
-    std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
 
     (*ebo) = new Buffer(Buffer::Type::ElementBuffer);
 
     vao.Enable();
 
+    data.reserve(model->Vertices.size() + model->Normals.size() + model->UVs.size());
+
+    const Array<Vector3> vertices = model->Vertices;
+    const Array<Vector3> normals = model->Normals;
+    const Array<Vector2> uvs = model->UVs;
+
+    for (size_t i = 0; i < model->Vertices.size(); ++i)
+    {
+        data.push_back({ vertices[i], normals[i],uvs[i] });
+    }
+
     BufferDescriptor vertexBufferDesc;
-    vertexBufferDesc.Data		 = &(model->Vertices[0]);
-    vertexBufferDesc.DataType	 = GLType::Float;
-    vertexBufferDesc.Size		 = model->Vertices.size() * 3 * sizeof(GLfloat);
-    vertexBufferDesc.DrawType	 = BufferDrawType::Static;
+    vertexBufferDesc.Data = &(data[0]);
+    vertexBufferDesc.DataType = GLType::Float;
+    vertexBufferDesc.Size = data.size() * sizeof(Vertex);
+    vertexBufferDesc.DrawType = BufferDrawType::Static;
     vbo->SetData(vertexBufferDesc);
 
-    BufferDescriptor normalBufferDesc;
-    normalBufferDesc.Data = &(model->Normals[0]);
-    normalBufferDesc.DataType = GLType::Float;
-    normalBufferDesc.Size = model->Normals.size() * 3 * sizeof(GLfloat);
-    normalBufferDesc.DrawType = BufferDrawType::Static;
-    nbo->SetData(normalBufferDesc);
-
-    BufferDescriptor texCoordBufferDesc;
-    texCoordBufferDesc.Data		 = &(model->UVs[0]);
-    texCoordBufferDesc.DataType	 = GLType::Float;
-    texCoordBufferDesc.Size		 = model->UVs.size() * 2 * sizeof(GLfloat);
-    texCoordBufferDesc.DrawType	 = BufferDrawType::Static;
-    tbo->SetData(texCoordBufferDesc);
-
     BufferDescriptor indexBufferDesc;
-    indexBufferDesc.Data		 = &(model->Indices[0]);
-    indexBufferDesc.DataType	 = GLType::UnsignedInt;
-    indexBufferDesc.Size		 = model->Indices.size() * sizeof(GLuint);
-    indexBufferDesc.DrawType	 = BufferDrawType::Static;
+    indexBufferDesc.Data = &(model->Indices[0]);
+    indexBufferDesc.DataType = GLType::UnsignedInt;
+    indexBufferDesc.Size = model->Indices.size() * sizeof(GLuint);
+    indexBufferDesc.DrawType = BufferDrawType::Static;
     (*ebo)->SetData(indexBufferDesc);
 
     #pragma region Attributes
 
+    int32 stride = sizeof(Vertex);
+
     AttributeDescriptor vertexAttrib;
-    vertexAttrib.Index			 = 0;
-    vertexAttrib.ComponentCount  = 3;
-    vertexAttrib.Stride			 = 0;
-    vertexAttrib.ByteOfffset     = 0;
-	
-    AttributeDescriptor texCoordAttrib;
-    texCoordAttrib.Index			 = 1;
-    texCoordAttrib.ComponentCount    = 2;
-    texCoordAttrib.Stride		     = 0;
-    texCoordAttrib.ByteOfffset	     = 0;
+    vertexAttrib.Index = 0;
+    vertexAttrib.ComponentCount = 3;
+    vertexAttrib.Stride = stride;
+    vertexAttrib.ByteOfffset = offsetof(Vertex, position);
 
     AttributeDescriptor normalAttrib;
-    normalAttrib.Index = 2;
+    normalAttrib.Index = 1;
     normalAttrib.ComponentCount = 3;
-    normalAttrib.Stride = 0;
-    normalAttrib.ByteOfffset = 0;
+    normalAttrib.Stride = stride;
+    normalAttrib.ByteOfffset = offsetof(Vertex, normal);
 
+    AttributeDescriptor texCoordAttrib;
+    texCoordAttrib.Index = 2;
+    texCoordAttrib.ComponentCount = 2;
+    texCoordAttrib.Stride = stride;
+    texCoordAttrib.ByteOfffset = offsetof(Vertex, uv);
 
     #pragma endregion
 
     vao.RegisterAttribute(vbo.get(), vertexAttrib);
-    vao.RegisterAttribute(tbo.get(), texCoordAttrib);
-    vao.RegisterAttribute(nbo.get(), normalAttrib);
+    vao.RegisterAttribute(vbo.get(), normalAttrib);
+    vao.RegisterAttribute(vbo.get(), texCoordAttrib);
 }
-
