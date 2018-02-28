@@ -18,6 +18,7 @@ void AWindow::SetPointerPosition(int32 x, int32 y)
 
 void AWindow::Create()
 {
+
 }
 
 void AWindow::CreateGLContext()

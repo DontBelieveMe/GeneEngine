@@ -15,6 +15,7 @@ if(UNIX)
 			${SrcDir}/Platform/Android/ATime.cc
 			${SrcDir}/Platform/Android/AWindow.cc
 			${SrcDir}/Platform/Android/AWindow.h
+			${SrcDir}/../../ThirdParty/android/android_native_app_glue.c
 		)
 	else()
 		# Traditional desktop linux
