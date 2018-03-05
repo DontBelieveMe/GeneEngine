@@ -38,5 +38,9 @@ enum class Keys
     W = XK_w,
     X = XK_x,
     Y = XK_y,
-    Z = XK_z
+    Z = XK_z,
+    ArrowKeyLeft = XK_Left,
+    ArrowKeyRight = XK_Right,
+    ArrowKeyUp = XK_Up,
+    ArrowKeyDown = XK_Down
 };

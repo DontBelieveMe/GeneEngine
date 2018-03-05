@@ -90,6 +90,10 @@ int main()
     {
         gameTime.StartFrame();
 
+        KeyboardState keyState = Keyboard::GetState();
+        if(keyState.IsKeyDown(Keys::ArrowKeyLeft)) xPos--;
+        else if(keyState.IsKeyDown(Keys::ArrowKeyRight))xPos++;
+
         // 3D rendering code
         {
             shader3d->Enable();

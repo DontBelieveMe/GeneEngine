@@ -51,8 +51,8 @@ void Texture2D::GenerateGLId()
     GLsizei w = static_cast<GLsizei>(m_Width);
     GLsizei h = static_cast<GLsizei>(m_Height);
 
-    GLint filtering   = static_cast<GLint>(Filtering);
-    GLenum pixelFormat = static_cast<GLenum>(Format);
+    GLint filtering   = static_cast<GLint>(Parameters.Filtering);
+    GLenum pixelFormat = static_cast<GLenum>(Parameters.Format);
 
     glGenTextures(1, &m_TextureId);
 
