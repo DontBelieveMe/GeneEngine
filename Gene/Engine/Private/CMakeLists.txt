@@ -44,13 +44,13 @@ set(PlatformSrc
 )
 
 set(ThirdPartySrc 
-    ${SrcDir}/Graphics/External/lodepng.h
-    ${SrcDir}/Graphics/External/lodepng.cc
-    
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/glfl/pregenerated/glfl.cpp
     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.cc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.h
+    
+    ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/lodepng/lodepng.cc
+    ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/lodepng/lodepng.h
 )
 
 set(VSSourceFilterName "Source Files")
