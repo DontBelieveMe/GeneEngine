@@ -3,10 +3,13 @@ project(GeneEngine.Sandbox)
 set(SourceDir ${CMAKE_CURRENT_LIST_DIR}/Source)
 
 set(Source 
-    ${SourceDir}/Main.cc
+    ${SourceDir}/Main.c
 )
-
-add_executable(Gene.Sandbox ${Source})
+if(ANDROID)
+	add_library(Gene.Sandbox SHARED ${Source})
+else()
+	add_executable(Gene.Sandbox ${Source})
+endif()
 
 target_link_libraries(Gene.Sandbox "Gene")
 target_link_libraries(Gene.Sandbox "FreeType")

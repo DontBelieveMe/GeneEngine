@@ -39,7 +39,7 @@ extern "C" {
  * risk having the system force-close the application. This programming
  * model is direct, lightweight, but constraining.
  *
- * The 'threaded_native_app' static library is used to provide a different
+ * The 'android_native_app_glue' static library is used to provide a different
  * execution model where the application can implement its own main event
  * loop in a different thread instead. Here's how it works:
  *
@@ -330,6 +330,11 @@ void android_app_pre_exec_cmd(struct android_app* android_app, int8_t cmd);
  * actions for the command before calling this function.
  */
 void android_app_post_exec_cmd(struct android_app* android_app, int8_t cmd);
+
+/**
+ * Dummy function you can call to ensure glue code isn't stripped.
+ */
+void app_dummy();
 
 /**
  * This is the function that application code must implement, representing

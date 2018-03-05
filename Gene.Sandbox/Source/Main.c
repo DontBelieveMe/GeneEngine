@@ -15,18 +15,17 @@
 *
 */
 
-#include "../../Gene/ThirdParty/android/android_native_app_glue.h"
-#include <android/log.h>
+
 #include <EGL/egl.h>
 #include <GLES/gl.h>
 
 #include <android/sensor.h>
+#include <android/log.h>
+#include "../../Gene/ThirdParty/android/android_native_app_glue.h"
 
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "AndroidProject1.NativeActivity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "AndroidProject1.NativeActivity", __VA_ARGS__))
-
-extern "C" {
 
 /**
 * Our saved state data.
@@ -118,7 +117,7 @@ static int engine_init_display(struct engine* engine) {
 	// Initialize GL state.
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
 	glEnable(GL_CULL_FACE);
-	glShadeModel(GL_SMOOTH);
+	//glShadeModel(GL_SMOOTH);
 	glDisable(GL_DEPTH_TEST);
 
 	return 0;
@@ -227,6 +226,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 * event loop for receiving input events and doing other things.
 */
 void android_main(struct android_app* state) {
+	app_dummy();
 	struct engine engine;
 
 	memset(&engine, 0, sizeof(engine));
@@ -377,4 +377,3 @@ int main()
 
     return 0;
 }*/
-}

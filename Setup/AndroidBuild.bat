@@ -26,7 +26,7 @@ set gen=cmake -G"MinGW Makefiles" %cmake_defs% -H../ -B%build_dir%
  
 set build=cmake --build %build_dir%
 
-IF "%1" == "--gen" (;
+IF "%1" == "--gen" (
 
 	%gen%
 )

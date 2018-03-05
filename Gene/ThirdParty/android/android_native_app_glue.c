@@ -15,6 +15,14 @@
  *
  */
 
+#include <jni.h>
+
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/resource.h>
+
 #include "android_native_app_glue.h"
 #include <android/log.h>
 
@@ -157,6 +165,10 @@ void android_app_post_exec_cmd(struct android_app* android_app, int8_t cmd) {
             free_saved_state(android_app);
             break;
     }
+}
+
+void app_dummy() {
+
 }
 
 static void android_app_destroy(struct android_app* android_app) {
