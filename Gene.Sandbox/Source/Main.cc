@@ -1,17 +1,24 @@
 #include <Platform/Window.h>
+#include <Platform/Time.h>
+
 #include <Graphics/Color.h>
 #include <Graphics/Buffer.h>
 #include <Graphics/VertexArray.h>
-#include <Math/Math.h>
-#include <memory>
-#include <Content/OBJModelLoader.h>
-#include <Platform/Time.h>
-#include <Graphics/Factorys/ShaderFactory.h>
-#include <GeneCommon.h>
 #include <Graphics/Texture2D.h>
 #include <Graphics/Renderer2D.h>
+#include <Graphics/Factorys/ShaderFactory.h>
+
+#include <Math/Math.h>
+
+#include <Content/OBJModelLoader.h>
+
 #include <Debug/Logger.h>
+
 #include <Input/Keyboard.h>
+
+#include <GeneCommon.h>
+
+#include <memory>
 
 void CreateModelMesh(
     Gene::Graphics::VertexArray &vao,
