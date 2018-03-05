@@ -1,5 +1,7 @@
 #pragma once
+
 #include <Platform/OS.h>
+
 namespace Gene { namespace Input {
 	typedef bool Key;
 #if defined(GENE_OS_WINDOWS)

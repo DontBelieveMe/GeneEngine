@@ -3,6 +3,7 @@
 #include <Platform/OpenGL.h>
 #include <Graphics/Buffer.h>
 #include <Core/Array.h>
+
 #include <memory>
 
 namespace Gene { namespace Graphics {

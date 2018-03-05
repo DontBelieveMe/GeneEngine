@@ -1,10 +1,10 @@
 #pragma once
 
-#include <assert.h>
-#include <GeneCommon.h>
-
 #include <Core/String.h>
 #include <Core/Array.h>
+#include <GeneCommon.h>
+
+#include <assert.h>
 
 namespace Gene { namespace IO {
     // TODO: Implement it so a File object can be reused -> e.g Load() , Free() then can Load() again.

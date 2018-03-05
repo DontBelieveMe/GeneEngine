@@ -1,7 +1,7 @@
 #include <Graphics/Factorys/ShaderFactory.h>
-#include <GeneCommon.h>
-
 #include <Core/Array.h>
+
+#include <GeneCommon.h>
 
 using namespace Gene::Graphics;
 using namespace Gene;

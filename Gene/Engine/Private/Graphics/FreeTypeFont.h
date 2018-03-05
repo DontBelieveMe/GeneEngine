@@ -3,9 +3,10 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include <GeneCommon.h>
 #include <Math/Vector2.h>
 #include <Graphics/Texture2D.h>
+#include <GeneCommon.h>
+
 #include <unordered_map>
 
 namespace Gene { namespace Graphics {

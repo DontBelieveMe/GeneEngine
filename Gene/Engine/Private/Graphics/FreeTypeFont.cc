@@ -1,6 +1,7 @@
+#include "FreeTypeFont.h"
+
 #include <GeneCommon.h>
 #include <algorithm>
-#include "FreeTypeFont.h"
 
 using namespace Gene::Graphics;
 using namespace Gene;

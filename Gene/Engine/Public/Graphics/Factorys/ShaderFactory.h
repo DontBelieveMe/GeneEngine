@@ -1,9 +1,10 @@
 #pragma once
 
 #include <Graphics/GLSLShader.h>
-#include <GeneCommon.h>
-#include <algorithm>
 #include <Core/Array.h>
+#include <GeneCommon.h>
+
+#include <algorithm>
 
 namespace Gene { namespace Graphics {
     struct ShaderAttributeLayout {
@@ -13,7 +14,6 @@ namespace Gene { namespace Graphics {
 
     struct ShaderLayout {
         typedef std::initializer_list<ShaderAttributeLayout> InitalizerListLayout;
-
 
         Array<ShaderAttributeLayout> Attributes;
 

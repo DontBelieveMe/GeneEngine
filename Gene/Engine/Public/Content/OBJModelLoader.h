@@ -2,7 +2,9 @@
 
 #include <Content/IModelLoader.h>
 #include <Content/GeneModel.h>
+
 #include <sstream>
+
 #include "TinyObjLoader.h"
 
 namespace Gene { namespace Content {
