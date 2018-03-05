@@ -50,6 +50,11 @@ set(FreeTypeSource
 
 add_definitions(-DFT2_BUILD_LIBRARY)
 
+if(WIN32)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+endif()
+
 add_library(FreeType STATIC ${FreeTypeSource})
 
 # Set the Visual Studio project filter.
