@@ -2,10 +2,8 @@
 
 #include <Platform/OpenGL.h>
 #include <Graphics/Buffer.h>
-#include <GeneCommon.h>
-
+#include <Core/Array.h>
 #include <memory>
-#include <vector>
 
 namespace Gene { namespace Graphics {
 	struct AttributeDescriptor

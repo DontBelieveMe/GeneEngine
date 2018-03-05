@@ -1,10 +1,9 @@
 #pragma once
 
-#include <vector>
 #include <Platform/OpenGL.h>
 #include <Math/Vector3.h>
 #include <Math/Vector2.h>
-#include <GeneCommon.h>
+#include <Core/Array.h>
 
 namespace Gene { namespace Content {
 	class GeneModel {

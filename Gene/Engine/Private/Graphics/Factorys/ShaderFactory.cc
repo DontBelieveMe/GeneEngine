@@ -1,9 +1,12 @@
 #include <Graphics/Factorys/ShaderFactory.h>
 #include <GeneCommon.h>
 
-using namespace Gene::Graphics;
+#include <Core/Array.h>
 
-Gene::Array<GLSLShader*> ShaderFactory::m_Handles;
+using namespace Gene::Graphics;
+using namespace Gene;
+
+Array<GLSLShader*> ShaderFactory::m_Handles;
 
 GLSLShader *ShaderFactory::CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout layout)
 {

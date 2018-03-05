@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 
+#include <Core/Array.h>
+
 namespace Gene { namespace Graphics {
     
     /** Represents one vertex */
@@ -38,7 +40,7 @@ namespace Gene { namespace Graphics {
         GLSLShader              *m_Shader;
         Matrix4                  m_ProjectionMatrix;
         Texture2D               *m_Texture;
-        std::vector<Texture2D*>  m_Textures;
+        Array<Texture2D*>		 m_Textures;
 
     private:
         float GetTextureSlot(Texture2D *texture);

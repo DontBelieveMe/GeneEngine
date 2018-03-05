@@ -1,5 +1,5 @@
 #include <Graphics/Texture2D.h>
-
+#include <Core/Array.h>
 #include "External/lodepng.h"
 
 using namespace Gene::Graphics;

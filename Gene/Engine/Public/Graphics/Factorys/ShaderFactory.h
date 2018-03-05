@@ -3,6 +3,7 @@
 #include <Graphics/GLSLShader.h>
 #include <GeneCommon.h>
 #include <algorithm>
+#include <Core/Array.h>
 
 namespace Gene { namespace Graphics {
     struct ShaderAttributeLayout {

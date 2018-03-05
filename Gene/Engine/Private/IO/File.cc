@@ -12,6 +12,7 @@
 #include <string>
 
 #include <GeneCommon.h>
+#include <Core/Array.h>
 
 using namespace Gene::IO;
 

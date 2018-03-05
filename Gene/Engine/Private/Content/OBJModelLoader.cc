@@ -1,8 +1,11 @@
 #include <Content/OBJModelLoader.h>
 #include <Math/Vector3.h>
 #include <Platform/OpenGL.h>
-#include <string>
 #include <Content/TinyObjLoader.h>
+#include <Core/Array.h>
+#include <GeneCommon.h>
+
+#include <string>
 #include <sstream>
 
 using namespace Gene::Content;

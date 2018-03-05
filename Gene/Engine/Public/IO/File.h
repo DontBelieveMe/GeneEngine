@@ -1,9 +1,9 @@
 #pragma once
 
-#include <vector>
 #include <string>
 #include <assert.h>
 #include <GeneCommon.h>
+#include <Core/Array.h>
 
 namespace Gene { namespace IO {
     // TODO: Implement it so a File object can be reused -> e.g Load() , Free() then can Load() again.

@@ -48,7 +48,4 @@ namespace Gene {
     typedef short          int16;
     typedef unsigned int   uint32;
     typedef int            int32;
-    
-    template <typename T>
-    using Array = std::vector<T>;
 }
