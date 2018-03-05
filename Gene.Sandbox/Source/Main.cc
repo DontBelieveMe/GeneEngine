@@ -19,10 +19,6 @@ void CreateModelMesh(
     Gene::Content::GeneModel *model
 );
 
-void gen_random(char *s, int l) {
-    for (int c; c = rand() % 62, *s++ = (c + "07="[(c + 16) / 26])*(l-->0););
-}
-
 int main()
 {
     using namespace Gene::Platform;
