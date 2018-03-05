@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <Core/String.h>
 #include <Platform/OpenGL.h>
 
 #include <Math/Math.h>
@@ -13,8 +13,8 @@ namespace Gene { namespace Graphics {
 		mutable bool m_IsEnabled = false;
 
 	public:
-        void        CompileFromText    (const std::string& vert, const std::string& frag);
-        void        CompileFromFiles   (std::string vertPath, std::string fragPath);
+        void        CompileFromText    (const String& vert, const String& frag);
+        void        CompileFromFiles   (const String& vertPath, const String& fragPath);
         void        BindAttributeIndex (GLint index, const char *name);
 
         inline void Enable()    const { glUseProgram(m_Program); m_IsEnabled = true;  }

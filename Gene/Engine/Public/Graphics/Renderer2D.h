@@ -11,8 +11,7 @@
 #include <Graphics/GLSLShader.h>
 #include <Graphics/Texture2D.h>
 
-#include <string>
-
+#include <Core/String.h>
 #include <Core/Array.h>
 
 namespace Gene { namespace Graphics {
@@ -56,7 +55,7 @@ namespace Gene { namespace Graphics {
         * and with the specified colour.
         */
         void DrawString(Font *font,
-            const std::string &text,
+            const String& text,
             const Vector2& pos,
             const Graphics::Color color
 		);

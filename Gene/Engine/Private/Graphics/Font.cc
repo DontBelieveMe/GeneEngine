@@ -28,7 +28,7 @@ Font::~Font()
     delete m_FreeTypeFont;
 }
 
-Vector2 Font::MeasureString(const std::string & str)
+Vector2 Font::MeasureString(const String& str)
 {
     float width = 0.0f;
     float height = 0.0f;

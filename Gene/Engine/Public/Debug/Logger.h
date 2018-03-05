@@ -1,6 +1,7 @@
 #pragma once
 
-#include <string>
+#include <Core/String.h>
+
 #include <iostream>
 
 #define LOG_FILTER(priority) Gene::Logger::GetLogger()->SetFilter(priority)
@@ -63,7 +64,7 @@ namespace Gene {
          * not be outputted/it will be ignored.
          */
         template <typename... Args>
-        void Log(const unsigned& priority, const std::string& message, const Args&... args)
+        void Log(const unsigned& priority, const String& message, const Args&... args)
         {
             if (m_Filter & priority) { return; }
             std::cout << "[GLog] [" << GetPriorityString(priority) << "]: " << message;

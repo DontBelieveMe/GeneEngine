@@ -2,6 +2,7 @@
 
 #include <Graphics/Texture2D.h>
 #include <Math/Vector2.h>
+#include <Core/String.h>
 
 #include "../../Private/Graphics/FreeTypeFont.h"
 
@@ -25,7 +26,7 @@ namespace Gene { namespace Graphics {
 		Texture2D			  *GLTexture()		 { return m_Texture; }
 
         /** Return the dimensions of the string where the Width = X component and Height = Y Component */
-        Vector2                MeasureString(const std::string& str);
+        Vector2                MeasureString(const String& str);
 
         /** Get the underlying FreeTypeFont handle. Holds glyph data. */
         FreeTypeFont          *GetFreeTypeFont() { return m_FreeTypeFont; }

@@ -39,7 +39,7 @@ namespace Gene { namespace Graphics {
         static Array<GLSLShader*> m_Handles;
 
     public:
-        static GLSLShader *CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout = ShaderLayout());
+        static GLSLShader *CreateShader(const String& vertexPath, const String& fragmentPath, ShaderLayout = ShaderLayout());
 
         static void FreeResources();
         

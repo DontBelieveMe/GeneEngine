@@ -152,7 +152,7 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 }
 
 void Renderer2D::DrawString(Font *font, 
-						    const std::string &text, 
+						    const String& text, 
 						    const Vector2& pos, 
 							const Graphics::Color color)
 {

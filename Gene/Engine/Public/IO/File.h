@@ -1,8 +1,9 @@
 #pragma once
 
-#include <string>
 #include <assert.h>
 #include <GeneCommon.h>
+
+#include <Core/String.h>
 #include <Core/Array.h>
 
 namespace Gene { namespace IO {
@@ -32,7 +33,7 @@ namespace Gene { namespace IO {
         /** Free up any resources consumed by this object (file handles etc). Is called by destructor, but can be called manually. */
 		void Free();
 
-        /** Static method to load all the lines of a text file into an Array<std::string>*/
-		static Array<std::string> ReadLines(const char *path);
+        /** Static method to load all the lines of a text file into an Array<String>*/
+		static Array<String> ReadLines(const char *path);
 	};
 }}

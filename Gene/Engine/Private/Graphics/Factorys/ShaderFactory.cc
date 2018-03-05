@@ -8,7 +8,7 @@ using namespace Gene;
 
 Array<GLSLShader*> ShaderFactory::m_Handles;
 
-GLSLShader *ShaderFactory::CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout layout)
+GLSLShader *ShaderFactory::CreateShader(const String& vertexPath, const String& fragmentPath, ShaderLayout layout)
 {
     GLSLShader *shader = new GLSLShader();
     shader->CompileFromFiles(vertexPath, fragmentPath);

@@ -1,11 +1,13 @@
 #include <Content/OBJModelLoader.h>
+#include <Content/TinyObjLoader.h>
+
 #include <Math/Vector3.h>
 #include <Platform/OpenGL.h>
-#include <Content/TinyObjLoader.h>
-#include <Core/Array.h>
-#include <GeneCommon.h>
 
-#include <string>
+#include <Core/Array.h>
+#include <Core/String.h>
+
+#include <GeneCommon.h>
 #include <sstream>
 
 using namespace Gene::Content;
@@ -56,7 +58,7 @@ GeneModel *OBJModelLoader::LoadFromMemory(const char *str)
     tinyobj::attrib_t attrib;
     Array<tinyobj::shape_t> shapes;
     Array<tinyobj::material_t> materials;
-    std::string err;
+    String err;
 
     std::stringstream sstream;
     sstream << str;
@@ -73,7 +75,7 @@ GeneModel *OBJModelLoader::Load(const char * filepath)
     tinyobj::attrib_t attrib;
     Array<tinyobj::shape_t> shapes;
     Array<tinyobj::material_t> materials;
-    std::string err;
+    String err;
 
     bool errCode = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, filepath);
 
