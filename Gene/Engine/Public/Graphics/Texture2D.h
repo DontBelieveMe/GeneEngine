@@ -1,8 +1,6 @@
 #pragma once
 #pragma once
 
-#include <vector>
-
 #include <Platform/OpenGL.h>
 #include <Math/Vector2.h>
 #include <GeneCommon.h>

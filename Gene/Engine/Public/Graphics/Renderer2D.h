@@ -12,7 +12,6 @@
 #include <Graphics/Texture2D.h>
 
 #include <string>
-#include <vector>
 
 #include <Core/Array.h>
 
