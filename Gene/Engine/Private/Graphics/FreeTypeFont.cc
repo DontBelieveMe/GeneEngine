@@ -189,14 +189,14 @@ void FreeTypeFont::LoadCharacter(char charcode)
     }
 }
 
-Gene::Vector2 FreeTypeFont::GetKerning(char left, char right)
+Vector2 FreeTypeFont::GetKerning(char left, char right)
 {
     FT_UInt leftIndex = FT_Get_Char_Index(m_Face, left);
     FT_UInt rightIndex = FT_Get_Char_Index(m_Face, right);
 
     FT_Vector kerning;
     FT_Get_Kerning(m_Face, leftIndex, rightIndex, FT_KERNING_DEFAULT, &kerning);
-    return Vector2(kerning.x >> 6, kerning.y >> 6);
+    return Vector2(kerning.x / 64.f, kerning.y / 64.f);
 }
 
 FreeTypeGlyph *FreeTypeFont::GetGlyph(char charcode)

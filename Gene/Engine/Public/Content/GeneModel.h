@@ -9,9 +9,9 @@
 namespace Gene { namespace Content {
 	class GeneModel {
 	public:
-		Array<Gene::Math::Vector3> Vertices;
-        Array<Gene::Math::Vector3> Normals;
-        Array<Gene::Math::Vector2> UVs;
+		Array<Vector3> Vertices;
+        Array<Vector3> Normals;
+        Array<Vector2> UVs;
         Array<GLuint> Indices;
 	};
 }}

@@ -5,10 +5,10 @@ namespace Gene { namespace Graphics {
     class Light 
     {
     private:
-        Math::Vector3 m_Position;
+        Vector3 m_Position;
 		Color m_Color;
 
     public:
-        Light(const Math::Vector3& pos, const Color& color);
+        Light(const Vector3& pos, const Color& color);
     };
 }}

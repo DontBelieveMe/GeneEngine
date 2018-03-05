@@ -24,13 +24,13 @@ namespace Gene { namespace Graphics {
 
 		GLint       UniformLocation(const char *uniform);
 
-		inline void LoadUniform3f(const char *uniform, const Math::Vector3& vector) 
+		inline void LoadUniform3f(const char *uniform, const Vector3& vector) 
 			            { glUniform3f(UniformLocation(uniform), vector.X, vector.Y, vector.Z); }
 
-		inline void LoadUniform2f(const char *uniform, const Math::Vector2& vector)
+		inline void LoadUniform2f(const char *uniform, const Vector2& vector)
 			            { glUniform2f(UniformLocation(uniform), vector.X, vector.Y); }
 
-		inline void LoadUniformMatrix4f(const char *uniform, const Math::Matrix4& mat)
+		inline void LoadUniformMatrix4f(const char *uniform, const Matrix4& mat)
                         { glUniformMatrix4fv(UniformLocation(uniform), 1, GL_TRUE, mat.Elements); }
 
         inline void LoadUniform1iv(const char *uniform, int * value, int count)

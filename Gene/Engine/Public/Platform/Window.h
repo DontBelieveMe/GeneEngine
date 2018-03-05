@@ -40,8 +40,6 @@ namespace Gene { namespace Platform {
 	class Window
 	{
 	protected:
-		using Vector2 = Gene::Math::Vector2;
-
         WindowInfo            m_WindowConfig;
         GLContext            *m_Context;
         bool                  m_Running = true;

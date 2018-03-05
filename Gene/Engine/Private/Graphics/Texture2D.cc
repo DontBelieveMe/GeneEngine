@@ -3,7 +3,6 @@
 #include "External/lodepng.h"
 
 using namespace Gene::Graphics;
-using namespace Gene::Math;
 using namespace Gene;
 
 Texture2D::Texture2D(const char *filepath)

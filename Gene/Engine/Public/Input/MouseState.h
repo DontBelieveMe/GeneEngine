@@ -4,6 +4,6 @@
 
 namespace Gene { namespace Input {
 	struct MouseState {
-		Math::Vector2 Position;
+		Vector2 Position;
 	};
 }}

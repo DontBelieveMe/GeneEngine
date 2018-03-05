@@ -1,6 +1,6 @@
 #include <Math/Vector2.h>
 
-using namespace Gene::Math;
+using namespace Gene;
 
 Vector2::Vector2() :
 	X(0.0f), Y(0.0f)

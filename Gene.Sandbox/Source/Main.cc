@@ -31,6 +31,7 @@ int main()
     using namespace Gene::Input;
     using namespace Gene::Content;
     using namespace Gene;
+
     WindowInfo info;
     info.Width = 800;
     info.Height = 600;
@@ -77,7 +78,7 @@ int main()
     glCullFace(GL_BACK);
 
     Renderer2D renderer;
-    renderer.Init(Matrix4::Orthographic(info.Width, 0, 0, info.Height, 1.0f, -1.0f));
+    renderer.Init(Matrix4::Orthographic((float)info.Width, 0.f, 0.f, (float)info.Height, 1.0f, -1.0f));
     Font font("Data/Fonts/Gidole-Regular.ttf", 7);
 
     std::string str = "The quick brown fox\njumps over the\n\nlazy dog";

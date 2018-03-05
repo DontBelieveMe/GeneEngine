@@ -2,7 +2,8 @@
 
 #include <Math/Vector2.h>
 
-namespace Gene { namespace Math {
+namespace Gene {
+
     /** Class that represents a 3 component floating point vector (XYZ). */
 	struct Vector3 {
         float X, Y, Z;
@@ -37,8 +38,4 @@ namespace Gene { namespace Math {
         /** Returns the length (magnitude) of this vector. Involves a square root operation. */
         float          Length();
 	};
-}}
-
-namespace Gene {
-	typedef Math::Vector3 Vector3;
 }

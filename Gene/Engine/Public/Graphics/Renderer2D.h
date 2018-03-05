@@ -56,7 +56,7 @@ namespace Gene { namespace Graphics {
         */
         void DrawString(Font *font,
             const std::string &text,
-            const Math::Vector2& pos,
+            const Vector2& pos,
             const Graphics::Color color
 		);
 

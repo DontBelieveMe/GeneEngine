@@ -3,6 +3,7 @@
 #include <math.h>
 
 using namespace Gene::Math;
+using namespace Gene;
 
 Quaternion::Quaternion(const Vector3& n, float a)
 {
