@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 using namespace Gene::Graphics;
+using namespace Gene;
 
 static GLuint CompileShader(const char *src, GLenum type)
 {
