@@ -1,4 +1,5 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Math/Vector3.h>
 #include <Graphics/Color.h>
 

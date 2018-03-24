@@ -1,4 +1,5 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Debug/Logger.h>
 
 using namespace Gene;

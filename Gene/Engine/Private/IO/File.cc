@@ -1,4 +1,5 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Platform/OS.h>
 
 #if defined(GENE_OS_WINDOWS) && defined(GENE_COMPILER_MSVC) 

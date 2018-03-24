@@ -15,7 +15,7 @@ for root, directories, filenames in os.walk('Gene/Engine'):
             f = open(path, "r")
             txt = f.read()
             if re.match(searchRegex, txt):
-                txt = re.sub(searchRegex, header, txt)
+                txt = re.sub(searchRegex, header + '\n', txt)
             else:
                 txt = header + '\n' + txt
             

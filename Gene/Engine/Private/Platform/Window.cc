@@ -1,4 +1,5 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Platform/Window.h>
 #include <Platform/OS.h>
 #include <Platform/OpenGL.h>
