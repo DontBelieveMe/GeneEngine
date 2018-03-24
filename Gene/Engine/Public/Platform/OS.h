@@ -1,3 +1,4 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
 #pragma once
 
 // GENE_OS_ANDROID is a preproccessor variable that should be set by the complier

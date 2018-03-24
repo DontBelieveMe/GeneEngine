@@ -1,3 +1,4 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
 #include <Platform/OS.h>
 #ifdef GENE_OS_WINDOWS
 
