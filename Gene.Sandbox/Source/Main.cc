@@ -30,7 +30,6 @@ int main()
 {
     using namespace Gene::Platform;
     using namespace Gene::Graphics;
-    using namespace Gene::Math;
     using namespace Gene::Input;
     using namespace Gene::Content;
     using namespace Gene;
@@ -84,7 +83,7 @@ int main()
     renderer.Init(Matrix4::Orthographic((float)info.Width, 0.f, 0.f, (float)info.Height, 1.0f, -1.0f));
     Font font("Data/Fonts/Gidole-Regular.ttf", 7);
 
-    String str = "The quick brown fox\njumps over the\n\nlazy dog";
+    String str = "The quick brown fox\njumps over the\n\n\tlazy dog";
     float strW = font.MeasureString(str).X;
     float xPos = info.Width / 2 - (strW / 2);
 

@@ -170,6 +170,10 @@ void Renderer2D::DrawString(Font *font,
 	float yPos = pos.Y;
 
     float tid = GetTextureSlot(glTexture);
+	
+	float spaceWidth = font->MeasureString(" ").X;
+	const int TAB_SIZE = 4;	// 1 tab is 4 spaces.
+
 
 	for (size_t i = 0; i < text.length(); i++)
 	{
@@ -181,7 +185,12 @@ void Renderer2D::DrawString(Font *font,
             xPos = pos.X;
 
             continue;
-        }
+		}
+		else if (c == '\t')
+		{
+			xPos += spaceWidth * TAB_SIZE;
+			continue;
+		}
 
         FreeTypeGlyph *glyph = ftFont->GetGlyph(c);
 
