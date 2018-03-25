@@ -1,8 +1,10 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 #include <Math/Vector3.h>
 #include <Math/Vector2.h>
 
-namespace Gene { namespace Math {
+namespace Gene {
 	class Matrix4
 	{
 	public:
@@ -45,8 +47,4 @@ namespace Gene { namespace Math {
         friend Matrix4 operator*(Matrix4 a, const Matrix4& b);
         friend Vector3 operator*(Matrix4 a, const Vector3& b);
 	};
-}}
-
-namespace Gene {
-	typedef Math::Matrix4 Matrix4;
 }

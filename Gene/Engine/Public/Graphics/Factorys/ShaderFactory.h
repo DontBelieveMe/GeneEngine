@@ -1,7 +1,11 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
 #include <Graphics/GLSLShader.h>
+#include <Core/Array.h>
 #include <GeneCommon.h>
+
 #include <algorithm>
 
 namespace Gene { namespace Graphics {
@@ -12,7 +16,6 @@ namespace Gene { namespace Graphics {
 
     struct ShaderLayout {
         typedef std::initializer_list<ShaderAttributeLayout> InitalizerListLayout;
-
 
         Array<ShaderAttributeLayout> Attributes;
 
@@ -38,7 +41,7 @@ namespace Gene { namespace Graphics {
         static Array<GLSLShader*> m_Handles;
 
     public:
-        static GLSLShader *CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout = ShaderLayout());
+        static GLSLShader *CreateShader(const String& vertexPath, const String& fragmentPath, ShaderLayout = ShaderLayout());
 
         static void FreeResources();
         

@@ -1,9 +1,11 @@
-#include <Graphics/Texture2D.h>
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
 
-#include "External/lodepng.h"
+#include <Graphics/Texture2D.h>
+#include <Core/Array.h>
+
+#include "../../ThirdParty/lodepng/lodepng.h"
 
 using namespace Gene::Graphics;
-using namespace Gene::Math;
 using namespace Gene;
 
 Texture2D::Texture2D(const char *filepath)
@@ -51,8 +53,8 @@ void Texture2D::GenerateGLId()
     GLsizei w = static_cast<GLsizei>(m_Width);
     GLsizei h = static_cast<GLsizei>(m_Height);
 
-    GLint filtering   = static_cast<GLint>(Filtering);
-    GLenum pixelFormat = static_cast<GLenum>(Format);
+    GLint filtering   = static_cast<GLint>(Parameters.Filtering);
+    GLenum pixelFormat = static_cast<GLenum>(Parameters.Format);
 
     glGenTextures(1, &m_TextureId);
 

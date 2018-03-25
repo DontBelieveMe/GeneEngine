@@ -3,7 +3,7 @@
 # Binary/Output folders
 Build/
 bin/
-Debug/
+./Debug/
 Exclude/
 Gene/Binaries/
 Dependencies/FreeType/Output/

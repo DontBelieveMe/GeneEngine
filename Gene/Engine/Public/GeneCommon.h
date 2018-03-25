@@ -1,6 +1,7 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 #include <assert.h>
-#include <vector>
 #include <iterator>
 #include <string>
 #include <sstream>
@@ -48,7 +49,4 @@ namespace Gene {
     typedef short          int16;
     typedef unsigned int   uint32;
     typedef int            int32;
-    
-    template <typename T>
-    using Array = std::vector<T>;
 }

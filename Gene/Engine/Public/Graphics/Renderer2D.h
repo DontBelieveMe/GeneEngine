@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
 #include <Math/Vector2.h>
@@ -11,8 +13,8 @@
 #include <Graphics/GLSLShader.h>
 #include <Graphics/Texture2D.h>
 
-#include <string>
-#include <vector>
+#include <Core/String.h>
+#include <Core/Array.h>
 
 namespace Gene { namespace Graphics {
     
@@ -38,7 +40,7 @@ namespace Gene { namespace Graphics {
         GLSLShader              *m_Shader;
         Matrix4                  m_ProjectionMatrix;
         Texture2D               *m_Texture;
-        std::vector<Texture2D*>  m_Textures;
+        Array<Texture2D*>		 m_Textures;
 
     private:
         float GetTextureSlot(Texture2D *texture);
@@ -55,8 +57,8 @@ namespace Gene { namespace Graphics {
         * and with the specified colour.
         */
         void DrawString(Font *font,
-            const std::string &text,
-            const Math::Vector2& pos,
+            const String& text,
+            const Vector2& pos,
             const Graphics::Color color
 		);
 

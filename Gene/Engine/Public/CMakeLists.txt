@@ -56,6 +56,11 @@ set(RootHeaders
     ${HeaderDir}/GeneUseAll.h
 )
 
+set(CoreHeaders
+    ${HeaderDir}/Core/Array.h
+    ${HeaderDir}/Core/String.h
+)
+
 set(VSHeaderFilterName "Header Files")
 
 # Set Visual Studio filters.
@@ -67,6 +72,7 @@ source_group("${VSHeaderFilterName}\\Math"     FILES ${MathHeaders})
 source_group("${VSHeaderFilterName}\\Platform" FILES ${PlatformHeaders})
 source_group("${VSHeaderFilterName}"           FILES ${RootHeaders})
 source_group("${VSHeaderFilterName}\\Debug"    FILES ${DebugHeaders})
+source_group("${VSHeaderFilterName}\\Core"     FILES ${CoreHeaders})
 
 set(CommonHeaders
     ${ContentHeaders} 
@@ -77,4 +83,5 @@ set(CommonHeaders
     ${PlatformHeaders}
     ${DebugHeaders}
     ${RootHeaders}
+    ${CoreHeaders}
 )

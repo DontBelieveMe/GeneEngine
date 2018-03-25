@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Graphics/Renderer2D.h>
 #include <GeneCommon.h>
 #include <Debug/Logger.h>
@@ -152,8 +154,8 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 }
 
 void Renderer2D::DrawString(Font *font, 
-						    const std::string &text, 
-						    const Math::Vector2& pos, 
+						    const String& text, 
+						    const Vector2& pos, 
 							const Graphics::Color color)
 {
     if(!font)
@@ -170,6 +172,10 @@ void Renderer2D::DrawString(Font *font,
 	float yPos = pos.Y;
 
     float tid = GetTextureSlot(glTexture);
+	
+	float spaceWidth = font->MeasureString(" ").X;
+	const int TAB_SIZE = 4;	// 1 tab is 4 spaces.
+
 
 	for (size_t i = 0; i < text.length(); i++)
 	{
@@ -181,7 +187,12 @@ void Renderer2D::DrawString(Font *font,
             xPos = pos.X;
 
             continue;
-        }
+		}
+		else if (c == '\t')
+		{
+			xPos += spaceWidth * TAB_SIZE;
+			continue;
+		}
 
         FreeTypeGlyph *glyph = ftFont->GetGlyph(c);
 

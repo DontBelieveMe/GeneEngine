@@ -1,11 +1,16 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Graphics/Factorys/ShaderFactory.h>
+#include <Core/Array.h>
+
 #include <GeneCommon.h>
 
 using namespace Gene::Graphics;
+using namespace Gene;
 
-Gene::Array<GLSLShader*> ShaderFactory::m_Handles;
+Array<GLSLShader*> ShaderFactory::m_Handles;
 
-GLSLShader *ShaderFactory::CreateShader(std::string vertexPath, std::string fragmentPath, ShaderLayout layout)
+GLSLShader *ShaderFactory::CreateShader(const String& vertexPath, const String& fragmentPath, ShaderLayout layout)
 {
     GLSLShader *shader = new GLSLShader();
     shader->CompileFromFiles(vertexPath, fragmentPath);

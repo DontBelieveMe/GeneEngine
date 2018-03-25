@@ -1,5 +1,9 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
+
 #include <Platform/OS.h>
+
 namespace Gene { namespace Input {
 	typedef bool Key;
 #if defined(GENE_OS_WINDOWS)

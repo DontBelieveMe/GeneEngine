@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Platform/OS.h>
 
 #if defined(GENE_OS_WINDOWS) && defined(GENE_COMPILER_MSVC) 
@@ -9,11 +11,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <fstream>
-#include <string>
 
 #include <GeneCommon.h>
+#include <Core/Array.h>
 
 using namespace Gene::IO;
+using namespace Gene;
 
 File::~File()
 {
@@ -57,15 +60,14 @@ void File::Free()
 	delete[] m_Data;
 }
 
-Gene::Array<std::string> File::ReadLines(const char *path)
+Array<String> File::ReadLines(const char *path)
 {
-	using namespace std;
-	vector<string> lines;
+	Array<String> lines;
 
-	ifstream file(path);
+	std::ifstream file(path);
 	if (file.is_open())
 	{
-		string line;
+		String line;
 		while (getline(file, line))
 		{
 			lines.push_back(line);

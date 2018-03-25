@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Graphics/Font.h>
 #include <iostream>
 #include <IO/File.h>
@@ -28,7 +30,7 @@ Font::~Font()
     delete m_FreeTypeFont;
 }
 
-Vector2 Font::MeasureString(const std::string & str)
+Vector2 Font::MeasureString(const String& str)
 {
     float width = 0.0f;
     float height = 0.0f;

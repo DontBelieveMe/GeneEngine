@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Graphics/GLSLShader.h>
 #include <IO/File.h>
 
@@ -5,6 +7,7 @@
 #include <stdlib.h>
 
 using namespace Gene::Graphics;
+using namespace Gene;
 
 static GLuint CompileShader(const char *src, GLenum type)
 {
@@ -26,7 +29,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 	return shader;
 }
 
-void GLSLShader::CompileFromText(const std::string& vert, const std::string& frag)
+void GLSLShader::CompileFromText(const String& vert, const String& frag)
 {
     GLuint vertexShader = CompileShader(vert.c_str(), GL_VERTEX_SHADER);
 	GLuint fragmentShader = CompileShader(frag.c_str(), GL_FRAGMENT_SHADER);
@@ -38,13 +41,15 @@ void GLSLShader::CompileFromText(const std::string& vert, const std::string& fra
 	glDeleteShader(fragmentShader);
 }
 
-void GLSLShader::CompileFromFiles(std::string vertPath, std::string fragPath)
+void GLSLShader::CompileFromFiles(const String& vertPath, const String& fragPath)
 {
 	using namespace Gene::IO;
 	File vert(vertPath.c_str());
 	File frag(fragPath.c_str());
-    std::string v = vert.Contents();
-    std::string f = frag.Contents();
+    
+	String v = vert.Contents();
+    String f = frag.Contents();
+
 	CompileFromText(v, f);
 }
 

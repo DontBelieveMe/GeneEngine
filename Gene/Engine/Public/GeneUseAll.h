@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 namespace Gene {
 	namespace Math {}
 	namespace Graphics {}

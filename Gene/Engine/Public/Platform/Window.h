@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
 #include <Platform/GLContext.h>
@@ -40,8 +42,6 @@ namespace Gene { namespace Platform {
 	class Window
 	{
 	protected:
-		using Vector2 = Gene::Math::Vector2;
-
         WindowInfo            m_WindowConfig;
         GLContext            *m_Context;
         bool                  m_Running = true;

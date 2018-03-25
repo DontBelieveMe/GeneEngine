@@ -1,11 +1,12 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
 #include <Platform/OpenGL.h>
 #include <Graphics/Buffer.h>
-#include <GeneCommon.h>
+#include <Core/Array.h>
 
 #include <memory>
-#include <vector>
 
 namespace Gene { namespace Graphics {
 	struct AttributeDescriptor

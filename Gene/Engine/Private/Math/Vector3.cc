@@ -1,8 +1,10 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Math/Vector3.h>
 
 #include <math.h>
 
-using namespace Gene::Math;
+using namespace Gene;
 
 Vector3::Vector3():
 	X(0.0f), Y(0.0f), Z(0.0f)

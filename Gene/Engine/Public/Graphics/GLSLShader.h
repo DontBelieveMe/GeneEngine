@@ -1,6 +1,8 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
-#include <string>
+#include <Core/String.h>
 #include <Platform/OpenGL.h>
 
 #include <Math/Math.h>
@@ -13,8 +15,8 @@ namespace Gene { namespace Graphics {
 		mutable bool m_IsEnabled = false;
 
 	public:
-        void        CompileFromText    (const std::string& vert, const std::string& frag);
-        void        CompileFromFiles   (std::string vertPath, std::string fragPath);
+        void        CompileFromText    (const String& vert, const String& frag);
+        void        CompileFromFiles   (const String& vertPath, const String& fragPath);
         void        BindAttributeIndex (GLint index, const char *name);
 
         inline void Enable()    const { glUseProgram(m_Program); m_IsEnabled = true;  }
@@ -24,13 +26,13 @@ namespace Gene { namespace Graphics {
 
 		GLint       UniformLocation(const char *uniform);
 
-		inline void LoadUniform3f(const char *uniform, const Math::Vector3& vector) 
+		inline void LoadUniform3f(const char *uniform, const Vector3& vector) 
 			            { glUniform3f(UniformLocation(uniform), vector.X, vector.Y, vector.Z); }
 
-		inline void LoadUniform2f(const char *uniform, const Math::Vector2& vector)
+		inline void LoadUniform2f(const char *uniform, const Vector2& vector)
 			            { glUniform2f(UniformLocation(uniform), vector.X, vector.Y); }
 
-		inline void LoadUniformMatrix4f(const char *uniform, const Math::Matrix4& mat)
+		inline void LoadUniformMatrix4f(const char *uniform, const Matrix4& mat)
                         { glUniformMatrix4fv(UniformLocation(uniform), 1, GL_TRUE, mat.Elements); }
 
         inline void LoadUniform1iv(const char *uniform, int * value, int count)

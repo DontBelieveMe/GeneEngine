@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Platform/OS.h>
 #ifdef GENE_OS_WINDOWS
 
@@ -16,7 +18,7 @@
 #define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
 
 using namespace Gene::Platform::Win32;
-using namespace Gene::Math;
+using namespace Gene;
 
 static HDC s_HDC;
 

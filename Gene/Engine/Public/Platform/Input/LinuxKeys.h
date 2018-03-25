@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <X11/keysymdef.h>
 #include <X11/keysym.h>
 
@@ -38,5 +40,9 @@ enum class Keys
     W = XK_w,
     X = XK_x,
     Y = XK_y,
-    Z = XK_z
+    Z = XK_z,
+    ArrowKeyLeft = XK_Left,
+    ArrowKeyRight = XK_Right,
+    ArrowKeyUp = XK_Up,
+    ArrowKeyDown = XK_Down
 };

@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
 #include <Math/Vector2.h>
@@ -14,6 +16,6 @@ namespace Gene { namespace Input {
 		static void SetPrimaryWindow(Platform::Window *window);
 
 		static MouseState& GetState(); 
-		static void SetPosition(const Gene::Math::Vector2& pos);
+		static void SetPosition(const Vector2& pos);
 	};
 }}

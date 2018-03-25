@@ -1,8 +1,12 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #pragma once
 
 #include <Content/IModelLoader.h>
 #include <Content/GeneModel.h>
+
 #include <sstream>
+
 #include "TinyObjLoader.h"
 
 namespace Gene { namespace Content {

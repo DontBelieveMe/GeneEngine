@@ -1,8 +1,11 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Math/Quaternion.h>
 #include <Math/Functions.h>
 #include <math.h>
 
 using namespace Gene::Math;
+using namespace Gene;
 
 Quaternion::Quaternion(const Vector3& n, float a)
 {

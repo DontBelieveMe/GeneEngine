@@ -1,6 +1,9 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
+#include "FreeTypeFont.h"
+
 #include <GeneCommon.h>
 #include <algorithm>
-#include "FreeTypeFont.h"
 
 using namespace Gene::Graphics;
 using namespace Gene;
@@ -122,8 +125,12 @@ bool FreeTypeTexture::IsEnoughSpaceForCharacter(int glyphHeight)
 Texture2D *FreeTypeTexture::GenerateTexture()
 {
     Texture2D *texture = new Texture2D();
-    texture->Format    = Texture2D::PixelFormat::LuminanceAlpha;
-    texture->Filtering = Texture2D::FilteringOptions::Linear;
+
+    TextureParameters params;
+    params.Filtering = FilteringOptions::Linear;
+    params.Format    = PixelFormat::LuminanceAlpha;
+
+    texture->Parameters = params;
 
     texture->Load(m_Data, m_Width, m_Height, s_AtlasDepth);
     return texture;
@@ -185,14 +192,14 @@ void FreeTypeFont::LoadCharacter(char charcode)
     }
 }
 
-Gene::Vector2 FreeTypeFont::GetKerning(char left, char right)
+Vector2 FreeTypeFont::GetKerning(char left, char right)
 {
     FT_UInt leftIndex = FT_Get_Char_Index(m_Face, left);
     FT_UInt rightIndex = FT_Get_Char_Index(m_Face, right);
 
     FT_Vector kerning;
     FT_Get_Kerning(m_Face, leftIndex, rightIndex, FT_KERNING_DEFAULT, &kerning);
-    return Vector2(kerning.x >> 6, kerning.y >> 6);
+    return Vector2(kerning.x / 64.f, kerning.y / 64.f);
 }
 
 FreeTypeGlyph *FreeTypeFont::GetGlyph(char charcode)

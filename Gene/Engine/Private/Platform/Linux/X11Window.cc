@@ -1,16 +1,20 @@
-#include <Platform/OS.h>
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
 
-#include "X11Window.h"
+#include <Platform/OS.h>
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 #include <Input/Keyboard.h>
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/keysymdef.h>
 #include <X11/keysym.h>
 #include <X11/XKBlib.h>
+
 #include <GL/glx.h>
 #include <stdio.h>
+
+#include "X11Window.h"
 #include "../GLFLLoad.h"
 
 using namespace Gene::Platform::X11;
@@ -164,13 +168,16 @@ void X11Window::PollEvents()
             }
             case KeyPress:
             {
-                KeySym pressSym = XkbKeycodeToKeysym(dpy, evt.xkey.keycode, 0, 0);
+                //KeySym pressSym = XkbKeycodeToKeysym(dpy, evt.xkey.keycode, 0, 0);
+                KeySym pressSym = XLookupKeysym(&evt.xkey, 0);
+
                 m_KeyState.KeyMap[pressSym] = true;
                 break;
             }
             case KeyRelease:
             {
-                KeySym releaseSym = XkbKeycodeToKeysym(dpy, evt.xkey.keycode, 0, 0);
+                //KeySym releaseSym = XkbKeycodeToKeysym(dpy, evt.xkey.keycode, 0, 0);
+                KeySym releaseSym = XLookupKeysym(&evt.xkey, 0);
                 m_KeyState.KeyMap[releaseSym] = false;
                 break;
             }

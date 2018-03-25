@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Math/Matrix4.h>
 #include <Math/Functions.h>
 
@@ -5,6 +7,7 @@
 #include <math.h>
 
 using namespace Gene::Math;
+using namespace Gene;
 
 const     int   Matrix4::ElementCount;
 constexpr float Maths::PI;              // TODO: This should not go in here -> move it to a Math/Functions.cc
