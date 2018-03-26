@@ -14,7 +14,7 @@ const Color Color::Black		  (0x000000FF);
 
 Color::Color(float r, float g, float b, float a)
 {
-	using namespace Gene::Math;
+	using namespace Gene;
 
 	int rr = static_cast<int>(Maths::Clamp(r, 0.0f, 1.0f)) * 255;
 	int gg = static_cast<int>(Maths::Clamp(g, 0.0f, 1.0f)) * 255;

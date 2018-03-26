@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-using namespace Gene::Math;
+using namespace Gene;
 
 TEST_CASE("Vector3 sets floating point values to zero when not specified in constructor", "[Vector3]") 
 {

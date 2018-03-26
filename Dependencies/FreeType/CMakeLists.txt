@@ -54,8 +54,11 @@ if(WIN32)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
 endif()
-
-add_library(FreeType STATIC ${FreeTypeSource})
+if(ANDROID)
+    add_library(FreeType OBJECT ${FreeTypeSource})
+else()
+    add_library(FreeType STATIC ${FreeTypeSource})
+endif()
 
 # Set the Visual Studio project filter.
 set_property(TARGET FreeType PROPERTY FOLDER "Dependencies")

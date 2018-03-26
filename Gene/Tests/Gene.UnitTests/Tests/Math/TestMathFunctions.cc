@@ -2,7 +2,7 @@
 
 #include <Math/Functions.h>
 
-using namespace Gene::Math;
+using namespace Gene;
 
 TEST_CASE("Test that noone has fiddled with PI (if you have, shame on you)", "[Functions]")
 {

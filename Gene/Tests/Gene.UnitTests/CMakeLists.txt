@@ -13,27 +13,29 @@ set(TestSource
     ${SrcDir}/Content/TestObjLoader.cc
 )
 
-add_executable(GeneEngine.UnitTests
-    ${TestSource}
+# Ignore tests when building for android for the time being.
+# TODO: Correct this.
+if(NOT ANDROID)
+    add_executable(GeneEngine.UnitTests
+        ${TestSource}
 
-    ${SrcDir}/CatchMain.cc
-)
+        ${SrcDir}/CatchMain.cc
+    )
 
-target_link_libraries(GeneEngine.UnitTests "Gene")
-target_link_libraries(GeneEngine.UnitTests "FreeType")
+    if(UNIX)
+    	if(ANDROID)
+    		target_link_libraries(GeneEngine.UnitTests "android" "log" "EGL" "GLESv2" )
+    	else()
+    		target_link_libraries(GeneEngine.UnitTests "X11")
+    		target_link_libraries(GeneEngine.UnitTests "GL")
+    	endif()
+    endif()
 
-if(UNIX)
-	if(ANDROID)
-		target_link_libraries(GeneEngine.UnitTests "android" "log" "EGL" "GLESv2")
-	else()
-		target_link_libraries(GeneEngine.UnitTests "X11")
-		target_link_libraries(GeneEngine.UnitTests "GL")
-	endif()
+    if(WIN32)
+    	target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
+    endif()
+
+    # Set Visual Studio project folder.
+    set_property(TARGET GeneEngine.UnitTests PROPERTY FOLDER "Engine/Tests")
+
 endif()
-
-if(WIN32)
-	target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
-endif()
-
-# Set Visual Studio project folder.
-set_property(TARGET GeneEngine.UnitTests PROPERTY FOLDER "Engine/Tests")

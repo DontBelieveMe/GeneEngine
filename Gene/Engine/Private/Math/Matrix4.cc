@@ -6,7 +6,6 @@
 #include <string.h>
 #include <math.h>
 
-using namespace Gene::Math;
 using namespace Gene;
 
 const     int   Matrix4::ElementCount;

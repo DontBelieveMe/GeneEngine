@@ -14,8 +14,7 @@ namespace Gene { namespace Platform { namespace Android {
         void *m_Display;
         void *m_VisualInfo;
         void *m_Window;
-
-        using Vector2 = Gene::Math::Vector2;
+        
     public:
         virtual ~AWindow();
         AWindow(WindowInfo info) : Gene::Platform::Window(info) {}

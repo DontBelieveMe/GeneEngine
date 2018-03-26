@@ -1,7 +1,7 @@
 #include <Catch/catch.hpp>
 #include <Math/Matrix4.h>
 
-using namespace Gene::Math;
+using namespace Gene;
 
 static bool CompareMatrices(Matrix4 matrix, 
 	float m00, float m10, float m20, float m30,

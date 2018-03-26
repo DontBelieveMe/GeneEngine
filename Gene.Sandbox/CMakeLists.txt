@@ -3,20 +3,21 @@ project(GeneEngine.Sandbox)
 set(SourceDir ${CMAKE_CURRENT_LIST_DIR}/Source)
 
 set(Source 
-    ${SourceDir}/Main.c
+    ${SourceDir}/Main.cc
 )
 if(ANDROID)
-	add_library(Gene.Sandbox SHARED ${Source})
+	add_library(Gene.Sandbox SHARED ${Source} $<TARGET_OBJECTS:Gene>
+		$<TARGET_OBJECTS:FreeType>)
 else()
 	add_executable(Gene.Sandbox ${Source})
+	target_link_libraries(Gene.Sandbox "Gene")
+	target_link_libraries(Gene.Sandbox "FreeType")
 endif()
 
-target_link_libraries(Gene.Sandbox "Gene")
-target_link_libraries(Gene.Sandbox "FreeType")
 
 if(UNIX)
 	if(ANDROID)
-		target_link_libraries(Gene.Sandbox android log EGL GLESv2)
+		target_link_libraries(Gene.Sandbox android log EGL GLESv1_CM)
 	else()
 		target_link_libraries(Gene.Sandbox "X11")
 		target_link_libraries(Gene.Sandbox "GL")

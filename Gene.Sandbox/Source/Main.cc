@@ -118,7 +118,7 @@ static int engine_init_display(struct engine* engine) {
 	// Initialize GL state.
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
 	glEnable(GL_CULL_FACE);
-	glShadeModel(GL_SMOOTH);
+	//glShadeModel(GL_SMOOTH);
 	glDisable(GL_DEPTH_TEST);
 
 	return 0;
@@ -134,9 +134,21 @@ static void engine_draw_frame(struct engine* engine) {
 	}
 
 	// Just fill the screen with a color.
-	glClearColor(((float)engine->state.x) / engine->width, engine->state.angle,
-		((float)engine->state.y) / engine->height, 1);
+	/*glClearColor(((float)engine->state.x) / engine->width, engine->state.angle,
+		((float)engine->state.y) / engine->height, 1);*/
+	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	
+	const GLfloat triangleVertices[] = {
+		0.0f,   0.5f,   0.0f,
+		-0.5f,  -0.5f,  0.0f,
+		0.5f,   -0.5f,  0.0f
+	};
+	
+	glColor4f(8.0f, 3.0f, 0.5f, 1.0f);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, triangleVertices);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 
 	eglSwapBuffers(engine->display, engine->surface);
 }

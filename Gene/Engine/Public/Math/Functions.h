@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-namespace Gene { namespace Math {
+namespace Gene {
 	struct Maths
 	{
 		static constexpr float PI = 3.14159265359f;
@@ -35,4 +35,4 @@ namespace Gene { namespace Math {
 			return radians * oneEightyOverPi;
 		}
 	};
-}}
+}

@@ -5,6 +5,7 @@
 #include "AWindow.h"
 
 using namespace Gene::Platform::Android;
+using namespace Gene;
 
 AWindow::~AWindow()
 {
@@ -39,10 +40,10 @@ void AWindow::SwapBuffers()
 {
 }
 
-AWindow::Vector2 AWindow::ScreenToWindow(const Vector2 &point)
+Vector2 AWindow::ScreenToWindow(const Vector2 &point)
 {
 }
 
-AWindow::Vector2 AWindow::WindowToScreen(const Vector2 &point)
+Vector2 AWindow::WindowToScreen(const Vector2 &point)
 {
 }

@@ -41,9 +41,10 @@ source_group("Source Files\\Platform\\Win32" FILES ${PlatformSrc})
 
 if(ANDROID)
 	add_definitions(-DGENE_OS_ANDROID)
+	add_library(Gene OBJECT ${CommonSource} ${CommonHeaders} ${PlatformSrc})
+else()
+	add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
+	target_link_libraries(FreeType)
 endif()
-
-add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
-target_link_libraries(FreeType)
 
 set_property(TARGET Gene PROPERTY FOLDER "Engine")

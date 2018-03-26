@@ -2,7 +2,7 @@
 
 #include <Math/Vector2.h>
 
-using namespace Gene::Math;
+using namespace Gene;
 
 TEST_CASE("Vector2 sets xy components to zero on default initalization", "[Vector2]")
 {
