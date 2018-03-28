@@ -38,8 +38,10 @@ call :check_for_errors
 :: Build the project
 call cmake --build .
 
-call :check_for_errors
-
+if %errorlevel% neq 0 (
+	cd %~dp0
+	exit /b %errorlevel%
+)
 :: Run ant (generate APK and package resources etc...)
 call ant debug
 
