@@ -15,6 +15,12 @@ namespace Gene { namespace Input {
 	class Keyboard;
 }}
 
+/* LOL, we define our own main. You know why? because fuck you. Yeah thats right. Fuck you. I run this shop */
+// EDIT: Only joking I realise that sounds a bit abrasive - there is a reason. (I'm looking at you android)
+// Until we redo the android native glue code we have to put up with their way of doing things and that includes
+// a `void android_main(struct app_state*)` and not `int main()`
+int GeneMain(int argc, char** argv);
+
 namespace Gene { namespace Platform {
 
     /** Data about the window */

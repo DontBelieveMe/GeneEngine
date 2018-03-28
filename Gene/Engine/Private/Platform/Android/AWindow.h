@@ -12,8 +12,6 @@ namespace Gene { namespace Platform { namespace Android {
     {
     private:
         void *m_Display;
-        void *m_VisualInfo;
-        void *m_Window;
         
     public:
         virtual ~AWindow();
@@ -30,5 +28,7 @@ namespace Gene { namespace Platform { namespace Android {
         Vector2 WindowToScreen(const Vector2& point) override;
 
         void SetPointerPosition(int32 x, int32 y);
+
+        static void* s_AndroidAppState;
     };
 }}}
