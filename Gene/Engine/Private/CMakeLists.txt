@@ -38,20 +38,22 @@ set(MathSrc
 )
 
 set(PlatformSrc 
-    ${SrcDir}/Platform/GLFLLoad.cc
     ${SrcDir}/Platform/Time.cc
     ${SrcDir}/Platform/Window.cc
 )
 
-set(ThirdPartySrc 
-    ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/glfl/pregenerated/glfl.cpp
-    
+set(ThirdPartySrc     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.cc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.h
     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/lodepng/lodepng.cc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/lodepng/lodepng.h
 )
+
+if(NOT ANDROID)
+    list(APPEND PlatformSrc ${SrcDir}/Platform/GLFLLoad.cc)
+    list(APPEND ThirdPartySrc ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/glfl/pregenerated/glfl.cpp)
+endif()
 
 set(VSSourceFilterName "Source Files")
 

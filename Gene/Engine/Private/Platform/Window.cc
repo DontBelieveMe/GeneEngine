@@ -24,11 +24,11 @@ using namespace Gene::Graphics;
 #if defined(GENE_OS_ANDROID)
 	#include "../../../ThirdParty/android/android_native_app_glue.h"
 
-	/*void android_main(struct android_app* state)
+	void android_main(struct android_app* state)
 	{
 		PlatformWindow::s_AndroidAppState = state;
 		GeneMain(0, nullptr);
-	}*/
+	}
 #else
 	int main(int argc, char **argv)
 	{

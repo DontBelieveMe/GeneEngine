@@ -7,11 +7,21 @@
 #include <Math/Vector2.h>
 #include <GeneCommon.h>
 
+#include <EGL/egl.h>
+#include <GLES/gl.h>
+#include "../../../../ThirdParty/android/android_native_app_glue.h"
+
 namespace Gene { namespace Platform { namespace Android {
     class AWindow : public Gene::Platform::Window
     {
     private:
-        void *m_Display;
+        struct android_app* m_App;
+
+        EGLDisplay m_Display;
+        EGLSurface m_Surface; 
+        EGLContext m_Context;
+        int32_t width;
+        int32_t height;
         
     public:
         virtual ~AWindow();
@@ -30,5 +40,10 @@ namespace Gene { namespace Platform { namespace Android {
         void SetPointerPosition(int32 x, int32 y);
 
         static void* s_AndroidAppState;
+
+        EGLDisplay GetDisplay() { return m_Display; }
+        EGLSurface GetSurface() { return m_Surface; }
+        EGLContext GetContext() { return m_Context; }
+        struct android_app* GetApp() { return m_App; }
     };
 }}}

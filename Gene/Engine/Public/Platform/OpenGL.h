@@ -1,9 +1,15 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
 
 #pragma once
+#include <Platform/OS.h>
 
-#include "../../../ThirdParty/glfl/pregenerated/GLFL/glfl.h"
-
+#if defined(GENE_OS_ANDROID)
+	#include <EGL/egl.h>
+	#include <GLES3/gl3.h>
+	#include <GLES3/gl3ext.h>
+#else
+	#include "../../../ThirdParty/glfl/pregenerated/GLFL/glfl.h"
+#endif
 namespace Gene { namespace OpenGL {
 
     /** Utility enumeration that abstracts away OpenGL type definitions such as GL_FLOAT, GL_UNSIGNED_BYTE etc... */

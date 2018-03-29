@@ -19,7 +19,7 @@ namespace Gene { namespace Graphics {
     {
         RGBA = GL_RGBA,
         RGB = GL_RGBA,
-        BGRA = GL_BGRA,
+        // BGRA = GL_BGRA,
         Red = GL_RED,
 
         Default = GL_RGBA,
