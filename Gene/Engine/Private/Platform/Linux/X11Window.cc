@@ -118,6 +118,8 @@ void X11Window::Create()
     Input::Keyboard::SetPrimaryWindow(this);
 
     m_Window = &s_XWindow;
+
+    CreateGLContext();
 }
 
 static void *GetProcAddress(const char *address)

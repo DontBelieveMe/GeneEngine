@@ -99,6 +99,8 @@ void Win32Window::Create()
 
 	Input::Mouse::SetPrimaryWindow(this);
 	Input::Keyboard::SetPrimaryWindow(this);
+
+	CreateGLContext();
 }
 
 static HMODULE s_OpenGL32 = LoadLibraryA("opengl32.dll");

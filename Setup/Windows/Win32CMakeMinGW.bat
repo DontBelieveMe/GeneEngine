@@ -1,1 +1,1 @@
-cmake -H../ -B../Build -G"MinGW Makefiles"
+cmake -H../../ -B../../Build -G"MinGW Makefiles"

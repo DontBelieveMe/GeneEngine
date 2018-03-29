@@ -1,8 +1,14 @@
 project(GeneEngine.UnitTests)
 
+# TODO: Fix test building on all platforms at a later date
+if(FALSE)
 set(SrcDir ${CMAKE_CURRENT_LIST_DIR}/Tests)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR})
+
+set(CMAKE_MODULE_PATH
+    ${CMAKE_CURRENT_LIST_DIR}/../../../Setup/CMake
+)
 
 set(TestSource
     ${SrcDir}/Math/TestMathFunctions.cc
@@ -11,31 +17,13 @@ set(TestSource
     ${SrcDir}/Math/TestVector3.cc
     ${SrcDir}/Graphics/TestColor.cc
     ${SrcDir}/Content/TestObjLoader.cc
+    ${SrcDir}/CatchMain.cc
 )
 
-# Ignore tests when building for android for the time being.
-# TODO: Correct this.
-if(NOT ANDROID)
-    add_executable(GeneEngine.UnitTests
-        ${TestSource}
+gene_add_target(GeneEngine.UnitTests ${TestSource})
+gene_setup_engine_deps(GeneEngine.UnitTests)
 
-        ${SrcDir}/CatchMain.cc
-    )
-
-    if(UNIX)
-    	if(ANDROID)
-    		target_link_libraries(GeneEngine.UnitTests "android" "log" "EGL" "GLESv2" )
-    	else()
-    		target_link_libraries(GeneEngine.UnitTests "X11")
-    		target_link_libraries(GeneEngine.UnitTests "GL")
-    	endif()
-    endif()
-
-    if(WIN32)
-    	target_link_libraries(GeneEngine.UnitTests "opengl32.lib")
-    endif()
-
-    # Set Visual Studio project folder.
-    set_property(TARGET GeneEngine.UnitTests PROPERTY FOLDER "Engine/Tests")
+# Set Visual Studio project folder.
+set_property(TARGET GeneEngine.UnitTests PROPERTY FOLDER "Engine/Tests")
 
 endif()
