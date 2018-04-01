@@ -49,12 +49,15 @@ call :check_for_errors
 
 :: If we need to deploy upload the APK to the device and then open it
 if "%2" == "deploy" (
-	
 	:: Upload the APK to the device
 	call adb install -r bin/%app_name%-debug.apk
 	
 	:: Run/open the app
 	call adb shell monkey -p %package_name% -c android.intent.category.LAUNCHER 1
+)
+
+if "%2" == "install" (
+	call adb install -r bin/%app_name%-debug.apk
 )
 
 cd %~dp0

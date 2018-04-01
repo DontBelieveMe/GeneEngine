@@ -21,6 +21,7 @@ void *AWindow::s_AndroidAppState = nullptr;
 
 static EGLDisplay s_Display;
 static EGLSurface s_Surface;
+static bool s_CreatedSurface;
 
 static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 {
@@ -53,7 +54,12 @@ void AWindow::Create()
 	state->userData = this;
 	state->onAppCmd = AndroidEngineHandleCommand;
 	state->onInputEvent = AndroidEngineHandleInput;
-	m_App = state;	
+	m_App = state;
+	
+	while(!s_CreatedSurface)
+	{
+		PollEvents();
+	}	
 }
 
 AWindow::~AWindow()
@@ -106,6 +112,7 @@ void AWindow::CreateGLContext()
 	m_Display = display;
 	m_Context = context;
 	m_Surface = surface;
+	s_CreatedSurface = true;
 }
 
 void AWindow::Show()

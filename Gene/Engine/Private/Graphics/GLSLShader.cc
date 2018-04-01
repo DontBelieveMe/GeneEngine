@@ -2,6 +2,7 @@
 
 #include <Graphics/GLSLShader.h>
 #include <IO/File.h>
+#include <Debug/Logger.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +24,8 @@ static GLuint CompileShader(const char *src, GLenum type)
 	if (!success)
 	{
 		glGetShaderInfoLog(shader, SHADER_LOG_BUFFER_SIZE, NULL, log);
-		printf("Shader Error: [%s] -> %s\n", type == GL_VERTEX_SHADER ? "Vertex Shader" : "Fragment Shader", log);
+		//printf("Shader Error: [%s] -> %s\n", type == GL_VERTEX_SHADER ? "Vertex Shader" : "Fragment Shader", log);
+		LOG(LogLevel::Error, std::string("Shader Error: ") + log);
 		abort();
 	}
 	return shader;
@@ -31,6 +33,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 
 void GLSLShader::CompileFromText(const String& vert, const String& frag)
 {
+	LOG(LogLevel::Error, "GL Error: " + ToString(glGetError()));
     GLuint vertexShader = CompileShader(vert.c_str(), GL_VERTEX_SHADER);
 	GLuint fragmentShader = CompileShader(frag.c_str(), GL_FRAGMENT_SHADER);
 	m_Program = glCreateProgram();
@@ -39,6 +42,7 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
 	glLinkProgram(m_Program);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	LOG(LogLevel::Error, "GL Error: " + ToString(glGetError()));
 }
 
 void GLSLShader::CompileFromFiles(const String& vertPath, const String& fragPath)

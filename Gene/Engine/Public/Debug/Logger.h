@@ -17,6 +17,14 @@
     #define LOG Gene::Logger::GetLogger()->Log
 #endif
 
+#include <Platform/OS.h>
+#if defined(GENE_OS_ANDROID)
+    #include <android/log.h>
+
+    #define ALOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Gene", __VA_ARGS__))
+    #define ALOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Gene", __VA_ARGS__))
+#endif
+
 namespace Gene {
     struct LogLevel {
         static const unsigned Error;
@@ -68,10 +76,16 @@ namespace Gene {
         template <typename... Args>
         void Log(const unsigned& priority, const String& message, const Args&... args)
         {
-            if (m_Filter & priority) { return; }
-            std::cout << "[GLog] [" << GetPriorityString(priority) << "]: " << message;
-            LogData(args...);
-            std::cout << "\n";
+            #if defined(GENE_OS_ANDROID)
+                ALOGW(message.c_str());
+            #else
+                if (m_Filter & priority) { return; }
+            
+                std::cout << "[GLog] [" << GetPriorityString(priority) << "]: " << message;
+                LogData(args...);
+                std::cout << "\n";
+            
+            #endif
         }
 
         /**

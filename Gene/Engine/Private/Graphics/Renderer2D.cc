@@ -3,6 +3,8 @@
 #include <Graphics/Renderer2D.h>
 #include <GeneCommon.h>
 #include <Debug/Logger.h>
+#include <string>
+#include <Platform/OpenGL.h>
 
 using namespace Gene::Graphics;
 using namespace Gene;
@@ -41,12 +43,15 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
 
+
     // TODO: Fix -> We need a better way of embedding shaders (maybe package in custom package & auto copy/deploy to correct
     // directory
     SHADER_VERTEX2D(vertexShader);
     SHADER_FRAGMENT2D(fragmentShader);
 
     m_Shader->CompileFromText(vertexShader, fragmentShader);
+    //LOG(LogLevel::Error, "GL Error: " + ToString(glGetError()));    
+    
     m_Shader->Enable();
     
     m_Shader->BindAttributeIndex(0, "position");
@@ -61,6 +66,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	};
 
 	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
+
 
 	m_VAO = new VertexArray;
     m_VAO->Enable();
@@ -283,9 +289,8 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
 
 void Renderer2D::Begin()
 {
-	m_VAO->Enable();
+    m_VAO->Enable();
     m_Buffer = m_VBO->GetPointer<Vertex2D>();
-
     GE_ASSERT(m_Buffer);
 }
 

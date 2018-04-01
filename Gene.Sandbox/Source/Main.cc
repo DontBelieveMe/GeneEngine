@@ -1,4 +1,5 @@
 #include <Platform/Window.h>
+#include <Graphics/Renderer2D.h>
 #include <Graphics/Color.h>
 
 int GeneMain(int argc, char **argv)
@@ -16,14 +17,22 @@ int GeneMain(int argc, char **argv)
     Window *window = Window::CreateWindow(info);
     
     window->Create();
+	window->SetClearColor(Color::Red);
     
+    Renderer2D renderer;
+    renderer.Init(Matrix4::Orthographic(1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f));
+
     window->Show();
     while (window->Running())
     {
     	window->PollEvents();
 		
-		window->SetClearColor(Color::Red);
 		window->Clear();
+
+        renderer.Begin();
+        renderer.FillRectangle({ -0.5f, -0.5f }, 1.0f, 1.0f, Color::Red);
+        renderer.End();
+        renderer.Present();
 
     	window->SwapBuffers();  
     }
