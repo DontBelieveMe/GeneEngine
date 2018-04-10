@@ -3,8 +3,13 @@
 #pragma once
 
 #include <vector>
+#include <unordered_map>
 
 namespace Gene {
 	template <typename T>
 	using Array = std::vector<T>;
+
+	// This needs to move at some point...
+	template <typename U, typename V>
+	using HashMap = std::unordered_map<U, V>;
 }

@@ -7,6 +7,8 @@
 #include <Core/Array.h>
 #include <GeneCommon.h>
 
+#include <Runtime/Resources.h>
+
 namespace Gene { namespace Graphics {
     enum class FilteringOptions
     {
@@ -32,7 +34,7 @@ namespace Gene { namespace Graphics {
     };
 
     /** Represents an OpenGL tetxure object as well as the texture data itself. */
-	class Texture2D
+	class Texture2D : public IResource
 	{
 	private:
 		bool					   m_Loaded;

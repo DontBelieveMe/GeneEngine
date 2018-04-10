@@ -39,7 +39,7 @@ namespace Gene { namespace Graphics {
 		T *GetPointer()
 		{
 			Enable();
-			void *data = glMapBufferRange(OpenGL::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
+			void *data = glMapBuffer(OpenGL::GeneToGLType(m_Type), GL_WRITE_ONLY);//glMapBufferRange(OpenGL::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
 			Disable();
 			return reinterpret_cast<T*>(data);
 		}

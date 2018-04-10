@@ -50,6 +50,10 @@ set(ThirdPartySrc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/lodepng/lodepng.h
 )
 
+set(RuntimeSrc
+   ${SrcDir}/Runtime/Resources.cc
+)
+
 if(NOT ANDROID)
     list(APPEND PlatformSrc ${SrcDir}/Platform/GLFLLoad.cc)
     list(APPEND ThirdPartySrc ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/glfl/pregenerated/glfl.cpp)
@@ -65,6 +69,7 @@ source_group("${VSSourceFilterName}\\Math" 	  FILES ${MathSrc})
 source_group("${VSSourceFilterName}\\Platform" 	  FILES ${PlatformSrc})
 source_group("${VSSourceFilterName}\\Third Party" FILES ${ThirdPartySrc})
 source_group("${VSSourceFilterName}\\Debug"       FILES ${DebugSrc})
+source_group("${VSSourceFilterName}\\Runtime"     FILES ${RuntimeSrc})
 
 set(CommonSource
     ${ContentSrc} 
@@ -75,4 +80,5 @@ set(CommonSource
     ${PlatformSrc}
     ${ThirdPartySrc}
     ${DebugSrc}
+    ${RuntimeSrc}
 )

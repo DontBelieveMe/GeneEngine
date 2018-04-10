@@ -24,7 +24,7 @@
 
 #include <cstddef>
 #include <cstdint>
-
+//#define GLFL_ENABLE_PROXY
 #ifdef GLFL_ENABLE_PROXY
 #include <iostream>
 #include <string>

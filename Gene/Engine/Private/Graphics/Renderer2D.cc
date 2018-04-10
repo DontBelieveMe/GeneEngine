@@ -139,21 +139,25 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 	m_Buffer->Position = Vector3(position, 0.f);
 	m_Buffer->UV = Vector2(0, 0);
     m_Buffer->TextureId = tid;
+	m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
 	m_Buffer->UV = Vector2(1, 0);
     m_Buffer->TextureId = tid;
+	m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(1, 1);
     m_Buffer->TextureId = tid;
-    m_Buffer++;
+	m_Buffer->Color = Vector3(1, 1, 1);
+	m_Buffer++;
 
 	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
 	m_Buffer->UV = Vector2(0, 1);
     m_Buffer->TextureId = tid;
+	m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
 	m_IndexCount += 6;

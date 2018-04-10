@@ -1,6 +1,7 @@
 #include <Platform/Window.h>
 #include <Graphics/Renderer2D.h>
 #include <Graphics/Color.h>
+#include <Runtime/Resources.h>
 
 int GeneMain(int argc, char **argv)
 {
@@ -17,11 +18,18 @@ int GeneMain(int argc, char **argv)
     Window *window = Window::CreateWindow(info);
     
     window->Create();
-	window->SetClearColor(Color::Red);
+	window->SetClearColor(Color::Green);
     
     Renderer2D renderer;
-    renderer.Init(Matrix4::Orthographic(1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f));
+    renderer.Init(Matrix4::Orthographic(window->Width(), 0, 0, window->Height(), 1.0f, -1.0f));
 
+	ResourceManager manager;
+	ResourceManager::SetStaticInstance(&manager);
+
+#define DOUGHNUT_TEXTURE 0x01
+
+	ResourceHandle<Texture2D> handle = manager.LoadAsset<Texture2D>(DOUGHNUT_TEXTURE, "Data/spr_test_0.png");
+	
     window->Show();
     while (window->Running())
     {
@@ -30,7 +38,7 @@ int GeneMain(int argc, char **argv)
 		window->Clear();
 
         renderer.Begin();
-        renderer.FillRectangle({ -0.5f, -0.5f }, 1.0f, 1.0f, Color::Red);
+		renderer.DrawTexture({ 10, 10 }, handle);
         renderer.End();
         renderer.Present();
 

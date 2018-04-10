@@ -61,6 +61,10 @@ set(CoreHeaders
     ${HeaderDir}/Core/String.h
 )
 
+set(RuntimeHeaders
+    ${HeaderDir}/Runtime/Resources.h
+)
+
 set(VSHeaderFilterName "Header Files")
 
 # Set Visual Studio filters.
@@ -73,6 +77,7 @@ source_group("${VSHeaderFilterName}\\Platform" FILES ${PlatformHeaders})
 source_group("${VSHeaderFilterName}"           FILES ${RootHeaders})
 source_group("${VSHeaderFilterName}\\Debug"    FILES ${DebugHeaders})
 source_group("${VSHeaderFilterName}\\Core"     FILES ${CoreHeaders})
+source_group("${VSHeaderFilterName}\\Runtime"     FILES ${RuntimeHeaders})
 
 set(CommonHeaders
     ${ContentHeaders} 
@@ -84,4 +89,5 @@ set(CommonHeaders
     ${DebugHeaders}
     ${RootHeaders}
     ${CoreHeaders}
+    ${RuntimeHeaders}
 )
