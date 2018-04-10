@@ -33,8 +33,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 
 void GLSLShader::CompileFromText(const String& vert, const String& frag)
 {
-	LOG(LogLevel::Error, "GL Error: " + ToString(glGetError()));
-    GLuint vertexShader = CompileShader(vert.c_str(), GL_VERTEX_SHADER);
+	GLuint vertexShader = CompileShader(vert.c_str(), GL_VERTEX_SHADER);
 	GLuint fragmentShader = CompileShader(frag.c_str(), GL_FRAGMENT_SHADER);
 	m_Program = glCreateProgram();
 	glAttachShader(m_Program, vertexShader);
@@ -42,7 +41,6 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
 	glLinkProgram(m_Program);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-	LOG(LogLevel::Error, "GL Error: " + ToString(glGetError()));
 }
 
 void GLSLShader::CompileFromFiles(const String& vertPath, const String& fragPath)

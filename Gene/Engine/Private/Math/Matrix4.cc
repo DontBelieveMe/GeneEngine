@@ -48,7 +48,7 @@ Matrix4::Matrix4(float elements[ElementCount])
 	memcpy(Elements, elements, ElementCount*4);
 }
 
-Vector3 Matrix4::Multiply(const Vector3& other)
+Vector3 Matrix4::Multiply(const Vector3& other) const
 {
     float x = 0.f,
           y = 0.f,

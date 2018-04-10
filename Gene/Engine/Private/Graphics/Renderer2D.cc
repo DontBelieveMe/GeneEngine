@@ -6,6 +6,9 @@
 #include <string>
 #include <Platform/OpenGL.h>
 
+#include "Shaders/Fragment2D.shader"
+#include "Shaders/Vertex2D.shader"
+
 using namespace Gene::Graphics;
 using namespace Gene;
 
@@ -30,8 +33,6 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, size_t indicesNum)
     }
 }
 
-#include "Shaders/Fragment2D.shader"
-#include "Shaders/Vertex2D.shader"
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
@@ -50,7 +51,6 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     SHADER_FRAGMENT2D(fragmentShader);
 
     m_Shader->CompileFromText(vertexShader, fragmentShader);
-    //LOG(LogLevel::Error, "GL Error: " + ToString(glGetError()));    
     
     m_Shader->Enable();
     
@@ -120,6 +120,30 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
+
+	m_TransformationStack.push_back(Matrix4::Identity(1.0f));
+}
+
+void Renderer2D::PushTransform(const Matrix4& matrix)
+{
+	if (m_TransformationStack.empty())
+	{
+		m_TransformationStack.push_back(Matrix4::Identity(1.0f));
+	}
+
+	Matrix4 back = m_TransformationStack.back();
+
+	m_TransformationStack.push_back(back.Multiply(matrix));
+}
+
+void Renderer2D::PopTransform()
+{
+	m_TransformationStack.pop_back();
+}
+
+Vector3 MultiplyVector2ByMatrix4(float x, float y, const Matrix4& mat4)
+{
+	return mat4.Multiply(Vector3(x, y, 1.0f));
 }
 
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
@@ -135,26 +159,28 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 
     float tid = this->GetTextureSlot(texture);
 
+	const Matrix4& backTransform = m_TransformationStack.back();
+
 	m_Texture = texture;
-	m_Buffer->Position = Vector3(position, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
 	m_Buffer->UV = Vector2(0, 0);
     m_Buffer->TextureId = tid;
 	m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
-	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y, backTransform);
 	m_Buffer->UV = Vector2(1, 0);
     m_Buffer->TextureId = tid;
 	m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
-	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y + height, backTransform);
 	m_Buffer->UV = Vector2(1, 1);
     m_Buffer->TextureId = tid;
 	m_Buffer->Color = Vector3(1, 1, 1);
 	m_Buffer++;
 
-	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y + height, backTransform);
 	m_Buffer->UV = Vector2(0, 1);
     m_Buffer->TextureId = tid;
 	m_Buffer->Color = Vector3(1, 1, 1);

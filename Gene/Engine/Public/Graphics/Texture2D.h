@@ -51,7 +51,7 @@ namespace Gene { namespace Graphics {
 		Texture2D(): m_Loaded(false) {}
 		~Texture2D();
 
-		void Load(const char *path);
+		void Load(const char *path, TextureParameters params = TextureParameters());
 		void Load(uint8 *data, unsigned width, unsigned height, unsigned depth = 1);
         void Load(const Array<uint8>& data, unsigned w, unsigned h);
 

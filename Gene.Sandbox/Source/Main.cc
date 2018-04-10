@@ -2,12 +2,17 @@
 #include <Graphics/Renderer2D.h>
 #include <Graphics/Color.h>
 #include <Runtime/Resources.h>
+#include <Input/Keyboard.h>
+#include <Platform/Time.h>
 
 int GeneMain(int argc, char **argv)
 {
     using namespace Gene::Platform;
     using namespace Gene::Graphics;
     using namespace Gene;
+	using namespace Gene::Input;
+
+#define DOUGHNUT_TEXTURE 0x01
     
     WindowInfo info;
     info.Width = 800;
@@ -26,23 +31,43 @@ int GeneMain(int argc, char **argv)
 	ResourceManager manager;
 	ResourceManager::SetStaticInstance(&manager);
 
-#define DOUGHNUT_TEXTURE 0x01
+	TextureParameters params;
+	params.Filtering = FilteringOptions::Nearest;
 
-	ResourceHandle<Texture2D> handle = manager.LoadAsset<Texture2D>(DOUGHNUT_TEXTURE, "Data/spr_test_0.png");
-	
+	manager.LoadAsset<Texture2D>(DOUGHNUT_TEXTURE, "Data/spr_test_0.png", params);
+	ResourceHandle<Texture2D> handle = manager.GetAsset<Texture2D>(DOUGHNUT_TEXTURE);
     window->Show();
+	float x = 10;
+	GameTime time;
+	time.Init();
     while (window->Running())
     {
+		time.StartFrame();
+
+		KeyboardState state = Keyboard::GetState();
+		if (state.IsKeyDown(Keys::D)) {
+			x += 0.05f * time.DeltaInMilliSeconds();
+		}
+		else if (state.IsKeyDown(Keys::A)) {
+			x -= 0.05f * time.DeltaInMilliSeconds();
+		}
     	window->PollEvents();
 		
 		window->Clear();
 
         renderer.Begin();
-		renderer.DrawTexture({ 10, 10 }, handle);
+		Matrix4 mat4;
+		mat4.Scale(Vector3(8, 8, 1));
+		renderer.PushTransform(mat4);
+		renderer.DrawTexture({ x, 10 }, handle);
+		renderer.PopTransform();
         renderer.End();
         renderer.Present();
 
     	window->SwapBuffers();  
+
+		time.EndFrame();
+		time.Sleep(1000 / 60.f);
     }
     return 0;
 }

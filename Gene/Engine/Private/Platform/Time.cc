@@ -34,4 +34,5 @@ void GameTime::EndFrame()
 void GameTime::Init()
 {
     m_GameStart = std::chrono::high_resolution_clock::now();
+	m_Delta = 0;
 }

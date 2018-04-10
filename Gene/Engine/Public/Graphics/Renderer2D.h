@@ -41,6 +41,7 @@ namespace Gene { namespace Graphics {
         Matrix4                  m_ProjectionMatrix;
         Texture2D               *m_Texture;
         Array<Texture2D*>		 m_Textures;
+		Array<Matrix4>			 m_TransformationStack;
 
     private:
         float GetTextureSlot(Texture2D *texture);
@@ -82,5 +83,9 @@ namespace Gene { namespace Graphics {
 		
         /** Draw the internal buffer to the current framebuffer. If no framebuffer is specified then it is drawn to the window. */
 		void Present();
+
+		void PushTransform(const Matrix4& matrix);
+
+		void PopTransform();
     };
 }}

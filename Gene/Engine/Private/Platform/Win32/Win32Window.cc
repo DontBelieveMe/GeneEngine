@@ -99,6 +99,8 @@ void Win32Window::Create()
 
 	Input::Mouse::SetPrimaryWindow(this);
 	Input::Keyboard::SetPrimaryWindow(this);
+	
+	memset(m_KeyState.KeyMap, 0, 62256);
 
 	CreateGLContext();
 }

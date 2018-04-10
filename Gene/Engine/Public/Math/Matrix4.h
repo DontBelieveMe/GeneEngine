@@ -15,7 +15,7 @@ namespace Gene {
 		Matrix4(float elements[ElementCount]);
 
         Matrix4 Multiply(const Matrix4& other);
-        Vector3 Multiply(const Vector3& other);
+        Vector3 Multiply(const Vector3& other) const;
 
 		float Elements[ElementCount];
 

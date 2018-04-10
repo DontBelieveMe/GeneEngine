@@ -18,8 +18,10 @@ Texture2D::~Texture2D()
     glDeleteTextures(1, &m_TextureId);
 }
 
-void Texture2D::Load(const char *filepath)
+void Texture2D::Load(const char *filepath, TextureParameters params)
 {
+	this->Parameters = params;
+
     unsigned int error = lodepng::decode(m_Pixels, m_Width, m_Height, filepath);
     m_Loaded = !error;
     
