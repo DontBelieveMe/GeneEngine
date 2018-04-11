@@ -60,6 +60,31 @@ void File::Free()
 	delete[] m_Data;
 }
 
+uint8_t * File::LoadBinaryFile(const char * path)
+{
+	FILE *file = fopen(path, "rb");
+	if (file)
+	{
+		fseek(file, 0, SEEK_END);
+		int len = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		uint8_t *data = new uint8_t[len + 1];
+		if (data)
+		{
+			fread(data, 1, len, file);
+		}
+		fclose(file);
+		return data;
+	}
+	else
+	{
+		printf("Cannot find binary file %s\n", path);
+		GE_ASSERT(false);
+	}
+
+	return nullptr;
+}
+
 Array<String> File::ReadLines(const char *path)
 {
 	Array<String> lines;

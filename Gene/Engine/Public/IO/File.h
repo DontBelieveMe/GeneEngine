@@ -35,6 +35,8 @@ namespace Gene { namespace IO {
         /** Free up any resources consumed by this object (file handles etc). Is called by destructor, but can be called manually. */
 		void Free();
 
+		static uint8_t* LoadBinaryFile(const char *path);
+
         /** Static method to load all the lines of a text file into an Array<String>*/
 		static Array<String> ReadLines(const char *path);
 	};

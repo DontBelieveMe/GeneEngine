@@ -81,12 +81,15 @@ void Win32Window::Create()
 
 	// TODO: Error handling
 	RegisterClassEx(&_class);
+	
+	// TODO: This has removed Win32 borderless functionality, reimplement this
+	DWORD style = (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
 
 	m_Handle = CreateWindowEx(
 		0,
 		GENE_WINDOW_CLASS_NAME,	
 		m_WindowConfig.Title,
-		m_WindowConfig.Borderless ? WS_POPUP : WS_OVERLAPPEDWINDOW,
+		style,
 		200, 200,
 		Width(), Height(),
 		nullptr,

@@ -42,6 +42,10 @@ set(PlatformSrc
     ${SrcDir}/Platform/Window.cc
 )
 
+set(AudioSrc 
+    ${SrcDir}/Audio/WaveFile.cc
+)
+
 set(ThirdPartySrc     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.cc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.h
@@ -70,6 +74,7 @@ source_group("${VSSourceFilterName}\\Platform" 	  FILES ${PlatformSrc})
 source_group("${VSSourceFilterName}\\Third Party" FILES ${ThirdPartySrc})
 source_group("${VSSourceFilterName}\\Debug"       FILES ${DebugSrc})
 source_group("${VSSourceFilterName}\\Runtime"     FILES ${RuntimeSrc})
+source_group("${VSSourceFilterName}\\Audio"     FILES ${AudioSrc})
 
 set(CommonSource
     ${ContentSrc} 
@@ -81,4 +86,5 @@ set(CommonSource
     ${ThirdPartySrc}
     ${DebugSrc}
     ${RuntimeSrc}
+    ${AudioSrc}
 )

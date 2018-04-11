@@ -65,6 +65,10 @@ set(RuntimeHeaders
     ${HeaderDir}/Runtime/Resources.h
 )
 
+set(AudioHeaders
+    ${HeaderDir}/Audio/WaveFile.h
+)
+
 set(VSHeaderFilterName "Header Files")
 
 # Set Visual Studio filters.
@@ -78,6 +82,7 @@ source_group("${VSHeaderFilterName}"           FILES ${RootHeaders})
 source_group("${VSHeaderFilterName}\\Debug"    FILES ${DebugHeaders})
 source_group("${VSHeaderFilterName}\\Core"     FILES ${CoreHeaders})
 source_group("${VSHeaderFilterName}\\Runtime"     FILES ${RuntimeHeaders})
+source_group("${VSHeaderFilterName}\\Audio"     FILES ${AudioHeaders})
 
 set(CommonHeaders
     ${ContentHeaders} 
@@ -90,4 +95,5 @@ set(CommonHeaders
     ${RootHeaders}
     ${CoreHeaders}
     ${RuntimeHeaders}
+    ${AudioHeaders}
 )

@@ -14,6 +14,18 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(Dependencies/FreeType)
+
+add_subdirectory(Dependencies/OpenALSoft)
+set_property(TARGET OpenAL PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET native-tools PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET common PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET alrecord PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET alsoft-config PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET altonegen PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET makehrtf PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET openal-info PROPERTY FOLDER "Dependencies/OpenAL")
+set_property(TARGET build_version PROPERTY FOLDER "Dependencies/OpenAL")
+
 add_subdirectory(Gene)
 add_subdirectory(Gene.Sandbox)
 add_subdirectory(Gene/Tests/Gene.UnitTests)
