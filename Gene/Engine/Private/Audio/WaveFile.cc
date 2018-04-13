@@ -2,6 +2,7 @@
 
 #include <Audio/WaveFile.h>
 #include <IO/File.h>
+#include <GeneCommon.h>
 
 #include <string.h>
 
@@ -40,19 +41,20 @@ void WaveFile::Load(const char *filepath)
 {
 	uint8_t *fileData = File::LoadBinaryFile(filepath);
 
-	RIFFHeader header;
+	/*RIFFHeader header;
 	memcpy(&header, fileData, sizeof(RIFFHeader));
 
-	int offset = sizeof(RIFFHeader);
+	int offset = sizeof(RIFFHeader);*/
 	
+	int offset = 0;
 	do {
-		Header header;
-		memcpy(&header, fileData + offset, sizeof(Header));
+		Header header2;
+		memcpy(&header2, fileData + offset, sizeof(Header));
 		offset += sizeof(Header);
 
-		if (IsHeader(header, "fmt ")) {
+		if (IsHeader(header2, "fmt ")) {
 			FMTChunk chunk;
-			memcpy(&chunk, fileData + offset, header.Size);
+			memcpy(&chunk, fileData + offset, header2.Size);
 			m_AudioFormat = chunk.AudioFormat;
 			m_NumChannels = chunk.NumChannels;
 			m_SampleRate = chunk.SampleRate;
@@ -60,15 +62,55 @@ void WaveFile::Load(const char *filepath)
 			m_BlockAlign = chunk.BlockAlign;
 			m_BitsPerSample = chunk.BitsPerSample;
 		}
-		else if (IsHeader(header, "data")) {
-			m_AudioData = new uint8_t[header.Size];
-			m_AudioDataSize = header.Size;
-			memcpy(m_AudioData, fileData + header.Size, header.Size);
+		else if (IsHeader(header2, "data")) {
+			m_AudioData = new uint8_t[header2.Size];
+			m_AudioDataSize = header2.Size;
+			memcpy(m_AudioData, fileData + offset, header2.Size);
 			break;
 		}
+		else if (IsHeader(header2, "RIFF")) {
+			offset += 4;
+			continue;
+		}
 
-		offset += header.Size;
+		offset += header2.Size;
 	} while (true);
 
 	delete[] fileData;
+
+	alGenSources(1, &m_SourceId);
+	
+	alSourcef(m_SourceId, AL_PITCH, 1);
+	alSourcef(m_SourceId, AL_GAIN, 1);
+	alSource3f(m_SourceId, AL_POSITION, 0, 0, 0);
+	alSource3f(m_SourceId, AL_VELOCITY, 0, 0, 0);
+	alSourcei(m_SourceId, AL_LOOPING, AL_FALSE);
+
+	alGenBuffers(1, &m_BufferId);
+	alBufferData(m_BufferId, GetALFormat(), m_AudioData, m_AudioDataSize, m_SampleRate);
+	alSourcei(m_SourceId, AL_BUFFER, m_BufferId);
+}
+
+ALenum WaveFile::GetALFormat()
+{
+	bool isStereo = m_NumChannels > 1;
+
+	switch (m_BitsPerSample)
+	{
+	case 16:
+		return isStereo ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16;
+	case 8:
+		return isStereo ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO8;
+	default:
+		GE_ASSERT(false);
+		return -1;
+	}
+	return 0;
+}
+
+void WaveFile::Destroy()
+{
+	alDeleteSources(1, &m_SourceId);
+	alDeleteBuffers(1, &m_BufferId);
+	delete[] m_AudioData;
 }

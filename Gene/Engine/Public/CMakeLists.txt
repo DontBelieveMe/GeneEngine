@@ -67,6 +67,7 @@ set(RuntimeHeaders
 
 set(AudioHeaders
     ${HeaderDir}/Audio/WaveFile.h
+    ${HeaderDir}/Audio/AudioSystem.h
 )
 
 set(VSHeaderFilterName "Header Files")

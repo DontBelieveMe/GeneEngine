@@ -44,6 +44,7 @@ set(PlatformSrc
 
 set(AudioSrc 
     ${SrcDir}/Audio/WaveFile.cc
+    ${SrcDir}/Audio/AudioSystem.cc
 )
 
 set(ThirdPartySrc     

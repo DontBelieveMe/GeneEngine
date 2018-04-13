@@ -4,7 +4,9 @@
 #include <Runtime/Resources.h>
 #include <Input/Keyboard.h>
 #include <Platform/Time.h>
+
 #include <Audio/WaveFile.h>
+#include <Audio/AudioSystem.h>
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -38,8 +40,12 @@ int GeneMain(int argc, char **argv)
 	params.Filtering = FilteringOptions::Nearest;
 
 	ResourceHandle<Texture2D> texture = manager.LoadAsset<Texture2D>(1, "Data/spr_test_0.png", params);
+	
+	AudioSystem audioManager;
+	audioManager.Init();
 
 	ResourceHandle<WaveFile> wavFile = manager.LoadAsset<WaveFile>(2, "Data/cartoon001.wav");
+	audioManager.PlayWav(wavFile);
 
     window->Show();
 	float x = 10;
@@ -63,8 +69,8 @@ int GeneMain(int argc, char **argv)
         renderer.Begin();
 		{
 			Matrix4 mat4;
-			renderer.PushTransform(mat4);
 			mat4.Scale(Vector3(8, 8, 1));
+			renderer.PushTransform(mat4);
 			{
 				renderer.DrawTexture({ x, 10 }, texture);
 			}

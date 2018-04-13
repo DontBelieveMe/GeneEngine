@@ -5,6 +5,8 @@
 #include <Runtime/Resources.h>
 #include <cstdint>
 
+#include <AL/al.h>
+
 namespace Gene { namespace Audio {
 	class WaveFile : public IResource {
 	private:
@@ -17,7 +19,15 @@ namespace Gene { namespace Audio {
 
 		uint8_t *m_AudioData;
 		int m_AudioDataSize;
+
+		ALuint m_SourceId;
+		ALuint m_BufferId;
+
+		ALenum GetALFormat();
 	public:
 		void Load(const char *filepath);
+		void Destroy();
+
+		ALuint GetSourceId() const { return m_SourceId; }
 	};
 }}
