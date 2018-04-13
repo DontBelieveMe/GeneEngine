@@ -13,10 +13,14 @@ Texture2D::Texture2D(const char *filepath)
     Load(filepath);
 }
 
-Texture2D::~Texture2D()
+void Texture2D::Destroy()
 {
     glDeleteTextures(1, &m_TextureId);
 }
+
+// TODO: Marking for removal -> redundant due to new resource res->Destroy methods().
+Texture2D::~Texture2D()
+{}
 
 void Texture2D::Load(const char *filepath, TextureParameters params)
 {

@@ -45,10 +45,10 @@ int GeneMain(int argc, char **argv)
 	audioManager.Init();
 
 	ResourceHandle<WaveFile> wavFile = manager.LoadAsset<WaveFile>(2, "Data/cartoon001.wav");
-	audioManager.PlayWav(wavFile);
+	wavFile->Loop(true);
 
     window->Show();
-	float x = 10;
+	float x = 10, y = 10;
 	GameTime time;
 	time.Init();
     while (window->Running())
@@ -63,6 +63,19 @@ int GeneMain(int argc, char **argv)
 			x -= 0.05f * time.DeltaInMilliSeconds();
 		}
 
+		if (state.IsKeyDown(Keys::W)) {
+			y -= 0.05f * time.DeltaInMilliSeconds();
+		}
+		else if (state.IsKeyDown(Keys::S)) {
+			y += 0.05f * time.DeltaInMilliSeconds();
+		}
+
+		if (state.IsKeyDown(Keys::P)) {
+			if (!wavFile->IsPlaying()) {
+				audioManager.PlayWav(wavFile);
+			}
+		}
+
     	window->PollEvents();
 		window->Clear();
 
@@ -72,7 +85,7 @@ int GeneMain(int argc, char **argv)
 			mat4.Scale(Vector3(8, 8, 1));
 			renderer.PushTransform(mat4);
 			{
-				renderer.DrawTexture({ x, 10 }, texture);
+				renderer.DrawTexture({ x, y }, texture);
 			}
 			renderer.PopTransform();
 		}
@@ -84,5 +97,8 @@ int GeneMain(int argc, char **argv)
 		time.EndFrame();
 		time.Sleep(1000 / 60.f);
     }
+	
+	manager.DestroyAll();
+
     return 0;
 }

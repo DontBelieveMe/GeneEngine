@@ -64,6 +64,7 @@ void WaveFile::Load(const char *filepath)
 		}
 		else if (IsHeader(header2, "data")) {
 			m_AudioData = new uint8_t[header2.Size];
+			memset(m_AudioData, 0, header2.Size);
 			m_AudioDataSize = header2.Size;
 			memcpy(m_AudioData, fileData + offset, header2.Size);
 			break;
@@ -110,7 +111,25 @@ ALenum WaveFile::GetALFormat()
 
 void WaveFile::Destroy()
 {
+	alSourceStop(m_SourceId);
 	alDeleteSources(1, &m_SourceId);
 	alDeleteBuffers(1, &m_BufferId);
 	delete[] m_AudioData;
+}
+
+void WaveFile::Loop(bool shouldLoop)
+{
+	alSourcef(m_SourceId, AL_LOOPING, shouldLoop ? AL_TRUE : AL_FALSE);
+}
+
+void WaveFile::SetGain(float gain)
+{
+	alSourcef(m_SourceId, AL_GAIN, gain);
+}
+
+bool WaveFile::IsPlaying()
+{
+	ALenum state;
+	alGetSourcei(m_SourceId, AL_SOURCE_STATE, &state);
+	return state == AL_PLAYING;
 }

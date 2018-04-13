@@ -26,7 +26,12 @@ namespace Gene { namespace Audio {
 		ALenum GetALFormat();
 	public:
 		void Load(const char *filepath);
-		void Destroy();
+		virtual void Destroy();
+
+		void Loop(bool shouldLoop);
+		void SetGain(float gain);
+
+		bool IsPlaying();
 
 		ALuint GetSourceId() const { return m_SourceId; }
 	};

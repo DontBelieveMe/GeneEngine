@@ -12,7 +12,12 @@ namespace Gene {
 
 	typedef unsigned int ResourceId;
 
-	class IResource {};
+	class IResource {
+	public:
+		virtual void Destroy() {
+			LOG(LogLevel::Warning, "Resource default destorying!");
+		};
+	};
 
 	class ResourceManager
 	{
@@ -50,6 +55,33 @@ namespace Gene {
 
 			LOG(LogLevel::Warning, "ResourceHandler: Resource " + ToString(id) + " does not exist, returning NULL from GetAsset");
 			return nullptr;
+		}
+
+		void DestroyResource(ResourceId id)
+		{
+			HashMap<ResourceId, IResource*>::iterator it = m_Resources.find(id);
+
+			if (it != m_Resources.end())
+			{
+				(*it).second->Destroy();
+				delete (*it).second;
+				m_Resources.erase(id);
+			}
+			else {
+				LOG(LogLevel::Warning, "Could not destroy resource handle: " + ToString(id) + ". Reason: Does not exist");
+			}
+		}
+
+		/** Free the memory used by all resources. Warning -> Will invalidate all handles.*/
+		void DestroyAll()
+		{
+			for (const auto& pair : m_Resources)
+			{
+				pair.second->Destroy();
+				delete pair.second;
+			}
+
+			m_Resources.clear();
 		}
 
 	public:
