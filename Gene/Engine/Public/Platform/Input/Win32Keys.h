@@ -38,5 +38,11 @@ enum class Keys
     X = 'X',
     Y = 'Y',
     Z = 'Z',
+    UpArrow = 0x26,
+    DownArrow = 0x28,
+    LeftArrow = 0x25,
+    RightArrow = 0x27,
+    Space = 0x20,
+    Escape = 0x1B
 };
 

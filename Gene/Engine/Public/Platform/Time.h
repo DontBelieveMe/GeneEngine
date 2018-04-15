@@ -4,6 +4,21 @@
 #include <chrono>
 
 namespace Gene { namespace Platform {
+    class Timer {
+    private:
+        typedef std::chrono::time_point<std::chrono::high_resolution_clock> GameClock;
+        
+        GameClock m_Start;
+        bool m_Running;
+    public:
+        void Start();
+        void Stop();
+        bool Running() { return m_Running; }
+
+        double ElapsedTimeSeconds();
+        double ElapsedTimeMs();
+    };
+
 	class GameTime {
     private:
         typedef std::chrono::time_point<std::chrono::high_resolution_clock> GameClock;

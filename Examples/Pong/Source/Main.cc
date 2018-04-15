@@ -69,7 +69,7 @@ struct KeyboardScheme
 };
 
 static KeyboardScheme PlayerOneKeyboard = KeyboardScheme(Keys::W, Keys::S);
-static KeyboardScheme PlayerTwoKeyboard = KeyboardScheme(Keys::K, Keys::M);
+static KeyboardScheme PlayerTwoKeyboard = KeyboardScheme(Keys::UpArrow, Keys::DownArrow);
 
 static const int PaddleWidth = 1.5;
 static const int PaddleHeight = 10;
@@ -85,6 +85,7 @@ static const int BallHeight = 1;
 static const float BallSpeedRange = 0.02f;
 
 static bool GameOver = false;
+static bool Paused = false;
 
 static Font *MyFont;
 
@@ -300,8 +301,26 @@ public:
         m_Ball.Start();
     }
 
+    Timer timer;
+
     virtual void Update(const GameTime& time)
     {
+        KeyboardState state = Keyboard::GetState();
+        
+        if (state.IsKeyDown(Keys::Escape) && !GameOver)
+        {
+            if (timer.Running() && timer.ElapsedTimeMs() > 100)
+            {
+                Paused = !Paused;
+                if (!Paused) {
+                    timer.Stop();
+                }
+            }
+            timer.Start();
+        }
+
+        if (Paused) return;
+
         if (!GameOver)
         {
             m_Ball.Update(time);
@@ -311,8 +330,7 @@ public:
 
         if (GameOver)
         {
-            KeyboardState state = Keyboard::GetState();
-            if (state.IsKeyDown(Keys::R))
+            if (state.IsKeyDown(Keys::Space))
             {
                 m_Ball.Start();
                 GameOver = false;
@@ -344,7 +362,19 @@ public:
         
         if (GameOver)
         {
-            const String gameOverStr = "Game Over!\nPress R to restart.";
+            const String gameOverStr = "Game Over!\nSpace to restart";
+
+            Vector2 strSize = MyFont->MeasureString(gameOverStr);
+            Vector2 pos(
+                Window->Width() / 2 - strSize.X / 2,
+                Window->Height() / 2 - strSize.Y / 2
+            );
+            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, Color::Red, TextAlignment::Centre);
+        }
+
+        if (Paused)
+        {
+            const String gameOverStr = "Paused...";
 
             Vector2 strSize = MyFont->MeasureString(gameOverStr);
             Vector2 pos(

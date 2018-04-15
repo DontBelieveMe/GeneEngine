@@ -7,6 +7,43 @@
 
 using namespace Gene::Platform;
 
+void Timer::Start()
+{
+    m_Start = std::chrono::high_resolution_clock::now();
+    m_Running = true;
+}
+
+void Timer::Stop()
+{
+    m_Running = false;
+}
+
+double Timer::ElapsedTimeSeconds()
+{
+    if (m_Running) {
+        auto x = std::chrono::high_resolution_clock::now() - m_Start;
+        auto c = std::chrono::duration_cast<std::chrono::seconds>(x);
+
+        return c.count();
+    }
+    else {
+        return 0;
+    }
+}
+
+double Timer::ElapsedTimeMs()
+{
+    if (m_Running) {
+        auto x = std::chrono::high_resolution_clock::now() - m_Start;
+        auto c = std::chrono::duration_cast<std::chrono::milliseconds>(x);
+
+        return c.count();
+    }
+    else {
+        return 0;
+    }
+}
+
 float GameTime::RunningTimeMilliseconds() const
 {
     auto x = std::chrono::high_resolution_clock::now() - m_GameStart;
