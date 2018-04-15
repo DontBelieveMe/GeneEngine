@@ -10,8 +10,7 @@ namespace Gene { namespace Platform {
 
         float     m_Delta;
         float     m_RunningTime;
-		float     m_RunningTimeMs;
-
+        
         GameClock m_StartFrameTime;
         GameClock m_EndFrameTime;
         GameClock m_GameStart;
