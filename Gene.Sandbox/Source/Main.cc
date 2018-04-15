@@ -20,7 +20,7 @@ int GeneMain(int argc, char **argv)
 	using namespace Gene::Audio;
 
     WindowInfo info;
-    info.Width = 800;
+    info.Width = 600;
     info.Height = 600;
     info.Title = "Hello from GeneEngine.Sandbox";
     info.Borderless = false;
@@ -31,11 +31,10 @@ int GeneMain(int argc, char **argv)
 	window->SetClearColor(Color::Green);
     
     Renderer2D renderer;
-    renderer.Init(Matrix4::Orthographic(window->Width(), 0, 0, window->Height(), 1.0f, -1.0f));
+    renderer.Init(Matrix4::Orthographic(160, 0, 0, 160, 1.0f, -1.0f));
 
 	ResourceManager manager;
-	ResourceManager::SetStaticInstance(&manager);
-
+	
 	TextureParameters params;
 	params.Filtering = FilteringOptions::Nearest;
 
@@ -48,54 +47,36 @@ int GeneMain(int argc, char **argv)
 	wavFile->Loop(true);
 
     window->Show();
-	float x = 10, y = 10;
+	
 	GameTime time;
 	time.Init();
+
+    Vector2 pos = { 1,1 };
     while (window->Running())
     {
-		time.StartFrame();
-
-		KeyboardState state = Keyboard::GetState();
-		if (state.IsKeyDown(Keys::D)) {
-			x += 0.05f * time.DeltaInMilliSeconds();
-		}
-		else if (state.IsKeyDown(Keys::A)) {
-			x -= 0.05f * time.DeltaInMilliSeconds();
-		}
-
-		if (state.IsKeyDown(Keys::W)) {
-			y -= 0.05f * time.DeltaInMilliSeconds();
-		}
-		else if (state.IsKeyDown(Keys::S)) {
-			y += 0.05f * time.DeltaInMilliSeconds();
-		}
-
-		if (state.IsKeyDown(Keys::P)) {
-			if (!wavFile->IsPlaying()) {
-				audioManager.PlayWav(wavFile);
-			}
-		}
-
-    	window->PollEvents();
-		window->Clear();
+        window->PollEvents();
+		
+        KeyboardState keyState = Keyboard::GetState();
+        if (keyState.IsKeyDown(Keys::D)) {
+            pos.X += 0.05f * time.DeltaInMilliSeconds();
+        }
+        else if (keyState.IsKeyDown(Keys::A)) {
+            pos.X -= 0.05f * time.DeltaInMilliSeconds();
+        }
+        
+        time.StartFrame();
 
         renderer.Begin();
-		{
-			Matrix4 mat4;
-			mat4.Scale(Vector3(8, 8, 1));
-			renderer.PushTransform(mat4);
-			{
-				renderer.DrawTexture({ x, y }, texture);
-			}
-			renderer.PopTransform();
-		}
-		renderer.End();
-		renderer.Present();
+        
+        renderer.DrawTexture(pos, texture);
+        renderer.End();
+        renderer.Present();
 
     	window->SwapBuffers();  
 
 		time.EndFrame();
-		time.Sleep(1000 / 60.f);
+
+        time.Sleep(1000.0f / 60.0f);
     }
 	
 	manager.DestroyAll();
