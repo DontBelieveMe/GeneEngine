@@ -5,6 +5,9 @@
 #include <IO/File.h>
 
 #include <Platform/OpenGL.h>
+#include <Core/Array.h>
+
+#include <algorithm>
 
 #include "FreeTypeFont.h"
 
@@ -30,14 +33,22 @@ Font::~Font()
     delete m_FreeTypeFont;
 }
 
-Vector2 Font::MeasureString(const String& str)
+Array<Vector2> Font::MeasureLines(const String& str)
 {
-    float width = 0.0f;
-    float height = 0.0f;
+    Vector2 currentLine;
+
+    Array<Vector2> lines;
 
     int i = 0;
-    for (char character : str) {
-        if (character == '\n')continue;
+    for (char character : str)
+    {
+         if (character == '\n')
+        {
+            lines.push_back(currentLine);
+            currentLine = Vector2();
+
+            continue;
+        }
         
         FreeTypeGlyph *glyph = m_FreeTypeFont->GetGlyph(character);
 
@@ -50,18 +61,41 @@ Vector2 Font::MeasureString(const String& str)
         if (i > 0)
         {
             Vector2 kerning = m_FreeTypeFont->GetKerning(str[i - 1], str[i]);
-            width += kerning.X;
+            currentLine.X += kerning.X;
         }
 
-        width += glyph->Advance.X;
+        currentLine.X += glyph->Advance.X;
 
-        if (glyph->Height > height)
+        if (glyph->Height > currentLine.Y)
         {
-            height = static_cast<float>(glyph->Height);
+            currentLine.Y = static_cast<float>(glyph->Height);
         }
 
         i++;
     }
+    lines.push_back(currentLine);
 
-    return Vector2(width, height);
+    return lines;
+}
+
+Vector2 Font::MeasureString(const String& str)
+{
+    Array<Vector2> lines = MeasureLines(str);
+
+    Vector2 totalSize;
+
+    for (const Vector2& vec2 : lines)
+    {
+        if (vec2.X > totalSize.X) 
+        {
+            totalSize.X = vec2.X;
+        }
+
+        if (vec2.Y > totalSize.Y)
+        {
+            totalSize.Y = vec2.Y;
+        }
+    }
+
+    return totalSize;
 }

@@ -15,6 +15,8 @@ namespace Gene { namespace Platform {
         GameClock m_EndFrameTime;
         GameClock m_GameStart;
 
+        bool m_HasGotEndFrameTime;
+
 	public:
         /**
          * Begins the "Running Time" timer and initalises class. No work is done in constructor so in order to

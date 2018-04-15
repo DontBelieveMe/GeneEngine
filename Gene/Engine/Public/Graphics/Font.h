@@ -27,8 +27,11 @@ namespace Gene { namespace Graphics {
         /** Return the fonts OpenGL texture object */
 		Texture2D			  *GLTexture()		 { return m_Texture; }
 
-        /** Return the dimensions of the string where the Width = X component and Height = Y Component */
+        /** Return the total dimensions of the string taking into account newlines */
         Vector2                MeasureString(const String& str);
+
+        /** Calculate the dimensions of each line of a string. If the string has no newlines then the resultant array contains the dimensions for that string */
+        Array<Vector2>         MeasureLines(const String& str);
 
         /** Get the underlying FreeTypeFont handle. Holds glyph data. */
         FreeTypeFont          *GetFreeTypeFont() { return m_FreeTypeFont; }

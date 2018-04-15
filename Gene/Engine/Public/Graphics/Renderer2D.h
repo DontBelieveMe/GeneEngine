@@ -27,6 +27,13 @@ namespace Gene { namespace Graphics {
         float       TextureId;
 	};
 
+    enum class TextAlignment
+    {
+        Left,
+        Right,
+        Centre
+    };
+
     /** Used for rendering data to the current framebuffer (which if none is specified the window). */
     class Renderer2D
     {
@@ -60,7 +67,8 @@ namespace Gene { namespace Graphics {
         void DrawString(Font *font,
             const String& text,
             const Vector2& pos,
-            const Graphics::Color color
+            const Graphics::Color color,
+            TextAlignment alignment = TextAlignment::Left 
 		);
 
         /** Draw the specified texture to the buffer at the specified window coordinates. */

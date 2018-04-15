@@ -138,7 +138,7 @@ void Renderer2D::PushTransform(const Matrix4& matrix)
 
 void Renderer2D::PopTransform()
 {
-	m_TransformationStack.pop_back();
+    if (m_TransformationStack.size() > 1) m_TransformationStack.pop_back();
 }
 
 Vector3 MultiplyVector2ByMatrix4(float x, float y, const Matrix4& mat4)
@@ -192,7 +192,8 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 void Renderer2D::DrawString(Font *font, 
 						    const String& text, 
 						    const Vector2& pos, 
-							const Graphics::Color color)
+							const Graphics::Color color,
+                            TextAlignment alignment)
 {
     if(!font)
     {
@@ -212,15 +213,32 @@ void Renderer2D::DrawString(Font *font,
 	float spaceWidth = font->MeasureString(" ").X;
 	const int TAB_SIZE = 4;	// 1 tab is 4 spaces.
 
+    Matrix4 backTransform = m_TransformationStack.back();
 
+    Array<Vector2> lineSizes = font->MeasureLines(text);
+    float longestLineLength = font->MeasureString(text).X;
+    
+    if (alignment == TextAlignment::Centre)
+    {
+        float diff = (longestLineLength / 2) - (lineSizes[0].X / 2);
+        xPos += diff;
+    }
+
+    int lineIndex = 0;
 	for (size_t i = 0; i < text.length(); i++)
 	{
         char c = text[i];
         
         if (c == '\n')
         {
+            lineIndex++;
             yPos += ftFont->GetTallestGlyphSize();
-            xPos = pos.X;
+            float diff = 0;
+            
+            if(alignment == TextAlignment::Centre)
+                diff = (longestLineLength / 2) - (lineSizes[lineIndex].X / 2);
+
+            xPos = pos.X + diff;
 
             continue;
 		}
@@ -242,25 +260,25 @@ void Renderer2D::DrawString(Font *font,
             xPos += kerning.X;
         }
 
-        m_Buffer->Position  = Vector3(xPos, tmpY, 0.f);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos, tmpY, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_TopLeft;
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-        m_Buffer->Position  = Vector3(xPos + glyph->Width, tmpY, 0.f);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos + glyph->Width, tmpY, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_TopRight;
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-        m_Buffer->Position  = Vector3(xPos + glyph->Width, tmpY + glyph->Height, 0.f);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos + glyph->Width, tmpY + glyph->Height, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_BottomRight;
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-        m_Buffer->Position  = Vector3(xPos, tmpY + glyph->Height, 0.f);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos, tmpY + glyph->Height, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_BottomLeft;
         m_Buffer->TextureId = tid;
@@ -293,23 +311,24 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
 void Renderer2D::FillRectangle(Vector2 position, float width, float height, const Color& color)
 {
     Vector3 rgbCol = color.ToNormalizedVector3();
+    Matrix4 backTransform = m_TransformationStack.back();
 
-	m_Buffer->Position = Vector3(position, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
     m_Buffer++;
 	
-	m_Buffer->Position = Vector3(position.X + width, position.Y, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y, backTransform);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
     m_Buffer++;
 
-	m_Buffer->Position = Vector3(position.X + width, position.Y + height, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y + height, backTransform);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
     m_Buffer++;
 
-	m_Buffer->Position = Vector3(position.X, position.Y + height, 0.f);
+	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y + height, backTransform);
     m_Buffer->Color = rgbCol;
     m_Buffer->TextureId = -1;
     m_Buffer++;
