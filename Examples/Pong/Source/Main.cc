@@ -11,6 +11,50 @@ using namespace Gene::Platform;
 using namespace Gene::Graphics;
 using namespace Gene::Input;
 
+/*
+  [] We need some a camera:
+  [] Camera shake: angle = maxAngle * shake * GetRandomFloatNegOneToOne();
+                   offsetX = maxOffset * shake * GetRandomFloatNegOneToOne();
+                   offsetY = maxOffset * shake * GetRandomFloatNegOneToOne();
+
+                   ShakeyCamera.angle = NormalCamera.angle + angle;
+                   ShakeyCamera.center = NormalCamera.center + Vec2(offsetX, offsetY);
+  [] Or maybe perlin noise or something? https://www.youtube.com/watch?v=tu-Qe66AvtY
+  [] Some collision base code
+    [] Simple AABB intersection
+    [] Actual collision response
+  [] Utility code for randomness
+  [] Maybe integrate the Application base framework as part of the lib?
+  [] Layer support would be cool (e.g game render layer, UI render layer)
+  [] Maybe some UI utilities
+    [] Center position on screen
+    [] Rotate text
+    [] Change font size dynamically? (involve regenerating texture)
+  [] Input utilities
+    [] IsKeyPressed for typing or single presses - e.g for activating menus or interacting w/ objects
+  [] Math utilities 
+    [] Vector2 -> +,-,*,/,+=,/=,*=,-= operators
+    [] Static Matrix4 operations
+      [] e.g. Matrix4::Scale()
+      [] consistant Matrix4::operator* overloading
+      [] Make matrices immutable
+
+  [] NOT nessersary, but cool to have
+    [] VFS for resource loading
+      [] Would allow for load from disk or embedding in exe
+      [] Cool way to abstract away platform FS issues
+  [] Lighting
+    [] Can add lights to the scene
+      [] Change color, radius, intensity etc...
+    [] Positional audio
+      [] Technically the support is there we just need to abstract it into an API
+    [] Tiled map loading
+      [] A simple version of this would be good for LD
+        [] More advanced features like object integration,
+        [] Audio integration (Set audio `areas`)
+        [] etc...
+*/
+
 float Random(float min, float max) //range : [min, max)
 {
     static bool first = true;
@@ -256,21 +300,19 @@ public:
 
 bool BallInsidePaddle(Ball& ball, Paddle& paddle)
 {
-    // AABB 1
-    int x1Min = ball.GetPosition().X;
-    int x1Max = ball.GetPosition().X + BallWidth;
-    int y1Max = ball.GetPosition().Y + BallHeight;
-    int y1Min = ball.GetPosition().Y;
-
+    Vector2 ballPos = ball.GetPosition();
     Vector2 pPos = paddle.GetPosition();
 
-    // AABB 2
+    int x1Min = ballPos.X;
+    int x1Max = ballPos.X + BallWidth;
+    int y1Max = ballPos.Y + BallHeight;
+    int y1Min = ballPos.Y;
+
     int x2Min = pPos.X;
     int x2Max = pPos.X + PaddleWidth;
     int y2Max = pPos.Y + PaddleHeight;
     int y2Min = pPos.Y;
 
-    // Collision tests
     if (x1Max < x2Min || x1Min > x2Max) return false;
     if (y1Max < y2Min || y1Min > y2Max) return false;
 
