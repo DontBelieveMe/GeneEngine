@@ -5,7 +5,7 @@ macro(gene_add_target PROJECT_NAME SOURCE)
 			$<TARGET_OBJECTS:FreeType>
 		)
 	else()
-		include_directories(${CMAKE_MODULE_PATH}/Dependencies/OpenALSoft/include)
+		include_directories(${CMAKE_MODULE_PATH}/../../Dependencies/OpenALSoft/include)
 		
 		add_executable(${PROJECT_NAME} ${SOURCE})
 		target_link_libraries(${PROJECT_NAME} "Gene")

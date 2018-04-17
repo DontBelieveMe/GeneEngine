@@ -6,10 +6,14 @@
 #include <Graphics/Font.h>
 #include <Graphics/Renderer2D.h>
 
+#include <Audio/AudioSystem.h>
+#include <Runtime/Resources.h>
+
 using namespace Gene;
 using namespace Gene::Platform;
 using namespace Gene::Graphics;
 using namespace Gene::Input;
+using namespace Gene::Audio;
 
 /*
   [] We need some a camera:
@@ -133,6 +137,8 @@ static bool Paused = false;
 
 static Font *MyFont;
 
+static AudioSystem *AudioPlayer;
+
 enum class PaddleController
 {
     Cpu, Human
@@ -143,15 +149,13 @@ enum class Side
     Left, Right
 };
 
-class Ball
-{
+class Ball {
 private:
     Vector2 m_Position;
     Vector2 m_Velocity;
 
 public:
-    void Start()
-    {
+    void Start() {
         m_Position.X = (AreaWidth / 2) - (BallWidth / 2);
         m_Position.Y = (AreaHeight / 2) - (BallHeight / 2);
 
@@ -159,8 +163,7 @@ public:
         m_Velocity.Y = BallSpeedRange;
     }
 
-    void Update(const GameTime& time)
-    {
+    void Update(const GameTime& time) {
         if (m_Position.X + BallWidth > AreaWidth || m_Position.X < 0) GameOver = true;
         if (m_Position.Y + BallHeight > AreaHeight || m_Position.Y < 0) m_Velocity.Y = -m_Velocity.Y;
 
@@ -199,8 +202,7 @@ class Paddle;
 
 bool BallInsidePaddle(Ball& ball, Paddle& paddle);
 
-class Paddle
-{
+class Paddle {
 private:
     PaddleController m_Controller;
     KeyboardScheme m_KeyScheme;
@@ -236,6 +238,9 @@ private:
 
         if (BallInsidePaddle(ball, *this))
         {
+            ResourceHandle<WaveFile> hitSound = ResourceManager::Get()->GetAsset<WaveFile>(0);
+            AudioPlayer->PlayWav(hitSound);
+
             Vector2 bVel = ball.GetVelocity();
             Vector2 newVel(-bVel.X, bVel.Y);
             ball.SetVelocity(newVel);
@@ -329,11 +334,20 @@ private:
     Paddle m_PaddleTwo;
     Ball m_Ball;
 
+    AudioSystem m_AudioSystem;
+    ResourceManager m_ResourceSystem;
+
 public:
     virtual void Initalize()
     {
         Window->SetClearColor(Color::Black);
         MyFont = new Font("Data/font.ttf", 13);
+
+        m_AudioSystem.Init();
+        AudioPlayer = &m_AudioSystem;
+        m_ResourceSystem.SetStaticInstance(&m_ResourceSystem);
+        
+        m_ResourceSystem.LoadAsset<WaveFile>(0, "Data/hit.wav");
 
         m_Renderer.Init(Matrix4::Orthographic(Window->Width() / 16.f, 0, 0, Window->Height() / 16.f, 1.0f, -1.0f));
         m_UIRenderer.Init(Matrix4::Orthographic(Window->Width(), 0, 0, Window->Height(), 1.0f, -1.0f));
