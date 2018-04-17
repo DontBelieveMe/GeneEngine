@@ -26,3 +26,30 @@ Vector2 Vector2::operator-(const Vector2& b)
 {
 	return Vector2(X - b.X, Y - b.Y);
 }
+
+Vector2 Vector2::operator*(const float& a)
+{
+    return Vector2(X * a, Y * a);
+}
+
+Vector2& Vector2::operator+=(const Vector2& b)
+{
+    this->X += b.X;
+    this->Y += b.Y;
+
+    return *this;
+}
+
+Vector2& Vector2::operator-=(const Vector2& b)
+{
+    this->X -= b.X;
+    this->Y -= b.Y;
+
+    return *this;
+}
+
+void Vector2::Set(float a)
+{
+    X = a;
+    Y = a;
+}

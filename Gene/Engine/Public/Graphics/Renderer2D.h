@@ -92,8 +92,10 @@ namespace Gene { namespace Graphics {
         /** Draw the internal buffer to the current framebuffer. If no framebuffer is specified then it is drawn to the window. */
 		void Present();
 
+        /** Push a transform onto the transformation stack, acting on the next 'draw' call. Does not change the state of the last pushed transformation. */
 		void PushTransform(const Matrix4& matrix);
 
+        /** Pop the last transformation off the stack - unless there is only one item left, in which case nothing is done.*/
 		void PopTransform();
     };
 }}

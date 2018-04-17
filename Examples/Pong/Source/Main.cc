@@ -169,15 +169,13 @@ public:
 
         if (GameOver)
         {
-            m_Velocity.X = 0;
-            m_Velocity.Y = 0;
+            m_Velocity.Set(0);
 
             m_Position.X = (AreaWidth / 2) - (BallWidth / 2);
             m_Position.Y = (AreaHeight / 2) - (BallHeight / 2);
         }
 
-        m_Position.X += m_Velocity.X * time.DeltaInMilliSeconds();
-        m_Position.Y += m_Velocity.Y * time.DeltaInMilliSeconds();
+        m_Position += m_Velocity * time.DeltaInMilliSeconds();
     }
 
     void Render(Renderer2D *renderer)
@@ -246,9 +244,7 @@ private:
             ball.SetVelocity(newVel);
         }
 
-        m_Position.X += m_Velocity.X * time.DeltaInMilliSeconds();
-        m_Position.Y += m_Velocity.Y * time.DeltaInMilliSeconds();
-
+        m_Position += m_Velocity * time.DeltaInMilliSeconds();
 
         CheckWallColliders();
     }

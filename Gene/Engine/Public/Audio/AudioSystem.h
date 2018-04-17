@@ -20,8 +20,10 @@ namespace Gene {
 		public:
 			void Init();
 			
+            /** Get a list of the names of all available OpenAL audio devices.*/
 			Array<String> GetAudioDevicesList();
 
+            /** Immediatly play the specified wave file. A non-blocking operation. */
 			void PlayWav(WaveFile *wavFile);
 		};
 	}
