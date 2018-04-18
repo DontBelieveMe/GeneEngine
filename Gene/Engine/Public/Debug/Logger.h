@@ -5,6 +5,7 @@
 #include <Core/String.h>
 
 #include <iostream>
+#include <sstream>
 
 #define LOG_FILTER(priority) Gene::Logger::GetLogger()->SetFilter(priority)
 #define LOG_CLEAR_FILTER() Gene::Logger::GetLogger()->SetFilter(0)
@@ -42,13 +43,16 @@ namespace Gene {
     private:
         unsigned m_Filter;
 
+        String m_LastMessage;
+        size_t m_DuplicateLogCount;
+
         template <typename T, typename... Args>
-        void LogData(const T& msg, const Args&... args) {
-            std::cout << msg;
-            LogData(args...);
+        void LogData(std::stringstream& sstream, const T& msg, const Args&... args) {
+            sstream << msg;
+            LogData(sstream, args...);
         }
 
-        void LogData() {}
+        void LogData(std::stringstream& sstream) {}
 
         const char *GetPriorityString(const unsigned& priority)
         {
@@ -61,7 +65,8 @@ namespace Gene {
         }
 
     public:
-        Logger() : m_Filter(0) {}
+        Logger() : m_Filter(0), m_DuplicateLogCount(0) {
+        }
 
         /**
          * Log a message to the output stream with the given priority.
@@ -80,9 +85,10 @@ namespace Gene {
                 ALOGW(message.c_str());
             #else
                 if (m_Filter & priority) { return; }
-            
-                std::cout << "[GLog] [" << GetPriorityString(priority) << "]: " << message;
-                LogData(args...);
+                std::stringstream ss;
+                ss << "[GLog] [" << GetPriorityString(priority) << "]: " << message;
+                LogData(ss, args...);
+                std::cout << ss.str();
                 std::cout << "\n";
             
             #endif
