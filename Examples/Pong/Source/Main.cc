@@ -277,6 +277,17 @@ private:
     Vector2 m_Position;
     Vector2 m_Velocity;
 
+    bool m_IsKicking = false;
+    Timer m_KickTimer;
+
+    float m_XPosConst;
+
+    void KickBack()
+    {
+        m_IsKicking = true;
+        m_KickTimer.Start();
+    }
+
     void CheckWallColliders()
     {
         const float yWallOffset = 0.5f;
@@ -314,11 +325,36 @@ private:
             ball.SetVelocity(newVel);
 
             MyCamera->Shake(0.3f, 5.f, 0.1f, 250.f);
+            KickBack();
         }
 
         m_Position += m_Velocity * time.DeltaInMilliSeconds();
 
         CheckWallColliders();
+
+        if (m_IsKicking)
+        {
+            if (m_KickTimer.ElapsedTimeMs() < 250)
+            {
+                float max, min;
+                switch (m_Side) {
+                case Side::Left:
+                    max = 0;
+                    min = -1.0f;
+                    break;
+                case Side::Right:
+                    max = 1.0f;
+                    min = 0.f;
+                    break;
+                }
+                m_Position.X = m_XPosConst + (1.5f * 1.5f * Random(min, max));
+            }
+            else {
+                m_IsKicking = false;
+                m_KickTimer.Stop();
+                m_Position.X = m_XPosConst;
+            }
+        }
     }
 
     void Setup()
@@ -333,6 +369,8 @@ private:
             m_Position = Vector2(AreaWidth - (offsetFromWall + PaddleWidth), 1);
             break;
         }
+
+        m_XPosConst = m_Position.X;
     }
 
 public:
