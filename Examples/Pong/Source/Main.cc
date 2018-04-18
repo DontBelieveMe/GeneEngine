@@ -16,14 +16,14 @@ using namespace Gene::Input;
 using namespace Gene::Audio;
 
 /*
-  [] We need some a camera:
-  [] Camera shake: angle = maxAngle * shake * GetRandomFloatNegOneToOne();
-                   offsetX = maxOffset * shake * GetRandomFloatNegOneToOne();
-                   offsetY = maxOffset * shake * GetRandomFloatNegOneToOne();
-
-                   ShakeyCamera.angle = NormalCamera.angle + angle;
-                   ShakeyCamera.center = NormalCamera.center + Vec2(offsetX, offsetY);
-  [] Or maybe perlin noise or something? https://www.youtube.com/watch?v=tu-Qe66AvtY
+  [] We need some a camera:                                                                 ]   
+  [] Camera shake: angle = maxAngle * shake * GetRandomFloatNegOneToOne();                  |
+                   offsetX = maxOffset * shake * GetRandomFloatNegOneToOne();               |
+                   offsetY = maxOffset * shake * GetRandomFloatNegOneToOne();                > This is now kindof implemented in the pong demo.
+                                                                                            |
+                   ShakeyCamera.angle = NormalCamera.angle + angle;                         |
+                   ShakeyCamera.center = NormalCamera.center + Vec2(offsetX, offsetY);      |
+  [] Or maybe perlin noise or something? https://www.youtube.com/watch?v=tu-Qe66AvtY        ]
   [] Some collision base code
     [] Simple AABB intersection
     [] Actual collision response
