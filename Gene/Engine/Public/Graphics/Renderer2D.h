@@ -97,5 +97,7 @@ namespace Gene { namespace Graphics {
 
         /** Pop the last transformation off the stack - unless there is only one item left, in which case nothing is done.*/
 		void PopTransform();
+
+        void SetViewMatrix(const Matrix4& view);
     };
 }}

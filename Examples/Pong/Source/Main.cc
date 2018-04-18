@@ -67,10 +67,76 @@ float Random(float min, float max) //range : [min, max)
         srand(time(NULL)); //seeding for the first time only!
         first = false;
     }
-    const float range = min - max;
+    const float range = fabs(min - max);
     float random = range * ((((float)rand()) / (float)RAND_MAX)) + min;
     return random;
 }
+
+class Camera {
+private:
+    float m_Shake;
+    float m_ShakeMaxAngle;
+    float m_ShakeMaxOffset;
+    
+    Timer m_Timer;
+    float m_ShakeTime;
+    bool m_IsShaking;
+
+public:
+    Camera() :
+        m_Shake(0), m_ShakeMaxAngle(0), m_ShakeMaxOffset(0), m_IsShaking(false), m_ShakeTime(0), Angle(0) {}
+
+    Matrix4 GetViewMatrix()
+    {
+        Matrix4 translate;
+        translate.Translate(Position);
+
+        Matrix4 rotation;
+        rotation.RotateZ(Angle);
+
+        return translate.Multiply(rotation);
+    }
+
+    void Shake(float shake, float maxAngle, float maxOffset, float time)
+    {
+        m_Shake = shake;
+        m_ShakeMaxAngle = maxAngle;
+        m_ShakeMaxOffset = maxOffset;
+        m_IsShaking = true;
+        m_ShakeTime = time;
+        m_Timer.Start();
+    }
+
+    void Update()
+    {
+        if (m_IsShaking)
+        {
+            if (m_Timer.ElapsedTimeMs() < m_ShakeTime)
+            {
+                float angle = m_ShakeMaxAngle * m_Shake * Random(-1.0f, 1.0f);
+
+                float offsetX = m_ShakeMaxOffset * m_Shake * Random(-1.0f, 1.0f);
+                float offsetY = m_ShakeMaxOffset * m_Shake * Random(-1.0f, 1.0f);
+                Angle = angle;
+                Position = Vector2(offsetX, offsetY);
+            }
+            else {
+                m_IsShaking = false;
+                m_Timer.Stop();
+                m_Shake = 0;
+                m_ShakeMaxAngle = 0;
+                m_ShakeTime = 0;
+                m_ShakeMaxOffset = 0;
+                Angle = 0;
+                Position.Set(0);
+            }
+        }
+
+    }
+
+    Vector2 Position;
+    float Angle;
+};
 
 class Application {
 protected:
@@ -136,6 +202,8 @@ static bool GameOver = false;
 static bool Paused = false;
 
 static Font *MyFont;
+
+static Camera *MyCamera;
 
 static AudioSystem *AudioPlayer;
 
@@ -211,11 +279,13 @@ private:
 
     void CheckWallColliders()
     {
-        if (m_Position.Y + PaddleHeight > AreaHeight) 
-            m_Position.Y = AreaHeight - PaddleHeight;
+        const float yWallOffset = 0.5f;
 
-        if (m_Position.Y < 0)
-            m_Position.Y = 0;
+        if (m_Position.Y + PaddleHeight > AreaHeight - yWallOffset) 
+            m_Position.Y = AreaHeight - PaddleHeight - yWallOffset;
+
+        if (m_Position.Y < yWallOffset)
+            m_Position.Y = yWallOffset;
     }
 
     void UpdateAsHuman(const GameTime& time, Ball& ball)
@@ -242,6 +312,8 @@ private:
             Vector2 bVel = ball.GetVelocity();
             Vector2 newVel(-bVel.X, bVel.Y);
             ball.SetVelocity(newVel);
+
+            MyCamera->Shake(0.3f, 5.f, 0.1f, 250.f);
         }
 
         m_Position += m_Velocity * time.DeltaInMilliSeconds();
@@ -251,18 +323,19 @@ private:
 
     void Setup()
     {
+        int offsetFromWall = 3;
         switch (m_Side)
         {
         case Side::Left:
-            m_Position = Vector2(1, 1);
+            m_Position = Vector2(offsetFromWall, 1);
             break;
         case Side::Right:
-            m_Position = Vector2(AreaWidth - (1 + PaddleWidth), 1);
+            m_Position = Vector2(AreaWidth - (offsetFromWall + PaddleWidth), 1);
             break;
         }
     }
-public:
 
+public:
     Vector2 GetPosition()
     {
         return m_Position;
@@ -333,12 +406,14 @@ private:
     AudioSystem m_AudioSystem;
     ResourceManager m_ResourceSystem;
 
+    Camera m_Camera;
+    
 public:
     virtual void Initalize()
     {
         Window->SetClearColor(Color::Black);
         MyFont = new Font("Data/font.ttf", 13);
-
+        MyCamera = &m_Camera;
         m_AudioSystem.Init();
         AudioPlayer = &m_AudioSystem;
         m_ResourceSystem.SetStaticInstance(&m_ResourceSystem);
@@ -350,6 +425,7 @@ public:
 
         m_PaddleOne.SetAsPlayerControlled(PlayerOneKeyboard, Side::Left);
         m_PaddleTwo.SetAsPlayerControlled(PlayerTwoKeyboard, Side::Right);
+
         m_Ball.Start();
     }
 
@@ -358,7 +434,8 @@ public:
     virtual void Update(const GameTime& time)
     {
         KeyboardState state = Keyboard::GetState();
-        
+        m_Camera.Update();
+
         if (state.IsKeyDown(Keys::Escape) && !GameOver)
         {
             if (timer.Running() && timer.ElapsedTimeMs() > 100)
@@ -398,6 +475,7 @@ public:
 
     virtual void Render()
     {
+        m_Renderer.SetViewMatrix(m_Camera.GetViewMatrix());
         m_Renderer.Begin();
         m_PaddleOne.Render(&m_Renderer);
         m_PaddleTwo.Render(&m_Renderer);

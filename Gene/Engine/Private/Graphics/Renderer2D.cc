@@ -36,6 +36,13 @@ static void GenerateRectIndicesIntoBuffer(GLuint *buffer, size_t indicesNum)
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
+void Renderer2D::SetViewMatrix(const Matrix4& view)
+{
+    m_Shader->Enable();
+    m_Shader->LoadUniformMatrix4f("u_View", view);
+    m_Shader->Disable();
+}
+
 void Renderer2D::Init(const Matrix4& projectionMatrix)
 {
     glEnable(GL_BLEND);
