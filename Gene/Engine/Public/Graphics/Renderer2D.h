@@ -98,6 +98,7 @@ namespace Gene { namespace Graphics {
         /** Pop the last transformation off the stack - unless there is only one item left, in which case nothing is done.*/
 		void PopTransform();
 
+        /** Set the (view) matrix that is to be multiplied with the projection matrix as a transform that affects the vertex position.*/
         void SetViewMatrix(const Matrix4& view);
     };
 }}
