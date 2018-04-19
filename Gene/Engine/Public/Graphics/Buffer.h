@@ -3,6 +3,7 @@
 #pragma once
 
 #include <Platform/OpenGL.h>
+#include <Debug/Logger.h>
 
 namespace Gene { namespace Graphics {
 	enum class BufferDrawType
@@ -45,7 +46,12 @@ namespace Gene { namespace Graphics {
 		T *GetPointer()
 		{
 			Enable();
-			void *data = glMapBuffer(OpenGL::GeneToGLType(m_Type), GL_WRITE_ONLY);//glMapBufferRange(OpenGL::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
+			void *data = glMapBufferRange(OpenGL::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
+            
+            if (!data) {
+                LOG(LogLevel::Infomation, "Buffer::GetPointer<T>() is returning a null pointer (Buffer ID: ", m_ID, ")");
+            }
+
 			Disable();
 			return reinterpret_cast<T*>(data);
 		}

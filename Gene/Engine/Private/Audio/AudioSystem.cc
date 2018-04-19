@@ -53,6 +53,7 @@ void AudioSystem::Init()
 
 void AudioSystem::PlayWav(WaveFile *wavFile)
 {
+    LOG(LogLevel::Debug, "Playing Wave file (OpenAL ID -> ", wavFile->GetSourceId(), ")");
 	ALCenum s = alcGetError(m_Device);
 
 	alSourcePlay(wavFile->GetSourceId());

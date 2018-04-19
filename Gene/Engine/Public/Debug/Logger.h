@@ -32,6 +32,7 @@ namespace Gene {
         static const unsigned Warning;
         static const unsigned Infomation;
         static const unsigned Assert;
+        static const unsigned Debug;
     };
 
     /*
@@ -60,6 +61,7 @@ namespace Gene {
             if (priority & LogLevel::Warning) return "Warning";
             if (priority & LogLevel::Infomation) return "Infomation";
             if (priority & LogLevel::Assert) return "Assert";
+            if (priority & LogLevel::Debug) return "Debug";
 
             return "UnkownErrorLevel";
         }
