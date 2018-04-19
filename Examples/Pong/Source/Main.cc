@@ -82,6 +82,14 @@ private:
     float m_ShakeTime;
     bool m_IsShaking;
 
+    Matrix4 GetRotation()
+    {
+        Matrix4 rotation;
+        rotation.RotateZ(Angle);
+
+        return rotation;
+    }
+
 public:
     Camera() :
         m_Shake(0), m_ShakeMaxAngle(0), m_ShakeMaxOffset(0), m_IsShaking(false), m_ShakeTime(0), Angle(0) {}
@@ -91,8 +99,7 @@ public:
         Matrix4 translate;
         translate.Translate(Position);
 
-        Matrix4 rotation;
-        rotation.RotateZ(Angle);
+        Matrix4 rotation = GetRotation();
 
         return translate.Multiply(rotation);
     }
@@ -324,7 +331,7 @@ private:
             Vector2 newVel(-bVel.X, bVel.Y);
             ball.SetVelocity(newVel);
 
-            MyCamera->Shake(0.3f, 5.f, 0.1f, 250.f);
+            MyCamera->Shake(0.5f, 1.5f, 0.01f, 250.f);
             KickBack();
         }
 
@@ -347,7 +354,7 @@ private:
                     min = 0.f;
                     break;
                 }
-                m_Position.X = m_XPosConst + (1.5f * 1.5f * Random(min, max));
+               // m_Position.X = m_XPosConst + (1.5f * 1.5f * Random(min, max));
             }
             else {
                 m_IsKicking = false;
@@ -465,7 +472,8 @@ public:
         m_PaddleTwo.SetAsPlayerControlled(PlayerTwoKeyboard, Side::Right);
 
         m_Ball.Start();
-    }
+
+       }
 
     Timer timer;
 
@@ -473,6 +481,11 @@ public:
     {
         KeyboardState state = Keyboard::GetState();
         m_Camera.Update();
+
+        if (state.IsKeyDown(Keys::U))
+        {
+            MyCamera->Angle++;
+        }
 
         if (state.IsKeyDown(Keys::Escape) && !GameOver)
         {
@@ -513,8 +526,9 @@ public:
 
     virtual void Render()
     {
-        m_Renderer.SetViewMatrix(m_Camera.GetViewMatrix());
+        m_Renderer.SetViewMatrix(m_Camera.GetViewMatrix()); 
         m_Renderer.Begin();
+        m_Renderer.FillRectangle({ 0, 0 }, AreaWidth, AreaHeight, Color(37, 42, 51, 255));
         m_PaddleOne.Render(&m_Renderer);
         m_PaddleTwo.Render(&m_Renderer);
         
