@@ -8,6 +8,7 @@
 
 #include <Audio/AudioSystem.h>
 #include <Runtime/Resources.h>
+#include <Core/Random.h>
 
 using namespace Gene;
 using namespace Gene::Platform;
@@ -59,19 +60,6 @@ using namespace Gene::Audio;
         [] etc...
 */
 
-float Random(float min, float max) //range : [min, max)
-{
-    static bool first = true;
-    if (first)
-    {
-        srand(time(NULL)); //seeding for the first time only!
-        first = false;
-    }
-    const float range = fabs(min - max);
-    float random = range * ((((float)rand()) / (float)RAND_MAX)) + min;
-    return random;
-}
-
 class Camera {
 private:
     float m_Shake;
@@ -120,10 +108,10 @@ public:
         {
             if (m_Timer.ElapsedTimeMs() < m_ShakeTime)
             {
-                float angle = m_ShakeMaxAngle * m_Shake * Random(-1.0f, 1.0f);
+                float angle = m_ShakeMaxAngle * m_Shake * Random::FloatRange(-1.0f, 1.0f);
 
-                float offsetX = m_ShakeMaxOffset * m_Shake * Random(-1.0f, 1.0f);
-                float offsetY = m_ShakeMaxOffset * m_Shake * Random(-1.0f, 1.0f);
+                float offsetX = m_ShakeMaxOffset * m_Shake * Random::FloatRange(-1.0f, 1.0f);
+                float offsetY = m_ShakeMaxOffset * m_Shake * Random::FloatRange(-1.0f, 1.0f);
                 Angle = angle;
                 Position = Vector2(offsetX, offsetY);
             }
@@ -213,6 +201,9 @@ static Font *MyFont;
 static Camera *MyCamera;
 
 static AudioSystem *AudioPlayer;
+
+static Color FontColor = Color(138, 148, 168, 255);
+static Color BgColor = Color(37, 42, 51, 255);
 
 enum class PaddleController
 {
@@ -472,8 +463,8 @@ public:
         m_PaddleTwo.SetAsPlayerControlled(PlayerTwoKeyboard, Side::Right);
 
         m_Ball.Start();
-
-       }
+        Random::FloatRange(0, 0);
+    }
 
     Timer timer;
 
@@ -528,7 +519,7 @@ public:
     {
         m_Renderer.SetViewMatrix(m_Camera.GetViewMatrix()); 
         m_Renderer.Begin();
-        m_Renderer.FillRectangle({ 0, 0 }, AreaWidth, AreaHeight, Color(37, 42, 51, 255));
+        m_Renderer.FillRectangle({ 0, 0 }, AreaWidth, AreaHeight, BgColor);
         m_PaddleOne.Render(&m_Renderer);
         m_PaddleTwo.Render(&m_Renderer);
         
@@ -551,7 +542,7 @@ public:
                 Window->Width() / 2 - strSize.X / 2,
                 Window->Height() / 2 - strSize.Y / 2
             );
-            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, Color::Red, TextAlignment::Centre);
+            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
         }
 
         if (Paused)
@@ -563,7 +554,7 @@ public:
                 Window->Width() / 2 - strSize.X / 2,
                 Window->Height() / 2 - strSize.Y / 2
             );
-            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, Color::Red, TextAlignment::Centre);
+            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
         }
 
         m_UIRenderer.End();

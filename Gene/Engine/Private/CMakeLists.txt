@@ -55,6 +55,10 @@ set(ThirdPartySrc
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/lodepng/lodepng.h
 )
 
+set(CoreSrc
+    ${SrcDir}/Core/Random.cc
+)
+
 set(RuntimeSrc
    ${SrcDir}/Runtime/Resources.cc
 )
@@ -76,6 +80,7 @@ source_group("${VSSourceFilterName}\\Third Party" FILES ${ThirdPartySrc})
 source_group("${VSSourceFilterName}\\Debug"       FILES ${DebugSrc})
 source_group("${VSSourceFilterName}\\Runtime"     FILES ${RuntimeSrc})
 source_group("${VSSourceFilterName}\\Audio"     FILES ${AudioSrc})
+source_group("${VSSourceFilterName}\\Core"     FILES ${CoreSrc})
 
 set(CommonSource
     ${ContentSrc} 
@@ -88,4 +93,5 @@ set(CommonSource
     ${DebugSrc}
     ${RuntimeSrc}
     ${AudioSrc}
+    ${CoreSrc}
 )

@@ -59,6 +59,7 @@ set(RootHeaders
 set(CoreHeaders
     ${HeaderDir}/Core/Array.h
     ${HeaderDir}/Core/String.h
+    ${HeaderDir}/Core/Random.h
 )
 
 set(RuntimeHeaders
