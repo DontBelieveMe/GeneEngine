@@ -245,6 +245,13 @@ class Paddle;
 
 bool BallInsidePaddle(Ball& ball, Paddle& paddle);
 
+/**
+    TODO:
+    Cool idea -> Maybe when the ball hits the paddle we could
+                 calculate the position of the collision and then
+                 shake the paddle around that point.
+
+*/
 class Paddle {
 private:
     PaddleController m_Controller;
