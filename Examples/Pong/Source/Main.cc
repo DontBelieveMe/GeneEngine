@@ -36,13 +36,6 @@ using namespace Gene::Audio;
     [] Change font size dynamically? (involve regenerating texture)
   [] Input utilities
     [] IsKeyPressed for typing or single presses - e.g for activating menus or interacting w/ objects
-  [] Math utilities 
-    [] Vector2 -> +,-,*,/,+=,/=,*=,-= operators
-    [] Static Matrix4 operations
-      [] e.g. Matrix4::Scale()
-      [] consistant Matrix4::operator* overloading
-      [] Make matrices immutable
-
   [] NOT nessersary, but cool to have
     [] VFS for resource loading
       [] Would allow for load from disk or embedding in exe
