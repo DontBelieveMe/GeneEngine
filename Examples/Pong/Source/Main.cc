@@ -305,6 +305,7 @@ private:
             AudioPlayer->PlayWav(hitSound);
 
             Vector2 bVel = ball.GetVelocity();
+            bVel = bVel * 1.05f;
             Vector2 newVel(-bVel.X, bVel.Y);
             ball.SetVelocity(newVel);
 
