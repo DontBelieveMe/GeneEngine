@@ -140,7 +140,7 @@ void Renderer2D::PushTransform(const Matrix4& matrix)
 
 	Matrix4 back = m_TransformationStack.back();
 
-	m_TransformationStack.push_back(back.Multiply(matrix));
+	m_TransformationStack.push_back(back * matrix);
 }
 
 void Renderer2D::PopTransform()

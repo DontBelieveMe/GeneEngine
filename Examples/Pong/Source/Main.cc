@@ -69,26 +69,13 @@ private:
     float m_ShakeTime;
     bool m_IsShaking;
 
-    Matrix4 GetRotation()
-    {
-        Matrix4 rotation;
-        rotation.RotateZ(Angle);
-
-        return rotation;
-    }
-
 public:
     Camera() :
         m_Shake(0), m_ShakeMaxAngle(0), m_ShakeMaxOffset(0), m_IsShaking(false), m_ShakeTime(0), Angle(0) {}
 
     Matrix4 GetViewMatrix()
     {
-        Matrix4 translate;
-        translate.Translate(Position);
-
-        Matrix4 rotation = GetRotation();
-
-        return translate.Multiply(rotation);
+        return Matrix4::Translate(Position) * Matrix4::RotateZ(Angle);
     }
 
     void Shake(float shake, float maxAngle, float maxOffset, float time)
@@ -412,15 +399,15 @@ bool BallInsidePaddle(Ball& ball, Paddle& paddle)
     Vector2 ballPos = ball.GetPosition();
     Vector2 pPos = paddle.GetPosition();
 
-    int x1Min = ballPos.X;
-    int x1Max = ballPos.X + BallWidth;
-    int y1Max = ballPos.Y + BallHeight;
-    int y1Min = ballPos.Y;
+    float x1Min = ballPos.X;
+    float x1Max = ballPos.X + BallWidth;
+    float y1Max = ballPos.Y + BallHeight;
+    float y1Min = ballPos.Y;
 
-    int x2Min = pPos.X;
-    int x2Max = pPos.X + PaddleWidth;
-    int y2Max = pPos.Y + PaddleHeight;
-    int y2Min = pPos.Y;
+    float x2Min = pPos.X;
+    float x2Max = pPos.X + PaddleWidth;
+    float y2Max = pPos.Y + PaddleHeight;
+    float y2Min = pPos.Y;
 
     if (x1Max < x2Min || x1Min > x2Max) return false;
     if (y1Max < y2Min || y1Min > y2Max) return false;

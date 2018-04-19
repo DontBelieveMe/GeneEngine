@@ -24,8 +24,9 @@ Matrix4::Matrix4(float diag)
 	Elements[3 + 3 * 4]  = diag;
 }
 
-Matrix4 Matrix4::Multiply(const Matrix4& other)
+Matrix4 Matrix4::Multiply(const Matrix4& other) const
 {
+    Matrix4 out;
 	float data[Matrix4::ElementCount];
 	for (int row = 0; row < 4; row++)
 	{
@@ -39,8 +40,8 @@ Matrix4 Matrix4::Multiply(const Matrix4& other)
 			data[col + row * 4] = sum;
 		}
 	}
-    memcpy(Elements, data, Matrix4::ElementCount * sizeof(float));
-    return *this;
+    memcpy(out.Elements, data, Matrix4::ElementCount * sizeof(float));
+    return out;
 }
 
 Matrix4::Matrix4(float elements[ElementCount])
@@ -60,74 +61,91 @@ Vector3 Matrix4::Multiply(const Vector3& other) const
     return Vector3(x, y, z);
 }
 
-Matrix4 operator*(Matrix4 a, const Matrix4& b)
+Matrix4 Matrix4::operator*(const Matrix4& b)
 {
-    return a.Multiply(b);
+    return Multiply(b);
 }
 
-Vector3 operator*(Matrix4 a, const Vector3& b)
+Vector3 Matrix4::operator*(const Vector3& b)
 {
-    return a.Multiply(b);
+    return Multiply(b);
 }
 
-void Matrix4::Translate(const Vector3& vector)
+Matrix4 Matrix4::Translate(const Vector3& vector)
 {
-	Elements[3 + 0 * 4] = vector.X;
-	Elements[3 + 1 * 4] = vector.Y;
-	Elements[3 + 2 * 4] = vector.Z;
+    Matrix4 out;
+	out.Elements[3 + 0 * 4] = vector.X;
+    out.Elements[3 + 1 * 4] = vector.Y;
+    out.Elements[3 + 2 * 4] = vector.Z;
+    return out;
 }
 
-void Matrix4::Translate(const Vector2& vector)
+Matrix4 Matrix4::Translate(const Vector2& vector)
 {
-	Elements[3 + 0 * 4] = vector.X;
-	Elements[3 + 1 * 4] = vector.Y;
+    Matrix4 out;
+    out.Elements[3 + 0 * 4] = vector.X;
+    out.Elements[3 + 1 * 4] = vector.Y;
+    return out;
 }
 
-void Matrix4::Scale(const Vector3& vector)
+Matrix4 Matrix4::Scale(const Vector3& vector)
 {
-	Elements[0] = vector.X;
-	Elements[1 + 1 * 4] = vector.Y;
-	Elements[2 + 2 * 4] = vector.Z;
+    Matrix4 out;
+	out.Elements[0] = vector.X;
+	out.Elements[1 + 1 * 4] = vector.Y;
+	out.Elements[2 + 2 * 4] = vector.Z;
+    return out;
 }
 
-void Matrix4::Scale(const Vector2& vector)
+Matrix4 Matrix4::Scale(const Vector2& vector)
 {
-	Elements[0] = vector.X;
-	Elements[1 + 1 * 4] = vector.Y;
+    Matrix4 out;
+	out.Elements[0] = vector.X;
+	out.Elements[1 + 1 * 4] = vector.Y;
+    return out;
 }
 
-void Matrix4::Scale(float scaleFactor)
+Matrix4 Matrix4::Scale(float scaleFactor)
 {
-	Elements[0] = scaleFactor;
-	Elements[1 + 1 * 4] = scaleFactor;
-	Elements[2 + 2 * 4] = scaleFactor;
+    Matrix4 out;
+	out.Elements[0] = scaleFactor;
+	out.Elements[1 + 1 * 4] = scaleFactor;
+	out.Elements[2 + 2 * 4] = scaleFactor;
+    return out;
 }
 
-void Matrix4::RotateX(float theta)
+Matrix4 Matrix4::RotateX(float theta)
 {
+    Matrix4 out;
 	float radians = Maths::ToRadians(theta);
-	Elements[1 + 1 * 4] = ::cosf(radians);
-	Elements[2 + 2 * 4] = ::cosf(radians);
-	Elements[1 + 2 * 4] = -(::sinf(radians));
-	Elements[2 + 1 * 4] = (::sinf(radians));
+	out.Elements[1 + 1 * 4] = ::cosf(radians);
+	out.Elements[2 + 2 * 4] = ::cosf(radians);
+	out.Elements[1 + 2 * 4] = -(::sinf(radians));
+	out.Elements[2 + 1 * 4] = (::sinf(radians));
+    return out;
 }
 
-void Matrix4::RotateY(float theta)
+Matrix4 Matrix4::RotateY(float theta)
 {
+    Matrix4 out;
 	float radians = Maths::ToRadians(theta);
-	Elements[0] = ::cosf(radians);
-	Elements[2 + 2 * 4] = ::cosf(radians);
-	Elements[0 + 2 * 4] = (::sinf(radians));
-	Elements[2 + 0 * 4] = -(::sinf(radians));
+	out.Elements[0] = ::cosf(radians);
+	out.Elements[2 + 2 * 4] = ::cosf(radians);
+	out.Elements[0 + 2 * 4] = (::sinf(radians));
+    out.Elements[2 + 0 * 4] = -(::sinf(radians));
+    return out;
 }
 
-void Matrix4::RotateZ(float theta)
+Matrix4 Matrix4::RotateZ(float theta)
 {
+    Matrix4 out;
 	float radians = Maths::ToRadians(theta);
-	Elements[0] = ::cosf(radians);
-	Elements[1 + 1 * 4] = ::cosf(radians);
-	Elements[0 + 1 * 4] = -(::sinf(radians));
-	Elements[1 + 0 * 4] = (::sinf(radians));
+	out.Elements[0] = ::cosf(radians);
+    out.Elements[1 + 1 * 4] = ::cosf(radians);
+    out.Elements[0 + 1 * 4] = -(::sinf(radians));
+    out.Elements[1 + 0 * 4] = (::sinf(radians));
+
+    return out;
 }
 
 Matrix4 Matrix4::Identity(float diag)
