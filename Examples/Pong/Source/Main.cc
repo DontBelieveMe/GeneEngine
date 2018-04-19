@@ -28,7 +28,6 @@ using namespace Gene::Audio;
   [] Some collision base code
     [] Simple AABB intersection
     [] Actual collision response
-  [] Utility code for randomness
   [] Maybe integrate the Application base framework as part of the lib?
   [] Layer support would be cool (e.g game render layer, UI render layer)
   [] Maybe some UI utilities
