@@ -2,6 +2,7 @@
 #include <Platform/Time.h>
 
 #include <Input/Keyboard.h>
+#include <Input/Mouse.h>
 
 #include <Graphics/Font.h>
 #include <Graphics/Renderer2D.h>
@@ -418,6 +419,11 @@ bool BallInsidePaddle(Ball& ball, Paddle& paddle)
     return true;
 }
 
+enum class GameState
+{
+    Menu, Paused, Playing
+};
+
 class PongApp : public Application
 {
 private:
@@ -436,9 +442,19 @@ private:
     bool m_DebugMode;
     float m_Dt;
 
+    GameState m_GameState;
+
+    void SwitchPaused()
+    {
+        if (m_GameState != GameState::Paused) m_GameState = GameState::Paused;
+        else m_GameState = GameState::Playing;
+    }
+
 public:
     virtual void Initalize()
     {
+        m_GameState = GameState::Menu;
+
         Window->SetClearColor(Color::Black);
         MyFont = new Font("Data/font.ttf", 13);
         DebugFont = new Font("Data/font.ttf", 5);
@@ -469,18 +485,6 @@ public:
         KeyboardState state = Keyboard::GetState();
         m_Camera.Update();
 
-        if (state.IsKeyDown(Keys::Escape) && !GameOver)
-        {
-            if (m_PauseKeyTimer.Running() && m_PauseKeyTimer.ElapsedTimeMs() > 100)
-            {
-                Paused = !Paused;
-                if (!Paused) {
-                    m_PauseKeyTimer.Stop();
-                }
-            }
-            m_PauseKeyTimer.Start();
-        }
-
         if (state.IsKeyDown(Keys::F11))
         {
             if (m_DebugKeyTimer.Running() && m_DebugKeyTimer.ElapsedTimeMs() > 100)
@@ -494,21 +498,45 @@ public:
             m_DebugKeyTimer.Start();
         }
 
-        if (Paused) return;
-
-        if (!GameOver)
+        if (m_GameState == GameState::Menu)
         {
-            m_Ball.Update(time);
-            m_PaddleOne.Update(time, m_Ball);
-            m_PaddleTwo.Update(time, m_Ball);
+            if (state.IsKeyDown(Keys::P))
+            {
+                m_GameState = GameState::Playing;
+            }
         }
 
-        if (GameOver)
-        {
-            if (state.IsKeyDown(Keys::Space))
+        if (m_GameState == GameState::Playing || m_GameState == GameState::Paused)
+        {            
+            if (state.IsKeyDown(Keys::Escape) && !GameOver)
             {
-                m_Ball.Start();
-                GameOver = false;
+                if (m_PauseKeyTimer.Running() && m_PauseKeyTimer.ElapsedTimeMs() > 100)
+                {
+                    SwitchPaused();
+                    if (m_GameState != GameState::Paused) {
+                        m_PauseKeyTimer.Stop();
+                    }
+                }
+                m_PauseKeyTimer.Start();
+            }
+
+
+            if (m_GameState == GameState::Paused) return;
+
+            if (!GameOver)
+            {
+                m_Ball.Update(time);
+                m_PaddleOne.Update(time, m_Ball);
+                m_PaddleTwo.Update(time, m_Ball);
+            }
+
+            if (GameOver)
+            {
+                if (state.IsKeyDown(Keys::Space))
+                {
+                    m_Ball.Start();
+                    GameOver = false;
+                }
             }
         }
     }
@@ -519,55 +547,126 @@ public:
         return { a.X, a.Y };
     }
 
+    Vector2 GetMenuItemPos(const String& str, size_t index)
+    {
+        const int offset = 20;
+        Vector2 size = MyFont->MeasureString(str);
+
+        return { 800 - size.X - 25, 525 - (index * (size.Y + offset)) };
+    }
+
+    void DrawMenuItem(const String& menuItem, size_t index)
+    {
+        m_UIRenderer.DrawString(MyFont, menuItem, GetMenuItemPos(menuItem, index), FontColor);
+    }
+
+    Array<String> MenuItems = {
+        "Start", "Options", "Exit"
+    };
+
+    bool PointInsideRect(Vector2i point, Vector2 rectPos, float rectW, float rectH)
+    {
+        return point.Y > rectPos.Y && point.Y < rectPos.Y + rectH &&
+            point.X > rectPos.X && point.X < rectPos.X + rectW;
+    }
+
+    bool m_AnimatingSlide = false;
+    Vector2 slideStart;
+    Vector2 slideSize;
+    Vector2 slideActualSize;
+    Vector2i lastmPos;
+    int animatingIndex = -1;
     virtual void Render()
     {
-        m_Renderer.SetViewMatrix(m_Camera.GetViewMatrix()); 
-        m_Renderer.Begin();
-        m_Renderer.FillRectangle({ 0, 0 }, AreaWidth, AreaHeight, BgColor);
-        m_PaddleOne.Render(&m_Renderer);
-        m_PaddleTwo.Render(&m_Renderer);
-        
-        if (!GameOver)
+        if (m_GameState == GameState::Menu)
         {
-            m_Ball.Render(&m_Renderer);
-        }
+            MouseState mouseState = Mouse::GetState();
+            Vector2i mousePos = mouseState.Position;
+            m_UIRenderer.Begin();
+            m_UIRenderer.End();
+            if (m_AnimatingSlide)
+            {
+                if (slideActualSize.X < slideSize.X)
+                {
+                    slideActualSize.X+=10;
+                    slideActualSize.Y = slideSize.Y;
+                }
+                else {
+                    m_AnimatingSlide = false;
+                }
+            }
+            m_UIRenderer.FillRectangle(slideStart, slideActualSize.X, slideSize.Y, FontColor);
+            for (size_t i = 0; i < MenuItems.size(); ++i)
+            {
+                Vector2 size = MyFont->MeasureString(MenuItems[i]);
+                Vector2 itemPos = GetMenuItemPos(MenuItems[i], MenuItems.size() - 1 - i);
  
-        m_Renderer.End();
-        m_Renderer.Present();
+                if (PointInsideRect(mousePos, { itemPos.X, itemPos.Y}, size.X, size.Y))
+                {
+                    slideStart = { itemPos.X, itemPos.Y + size.Y + 5 };
+                    slideSize = { size.X, 5 };
+                    //m_UIRenderer.FillRectangle({ itemPos.X, itemPos.Y + size.Y + 5 }, size.X, 5, FontColor);
+                    if (!m_AnimatingSlide && animatingIndex != i)
+                        slideActualSize.X = 0;
+                    m_AnimatingSlide = true;
+                    animatingIndex = i;
+                }
 
-        m_UIRenderer.Begin();
-        
-        if (GameOver)
-        {
-            const String gameOverStr = "Game Over!\nSpace to restart";
-
-            Vector2 strSize = MyFont->MeasureString(gameOverStr);
-            Vector2 pos(
-                Window->Width() / 2 - strSize.X / 2,
-                Window->Height() / 2 - strSize.Y / 2
-            );
-            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
+                DrawMenuItem(MenuItems[i], MenuItems.size() - 1 - i);
+            }
+            m_UIRenderer.Present();
+            lastmPos = mousePos;
         }
-
-        if (Paused)
+        if (m_GameState == GameState::Paused || m_GameState == GameState::Playing)
         {
-            const String gameOverStr = "Paused...";
+            m_Renderer.SetViewMatrix(m_Camera.GetViewMatrix());
+            m_Renderer.Begin();
+            m_Renderer.FillRectangle({ 0, 0 }, AreaWidth, AreaHeight, BgColor);
+            m_PaddleOne.Render(&m_Renderer);
+            m_PaddleTwo.Render(&m_Renderer);
 
-            Vector2 strSize = MyFont->MeasureString(gameOverStr);
-            Vector2 pos(
-                Window->Width() / 2 - strSize.X / 2,
-                Window->Height() / 2 - strSize.Y / 2
-            );
-            m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
+            if (!GameOver)
+            {
+                m_Ball.Render(&m_Renderer);
+            }
+
+            m_Renderer.End();
+            m_Renderer.Present();
+
+            m_UIRenderer.Begin();
+
+            if (GameOver)
+            {
+                const String gameOverStr = "Game Over!\nSpace to restart";
+
+                Vector2 strSize = MyFont->MeasureString(gameOverStr);
+                Vector2 pos(
+                    Window->Width() / 2 - strSize.X / 2,
+                    Window->Height() / 2 - strSize.Y / 2
+                );
+                m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
+            }
+
+            if (m_GameState == GameState::Paused)
+            {
+                const String gameOverStr = "Paused...";
+
+                Vector2 strSize = MyFont->MeasureString(gameOverStr);
+                Vector2 pos(
+                    Window->Width() / 2 - strSize.X / 2,
+                    Window->Height() / 2 - strSize.Y / 2
+                );
+                m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
+            }
+
+            if (m_DebugMode)
+            {
+                m_UIRenderer.DrawString(DebugFont, "FPS: " + ToString(1000 / m_Dt), { 10, 20 }, DebugFontColor);
+            }
+
+            m_UIRenderer.End();
+            m_UIRenderer.Present();
         }
-
-        if (m_DebugMode)
-        {
-            m_UIRenderer.DrawString(DebugFont, "FPS: " + ToString(1000 / m_Dt), { 10, 20 }, DebugFontColor);
-        }
-
-        m_UIRenderer.End();
-        m_UIRenderer.Present();
     }
 };
 

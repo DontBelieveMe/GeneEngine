@@ -85,13 +85,19 @@ void Win32Window::Create()
 	// TODO: This has removed Win32 borderless functionality, reimplement this
 	DWORD style = (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
 
+    RECT rect;
+    rect.left = rect.top = 0;
+    rect.right = Width();
+    rect.bottom = Height();
+    AdjustWindowRect(&rect, style, false);
+
 	m_Handle = CreateWindowEx(
 		0,
 		GENE_WINDOW_CLASS_NAME,	
 		m_WindowConfig.Title,
 		style,
 		200, 200,
-		Width(), Height(),
+		rect.right - rect.left, rect.bottom - rect.top,
 		nullptr,
 		nullptr,
 		hInstance, nullptr
@@ -185,10 +191,10 @@ void Win32Window::PollEvents()
 	POINT cursorPos;
 	if (GetCursorPos(&cursorPos))
 	{
-		if (ScreenToClient((HWND)m_Handle, &cursorPos))
+        if (ScreenToClient((HWND)m_Handle, &cursorPos))
 		{
-			m_MouseState.Position.X = static_cast<float>(cursorPos.x);
-			m_MouseState.Position.Y = static_cast<float>(cursorPos.y);
+            m_MouseState.Position.X = cursorPos.x;//static_cast<float>(cursorPos.x);
+            m_MouseState.Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);
 		}
 	}
 

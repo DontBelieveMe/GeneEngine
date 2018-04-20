@@ -63,6 +63,10 @@ namespace Gene { namespace Graphics {
         /**
         * Draw a string the current buffer with the specified font at the specified window position
         * and with the specified colour.
+        * 
+        * Meaning of position depends on alignment.
+        *  [] Left -> X = The text should be drawn horizontally across from this point, Y = text drawn vertically from this point (down)
+        *  [] Centre -> X = Position of the centre of the text, Y = text drawn down vertically from this point.
         */
         void DrawString(Font *font,
             const String& text,

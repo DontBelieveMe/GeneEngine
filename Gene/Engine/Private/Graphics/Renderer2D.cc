@@ -150,7 +150,7 @@ void Renderer2D::PopTransform()
 
 Vector3 MultiplyVector2ByMatrix4(float x, float y, const Matrix4& mat4)
 {
-	return mat4.Multiply(Vector3(x, y, 1.0f));
+    return { x,y,0.0f };// mat4.Multiply(Vector3(x, y, 1.0f));
 }
 
 void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
@@ -259,9 +259,9 @@ void Renderer2D::DrawString(Font *font,
 
         GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], static_cast<int>(text[i]));
 
-        float tmpY = yPos - glyph->Offset.Y;
-        
-        // Work in any kerning
+        float tmpY = yPos;// -glyph->Offset.Y;
+ 
+       // Work in any kerning
         if (i > 0) {
             Vector2 kerning = ftFont->GetKerning(text[i - 1], c);
             xPos += kerning.X;

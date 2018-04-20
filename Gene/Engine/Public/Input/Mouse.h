@@ -16,6 +16,6 @@ namespace Gene { namespace Input {
 		static void SetPrimaryWindow(Platform::Window *window);
 
 		static MouseState& GetState(); 
-		static void SetPosition(const Vector2& pos);
+		static void SetPosition(const Vector2i& pos);
 	};
 }}

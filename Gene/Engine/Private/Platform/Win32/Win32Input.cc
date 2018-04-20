@@ -25,8 +25,8 @@ using namespace Gene;
 		POINT cursor;
 		GetCursorPos(&cursor);
 		ScreenToClient(activeWindow, &cursor);
-		state.Position.X = static_cast<float>(cursor.x);
-		state.Position.Y = static_cast<float>(cursor.y);
+		state.Position.X = cursor.x;
+		state.Position.Y = cursor.y;
 		return state;
 	}
 	
@@ -46,12 +46,12 @@ using namespace Gene;
 		return s_PrimaryWindow->m_KeyState;
 	}
 	
-	void Mouse::SetPosition(const Vector2& pos)
+	void Mouse::SetPosition(const Vector2i& pos)
 	{
 		HWND activeWindow = GetActiveWindow();
 		RECT winRect;
 		GetWindowRect(activeWindow, &winRect);
 
-		SetCursorPos(winRect.left + (int)(pos.X), winRect.top + (int)(pos.Y));
+		SetCursorPos(winRect.left + pos.X, winRect.top + pos.Y);
 	}
 #endif

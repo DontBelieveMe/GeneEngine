@@ -22,4 +22,21 @@ namespace Gene {
         /** Set the X and Y components of this Vector to be the specified scalar value 'a'*/
         void Set(float a);
 	};
+
+    template <typename T>
+    struct TVector2 {
+        T X, Y;
+
+        TVector2(const T& x, const T& y) : X(x), Y(y) {}
+        TVector2(const T& a) : X(a), Y(a) {}
+        TVector2() {}
+        void Set(const T& a)
+        {
+            X = a;
+            Y = a;
+        }
+    };
+
+    typedef TVector2<float> Vector2f;
+    typedef TVector2<int> Vector2i;
 }
