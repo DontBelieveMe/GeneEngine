@@ -176,6 +176,7 @@ static bool GameOver = false;
 static bool Paused = false;
 
 static Font *MyFont;
+static Font *DebugFont;
 
 static Camera *MyCamera;
 
@@ -183,6 +184,7 @@ static AudioSystem *AudioPlayer;
 
 static Color FontColor = Color(138, 148, 168, 255);
 static Color BgColor = Color(37, 42, 51, 255);
+static Color DebugFontColor = Color(255, 255, 0, 255);
 
 enum class PaddleController
 {
@@ -431,11 +433,16 @@ private:
 
     Camera m_Camera;
     
+    bool m_DebugMode;
+    float m_Dt;
+
 public:
     virtual void Initalize()
     {
         Window->SetClearColor(Color::Black);
         MyFont = new Font("Data/font.ttf", 13);
+        DebugFont = new Font("Data/font.ttf", 5);
+
         MyCamera = &m_Camera;
         m_AudioSystem.Init();
         AudioPlayer = &m_AudioSystem;
@@ -448,33 +455,43 @@ public:
 
         m_PaddleOne.SetAsPlayerControlled(PlayerOneKeyboard, Side::Left);
         m_PaddleTwo.SetAsPlayerControlled(PlayerTwoKeyboard, Side::Right);
-
+        m_DebugMode = false;
         m_Ball.Start();
         Random::FloatRange(0, 0);
     }
 
-    Timer timer;
+    Timer m_PauseKeyTimer;
+    Timer m_DebugKeyTimer;
 
     virtual void Update(const GameTime& time)
     {
+        m_Dt = time.DeltaInMilliSeconds();
         KeyboardState state = Keyboard::GetState();
         m_Camera.Update();
 
-        if (state.IsKeyDown(Keys::U))
-        {
-            MyCamera->Angle++;
-        }
-
         if (state.IsKeyDown(Keys::Escape) && !GameOver)
         {
-            if (timer.Running() && timer.ElapsedTimeMs() > 100)
+            if (m_PauseKeyTimer.Running() && m_PauseKeyTimer.ElapsedTimeMs() > 100)
             {
                 Paused = !Paused;
                 if (!Paused) {
-                    timer.Stop();
+                    m_PauseKeyTimer.Stop();
                 }
             }
-            timer.Start();
+            m_PauseKeyTimer.Start();
+        }
+
+        if (state.IsKeyDown(Keys::F11))
+        {
+            if (m_DebugKeyTimer.Running() && m_DebugKeyTimer.ElapsedTimeMs() > 100)
+            {
+                m_DebugMode = !m_DebugMode;
+                if (!m_DebugMode)
+                {
+                    m_DebugKeyTimer.Stop();
+                }
+            }
+            m_DebugKeyTimer.Start();
         }
 
         if (Paused) return;
@@ -542,6 +559,11 @@ public:
                 Window->Height() / 2 - strSize.Y / 2
             );
             m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
+        }
+
+        if (m_DebugMode)
+        {
+            m_UIRenderer.DrawString(DebugFont, "FPS: " + ToString(1000 / m_Dt), { 10, 20 }, DebugFontColor);
         }
 
         m_UIRenderer.End();
