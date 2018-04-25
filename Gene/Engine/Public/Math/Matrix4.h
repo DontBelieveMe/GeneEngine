@@ -21,7 +21,7 @@ namespace Gene {
 		void Invert();
 
         // TODO: Convert this to the new immutable Matrix4 format
-		Vector3 ScreenToWorld(
+		static Vector3 ScreenToWorld(
 			Matrix4 projection, 
 			Matrix4 view, 
 			const Vector2& screenPos, 
@@ -49,5 +49,6 @@ namespace Gene {
         
         Matrix4 operator*(const Matrix4& b);
         Vector3 operator*(const Vector3& b);
+        Vector4 operator*(const Vector4& b);
 	};
 }

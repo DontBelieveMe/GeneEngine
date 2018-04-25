@@ -34,6 +34,14 @@ namespace Gene { namespace Graphics {
         Centre
     };
 
+    struct AABBRectangle
+    {
+        Vector2 TopLeft, TopRight, BottomLeft, BottomRight;
+
+        AABBRectangle() {};
+        AABBRectangle(Vector2 tl, Vector2 tr, Vector2 bl, Vector2 br) : TopLeft(tl), TopRight(tr), BottomLeft(bl), BottomRight(br) {}
+    };
+
     /** Used for rendering data to the current framebuffer (which if none is specified the window). */
     class Renderer2D
     {
@@ -75,6 +83,8 @@ namespace Gene { namespace Graphics {
             TextAlignment alignment = TextAlignment::Left 
 		);
 
+        void DrawTextureBounds(Vector2 position, Texture2D* texture, const AABBRectangle& rect, Vector2 size);
+
         /** Draw the specified texture to the buffer at the specified window coordinates. */
 		void DrawTexture(Vector2 position, Texture2D *texture);
 
@@ -104,5 +114,7 @@ namespace Gene { namespace Graphics {
 
         /** Set the (view) matrix that is to be multiplied with the projection matrix as a transform that affects the vertex position.*/
         void SetViewMatrix(const Matrix4& view);
+
+        static AABBRectangle CoverAllTexture;
     };
 }}

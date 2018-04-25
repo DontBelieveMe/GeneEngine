@@ -8,7 +8,7 @@
 
 namespace Gene {
 	template <typename T>
-	using ResourceHandle = T * const;
+	using ResourceHandle = T *;
 
 	typedef unsigned int ResourceId;
 

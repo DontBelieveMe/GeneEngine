@@ -15,6 +15,8 @@
 
 #define GENE_EVENT_CALLBACK_ID "_GeneCallbacksId"
 #define GENE_KEYBOARD_PROP "_GeneKeyboardStateId"
+#define GENE_MOUSE_PROP "_GeneMouseProp"
+
 #define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
 
 using namespace Gene::Platform::Win32;
@@ -27,6 +29,7 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	using namespace Gene::Input;
 	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
 	KeyboardState *keyState = static_cast<KeyboardState*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
+    MouseState *mouseState = static_cast<MouseState*>(GetProp(hWnd, GENE_MOUSE_PROP));
 
 	switch(msg)
 	{
@@ -46,6 +49,19 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_KEYUP:
 		keyState->KeyMap[wParam] = false;
 		return 0;
+    case WM_LBUTTONDOWN:
+        mouseState->LeftButtonDown = true;
+        break;
+    case WM_LBUTTONUP:
+        mouseState->LeftButtonDown = false;
+        break;
+    case WM_RBUTTONDOWN:
+        mouseState->RightButtonDown = true;
+        break;
+    case WM_RBUTTONUP:
+        mouseState->RightButtonDown = false;
+        break;
+
 	default: break;
 	}
 
@@ -105,11 +121,13 @@ void Win32Window::Create()
 
 	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
 	SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, &m_KeyState);
-
+    SetProp((HWND)m_Handle, GENE_MOUSE_PROP, &m_MouseState);
 	Input::Mouse::SetPrimaryWindow(this);
 	Input::Keyboard::SetPrimaryWindow(this);
 	
 	memset(m_KeyState.KeyMap, 0, 62256);
+    m_MouseState.LeftButtonDown = false;
+    m_MouseState.RightButtonDown = false;
 
 	CreateGLContext();
 }
@@ -162,6 +180,7 @@ void Win32Window::CreateGLContext()
 
 	glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
 	glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
+    glViewport(0, 0, Width(), Height());
 }
 
 void Win32Window::Show()

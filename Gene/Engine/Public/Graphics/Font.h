@@ -5,41 +5,50 @@
 #include <Graphics/Texture2D.h>
 #include <Math/Vector2.h>
 #include <Core/String.h>
+#include <Runtime/Resources.h>
 
 #include "../../Private/Graphics/FreeTypeFont.h"
 
-namespace Gene { namespace Graphics {
-	class Font 
-	{
-	public:
-		static const float DEFAULT_SIZE;
+namespace Gene { 
+    namespace Graphics {
+        class Font : public IResource
+        {
+        public:
+            static const float DEFAULT_SIZE;
 
-	public:
-        /** Creates a font object from the font file specified, and if a size is not explictly specified a size of 11px */
-		Font(const char *fontFile, float size = DEFAULT_SIZE);
+        public:
+            /** Creates a font object from the font file specified, and if a size is not explictly specified a size of 11px */
+            Font(const char *fontFile, float size = DEFAULT_SIZE);
+            Font();
 
-        /** Destroys any resources used by the font */
-		~Font();
+            /** Creates a font object from the font file specified, and if a size is not explictly specified a size of 11px */
+            void Load(const char *fontFile, float size = DEFAULT_SIZE);
 
-        /** Return the size of the font as specified on construction */
-		inline float		   Size()	   const { return m_Size; }
+            virtual void Destroy();
 
-        /** Return the fonts OpenGL texture object */
-		Texture2D			  *GLTexture()		 { return m_Texture; }
+            /** Destroys any resources used by the font */
+            ~Font();
 
-        /** Return the total dimensions of the string taking into account newlines */
-        Vector2                MeasureString(const String& str);
+            /** Return the size of the font as specified on construction */
+            inline float		   Size()	   const { return m_Size; }
 
-        /** Calculate the dimensions of each line of a string. If the string has no newlines then the resultant array contains the dimensions for that string */
-        Array<Vector2>         MeasureLines(const String& str);
+            /** Return the fonts OpenGL texture object */
+            Texture2D			  *GLTexture() { return m_Texture; }
 
-        /** Get the underlying FreeTypeFont handle. Holds glyph data. */
-        FreeTypeFont          *GetFreeTypeFont() { return m_FreeTypeFont; }
+            /** Return the total dimensions of the string taking into account newlines */
+            Vector2                MeasureString(const String& str);
 
-	private:
-        FreeTypeFont          *m_FreeTypeFont;
-		Texture2D			  *m_Texture;
+            /** Calculate the dimensions of each line of a string. If the string has no newlines then the resultant array contains the dimensions for that string */
+            Array<Vector2>         MeasureLines(const String& str);
 
-		float				   m_Size;
-	};
-}}
+            /** Get the underlying FreeTypeFont handle. Holds glyph data. */
+            FreeTypeFont          *GetFreeTypeFont() { return m_FreeTypeFont; }
+
+        private:
+            FreeTypeFont          *m_FreeTypeFont;
+            Texture2D			  *m_Texture;
+
+            float				   m_Size;
+        };
+    }
+}

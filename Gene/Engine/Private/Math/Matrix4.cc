@@ -71,6 +71,16 @@ Vector3 Matrix4::operator*(const Vector3& b)
     return Multiply(b);
 }
 
+Vector4 Matrix4::operator*(const Vector4& other)
+{
+    float x = 0.f,
+        y = 0.f,
+        z = 0.f,
+        w = 0.f;
+
+    return Vector4();
+}
+
 Matrix4 Matrix4::Translate(const Vector3& vector)
 {
     Matrix4 out;
@@ -155,16 +165,22 @@ Matrix4 Matrix4::Identity(float diag)
 
 Vector3 Matrix4::ScreenToWorld(Matrix4 projection, Matrix4 view, const Vector2& screenPos, int viewWidth, int viewHeight)
 {
-	Vector3 pos;
-	pos.X = 2.f * screenPos.X / static_cast<float>(viewWidth - 1);
-	pos.Y = -(2.f * screenPos.Y / static_cast<float>(viewHeight - 1));
-	pos.Z = 0;
-	
-	view.Invert();
-	projection.Invert();
-	view.Translate(pos);
-	projection.Translate(pos);
-	return pos;
+    Matrix4 matProj = view * projection;
+    matProj.Invert();
+
+    float in[4];
+    float winZ = 1.0f;
+    in[0] = (2.0f*((float)(screenPos.X - 0) / (viewWidth - 0))) - 1.0f,
+    in[1] = 1.0f - (2.0f*((float)(screenPos.Y - 0) / (viewHeight - 0)));
+    in[2] = 2.0* winZ - 1.0;
+    in[3] = 1.0;
+    Vector4 v4(in[0], in[1], in[2], in[3]);
+    Vector4 pos = matProj * v4;
+    pos.W = 1 / pos.W;
+    pos.X *= pos.W;
+    pos.Y *= pos.W;
+    pos.Z *= pos.W;
+    return Vector3(pos.X, pos.Y, pos.Z);
 }
 
 Matrix4 Matrix4::Perpective(float aspectRatio, float foV, float near, float far)

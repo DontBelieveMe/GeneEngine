@@ -40,4 +40,12 @@ namespace Gene {
         /** Returns the length (magnitude) of this vector. Involves a square root operation. */
         float          Length();
 	};
+
+    // TODO: Move
+    struct Vector4 {
+        float X, Y, Z, W;
+        Vector4(float x, float y, float z, float w) :
+            X(x), Y(y), Z(z), W(w) {}
+        Vector4() {}
+    };
 }

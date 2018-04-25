@@ -7,5 +7,8 @@
 namespace Gene { namespace Input {
 	struct MouseState {
 		Vector2i Position;
+
+        bool LeftButtonDown;
+        bool RightButtonDown;
 	};
 }}

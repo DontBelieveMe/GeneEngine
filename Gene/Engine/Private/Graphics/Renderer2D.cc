@@ -150,50 +150,57 @@ void Renderer2D::PopTransform()
 
 Vector3 MultiplyVector2ByMatrix4(float x, float y, const Matrix4& mat4)
 {
-    return { x,y,0.0f };// mat4.Multiply(Vector3(x, y, 1.0f));
+    return mat4.Multiply(Vector3(x, y, 1.0f));
 }
 
-void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
+void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const AABBRectangle& rect, Vector2 size)
 {
-    if(!texture)
+    if (!texture)
     {
-        LOG(Gene::LogLevel::Warning, "DrawTexture() called with a NULL texture parameter. Aborting draw");
+        LOG(Gene::LogLevel::Warning, "DrawTextureBounds() called with a NULL texture parameter. Aborting draw");
         return;
     }
 
-	float width = static_cast<float>(texture->Width());
-    float height = static_cast<float>(texture->Height());
+    float width = size.X;
+    float height = size.Y;
 
     float tid = this->GetTextureSlot(texture);
 
-	const Matrix4& backTransform = m_TransformationStack.back();
+    const Matrix4& backTransform = m_TransformationStack.back();
 
-	m_Texture = texture;
-	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
-	m_Buffer->UV = Vector2(0, 0);
+    m_Texture = texture;
+    m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
+    m_Buffer->UV = rect.TopLeft;
     m_Buffer->TextureId = tid;
-	m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
-	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y, backTransform);
-	m_Buffer->UV = Vector2(1, 0);
+    m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y, backTransform);
+    m_Buffer->UV = rect.TopRight;
     m_Buffer->TextureId = tid;
-	m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
-	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y + height, backTransform);
-	m_Buffer->UV = Vector2(1, 1);
+    m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y + height, backTransform);
+    m_Buffer->UV = rect.BottomRight;
     m_Buffer->TextureId = tid;
-	m_Buffer->Color = Vector3(1, 1, 1);
-	m_Buffer++;
-
-	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y + height, backTransform);
-	m_Buffer->UV = Vector2(0, 1);
-    m_Buffer->TextureId = tid;
-	m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
-	m_IndexCount += 6;
+    m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y + height, backTransform);
+    m_Buffer->UV = rect.BottomLeft;
+    m_Buffer->TextureId = tid;
+    m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer++;
+
+    m_IndexCount += 6;
+}
+
+AABBRectangle Renderer2D::CoverAllTexture = AABBRectangle({ 0,0 }, { 1, 0 }, {0, 1}, {1, 1});
+
+void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
+{
+    DrawTextureBounds(position, texture, CoverAllTexture, { (float)texture->Width(), (float)texture->Height() });
 }
 
 void Renderer2D::DrawString(Font *font, 

@@ -16,21 +16,34 @@ using namespace Gene;
 
 const float Font::DEFAULT_SIZE = 11.f;
 
-Font::Font(const char *fontFile, float size): m_Size(size)
+Font::Font(const char *fontFile, float size)
 {
+    Load(fontFile, size);
+}
+
+void Font::Load(const char *fontFile, float size)
+{
+    m_Size = size;
     m_FreeTypeFont = new FreeTypeFont(fontFile, size);
-    
-    for(char c = ' '; c <= '~'; ++c) {
+
+    for (char c = ' '; c <= '~'; ++c) {
         m_FreeTypeFont->LoadCharacter(c);
     }
-	
+
     m_Texture = m_FreeTypeFont->GenerateTexture();
+}
+
+Font::Font() {}
+
+void Font::Destroy()
+{
+    delete m_Texture;
+    delete m_FreeTypeFont;
 }
 
 Font::~Font() 
 {
-	delete m_Texture;
-    delete m_FreeTypeFont;
+
 }
 
 Array<Vector2> Font::MeasureLines(const String& str)
