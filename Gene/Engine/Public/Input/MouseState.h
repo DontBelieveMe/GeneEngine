@@ -33,7 +33,7 @@ namespace Gene { namespace Input {
             return static_cast<unsigned>(m_Button) & static_cast<unsigned>(button);
         }
 
-        inline const Vector2i& GetWindowPosition() const {
+        inline const Vector2i& GetPosition() const {
             return m_Position;
         }
 	};

@@ -34,5 +34,10 @@ namespace Gene {
 			static constexpr float oneEightyOverPi = 180 / Maths::PI;
 			return radians * oneEightyOverPi;
 		}
+
+        template <typename T> 
+        static int Sign(const T& val) {
+            return (T(0) < val) - (val < T(0));
+        }
 	};
 }

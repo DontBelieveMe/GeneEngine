@@ -63,7 +63,10 @@ int GeneMain(int argc, char **argv)
             audioManager.PlayWav(wavFile);
         }
         if (mouseState.IsButtonDown(MouseButton::Right)) {
-            pos.Y += 0.05f * time.DeltaInMilliSeconds();
+            Vector2i mousePosition = mouseState.GetPosition();
+            float mPosY = mousePosition.Y / 3.75f;
+            float diff = mPosY - pos.Y;
+            pos.Y += (Maths::Sign(diff) * 0.05f) * time.DeltaInMilliSeconds();
         }
         if (keyState.IsKeyDown(Keys::RightArrow)) {
             pos.X += 0.05f * time.DeltaInMilliSeconds();
