@@ -56,7 +56,7 @@ namespace Gene { namespace Platform {
         EventCallbacks        m_Callbacks;
 
 		friend class Input::Mouse;
-		friend class Input::Keyboard;
+        friend class Input::Keyboard;
 
 	public:
         virtual ~Window() { delete m_Context; }

@@ -28,8 +28,8 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	using namespace Gene::Input;
 	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
-	KeyboardState *keyState = static_cast<KeyboardState*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
-    MouseState *mouseState = static_cast<MouseState*>(GetProp(hWnd, GENE_MOUSE_PROP));
+	Key *keyMap = static_cast<Key*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
+    MouseButton *mouseButtonState = static_cast<MouseButton*>(GetProp(hWnd, GENE_MOUSE_PROP));
 
 	switch(msg)
 	{
@@ -44,22 +44,22 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		break;
 	case WM_KEYDOWN:
-		keyState->KeyMap[wParam] = true;	
+        keyMap[wParam] = true;
 		return 0;
 	case WM_KEYUP:
-		keyState->KeyMap[wParam] = false;
+        keyMap[wParam] = false;
 		return 0;
     case WM_LBUTTONDOWN:
-        mouseState->LeftButtonDown = true;
+        *mouseButtonState = (MouseButton) (static_cast<unsigned>(*mouseButtonState) | static_cast<unsigned>(MouseButton::Left));
         break;
     case WM_LBUTTONUP:
-        mouseState->LeftButtonDown = false;
+        *mouseButtonState = (MouseButton)(static_cast<unsigned>(*mouseButtonState) & ~(static_cast<unsigned>(MouseButton::Left)));
         break;
     case WM_RBUTTONDOWN:
-        mouseState->RightButtonDown = true;
+        *mouseButtonState = (MouseButton)(static_cast<unsigned>(*mouseButtonState) | static_cast<unsigned>(MouseButton::Right));;
         break;
     case WM_RBUTTONUP:
-        mouseState->RightButtonDown = false;
+        *mouseButtonState = (MouseButton)(static_cast<unsigned>(*mouseButtonState) & ~(static_cast<unsigned>(MouseButton::Right)));;
         break;
 
 	default: break;
@@ -120,14 +120,14 @@ void Win32Window::Create()
 	);
 
 	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
-	SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, &m_KeyState);
-    SetProp((HWND)m_Handle, GENE_MOUSE_PROP, &m_MouseState);
+    SetProp((HWND)m_Handle, GENE_MOUSE_PROP, &(m_MouseState.m_Button));
 	Input::Mouse::SetPrimaryWindow(this);
 	Input::Keyboard::SetPrimaryWindow(this);
-	
+
 	memset(m_KeyState.KeyMap, 0, 62256);
-    m_MouseState.LeftButtonDown = false;
-    m_MouseState.RightButtonDown = false;
+	SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, m_KeyState.KeyMap);
+
+    m_MouseState.m_Button = Gene::Input::MouseButton::None;
 
 	CreateGLContext();
 }
@@ -212,8 +212,8 @@ void Win32Window::PollEvents()
 	{
         if (ScreenToClient((HWND)m_Handle, &cursorPos))
 		{
-            m_MouseState.Position.X = cursorPos.x;//static_cast<float>(cursorPos.x);
-            m_MouseState.Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);
+            m_MouseState.m_Position.X = cursorPos.x;//static_cast<float>(cursorPos.x);
+            m_MouseState.m_Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);
 		}
 	}
 

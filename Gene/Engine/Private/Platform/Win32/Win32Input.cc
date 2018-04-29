@@ -19,14 +19,6 @@ using namespace Gene;
 	static MouseState& GetDefaultState()
 	{
 		static MouseState state;
-		HWND activeWindow = GetActiveWindow();
-		if (activeWindow == nullptr) return state;
-
-		POINT cursor;
-		GetCursorPos(&cursor);
-		ScreenToClient(activeWindow, &cursor);
-		state.Position.X = cursor.x;
-		state.Position.Y = cursor.y;
 		return state;
 	}
 	

@@ -4,7 +4,7 @@
 #include <Runtime/Resources.h>
 #include <Input/Keyboard.h>
 #include <Platform/Time.h>
-
+#include <Input/Mouse.h>
 #include <Audio/WaveFile.h>
 #include <Audio/AudioSystem.h>
 
@@ -57,10 +57,18 @@ int GeneMain(int argc, char **argv)
         window->PollEvents();
 		
         KeyboardState keyState = Keyboard::GetState();
-        if (keyState.IsKeyDown(Keys::D)) {
+        MouseState mouseState = Mouse::GetState();
+
+        if (mouseState.IsButtonDown(MouseButton::Left) && !wavFile->IsPlaying()) {
+            audioManager.PlayWav(wavFile);
+        }
+        if (mouseState.IsButtonDown(MouseButton::Right)) {
+            pos.Y += 0.05f * time.DeltaInMilliSeconds();
+        }
+        if (keyState.IsKeyDown(Keys::RightArrow)) {
             pos.X += 0.05f * time.DeltaInMilliSeconds();
         }
-        else if (keyState.IsKeyDown(Keys::A)) {
+        else if (keyState.IsKeyDown(Keys::LeftArrow)) {
             pos.X -= 0.05f * time.DeltaInMilliSeconds();
         }
         
