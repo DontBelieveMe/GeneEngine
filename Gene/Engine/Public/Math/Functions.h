@@ -3,11 +3,36 @@
 #pragma once
 
 #include <type_traits>
+#include <math.h>
 
 namespace Gene {
 	struct Maths
 	{
 		static constexpr float PI = 3.14159265359f;
+
+        static float Sin(float v) {
+            return sinf(v);
+        }
+
+        static float Asin(float v) {
+            return asinf(v);
+        }
+
+        static float Cos(float v) {
+            return cosf(v);
+        }
+
+        static float Acos(float v) {
+            return acosf(v);
+        }
+
+        static float Tan(float v) {
+            return tanf(v);
+        }
+
+        static float Atan(float v) {
+            return atanf(v);
+        }
 
 		template <typename T>
 		static T Clamp(T value, T min, T max) 
