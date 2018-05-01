@@ -21,6 +21,11 @@ namespace Gene {
 
         /** Set the X and Y components of this Vector to be the specified scalar value 'a'*/
         void Set(float a);
+
+        /** Normalizes this vector in place.*/
+        void Normalize();
+
+        float Length();
 	};
 
     template <typename T>

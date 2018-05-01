@@ -185,9 +185,12 @@ void Win32Window::CreateGLContext()
 
 void Win32Window::Show()
 {
-	if (m_WindowConfig.Borderless)
-		SetWindowLongPtr((HWND)m_Handle, GWL_STYLE, 
-						WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+    if (m_WindowConfig.Borderless)
+    {
+        SetWindowLongPtr((HWND)m_Handle, GWL_STYLE,
+            WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+    }
+
 	ShowWindow((HWND)m_Handle, SW_SHOW);
 }
 

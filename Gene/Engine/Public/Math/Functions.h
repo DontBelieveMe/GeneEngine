@@ -10,6 +10,10 @@ namespace Gene {
 	{
 		static constexpr float PI = 3.14159265359f;
 
+        static float Sqrt(float v) {
+            return sqrtf(v);
+        }
+
         static float Sin(float v) {
             return sinf(v);
         }

@@ -64,9 +64,11 @@ int GeneMain(int argc, char **argv)
         }
         if (mouseState.IsButtonDown(MouseButton::Right)) {
             Vector2i mousePosition = mouseState.GetPosition();
-            float mPosY = mousePosition.Y / 3.75f;
-            float diff = mPosY - pos.Y;
-            pos.Y += (Maths::Sign(diff) * 0.05f) * time.DeltaInMilliSeconds();
+            mousePosition.X /= 3.75;
+            mousePosition.Y /= 3.75f;
+            Vector2 diff = Vector2(mousePosition.X, mousePosition.Y) - pos;
+            diff.Normalize();
+            pos += diff * 0.05f * time.DeltaInMilliSeconds();
         }
         if (keyState.IsKeyDown(Keys::RightArrow)) {
             pos.X += 0.05f * time.DeltaInMilliSeconds();

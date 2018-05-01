@@ -1,6 +1,7 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
 
 #include <Math/Vector2.h>
+#include <Math/Functions.h>
 
 using namespace Gene;
 
@@ -12,6 +13,19 @@ Vector2::Vector2() :
 Vector2::Vector2(float x, float y) :
 	X(x), Y(y)
 {
+}
+
+float Vector2::Length()
+{
+    return Maths::Sqrt((X * X) + (Y * Y));
+}
+
+void Vector2::Normalize() 
+{
+    float len = Length();
+
+    X /= len;
+    Y /= len;
 }
 
 Vector2 Vector2::operator+(const Vector2& b)
