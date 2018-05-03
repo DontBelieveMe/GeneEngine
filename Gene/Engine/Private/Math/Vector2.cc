@@ -46,6 +46,14 @@ Vector2 Vector2::operator*(const float& a)
     return Vector2(X * a, Y * a);
 }
 
+Vector2& Vector2::operator+=(const float& other)
+{
+    this->X += other;
+    this->Y += other;
+
+    return *this;
+}
+
 Vector2& Vector2::operator+=(const Vector2& b)
 {
     this->X += b.X;

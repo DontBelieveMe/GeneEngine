@@ -14,6 +14,7 @@ namespace Gene {
 		Vector2 operator-(const Vector2& b);
 
         Vector2& operator+=(const Vector2& b);
+        Vector2& operator+=(const float& other);
         Vector2& operator-=(const Vector2& b);
 
         /** Return a new vector where the X & Y components are set to the X & Y of the left hand operand multiplied by the scalar value 'a'. */

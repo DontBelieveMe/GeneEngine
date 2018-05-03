@@ -50,7 +50,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
-
+    m_IndexOffset = 0;
 
     // TODO: Fix -> We need a better way of embedding shaders (maybe package in custom package & auto copy/deploy to correct
     // directory
@@ -90,12 +90,10 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     GLuint *indices                     = new GLuint[RendererIndexNum];
 
-    GenerateRectIndicesIntoBuffer(indices, RendererIndexNum);
-
     BufferDescriptor                    eboDesc;
     eboDesc.Data                        = indices;
     eboDesc.DataType                    = OpenGL::GLType::UnsignedInt;
-    eboDesc.DrawType                    = BufferDrawType::Static;
+    eboDesc.DrawType                    = BufferDrawType::Dynamic;
     eboDesc.Size                        = RendererIndexNum;
 	m_EBO->SetData(eboDesc);
 
@@ -193,7 +191,7 @@ void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const A
     m_Buffer->Color = Vector3(1, 1, 1);
     m_Buffer++;
 
-    m_IndexCount += 6;
+    WriteRectangleIndices();
 }
 
 AABBRectangle Renderer2D::CoverAllTexture = AABBRectangle({ 0,0 }, { 1, 0 }, {0, 1}, {1, 1});
@@ -300,7 +298,7 @@ void Renderer2D::DrawString(Font *font,
 
 		xPos += glyph->Advance.X;
 
-		m_IndexCount += 6;
+        WriteRectangleIndices();
 	}
 }
 
@@ -320,6 +318,77 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
     // The texture is not in the list...
     m_Textures.push_back(texture);
     return m_Textures.size() - 1.f;
+}
+
+void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, unsigned noPoints)
+{
+    Vector3 rgbCol = color.ToNormalizedVector3();
+    Matrix4 backTransform = m_TransformationStack.back();
+    
+    float segmentSize = Maths::ToRadians(360.f / noPoints);
+
+    for (int i = 0; i < noPoints; ++i)
+    {
+        float angle = segmentSize * i;
+        Vector2 pos(
+            radius * Maths::Cos(angle) + position.X,
+            radius * Maths::Sin(angle) + position.Y
+        );
+        m_Buffer->Position = MultiplyVector2ByMatrix4(pos.X, pos.Y, backTransform);
+        m_Buffer->Color = rgbCol;
+        m_Buffer->TextureId = -1;
+        m_Buffer++;
+
+        angle = segmentSize * (i + 1);
+        pos = Vector2(
+            radius * Maths::Cos(angle) + position.X,
+            radius * Maths::Sin(angle) + position.Y
+        );
+
+        m_Buffer->Position = MultiplyVector2ByMatrix4(pos.X, pos.Y, backTransform);
+        m_Buffer->Color = rgbCol;
+        m_Buffer->TextureId = -1;
+        m_Buffer++;
+
+        m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);;
+        m_Buffer->Color = rgbCol;
+        m_Buffer->TextureId = -1;
+        m_Buffer++;
+
+        /*
+         * TODO: We don't really index this shape as well as we could -> e.g Middle position (common to all triangles) is not indexed (I think) and there
+         *       will be some duplication around the outside (e.g 2 triangles share at least one common vertex with another triangle)
+         *     
+         *              Triangle 1 : Vertex 0 -> Vertex 1
+         *              Triangle 2 : Vertex 1 -> Vertex 2
+         *              Triangle 3 : Vertex 2 -> Vertex 3
+         *              etc...
+         *
+         *      this should be fixed, or be considered if circles are too slow to draw.
+         */
+
+        *m_Indices = m_IndexOffset + 0;
+        *(++m_Indices) = m_IndexOffset + 1;
+        *(++m_Indices) = m_IndexOffset + 2;
+        m_Indices++;
+        m_IndexCount += 3;
+        m_IndexOffset += 3;
+    }
+}
+
+void Renderer2D::WriteRectangleIndices()
+{
+    *m_Indices = m_IndexOffset + 0;
+    *(++m_Indices) = m_IndexOffset + 1;
+    *(++m_Indices) = m_IndexOffset + 2;
+
+    *(++m_Indices) = m_IndexOffset + 2;
+    *(++m_Indices) = m_IndexOffset + 3;
+    *(++m_Indices) = m_IndexOffset + 0;
+
+    m_Indices++;
+    m_IndexCount += 6;
+    m_IndexOffset += 4;
 }
 
 void Renderer2D::FillRectangle(Vector2 position, float width, float height, const Color& color)
@@ -347,7 +416,7 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
     m_Buffer->TextureId = -1;
     m_Buffer++;
 
-	m_IndexCount += 6;
+    WriteRectangleIndices();
 }
 
 void Renderer2D::Begin()
@@ -355,12 +424,16 @@ void Renderer2D::Begin()
     m_VAO->Enable();
     m_Buffer = m_VBO->GetPointer<Vertex2D>();
     GE_ASSERT(m_Buffer);
+
+    m_Indices = m_EBO->GetPointer<unsigned int>();
+    GE_ASSERT(m_Indices);
 }
 
 void Renderer2D::End()
 {
 	m_VAO->Disable();
 	m_VBO->UnmapPointer();
+    m_EBO->UnmapPointer();
 }
 
 void Renderer2D::Present()
@@ -378,8 +451,9 @@ void Renderer2D::Present()
     {
         m_Textures[i]->Disable(i);
     }
-
+    
     m_IndexCount = 0;
+    m_IndexOffset = 0;
 	m_Shader->Disable();
 
     m_Textures.clear();

@@ -50,7 +50,9 @@ int GeneMain(int argc, char **argv)
 	
 	GameTime time;
 	time.Init();
-
+    
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    
     Vector2 pos = { 1,1 };
     while (window->Running())
     {
@@ -81,7 +83,11 @@ int GeneMain(int argc, char **argv)
 
         renderer.Begin();
         
-        renderer.DrawTexture(pos, texture);
+        renderer.FillCircle({ 22.5,22.5 }, 20, Color::Red, 15);
+
+        renderer.FillRectangle({ 40, 40 }, 10, 10, Color::Black);
+        renderer.FillRectangle({ 50, 50 }, 10, 10, Color::Blue);
+
         renderer.End();
         renderer.Present();
 

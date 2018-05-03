@@ -52,14 +52,18 @@ namespace Gene { namespace Graphics {
         int                      m_IndexCount;
 
         Vertex2D                *m_Buffer;
+        unsigned int                     *m_Indices;
         GLSLShader              *m_Shader;
         Matrix4                  m_ProjectionMatrix;
         Texture2D               *m_Texture;
         Array<Texture2D*>		 m_Textures;
 		Array<Matrix4>			 m_TransformationStack;
+        unsigned int             m_IndexOffset;
 
     private:
         float GetTextureSlot(Texture2D *texture);
+
+        void WriteRectangleIndices();
 
 	public:
         /**
@@ -83,6 +87,10 @@ namespace Gene { namespace Graphics {
             TextAlignment alignment = TextAlignment::Left 
 		);
 
+        /** Draw a circle where the specified position is the centre and the circle consists of `noPoints` number of triangles/points. */
+        void FillCircle(Vector2 centrePosition, float radius, const Color& color, unsigned noPoints);
+
+        /** Draw the section of a texture (specified by `rect` in UV coordinates) where the width and height of the sprite are specified by `size`. */
         void DrawTextureBounds(Vector2 position, Texture2D* texture, const AABBRectangle& rect, Vector2 size);
 
         /** Draw the specified texture to the buffer at the specified window coordinates. */
