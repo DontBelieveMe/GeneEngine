@@ -52,7 +52,9 @@ int GeneMain(int argc, char **argv)
 	time.Init();
     
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    
+
+    // Todo look into enabling multisampling.
+    glEnable(GL_MULTISAMPLE);
     Vector2 pos = { 1,1 };
     while (window->Running())
     {
