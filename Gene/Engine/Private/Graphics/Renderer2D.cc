@@ -17,23 +17,6 @@ static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
-static void GenerateRectIndicesIntoBuffer(GLuint *buffer, size_t indicesNum)
-{
-    GLuint offset = 0;
-    for (size_t i = 0; i < indicesNum; i += 6)
-    {
-        buffer[i] = offset + 0;
-        buffer[i + 1] = offset + 1;
-        buffer[i + 2] = offset + 2;
-
-        buffer[i + 3] = offset + 2;
-        buffer[i + 4] = offset + 3;
-        buffer[i + 5] = offset + 0;
-        offset += 4;
-    }
-}
-
-
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
 void Renderer2D::SetViewMatrix(const Matrix4& view)
@@ -166,7 +149,6 @@ void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const A
 
     const Matrix4& backTransform = m_TransformationStack.back();
 
-    m_Texture = texture;
     m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
     m_Buffer->UV = rect.TopLeft;
     m_Buffer->TextureId = tid;
@@ -322,6 +304,11 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
 
 void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, unsigned noPoints)
 {
+    if (noPoints < 3) {
+        LOG(LogLevel::Debug, "Trying to draw circle with less than 3 points");
+        return;
+    }
+    
     Vector3 rgbCol = color.ToNormalizedVector3();
     Matrix4 backTransform = m_TransformationStack.back();
     

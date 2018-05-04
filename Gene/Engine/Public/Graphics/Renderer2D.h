@@ -52,10 +52,9 @@ namespace Gene { namespace Graphics {
         int                      m_IndexCount;
 
         Vertex2D                *m_Buffer;
-        unsigned int                     *m_Indices;
+        unsigned int            *m_Indices;
         GLSLShader              *m_Shader;
         Matrix4                  m_ProjectionMatrix;
-        Texture2D               *m_Texture;
         Array<Texture2D*>		 m_Textures;
 		Array<Matrix4>			 m_TransformationStack;
         unsigned int             m_IndexOffset;

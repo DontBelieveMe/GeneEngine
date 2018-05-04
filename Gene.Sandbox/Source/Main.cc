@@ -11,6 +11,24 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
+bool IsKeyPressed(const Gene::Input::KeyboardState& state, Gene::Input::Keys key, Gene::Platform::Timer& timer)
+{
+    if (state.IsKeyDown(key)) {
+        if (timer.Running())
+        {
+            return false;
+        }
+        else {
+            timer.Start();
+            return true;
+        }
+    }
+    else {
+        timer.Stop();
+        return false;
+    }
+}
+
 int GeneMain(int argc, char **argv)
 {
     using namespace Gene::Platform;
@@ -48,13 +66,17 @@ int GeneMain(int argc, char **argv)
 
     window->Show();
 	
-	GameTime time;
-	time.Init();
-    
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    Timer debugKeyTimer;
+    bool bDebugMode = false;
 
+	GameTime gameTimer;
+	gameTimer.Init();
+    
     // Todo look into enabling multisampling.
-    glEnable(GL_MULTISAMPLE);
+    //glEnable(GL_MULTISAMPLE);
+
+    int points = 32;
+
     Vector2 pos = { 1,1 };
     while (window->Running())
     {
@@ -63,29 +85,54 @@ int GeneMain(int argc, char **argv)
         KeyboardState keyState = Keyboard::GetState();
         MouseState mouseState = Mouse::GetState();
 
+        if (IsKeyPressed(keyState, Keys::F11, debugKeyTimer))
+        {
+            bDebugMode = !bDebugMode;
+
+            if (bDebugMode)
+            {
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            }
+            else
+            {
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            }
+        }
+
         if (mouseState.IsButtonDown(MouseButton::Left) && !wavFile->IsPlaying()) {
             audioManager.PlayWav(wavFile);
         }
+
+        if (keyState.IsKeyDown(Keys::L))
+            {
+                points += 1;
+            }
+            if (keyState.IsKeyDown(Keys::K) && points > 3)
+            {
+                points -= 1;
+            }
+        
+
         if (mouseState.IsButtonDown(MouseButton::Right)) {
             Vector2i mousePosition = mouseState.GetPosition();
             mousePosition.X /= 3.75;
             mousePosition.Y /= 3.75f;
             Vector2 diff = Vector2(mousePosition.X, mousePosition.Y) - pos;
             diff.Normalize();
-            pos += diff * 0.05f * time.DeltaInMilliSeconds();
+            pos += diff * 0.05f * gameTimer.DeltaInMilliSeconds();
         }
         if (keyState.IsKeyDown(Keys::RightArrow)) {
-            pos.X += 0.05f * time.DeltaInMilliSeconds();
+            pos.X += 0.05f * gameTimer.DeltaInMilliSeconds();
         }
         else if (keyState.IsKeyDown(Keys::LeftArrow)) {
-            pos.X -= 0.05f * time.DeltaInMilliSeconds();
+            pos.X -= 0.05f * gameTimer.DeltaInMilliSeconds();
         }
         
-        time.StartFrame();
+        gameTimer.StartFrame();
 
         renderer.Begin();
         
-        renderer.FillCircle({ 22.5,22.5 }, 20, Color::Red, 15);
+        renderer.FillCircle({ 22.5,22.5 }, 20, Color::Red, points);
 
         renderer.FillRectangle({ 40, 40 }, 10, 10, Color::Black);
         renderer.FillRectangle({ 50, 50 }, 10, 10, Color::Blue);
@@ -95,9 +142,9 @@ int GeneMain(int argc, char **argv)
 
     	window->SwapBuffers();  
 
-		time.EndFrame();
+		gameTimer.EndFrame();
 
-        time.Sleep(1000.0f / 60.0f);
+        gameTimer.Sleep(1000.0f / 60.0f);
     }
 	
 	manager.DestroyAll();

@@ -11,6 +11,8 @@ namespace Gene { namespace Platform {
         GameClock m_Start;
         bool m_Running;
     public:
+        Timer() : m_Running(false) {}
+
         void Start();
         void Stop();
         bool Running() { return m_Running; }

@@ -30,7 +30,7 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
 	Key *keyMap = static_cast<Key*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
     MouseButton *mouseButtonState = static_cast<MouseButton*>(GetProp(hWnd, GENE_MOUSE_PROP));
-
+    
 	switch(msg)
 	{
 	case WM_DESTROY:
@@ -175,7 +175,7 @@ void Win32Window::CreateGLContext()
 
 	glfl::set_function_loader(Win32GetProcAddress);
 	glfl::load_everything();
-
+    
 	glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
 	glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
     glViewport(0, 0, Width(), Height());
