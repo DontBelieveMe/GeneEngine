@@ -81,8 +81,10 @@ int GeneMain(int argc, char **argv)
 
     Renderer2D uiRenderer;
     uiRenderer.Init(Matrix4::Orthographic(window->Width(), 0, 0, window->Height(), 1.0f, -1.0f));
+    float radius = 15;
 
     Vector2 pos = { 1,1 };
+    Vector2 circlePos(160.f / 2, 160.f / 2);
     while (window->Running())
     {
         window->PollEvents();
@@ -105,7 +107,13 @@ int GeneMain(int argc, char **argv)
         }
 
         if (mouseState.IsButtonDown(MouseButton::Left) && !wavFile->IsPlaying()) {
-            audioManager.PlayWav(wavFile);
+            Vector2i mousePos = mouseState.GetPosition();
+            Vector2 mPosf(mousePos.X, mousePos.Y);
+            Vector2 diff = mPosf - circlePos;
+            diff.X = fabs(diff.X);
+            diff.Y = fabs(diff.Y);
+            float len = diff.Length();
+            radius = len / 10;
         }
 
         if (keyState.IsKeyDown(Keys::L))
@@ -137,7 +145,7 @@ int GeneMain(int argc, char **argv)
 
         renderer.Begin();
         
-        renderer.FillCircle({ 22.5,50.5 }, 20, Color::Red, points);
+        renderer.FillCircle(circlePos, radius, Color::Red, points);
 
         renderer.FillRectangle({ 40, 40 }, 10, 10, Color::Black);
         renderer.FillRectangle({ 50, 50 }, 10, 10, Color::Blue);
