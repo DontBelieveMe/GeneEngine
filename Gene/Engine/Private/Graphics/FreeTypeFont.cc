@@ -9,7 +9,7 @@ using namespace Gene::Graphics;
 using namespace Gene;
 
 const int s_AtlasDepth = 2;
-const int s_AtlasPadding = 1;
+const int s_AtlasPadding = 0;
 
 /*
 TODO:

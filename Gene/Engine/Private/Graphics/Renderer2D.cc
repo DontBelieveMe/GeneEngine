@@ -246,14 +246,14 @@ void Renderer2D::DrawString(Font *font,
 
         GE_ASSERT(glyph != NULL, "Cannot load glyph '%c' Code: %i\n", text[i], static_cast<int>(text[i]));
 
-        float tmpY = yPos;// -glyph->Offset.Y;
+        float tmpY = yPos - glyph->Offset.Y;
  
        // Work in any kerning
         if (i > 0) {
             Vector2 kerning = ftFont->GetKerning(text[i - 1], c);
             xPos += kerning.X;
         }
-
+        
         m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos, tmpY, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_TopLeft;

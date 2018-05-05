@@ -46,7 +46,7 @@ int GeneMain(int argc, char **argv)
     Window *window = Window::CreateWindow(info);
     
     window->Create();
-	window->SetClearColor(Color::Green);
+	window->SetClearColor(Color::CornflowerBlue);
     
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(160, 0, 0, 160, 1.0f, -1.0f));
@@ -64,6 +64,8 @@ int GeneMain(int argc, char **argv)
 	ResourceHandle<WaveFile> wavFile = manager.LoadAsset<WaveFile>(2, "Data/cartoon001.wav");
 	wavFile->Loop(true);
 
+    ResourceHandle<Font> uiFont = manager.LoadAsset<Font>(3, "Data/Fonts/Gidole-Regular.ttf");
+
     window->Show();
 	
     Timer debugKeyTimer;
@@ -76,6 +78,9 @@ int GeneMain(int argc, char **argv)
     //glEnable(GL_MULTISAMPLE);
 
     int points = 32;
+
+    Renderer2D uiRenderer;
+    uiRenderer.Init(Matrix4::Orthographic(window->Width(), 0, 0, window->Height(), 1.0f, -1.0f));
 
     Vector2 pos = { 1,1 };
     while (window->Running())
@@ -132,13 +137,19 @@ int GeneMain(int argc, char **argv)
 
         renderer.Begin();
         
-        renderer.FillCircle({ 22.5,22.5 }, 20, Color::Red, points);
+        renderer.FillCircle({ 22.5,50.5 }, 20, Color::Red, points);
 
         renderer.FillRectangle({ 40, 40 }, 10, 10, Color::Black);
         renderer.FillRectangle({ 50, 50 }, 10, 10, Color::Blue);
-
         renderer.End();
+
+        uiRenderer.Begin();
+        uiRenderer.DrawString(uiFont, "Hello World!", { 50, 50 }, Color::Green);
+        //uiRenderer.DrawTexture({ 0,0 }, uiFont->GLTexture());
+        uiRenderer.End();
+
         renderer.Present();
+        uiRenderer.Present();
 
     	window->SwapBuffers();  
 
