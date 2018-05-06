@@ -18,7 +18,7 @@ using namespace Gene::Input;
 using namespace Gene::Audio;
 
 /*
-  [] We need some a camera:                                                                 ]   
+  [] We need some a camera:                                                                 ]
   [] Camera shake: angle = maxAngle * shake * GetRandomFloatNegOneToOne();                  |
                    offsetX = maxOffset * shake * GetRandomFloatNegOneToOne();               |
                    offsetY = maxOffset * shake * GetRandomFloatNegOneToOne();                > This is now kindof implemented in the pong demo.
@@ -115,7 +115,7 @@ public:
 
 class Application {
 protected:
-    Window *Window;
+    Window *MyWindow;
 
 public:
     Application() {}
@@ -126,29 +126,33 @@ public:
 
     void Start(int w, int h, const char *title)
     {
-        Window = Window::CreateWindow({ w, h, title });
-        Window->Create();
+        WindowInfo info;
+        info.Width = w;
+        info.Height = h;
+        info.Title = title;
+        MyWindow = Window::CreateWindow(info);
+        MyWindow->Create();
         Initalize();
 
-        Window->Show();
+        MyWindow->Show();
 
         GameTime time;
         time.Init();
-        while (Window->Running())
+        while (MyWindow->Running())
         {
             time.StartFrame();
-            Window->PollEvents();
+            MyWindow->PollEvents();
             Update(time);
-            Window->Clear();
+            MyWindow->Clear();
             Render();
-            Window->SwapBuffers();
+            MyWindow->SwapBuffers();
             time.EndFrame();
             time.Sleep(1000.f / 60.f);
         }
     }
 };
 
-struct KeyboardScheme 
+struct KeyboardScheme
 {
     Keys UpKey;
     Keys DownKey;
@@ -158,7 +162,7 @@ struct KeyboardScheme
 };
 
 static KeyboardScheme PlayerOneKeyboard = KeyboardScheme(Keys::W, Keys::S);
-static KeyboardScheme PlayerTwoKeyboard = KeyboardScheme(Keys::UpArrow, Keys::DownArrow);
+static KeyboardScheme PlayerTwoKeyboard = KeyboardScheme(Keys::K, Keys::M);
 
 static const int PaddleWidth = 1.5;
 static const int PaddleHeight = 10;
@@ -192,7 +196,7 @@ enum class PaddleController
     Cpu, Human
 };
 
-enum class Side  
+enum class Side
 {
     Left, Right
 };
@@ -279,7 +283,7 @@ private:
     {
         const float yWallOffset = 0.5f;
 
-        if (m_Position.Y + PaddleHeight > AreaHeight - yWallOffset) 
+        if (m_Position.Y + PaddleHeight > AreaHeight - yWallOffset)
             m_Position.Y = AreaHeight - PaddleHeight - yWallOffset;
 
         if (m_Position.Y < yWallOffset)
@@ -453,9 +457,9 @@ private:
 public:
     virtual void Initalize()
     {
-        m_GameState = GameState::Menu;
+        m_GameState = GameState::Playing;
 
-        Window->SetClearColor(Color::Black);
+        MyWindow->SetClearColor(Color::Black);
         MyFont = new Font("Data/font.ttf", 13);
         DebugFont = new Font("Data/font.ttf", 5);
 
@@ -466,8 +470,8 @@ public:
         
         m_ResourceSystem.LoadAsset<WaveFile>(0, "Data/hit.wav");
 
-        m_Renderer.Init(Matrix4::Orthographic(Window->Width() / 16.f, 0, 0, Window->Height() / 16.f, 1.0f, -1.0f));
-        m_UIRenderer.Init(Matrix4::Orthographic(Window->Width(), 0, 0, Window->Height(), 1.0f, -1.0f));
+        m_Renderer.Init(Matrix4::Orthographic(MyWindow->Width() / 16.f, 0, 0, MyWindow->Height() / 16.f, 1.0f, -1.0f));
+        m_UIRenderer.Init(Matrix4::Orthographic(MyWindow->Width(), 0, 0, MyWindow->Height(), 1.0f, -1.0f));
 
         m_PaddleOne.SetAsPlayerControlled(PlayerOneKeyboard, Side::Left);
         m_PaddleTwo.SetAsPlayerControlled(PlayerTwoKeyboard, Side::Right);
@@ -507,7 +511,7 @@ public:
         }
 
         if (m_GameState == GameState::Playing || m_GameState == GameState::Paused)
-        {            
+        {
             if (state.IsKeyDown(Keys::Escape) && !GameOver)
             {
                 if (m_PauseKeyTimer.Running() && m_PauseKeyTimer.ElapsedTimeMs() > 100)
@@ -581,7 +585,7 @@ public:
         if (m_GameState == GameState::Menu)
         {
             MouseState mouseState = Mouse::GetState();
-            Vector2i mousePos = mouseState.Position;
+            Vector2i mousePos = mouseState.GetPosition();
             m_UIRenderer.Begin();
             m_UIRenderer.End();
             if (m_AnimatingSlide)
@@ -641,8 +645,8 @@ public:
 
                 Vector2 strSize = MyFont->MeasureString(gameOverStr);
                 Vector2 pos(
-                    Window->Width() / 2 - strSize.X / 2,
-                    Window->Height() / 2 - strSize.Y / 2
+                    MyWindow->Width() / 2 - strSize.X / 2,
+                    MyWindow->Height() / 2 - strSize.Y / 2
                 );
                 m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
             }
@@ -653,8 +657,8 @@ public:
 
                 Vector2 strSize = MyFont->MeasureString(gameOverStr);
                 Vector2 pos(
-                    Window->Width() / 2 - strSize.X / 2,
-                    Window->Height() / 2 - strSize.Y / 2
+                    MyWindow->Width() / 2 - strSize.X / 2,
+                    MyWindow->Height() / 2 - strSize.Y / 2
                 );
                 m_UIRenderer.DrawString(MyFont, gameOverStr, pos, FontColor, TextAlignment::Centre);
             }

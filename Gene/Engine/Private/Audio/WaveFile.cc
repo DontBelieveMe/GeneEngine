@@ -14,11 +14,6 @@ struct Header {
 	uint32_t Size;
 };
 
-struct RIFFHeader {
-	Header Header;
-	uint8_t Format[4];
-};
-
 struct FMTChunk {
 	uint16_t AudioFormat;
 	uint16_t NumChannels;
@@ -41,11 +36,6 @@ void WaveFile::Load(const char *filepath)
 {
 	uint8_t *fileData = File::LoadBinaryFile(filepath);
 
-	/*RIFFHeader header;
-	memcpy(&header, fileData, sizeof(RIFFHeader));
-
-	int offset = sizeof(RIFFHeader);*/
-	
 	int offset = 0;
 	do {
 		Header header2;

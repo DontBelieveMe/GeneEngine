@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="alsoft-config" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\Dependencies\;CMake Files\..\..\Dependencies\FreeType\;CMake Files\..\..\Dependencies\OpenALSoft\;CMake Files\..\..\Dependencies\OpenALSoft\cmake\;CMake Files\..\..\Dependencies\OpenALSoft\utils\;CMake Files\..\..\Dependencies\OpenALSoft\utils\alsoft-config\;CMake Files\..\..\Gene\;CMake Files\..\..\Gene\Engine\;CMake Files\..\..\Gene\Engine\Private\;CMake Files\..\..\Gene\Engine\Public\;CMake Files\..\..\Gene\Tests\;CMake Files\..\..\Gene\Tests\Gene.UnitTests\;CMake Files\..\..\Gene.Sandbox\;CMake Files\..\..\Setup\;CMake Files\..\..\Setup\CMake\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/mnt/Dev/geneengine/Examples/build/LibraryBuild/Dependencies/OpenALSoft/utils/alsoft-config" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/mnt/Dev/geneengine/Examples/build/LibraryBuild/Dependencies/OpenALSoft/utils/alsoft-config/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/mnt/Dev/geneengine/Examples/build/LibraryBuild/Dependencies/OpenALSoft/utils/alsoft-config/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/mnt/Dev/geneengine/Examples/build/LibraryBuild/Dependencies/OpenALSoft/utils/alsoft-config/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/mnt/Dev/geneengine/Examples/build/LibraryBuild/Dependencies/OpenALSoft/utils/alsoft-config/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/FreeType/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\FreeType\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/FreeType/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\FreeType\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/FreeType/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\FreeType\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/config.h.in">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/openal.pc.in">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/config.h.in">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/openal.pc.in">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/config.h.in">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/openal.pc.in">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/CheckSharedFunctionExists.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/CheckFileOffsetBits.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindALSA.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindOSS.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindAudioIO.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSoundIO.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindQSA.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindPortAudio.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindPulseAudio.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindJACK.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSDL2.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSDL2.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/CheckSharedFunctionExists.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/CheckFileOffsetBits.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindALSA.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindOSS.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindAudioIO.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSoundIO.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindQSA.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindPortAudio.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindPulseAudio.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindJACK.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSDL2.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSDL2.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/CheckSharedFunctionExists.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/CheckFileOffsetBits.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindALSA.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindOSS.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindAudioIO.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSoundIO.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindQSA.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindPortAudio.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindPulseAudio.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindJACK.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSDL2.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/cmake/FindSDL2.cmake">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\cmake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/utils/alsoft-config/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\utils\alsoft-config\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/utils/alsoft-config/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\utils\alsoft-config\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/utils/alsoft-config/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\utils\alsoft-config\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Dependencies/OpenALSoft/utils/alsoft-config/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Dependencies\OpenALSoft\utils\alsoft-config\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Engine/Private/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Engine\Private\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Engine/Private/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Engine\Private\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Engine/Private/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Engine\Private\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Engine/Public/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Engine\Public\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Engine/Public/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Engine\Public\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Engine/Public/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Engine\Public\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Tests/Gene.UnitTests/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Tests\Gene.UnitTests\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Tests/Gene.UnitTests/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Tests\Gene.UnitTests\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene/Tests/Gene.UnitTests/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene\Tests\Gene.UnitTests\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene.Sandbox/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene.Sandbox\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene.Sandbox/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene.Sandbox\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Gene.Sandbox/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\..\..\Gene.Sandbox\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Setup/CMake/GeneBuild.cmake">
+          <Option virtualFolder="CMake Files\..\..\Setup\CMake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Setup/CMake/GeneBuild.cmake">
+          <Option virtualFolder="CMake Files\..\..\Setup\CMake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Setup/CMake/GeneBuild.cmake">
+          <Option virtualFolder="CMake Files\..\..\Setup\CMake\" />
+      </Unit>
+      <Unit filename="/mnt/Dev/geneengine/Examples/Pong/../../Setup/CMake/GeneBuild.cmake">
+          <Option virtualFolder="CMake Files\..\..\Setup\CMake\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

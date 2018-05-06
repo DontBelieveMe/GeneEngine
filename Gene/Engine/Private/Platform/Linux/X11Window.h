@@ -15,7 +15,6 @@ namespace Gene { namespace Platform { namespace X11 {
         void *m_VisualInfo;
         void *m_Window;
 
-        using Vector2 = Gene::Math::Vector2;
     public:
         virtual ~X11Window();
         X11Window(WindowInfo info) : Gene::Platform::Window(info) {}

@@ -15,7 +15,7 @@ include_directories(${GeneLibDir}/Dependencies/FreeType/include)
 set(Source
 	Source/Main.cc
 )
-
+add_definitions(-std=c++11)
 gene_add_target(${ProjectName} ${Source})
 gene_setup_engine_deps(${ProjectName})
 

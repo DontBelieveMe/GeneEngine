@@ -21,7 +21,7 @@ KeyboardState &Keyboard::GetState()
     return s_PrimaryWindow->m_KeyState;
 }
 
-void Mouse::SetPosition(const Gene::Math::Vector2 &pos)
+void Mouse::SetPosition(const Vector2i &pos)
 {
     using X11Window = Gene::Platform::X11::X11Window;
     X11Window *window = static_cast<X11Window*>(s_PrimaryWindow);
