@@ -6,7 +6,7 @@
 
 #if defined(GENE_OS_ANDROID)
 	#include <EGL/egl.h>
-	#include <GLES3/gl3.h>
+	#include <GLES3/gl32.h>
 	#include <GLES3/gl3ext.h>
 #else
 	#include "../../../ThirdParty/glfl/pregenerated/GLFL/glfl.h"

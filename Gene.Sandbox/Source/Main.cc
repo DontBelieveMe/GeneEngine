@@ -1,3 +1,33 @@
+#if 1
+#include <Platform/Window.h>
+#include <Graphics/Color.h>
+
+int GeneMain(int argc, char **argv)
+{
+    using namespace Gene::Platform;
+    using namespace Gene;
+    using namespace Gene::Graphics;
+    
+    WindowInfo info;
+    info.Width = 800;
+    info.Height = 800;
+    info.Title = "Hello World!";
+
+    Window *window = Window::CreateWindow(info);
+    window->Create();
+    window->SetClearColor(Color::Red);
+    window->Show();
+    while(window->Running()) {
+        window->PollEvents();
+        window->Clear();
+        window->SwapBuffers();
+    }
+}
+
+#endif
+
+#if 0
+
 #include <Platform/Window.h>
 #include <Graphics/Renderer2D.h>
 #include <Graphics/Color.h>
@@ -170,3 +200,4 @@ int GeneMain(int argc, char **argv)
 
     return 0;
 }
+#endif
