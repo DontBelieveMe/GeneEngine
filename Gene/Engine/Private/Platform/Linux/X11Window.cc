@@ -18,6 +18,7 @@
 #include "../GLFLLoad.h"
 
 using namespace Gene::Platform::X11;
+using namespace Gene;
 
 static Window s_XRoot;
 static Window s_XWindow;
@@ -205,9 +206,9 @@ void X11Window::PollEvents()
     ::Window a, b;
 
     XQueryPointer(dpy, s_XWindow, &a, &b, &c, &d, &x, &y, &e);
-    m_MouseState.Position.X = x;
-    m_MouseState.Position.Y = y;
- 
+    m_MouseState.m_Position.X = x;
+    m_MouseState.m_Position.Y = y;
+
     XFlush(dpy);
 }
 
@@ -216,12 +217,12 @@ void X11Window::SwapBuffers()
     glXSwapBuffers((Display*)m_Display, s_XWindow);
 }
 
-X11Window::Vector2 X11Window::ScreenToWindow(const Vector2 &point)
+Vector2 X11Window::ScreenToWindow(const Vector2 &point)
 {
 
 }
 
-X11Window::Vector2 X11Window::WindowToScreen(const Vector2 &point)
+Vector2 X11Window::WindowToScreen(const Vector2 &point)
 {
 
 }

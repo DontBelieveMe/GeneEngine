@@ -1,6 +1,7 @@
 #include <Audio/AudioSystem.h>
 #include <GeneCommon.h>
 #include <Debug/Logger.h>
+#include <string.h>
 
 using namespace Gene::Audio;
 using namespace Gene;

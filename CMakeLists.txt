@@ -21,7 +21,11 @@ if(NOT ANDROID)
 	set_property(TARGET native-tools PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET common PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET alrecord PROPERTY FOLDER "Dependencies/OpenAL")
-	set_property(TARGET alsoft-config PROPERTY FOLDER "Dependencies/OpenAL")
+
+	if(TARGET alsoft-config)
+	    set_property(TARGET alsoft-config PROPERTY FOLDER "Dependencies/OpenAL")
+	endif()
+
 	set_property(TARGET altonegen PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET makehrtf PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET openal-info PROPERTY FOLDER "Dependencies/OpenAL")
