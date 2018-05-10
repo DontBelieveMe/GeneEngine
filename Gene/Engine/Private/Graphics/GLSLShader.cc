@@ -13,8 +13,8 @@ using namespace Gene;
 static GLuint CompileShader(const char *src, GLenum type)
 {
 	const int SHADER_LOG_BUFFER_SIZE = 512;	// Bytes
-
 	GLuint shader = glCreateShader(type);
+
 	glShaderSource(shader, 1, &src, NULL);
 	glCompileShader(shader);
 
@@ -24,8 +24,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 	if (!success)
 	{
 		glGetShaderInfoLog(shader, SHADER_LOG_BUFFER_SIZE, NULL, log);
-		//printf("Shader Error: [%s] -> %s\n", type == GL_VERTEX_SHADER ? "Vertex Shader" : "Fragment Shader", log);
-		LOG(LogLevel::Error, std::string("Shader Error: ") + log);
+		LOG(LogLevel::Error, "Shader Error: ", type == GL_VERTEX_SHADER ? "Vertex Shader, " : "Fragment Shader, ", log);
 		abort();
 	}
 	return shader;
@@ -35,6 +34,7 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
 {
 	GLuint vertexShader = CompileShader(vert.c_str(), GL_VERTEX_SHADER);
 	GLuint fragmentShader = CompileShader(frag.c_str(), GL_FRAGMENT_SHADER);
+
 	m_Program = glCreateProgram();
 	glAttachShader(m_Program, vertexShader);
 	glAttachShader(m_Program, fragmentShader);

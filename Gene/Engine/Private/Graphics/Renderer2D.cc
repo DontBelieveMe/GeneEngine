@@ -410,6 +410,7 @@ void Renderer2D::Begin()
 {
     m_VAO->Enable();
     m_Buffer = m_VBO->GetPointer<Vertex2D>();
+
     GE_ASSERT(m_Buffer);
 
     m_Indices = m_EBO->GetPointer<unsigned int>();
@@ -418,6 +419,7 @@ void Renderer2D::Begin()
 
 void Renderer2D::End()
 {
+    LOG(LogLevel::Debug, "OpenGL Error: ", glGetError());
 	m_VAO->Disable();
 	m_VBO->UnmapPointer();
     m_EBO->UnmapPointer();

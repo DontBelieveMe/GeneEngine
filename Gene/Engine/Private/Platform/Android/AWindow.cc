@@ -76,6 +76,7 @@ void AWindow::SetPointerPosition(int32 x, int32 y)
 
 void AWindow::CreateGLContext()
 {
+    LOG(LogLevel::Debug, "Creating Android OpenGL Context");
 	const EGLint attribs[] = {
 		EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
 		EGL_BLUE_SIZE, 8,
@@ -83,6 +84,11 @@ void AWindow::CreateGLContext()
 		EGL_RED_SIZE, 8,
 		EGL_NONE
 	};
+    
+    const EGLint GiveMeGLES3[] = {
+        EGL_CONTEXT_CLIENT_VERSION, 3,
+        EGL_NONE
+    };
 
 	EGLint w, h, format;
 	EGLint numConfigs;
@@ -91,15 +97,20 @@ void AWindow::CreateGLContext()
 	EGLContext context;
 
 	EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    int err;
+	err = eglInitialize(display, 0, 0);
+    GE_ASSERT(err == EGL_TRUE);
 
-	eglInitialize(display, 0, 0);
-	eglChooseConfig(display, attribs, &config, 1, &numConfigs);
-	eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+	err = eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+    GE_ASSERT(err == EGL_TRUE);
+
+    err = eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+    GE_ASSERT(err == EGL_TRUE);
 
 	ANativeWindow_setBuffersGeometry(m_App->window, 0, 0, format);
 
 	surface = eglCreateWindowSurface(display, config, m_App->window, NULL);
-	context = eglCreateContext(display, config, NULL, NULL);
+	context = eglCreateContext(display, config, NULL, GiveMeGLES3);
 
 	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
 		LOGW("Cannot make GLES context current!");

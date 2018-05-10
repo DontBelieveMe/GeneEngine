@@ -17,13 +17,14 @@ add_subdirectory(Dependencies/FreeType)
 
 if(NOT ANDROID)
 	add_subdirectory(Dependencies/OpenALSoft)
+	
 	set_property(TARGET OpenAL PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET native-tools PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET common PROPERTY FOLDER "Dependencies/OpenAL")
 	set_property(TARGET alrecord PROPERTY FOLDER "Dependencies/OpenAL")
 
-	if(TARGET alsoft-config)
 	    set_property(TARGET alsoft-config PROPERTY FOLDER "Dependencies/OpenAL")
+	if(TARGET alsoft-config)
 	endif()
 
 	set_property(TARGET altonegen PROPERTY FOLDER "Dependencies/OpenAL")

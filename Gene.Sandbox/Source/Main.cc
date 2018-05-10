@@ -1,13 +1,18 @@
 #if 1
 #include <Platform/Window.h>
 #include <Graphics/Color.h>
+#include <Graphics/Renderer2D.h>
 
 int GeneMain(int argc, char **argv)
 {
     using namespace Gene::Platform;
     using namespace Gene;
     using namespace Gene::Graphics;
-    
+
+    LOG(LogLevel::Debug, "------- ---------------------- -------");
+    LOG(LogLevel::Debug, "------- Starting Debug Session -------");
+    LOG(LogLevel::Debug, "------- ---------------------- -------");
+
     WindowInfo info;
     info.Width = 800;
     info.Height = 800;
@@ -15,11 +20,21 @@ int GeneMain(int argc, char **argv)
 
     Window *window = Window::CreateWindow(info);
     window->Create();
-    window->SetClearColor(Color::Red);
+    window->SetClearColor(Color::CornflowerBlue);
+
+    Renderer2D renderer;
+    renderer.Init(Matrix4::Orthographic(1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f));
+
     window->Show();
     while(window->Running()) {
         window->PollEvents();
+
         window->Clear();
+        renderer.Begin();
+        renderer.FillRectangle({-0.5f, -0.5f}, 1.0f, 1.f, Color::Green);
+        renderer.End();
+        renderer.Present();
+
         window->SwapBuffers();
     }
 }

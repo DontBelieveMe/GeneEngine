@@ -83,13 +83,15 @@ namespace Gene {
         template <typename... Args>
         void Log(const unsigned& priority, const String& message, const Args&... args)
         {
+            if (m_Filter & priority) { return; }
+            
+            std::stringstream ss;
+            ss << "[GLog] [" << GetPriorityString(priority) << "]: " << message;
+            LogData(ss, args...);
+            
             #if defined(GENE_OS_ANDROID)
-                ALOGW(message.c_str());
+                ALOGW(ss.str().c_str());
             #else
-                if (m_Filter & priority) { return; }
-                std::stringstream ss;
-                ss << "[GLog] [" << GetPriorityString(priority) << "]: " << message;
-                LogData(ss, args...);
                 std::cout << ss.str();
                 std::cout << "\n";
             

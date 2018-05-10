@@ -46,6 +46,9 @@ namespace Gene { namespace Graphics {
 		T *GetPointer()
 		{
 			Enable();
+            int x;
+            glGetBufferParameteriv(OpenGL::GeneToGLType(m_Type), GL_BUFFER_SIZE, &x);
+
 			void *data = glMapBufferRange(OpenGL::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
             
             if (!data) {

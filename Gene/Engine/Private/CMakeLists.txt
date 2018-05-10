@@ -42,10 +42,14 @@ set(PlatformSrc
     ${SrcDir}/Platform/Window.cc
 )
 
-set(AudioSrc 
-    ${SrcDir}/Audio/WaveFile.cc
-    ${SrcDir}/Audio/AudioSystem.cc
-)
+if(NOT ANDROID)
+    set(AudioSrc 
+        ${SrcDir}/Audio/WaveFile.cc
+        ${SrcDir}/Audio/AudioSystem.cc
+    )
+else()
+    set(AudioSrc )
+endif()
 
 set(ThirdPartySrc     
     ${CMAKE_CURRENT_LIST_DIR}/../../ThirdParty/tinyobjloader/tiny_obj_loader.cc
