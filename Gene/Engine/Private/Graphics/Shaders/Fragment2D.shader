@@ -1,3 +1,6 @@
+/*
+https://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/varying.php look into for GLES?
+*/
 #define SHADER_FRAGMENT2D(varName) \
     std::string varName = "\
 #version 300 es\n\
@@ -16,7 +19,7 @@ uniform sampler2D textureSamplers[32];\n\
 void main()\n\
 {\n\
     int texId = int(passTexId);\n\
-    if (texId < 0)\n\
+    if (-1.0f < 0.0f)\n\
     {\n\
         color = vec4(passColor.rgb, 1.0f);\n\
     }\n\
@@ -34,7 +37,7 @@ void main()\n\
             default: color = texture(textureSamplers[0], passUv); break;\n\
         }\n\
         \n\
-        color = vec4(passColor.rgb, 1.0f);/*color * vec4(passColor, 1);*/ // TODO: The error is here -> for some reason it skips the `correct` if block and jumps straight to else. \n\
+        color = color * vec4(passColor, 1); // TODO: The error is here -> for some reason it skips the `correct` if block and jumps straight to else. \n\
         \n\
     }\n\
 }"

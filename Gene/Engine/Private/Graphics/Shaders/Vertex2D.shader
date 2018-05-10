@@ -23,5 +23,5 @@ void main()\n\
     gl_Position = /*u_View * */ u_Projection * vec4(position, 1.0);\n\
     passColor = color;\n\
     passUv = uv;\n\
-    passTexId = -1.0f;\n\
+    passTexId = -1.5f;\n\
 }"
