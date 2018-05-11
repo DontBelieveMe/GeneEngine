@@ -27,8 +27,12 @@ int GeneMain(int argc, char **argv)
 
         window->Clear();
         renderer.Begin();
+
+        // TODO: Bug? For some reason this is not drawing at the correct position
+        //       despite the correct projection matrix being specified in the `Init`
+        //       call above. GLES shader issue?
         renderer.FillCircle({4,4}, 4, Color::Red, 32);
-        //renderer.FillRectangle({-0.5f, -0.5f}, 1.0f, 1.f, Color::Green);
+        
         renderer.End();
         renderer.Present();
 
