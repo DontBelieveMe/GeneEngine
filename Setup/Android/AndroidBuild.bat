@@ -1,10 +1,11 @@
 @echo off
 
-:: Set a bunch of variables (obvs)
+:: TODO: This stuff needs fixing and moving to somewhere else.
+:: 		 Currently this very specific to our Sandbox project.
 set build_dir=..\..\Build\Android
 set src_dir=..\..\
 set ndk_dir=I:/android-ndk-r12b
-
+set android_version=24
 set app_name=Gene.Sandbox
 set package_name=com.gene.sandbox
 
@@ -58,6 +59,30 @@ if "%1" == "help" (
 
 set abi=%1
 
+:: Validation to check that the specified ABI is valid
+for %%G in (
+	"armeabi"
+	"armeabi-v7a"
+	"armeabi-v7a with NEON"
+	"armeabi-v7a with VFPV3"
+	"armeabi-v6a with VFP"
+	"x86"
+	"mips"
+	"arm64-v8a"
+	"x86_64"
+	"mips64"
+	) DO (
+	if /i "%abi%"=="%%~G" goto TARGET_MATCH
+)
+
+:: The specified ABI value did not match any one that we recognise
+:TARGET_NO_MATCH
+echo Your specified platform does not match any valid ones.
+exit /b 0
+
+:: The specified ABI option is valid so just continue with the program
+:TARGET_MATCH
+
 mkdir %build_dir%
 
 copy AndroidManifest.xml %build_dir%\AndroidManifest.xml
@@ -65,15 +90,26 @@ copy android.toolchain.cmake %build_dir%\android.toolchain.cmake
 
 xcopy res %build_dir%\res /e /i /y /s
 
+:: Navigate into the build directory
+:: IMPORTANT NOTE: Until specified otherwise this means that all file paths are
+::				   relative to this, including paths passed as arguments
+::				   Worth bearing in mind when looking at say cmake or adb invocations
 cd %build_dir%
 
 :: Generate android project files (needed for ant)
-call android update project --path . --target android-24 -n Gene.Sandbox
+call android update project --path . --target android-%android_version% -n Gene.Sandbox
 
 call :check_for_errors
 
+:: Setup a bunch of arguments to pass to CMake. Lots of them so they are split up into
+:: a couple of variables
+set cmake_build_tool_def=-DCMAKE_BUILD_TOOL="%ndk_dir%/prebuilt/windows-x86_x64/bin/make.exe"
+set cmake_toolchain_file_def=-DCMAKE_TOOLCHAIN_FILE=android.toolchain.cmake
+set cmake_android_defs=-DANDROID_ABI=%abi% -DANDROID_NDK=%ndk_dir% -DANDROID_NATIVE_API_LEVEL=android-%android_version%
+set cmake_defs= %cmake_toolchain_file_def% %cmake_build_tool_def% %cmake_android_defs% -DLIBRARY_OUTPUT_PATH_ROOT=.
+
 :: Generate the makefile
-call cmake -DCMAKE_TOOLCHAIN_FILE=android.toolchain.cmake -DANDROID_ABI=%abi% DCMAKE_BUILD_TOOL="%ndk_dir%/prebuilt/windows-x86_x64/bin/make.exe" -G"MinGW Makefiles" -DANDROID_NDK=%ndk_dir% -DANDROID_NATIVE_API_LEVEL=android-24 -DLIBRARY_OUTPUT_PATH_ROOT=. -B. -H%src_dir%
+call cmake %cmake_defs% -G"MinGW Makefiles" -B. -H%src_dir%
 
 call :check_for_errors
 

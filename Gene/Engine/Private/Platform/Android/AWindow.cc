@@ -19,6 +19,39 @@ using namespace Gene;
 
 void *AWindow::s_AndroidAppState = nullptr;
 
+// https://www.gamedev.net/forums/topic/674511-auto-hide-nav-bar-on-android-app-ndk/
+// Until I rewrite this
+// Cheers Nanoha XD
+void AutoHideNavBar(struct android_app* state)
+{
+	JNIEnv* env;
+	state->activity->vm->AttachCurrentThread(&env, NULL);
+
+	jclass activityClass = env->FindClass("android/app/NativeActivity");
+	jmethodID getWindow = env->GetMethodID(activityClass, "getWindow", "()Landroid/view/Window;");
+
+	jclass windowClass = env->FindClass("android/view/Window");
+	jmethodID getDecorView = env->GetMethodID(windowClass, "getDecorView", "()Landroid/view/View;");
+
+	jclass viewClass = env->FindClass("android/view/View");
+	jmethodID setSystemUiVisibility = env->GetMethodID(viewClass, "setSystemUiVisibility", "(I)V");
+
+	jobject window = env->CallObjectMethod(state->activity->clazz, getWindow);
+	jobject decorView = env->CallObjectMethod(window, getDecorView);
+
+	jfieldID flagFullscreenID = env->GetStaticFieldID(viewClass, "SYSTEM_UI_FLAG_FULLSCREEN", "I");
+	jfieldID flagHideNavigationID = env->GetStaticFieldID(viewClass, "SYSTEM_UI_FLAG_HIDE_NAVIGATION", "I");
+
+	int flagFullscreen = env->GetStaticIntField(viewClass, flagFullscreenID);
+	int flagHideNavigation = env->GetStaticIntField(viewClass, flagHideNavigationID);
+
+	int flag = flagFullscreen | flagHideNavigation;
+
+	env->CallVoidMethod(decorView, setSystemUiVisibility, flag);
+
+	state->activity->vm->DetachCurrentThread();
+}
+
 static EGLDisplay s_Display;
 static EGLSurface s_Surface;
 static bool s_CreatedSurface;
@@ -55,7 +88,8 @@ void AWindow::Create()
 	state->onAppCmd = AndroidEngineHandleCommand;
 	state->onInputEvent = AndroidEngineHandleInput;
 	m_App = state;
-	
+	AutoHideNavBar(state);
+
 	while(!s_CreatedSurface)
 	{
 		PollEvents();

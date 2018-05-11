@@ -19,7 +19,7 @@ int GeneMain(int argc, char **argv)
     window->SetClearColor(Color::CornflowerBlue);
 
     Renderer2D renderer;
-    renderer.Init(Matrix4::Orthographic(1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f));
+    renderer.Init(Matrix4::Orthographic(16.f, 0.f, 0.f, 8.f, 1.0f, -1.0f));
 
     window->Show();
     while(window->Running()) {
@@ -27,7 +27,8 @@ int GeneMain(int argc, char **argv)
 
         window->Clear();
         renderer.Begin();
-        renderer.FillRectangle({-0.5f, -0.5f}, 1.0f, 1.f, Color::Green);
+        renderer.FillCircle({4,4}, 4, Color::Red, 32);
+        //renderer.FillRectangle({-0.5f, -0.5f}, 1.0f, 1.f, Color::Green);
         renderer.End();
         renderer.Present();
 
