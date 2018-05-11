@@ -1,1 +1,1 @@
-cmake -G"Unix Makefiles" -H../../ -B../../Build
+cmake -G"Unix Makefiles" -H../../ -B../../Build/Linux/Make/

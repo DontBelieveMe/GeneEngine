@@ -66,7 +66,7 @@ GLint GLSLShader::UniformLocation(const char *uniform)
 
 	if (loc < 0)
 	{
-		printf("Can not get uniform location: %s\n", uniform);
+        LOG(LogLevel::Warning, "Cannot get location of uniform: ", uniform);
 	}
 
 	return loc;

@@ -419,7 +419,6 @@ void Renderer2D::Begin()
 
 void Renderer2D::End()
 {
-    LOG(LogLevel::Debug, "OpenGL Error: ", glGetError());
 	m_VAO->Disable();
 	m_VBO->UnmapPointer();
     m_EBO->UnmapPointer();

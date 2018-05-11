@@ -34,6 +34,10 @@ using namespace Gene;
 
 void PrintSystemInfo()
 {
+    LOG(LogLevel::Infomation, "------- ---------------------- -------");
+    LOG(LogLevel::Infomation, "------- Starting Debug Session -------");
+    LOG(LogLevel::Infomation, "------- ---------------------- -------");
+
     LOG(LogLevel::Infomation, "Operating System: ", STRINGIFY_PLATFORM(OS));
 }
 

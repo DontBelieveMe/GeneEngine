@@ -12,6 +12,7 @@
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 #include <Input/Keyboard.h>
+#include <Debug/Logger.h>
 
 #define GENE_EVENT_CALLBACK_ID "_GeneCallbacksId"
 #define GENE_KEYBOARD_PROP "_GeneKeyboardStateId"
@@ -178,6 +179,10 @@ void Win32Window::CreateGLContext()
     
 	glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
 	glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
+
+    const GLubyte *versionString = glGetString(GL_VERSION);
+    LOG(LogLevel::Infomation, "OpenGL Version: ", versionString);
+    
     glViewport(0, 0, Width(), Height());
 }
 
@@ -217,9 +222,6 @@ void Win32Window::PollEvents()
             m_MouseState.m_Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);
 		}
 	}
-
-	// auto clear screen
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Win32Window::SwapBuffers()

@@ -1,8 +1,8 @@
 @echo off
 
 :: Set a bunch of variables (obvs)
-set build_dir=..\..\Build
-set src_dir=..\
+set build_dir=..\..\Build\Android
+set src_dir=..\..\
 set ndk_dir=I:/android-ndk-r12b
 
 set app_name=Gene.Sandbox

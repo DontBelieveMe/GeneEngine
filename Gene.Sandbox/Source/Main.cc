@@ -9,13 +9,9 @@ int GeneMain(int argc, char **argv)
     using namespace Gene;
     using namespace Gene::Graphics;
 
-    LOG(LogLevel::Debug, "------- ---------------------- -------");
-    LOG(LogLevel::Debug, "------- Starting Debug Session -------");
-    LOG(LogLevel::Debug, "------- ---------------------- -------");
-
     WindowInfo info;
     info.Width = 800;
-    info.Height = 800;
+    info.Height = 600;
     info.Title = "Hello World!";
 
     Window *window = Window::CreateWindow(info);
@@ -37,6 +33,8 @@ int GeneMain(int argc, char **argv)
 
         window->SwapBuffers();
     }
+
+    return 0;
 }
 
 #endif
