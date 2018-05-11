@@ -14,6 +14,48 @@ if "%1" == "clean" (
 	exit /b 0
 )
 
+if "%1" == "help" (
+	echo  Usage is as follows
+	echo.
+	echo  AndroidBuild.bat [arg1] [arg2]
+	echo.
+	echo  arg1: 
+	echo 	clean
+	echo 	 	Will clear the build directory of any files and then exit.
+	echo 		e.g Deletes EVERYTHING! MUAHAHAH. HAH.
+	echo.
+	echo  	help
+	echo 	 	Outputs the possible argument combinations for this script then exits
+	echo 	 	But something tells me you already know that. Strage.
+	echo.
+	echo  	Aside from that it should be the platform to build for. Possible platforms are:
+	echo 	 	armeabi
+	echo 	 	armeabi-v7a
+	echo 		armeabi-v7a with NEON
+	echo 		armeabi-v7a with VFPV3
+	echo 		armeabi-v6 with VFP
+	echo 		x86
+	echo 		mips
+	echo 		arm64-v8a
+	echo 		x86_64
+	echo 		mips64
+	echo.
+	echo  arg2:
+	echo 	install
+	echo 		Will build and install the application on the connected device, but not open it.
+	echo.
+	echo 	deploy
+	echo 		Will build, install and then open/start the application on the connected device. 
+	echo.
+	echo  Examples:
+	echo  	$ AndroidBuild.bat clean             # Will clean the build directory
+	echo 	$ AndroidBuild.bat help              # Will display this message, dummy :face_palm:
+	echo 	$ AndroidBuild.bat arm64-v8a         # Will build for the intended target but not install or deploy
+	echo 	$ AndroidBuild.bat arm64-v8a install # Will build and then install on the target device
+	echo 	$ AndroidBuild.bat arm64-v8a deploy  # Will build, install and deploy on the target device
+	exit /b 0
+)
+
 set abi=%1
 
 mkdir %build_dir%
