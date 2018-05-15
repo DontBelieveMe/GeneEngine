@@ -5,7 +5,7 @@
 #include "../../../../ThirdParty/android/android_native_app_glue.h"
 #include <android/log.h>
 #include <EGL/egl.h>
-#include <GLES2/gl2.h>
+#include <Platform/OpenGL.h>
 
 #include <android/sensor.h>
 
@@ -158,6 +158,13 @@ void AWindow::CreateGLContext()
 	m_Context = context;
 	m_Surface = surface;
 	s_CreatedSurface = true;
+
+    LOG(LogLevel::Debug, "Screen Size: ", m_WindowConfig.Width, "x", m_WindowConfig.Height);
+
+    m_WindowConfig.Width = w;
+    m_WindowConfig.Height = h;
+
+    glViewport(0, 0, w, h);
 }
 
 void AWindow::Show()

@@ -2,6 +2,7 @@
 #include <Platform/Window.h>
 #include <Graphics/Color.h>
 #include <Graphics/Renderer2D.h>
+#include <Platform/Time.h>
 
 int GeneMain(int argc, char **argv)
 {
@@ -18,25 +19,32 @@ int GeneMain(int argc, char **argv)
     window->Create();
     window->SetClearColor(Color::CornflowerBlue);
 
+    GameTime time;
+    time.Init();
+
     Renderer2D renderer;
-    renderer.Init(Matrix4::Orthographic(16.f, 0.f, 0.f, 8.f, 1.0f, -1.0f));
+    renderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 1.0f, -1.0f));
+    float x = 75.0f;
 
     window->Show();
     while(window->Running()) {
+        time.StartFrame();
         window->PollEvents();
-
+        x += 1.f;
         window->Clear();
         renderer.Begin();
 
         // TODO: Bug? For some reason this is not drawing at the correct position
         //       despite the correct projection matrix being specified in the `Init`
         //       call above. GLES shader issue?
-        renderer.FillCircle({4,4}, 4, Color::Red, 32);
+        renderer.FillCircle({x,75}, 50, Color::Red, 32);
         
         renderer.End();
         renderer.Present();
 
         window->SwapBuffers();
+        time.EndFrame();
+        time.Sleep(1000.f / 60.f);
     }
 
     return 0;

@@ -323,7 +323,7 @@ void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, 
         );
         m_Buffer->Position = MultiplyVector2ByMatrix4(pos.X, pos.Y, backTransform);
         m_Buffer->Color = rgbCol;
-        m_Buffer->TextureId = -1;
+        m_Buffer->TextureId = -1.0f;
         m_Buffer++;
 
         angle = segmentSize * (i + 1);
@@ -334,12 +334,12 @@ void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, 
 
         m_Buffer->Position = MultiplyVector2ByMatrix4(pos.X, pos.Y, backTransform);
         m_Buffer->Color = rgbCol;
-        m_Buffer->TextureId = -1;
+        m_Buffer->TextureId = -1.0f;
         m_Buffer++;
 
         m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);;
         m_Buffer->Color = rgbCol;
-        m_Buffer->TextureId = -1;
+        m_Buffer->TextureId = -1.0f;
         m_Buffer++;
 
         /*

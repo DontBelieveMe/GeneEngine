@@ -18,12 +18,12 @@ uniform sampler2D textureSamplers[32];\n\
 \n\
 void main()\n\
 {\n\
-    int texId = int(passTexId);\n\
-    if (-1.0f < 0.0f)\n\
+    if (passTexId < 0.0f)\n\
     {\n\
         color = vec4(passColor.rgb, 1.0f);\n\
     }\n\
     else {\n\
+        int texId = int(passTexId);\n\
         switch (texId) {\n\
             case 0: color = texture(textureSamplers[0], passUv); break;\n\
             case 1: color = texture(textureSamplers[1], passUv); break;\n\
@@ -37,7 +37,7 @@ void main()\n\
             default: color = texture(textureSamplers[0], passUv); break;\n\
         }\n\
         \n\
-        color = color * vec4(passColor, 1); // TODO: The error is here -> for some reason it skips the `correct` if block and jumps straight to else. \n\
+        color = vec4(passTexId, 0.0f, 0.0f, 1.0f); //color * vec4(passColor, 1); // TODO: The error is here -> for some reason it skips the `correct` if block and jumps straight to else. \n\
         \n\
     }\n\
 }"

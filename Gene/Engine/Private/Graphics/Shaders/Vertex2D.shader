@@ -13,15 +13,15 @@ in float     texId;\n\
 out vec3     passColor;\n\
 out vec2     passUv;\n\
 out float    passTexId;\n\
-out float    passVertexType;\n\
 \n\
 uniform mat4 u_Projection;\n\
 //uniform mat4 u_View = mat4(1.0);\n\
 \n\
 void main()\n\
 {\n\
-    gl_Position = /*u_View * */ u_Projection * vec4(position, 1.0);\n\
+    mat4 u_View = mat4(1.0f);\n\
+    gl_Position = u_View * u_Projection * vec4(position, 1.0);\n\
     passColor = color;\n\
     passUv = uv;\n\
-    passTexId = -1.5f;\n\
+    passTexId = texId;\n\
 }"
