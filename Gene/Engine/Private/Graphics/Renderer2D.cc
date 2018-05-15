@@ -19,6 +19,8 @@ static const int RendererIndexNum   = MaxRenderables * 6;
 
 Renderer2D::Renderer2D() : m_IndexCount(0) {}
 
+#define RENDERER_NO_TEXTURE_ID -1.0f
+
 void Renderer2D::SetViewMatrix(const Matrix4& view)
 {
     m_Shader->Enable();
@@ -152,19 +154,19 @@ void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const A
     m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
     m_Buffer->UV = rect.TopLeft;
     m_Buffer->TextureId = tid;
-    m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer->Color = Vector3(1.0f, 1.0f, 1.0f);
     m_Buffer++;
 
     m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y, backTransform);
     m_Buffer->UV = rect.TopRight;
     m_Buffer->TextureId = tid;
-    m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer->Color = Vector3(1.0f, 1.0f, 1.0f);
     m_Buffer++;
 
     m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y + height, backTransform);
     m_Buffer->UV = rect.BottomRight;
     m_Buffer->TextureId = tid;
-    m_Buffer->Color = Vector3(1, 1, 1);
+    m_Buffer->Color = Vector3(1.0f, 1.0f, 1.0f);
     m_Buffer++;
 
     m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y + height, backTransform);
@@ -321,9 +323,10 @@ void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, 
             radius * Maths::Cos(angle) + position.X,
             radius * Maths::Sin(angle) + position.Y
         );
+
         m_Buffer->Position = MultiplyVector2ByMatrix4(pos.X, pos.Y, backTransform);
         m_Buffer->Color = rgbCol;
-        m_Buffer->TextureId = -1.0f;
+        m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
         m_Buffer++;
 
         angle = segmentSize * (i + 1);
@@ -334,12 +337,12 @@ void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, 
 
         m_Buffer->Position = MultiplyVector2ByMatrix4(pos.X, pos.Y, backTransform);
         m_Buffer->Color = rgbCol;
-        m_Buffer->TextureId = -1.0f;
+        m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
         m_Buffer++;
 
         m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);;
         m_Buffer->Color = rgbCol;
-        m_Buffer->TextureId = -1.0f;
+        m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
         m_Buffer++;
 
         /*
@@ -385,22 +388,22 @@ void Renderer2D::FillRectangle(Vector2 position, float width, float height, cons
 
 	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y, backTransform);
     m_Buffer->Color = rgbCol;
-    m_Buffer->TextureId = -1;
+    m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
     m_Buffer++;
 	
 	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y, backTransform);
     m_Buffer->Color = rgbCol;
-    m_Buffer->TextureId = -1;
+    m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
     m_Buffer++;
 
 	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X + width, position.Y + height, backTransform);
     m_Buffer->Color = rgbCol;
-    m_Buffer->TextureId = -1;
+    m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
     m_Buffer++;
 
 	m_Buffer->Position = MultiplyVector2ByMatrix4(position.X, position.Y + height, backTransform);
     m_Buffer->Color = rgbCol;
-    m_Buffer->TextureId = -1;
+    m_Buffer->TextureId = RENDERER_NO_TEXTURE_ID;
     m_Buffer++;
 
     WriteRectangleIndices();
