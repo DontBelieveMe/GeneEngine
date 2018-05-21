@@ -19,6 +19,8 @@ namespace Gene { namespace Graphics {
         void        CompileFromFiles   (const String& vertPath, const String& fragPath);
         void        BindAttributeIndex (GLint index, const char *name);
 
+        GLuint GetProgram() { return m_Program; }
+
         inline void Enable()    const { glUseProgram(m_Program); m_IsEnabled = true;  }
         inline void Disable()   const { glUseProgram(0);         m_IsEnabled = false; }
 
@@ -37,5 +39,11 @@ namespace Gene { namespace Graphics {
 
         inline void LoadUniform1iv(const char *uniform, int * value, int count)
                          { glUniform1iv(UniformLocation(uniform), count, value); }
+
+        inline void LoadUniformArrayElementi(const char *uniform, int value, int index)
+        {
+            GLint loc = UniformLocation(String(String(uniform, strlen(uniform)) + "[" + ToString(index) + "]").c_str());
+            glUniform1i(loc, value);
+        }
     };
 }}

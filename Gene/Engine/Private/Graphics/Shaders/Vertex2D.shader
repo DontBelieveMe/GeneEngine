@@ -15,11 +15,10 @@ out vec2     passUv;\n\
 out float    passTexId;\n\
 \n\
 uniform mat4 u_Projection;\n\
-//uniform mat4 u_View = mat4(1.0);\n\
+uniform mat4 u_View;\n\
 \n\
 void main()\n\
 {\n\
-    mat4 u_View = mat4(1.0f);\n\
     gl_Position = u_View * u_Projection * vec4(position, 1.0);\n\
     passColor = color;\n\
     passUv = uv;\n\

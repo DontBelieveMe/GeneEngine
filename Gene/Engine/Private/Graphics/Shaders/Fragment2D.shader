@@ -37,7 +37,7 @@ void main()\n\
             default: color = texture(textureSamplers[0], passUv); break;\n\
         }\n\
         \n\
-        color = vec4(passTexId, 0.0f, 0.0f, 1.0f); //color * vec4(passColor, 1); // TODO: The error is here -> for some reason it skips the `correct` if block and jumps straight to else. \n\
+        color = color * vec4(passColor, 1);\n\
         \n\
     }\n\
 }"

@@ -52,13 +52,18 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     m_Shader->BindAttributeIndex(3, "texId");
     
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
+    m_Shader->LoadUniformMatrix4f("u_View", Matrix4::Identity());
 
 	GLint texIds[] = {
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
 
-	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
+    /*for (int i = 0; i < 10; i++)
+    {
+        m_Shader->LoadUniformArrayElementi("textureSamplers", texIds[i], i);
+    }*/
 
+	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
 
 	m_VAO = new VertexArray;
     m_VAO->Enable();
