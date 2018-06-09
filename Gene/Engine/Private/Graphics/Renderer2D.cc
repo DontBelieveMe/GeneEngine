@@ -47,7 +47,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     m_Shader->CompileFromText(vertexShader, fragmentShader);
     m_Shader->Enable();
-   
+    
     m_Shader->BindAttributeIndex(0, "position");
     m_Shader->BindAttributeIndex(1, "color");
     m_Shader->BindAttributeIndex(2, "uv");
@@ -61,7 +61,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	};
 
 	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
-
+    
 	m_VAO = new VertexArray;
     m_VAO->Enable();
 
@@ -70,7 +70,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     BufferDescriptor                    desc;
     desc.Data                           = NULL;
-    desc.DataType                       = OpenGL::GLType::Float;
+    desc.DataType                       = opengl::GLType::Float;
     desc.DrawType                       = BufferDrawType::Dynamic;
     desc.Size                           = RendererBatchSize;
 	m_VBO->SetData(desc);
@@ -79,7 +79,7 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     BufferDescriptor                    eboDesc;
     eboDesc.Data                        = indices;
-    eboDesc.DataType                    = OpenGL::GLType::UnsignedInt;
+    eboDesc.DataType                    = opengl::GLType::UnsignedInt;
     eboDesc.DrawType                    = BufferDrawType::Dynamic;
     eboDesc.Size                        = RendererIndexNum;
 	m_EBO->SetData(eboDesc);

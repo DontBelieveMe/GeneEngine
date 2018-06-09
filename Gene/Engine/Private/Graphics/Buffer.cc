@@ -15,7 +15,7 @@ void Buffer::SetData(const BufferDescriptor& data)
 	Enable();
 	m_Descriptor = data;
 	glBufferData(
-		OpenGL::GeneToGLType(m_Type), 
+		opengl::GeneToGLType(m_Type), 
 		data.Size, 
 		data.Data, 
 		static_cast<GLenum>(data.DrawType));
@@ -28,7 +28,7 @@ void Buffer::Resize(size_t newSize)
 
 	Enable();
 	glBufferData(
-		OpenGL::GeneToGLType(m_Type),
+		opengl::GeneToGLType(m_Type),
 		newSize,
 		NULL,
 		static_cast<GLenum>(m_Descriptor.DrawType)
@@ -39,6 +39,6 @@ void Buffer::Resize(size_t newSize)
 void Buffer::UnmapPointer()
 {
 	Enable();
-	glUnmapBuffer(gene::OpenGL::GeneToGLType(m_Type));
+	glUnmapBuffer(gene::opengl::GeneToGLType(m_Type));
 	Disable();
 }

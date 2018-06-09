@@ -19,7 +19,7 @@ namespace gene { namespace graphics {
         size_t         Size;
         void          *Data;
 		BufferDrawType DrawType;
-		OpenGL::GLType DataType;
+		opengl::GLType DataType;
 	};
 
 	class Buffer {
@@ -47,9 +47,9 @@ namespace gene { namespace graphics {
 		{
 			Enable();
             int x;
-            glGetBufferParameteriv(OpenGL::GeneToGLType(m_Type), GL_BUFFER_SIZE, &x);
+            glGetBufferParameteriv(opengl::GeneToGLType(m_Type), GL_BUFFER_SIZE, &x);
 
-			void *data = glMapBufferRange(OpenGL::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
+			void *data = glMapBufferRange(opengl::GeneToGLType(m_Type), 0, Size(), GL_MAP_WRITE_BIT);
             
             if (!data) {
                 LOG(LogLevel::Infomation, "Buffer::GetPointer<T>() is returning a null pointer (Buffer ID: ", m_ID, ")");
@@ -72,7 +72,7 @@ namespace gene { namespace graphics {
 		inline size_t		  Size()		   const { return m_Descriptor.Size; }
 
         /** Return the OpenGL data type of the data stored in this buffer. */
-		inline OpenGL::GLType DataType()	   const { return m_Descriptor.DataType; }
+		inline opengl::GLType DataType()	   const { return m_Descriptor.DataType; }
 
 	private:
         GLuint           m_ID;

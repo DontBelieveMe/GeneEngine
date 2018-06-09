@@ -7,7 +7,7 @@ namespace gene {
 	namespace input {}
 	namespace io {}
 	namespace platform {}
-	namespace OpenGL {}
+	namespace opengl {}
 }
 
 using namespace gene;
@@ -16,5 +16,5 @@ using namespace gene::runtime;
 using namespace gene::math;
 using namespace gene::platform;
 using namespace gene::io;
-using namespace gene::OpenGL;
+using namespace gene::opengl;
 
