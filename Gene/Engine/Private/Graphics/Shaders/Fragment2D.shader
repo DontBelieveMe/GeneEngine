@@ -14,7 +14,7 @@ in vec3 passColor;\n\
 in vec2 passUv;\n\
 in float passTexId;\n\
 \n\
-uniform sampler2D textureSamplers[32];\n\
+uniform sampler2D textureSamplers[16];\n\
 \n\
 void main()\n\
 {\n\

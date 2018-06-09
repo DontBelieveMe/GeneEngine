@@ -3,7 +3,7 @@
 #include <Platform/Time.h>
 #include <unistd.h>
 
-using namespace Gene::Platform;
+using namespace gene::platform;
 
 void GameTime::Sleep(float milliseconds)
 {

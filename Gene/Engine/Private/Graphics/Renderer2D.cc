@@ -6,6 +6,8 @@
 #include <string>
 #include <Platform/OpenGL.h>
 
+#include <iostream>
+
 #include "Shaders/Fragment2D.shader"
 #include "Shaders/Vertex2D.shader"
 
@@ -17,9 +19,11 @@ static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
 
-Renderer2D::Renderer2D() : m_IndexCount(0) {}
-
 #define RENDERER_NO_TEXTURE_ID -1.0f
+
+Renderer2D::Renderer2D() 
+    : m_IndexCount(0), m_IndexOffset(0) 
+{}
 
 void Renderer2D::SetViewMatrix(const Matrix4& view)
 {
@@ -35,25 +39,32 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
-    m_IndexOffset = 0;
-
+    
     // TODO: Fix -> We need a better way of embedding shaders (maybe package in custom package & auto copy/deploy to correct
     // directory
     SHADER_VERTEX2D(vertexShader);
     SHADER_FRAGMENT2D(fragmentShader);
 
     m_Shader->CompileFromText(vertexShader, fragmentShader);
-    
+
+    LOG(LogLevel::Debug, "OpenGL Errors (Pre Enable): ", std::hex, "0x", glGetError());
     m_Shader->Enable();
-    
+    LOG(LogLevel::Debug, "OpenGL Errors (Post Enable): ", std::hex, "0x", glGetError());
+
+    GLuint program = m_Shader->GetProgram();
+    GLint isLinked;
+    glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
+    LOG(LogLevel::Debug, "Program ID: ", m_Shader->GetProgram());
+    LOG(LogLevel::Debug, "Is correctly linked? ", std::boolalpha, isLinked);
+
     m_Shader->BindAttributeIndex(0, "position");
     m_Shader->BindAttributeIndex(1, "color");
     m_Shader->BindAttributeIndex(2, "uv");
     m_Shader->BindAttributeIndex(3, "texId");
-    
+ 
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
-    m_Shader->LoadUniformMatrix4f("u_View", Matrix4::Identity());
-
+    SetViewMatrix(Matrix4::Identity());
+    
 	GLint texIds[] = {
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
@@ -133,7 +144,10 @@ void Renderer2D::PushTransform(const Matrix4& matrix)
 
 void Renderer2D::PopTransform()
 {
-    if (m_TransformationStack.size() > 1) m_TransformationStack.pop_back();
+    if (m_TransformationStack.size() > 1)
+    {
+        m_TransformationStack.pop_back();
+    }
 }
 
 Vector3 MultiplyVector2ByMatrix4(float x, float y, const Matrix4& mat4)
@@ -145,7 +159,7 @@ void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const A
 {
     if (!texture)
     {
-        LOG(gene::LogLevel::Warning, "DrawTextureBounds() called with a NULL texture parameter. Aborting draw");
+        LOG(LogLevel::Warning, "DrawTextureBounds() called with a NULL texture parameter. Aborting draw");
         return;
     }
 
@@ -198,7 +212,7 @@ void Renderer2D::DrawString(Font *font,
 {
     if(!font)
     {
-        LOG(gene::LogLevel::Warning, "Font null when trying to draw string '", text, "'! Abandoning draw.");
+        LOG(LogLevel::Warning, "Font null when trying to draw string '", text, "'! Abandoning draw.");
         return;
     }
 

@@ -8,8 +8,8 @@
 
 #include "AWindow.h"
 
-using namespace Gene::Input;
-using namespace Gene;
+using namespace gene::input;
+using namespace gene;
 
 MouseState &Mouse::GetState()
 {

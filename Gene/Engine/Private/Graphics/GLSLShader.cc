@@ -39,6 +39,18 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
 	glAttachShader(m_Program, vertexShader);
 	glAttachShader(m_Program, fragmentShader);
 	glLinkProgram(m_Program);
+
+    GLint isLinked = 0;
+    glGetProgramiv(m_Program, GL_LINK_STATUS, &isLinked);
+
+    if (isLinked == GL_FALSE)
+    {
+        GLchar log[512];
+        GLint x;
+        glGetProgramInfoLog(m_Program, 512, &x, log);
+        LOG(LogLevel::Error, "Shader linking error: ", log);
+    }
+
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }

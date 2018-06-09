@@ -42,6 +42,10 @@ int GeneMain(int argc, char **argv)
         renderer.End();
         renderer.Present();
 
+        if (x-50 > window->Width()) {
+            x = 0;
+        }
+
         window->SwapBuffers();
         time.EndFrame();
         time.Sleep(1000.f / 60.f);
