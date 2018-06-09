@@ -5,7 +5,7 @@
 #include "Vector3.h"
 
 namespace gene {
-	namespace Math {
+	namespace math {
 		class Quaternion {
 		public:
 			float X, Y, Z, W;
@@ -14,5 +14,5 @@ namespace gene {
 		};
 	}
 
-	typedef Math::Quaternion Quaternion;
+	typedef math::Quaternion Quaternion;
 }
