@@ -4,7 +4,7 @@
 
 #include "Vector3.h"
 
-namespace Gene {
+namespace gene {
 	namespace Math {
 		class Quaternion {
 		public:

@@ -9,7 +9,7 @@
 
 #include "TinyObjLoader.h"
 
-namespace Gene { namespace Content {
+namespace gene { namespace runtime {
 	class OBJModelLoader : public IModelLoader 
 	{
     private:

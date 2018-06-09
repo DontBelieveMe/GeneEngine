@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-using namespace Gene;
+using namespace gene;
 
 Vector3::Vector3():
 	X(0.0f), Y(0.0f), Z(0.0f)

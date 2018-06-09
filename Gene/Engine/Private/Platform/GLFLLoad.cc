@@ -3,7 +3,7 @@
 #include "GLFLLoad.h"
 #include <Platform/OpenGL.h>
 
-using namespace Gene::Platform;
+using namespace gene::platform;
 
 void GLFLUtil::GLFLInit(void*(*loader)(const char*))
 {

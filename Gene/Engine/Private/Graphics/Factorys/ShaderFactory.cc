@@ -5,8 +5,8 @@
 
 #include <GeneCommon.h>
 
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::graphics;
+using namespace gene;
 
 Array<GLSLShader*> ShaderFactory::m_Handles;
 

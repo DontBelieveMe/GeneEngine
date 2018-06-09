@@ -14,23 +14,23 @@
 #include <Windows.h>
 #undef CreateWindow
 	#include "Win32/Win32Window.h"
-	using PlatformWindow = Gene::Platform::Win32::Win32Window;
+	using PlatformWindow = gene::platform::win32::Win32Window;
 #define OS Windows
 #elif defined(GENE_OS_LINUX)
     #include "Linux/X11Window.h"
-	using PlatformWindow = Gene::Platform::X11::X11Window;
+	using PlatformWindow = gene::platform::X11::X11Window;
 #define OS Linux
 #elif defined(GENE_OS_ANDROID)
 	#include "Android/AWindow.h"
-	using PlatformWindow = Gene::Platform::Android::AWindow;
+	using PlatformWindow = gene::platform::Android::AWindow;
 #define OS Android
 #else
 	#error [[GENE Engine Compile Error]]: Unknown Platform/OS!
 #endif
 
-using namespace Gene::Platform;
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::platform;
+using namespace gene::graphics;
+using namespace gene;
 
 void PrintSystemInfo()
 {

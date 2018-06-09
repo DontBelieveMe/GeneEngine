@@ -10,7 +10,7 @@
 
 #include <Math/Vector2.h>
 
-namespace Gene { namespace Input {
+namespace gene { namespace input {
 	class Mouse;
 	class Keyboard;
 }}
@@ -21,7 +21,7 @@ namespace Gene { namespace Input {
 // a `void android_main(struct app_state*)` and not `int main()` so we will abstract it away in here
 int GeneMain(int argc, char** argv);
 
-namespace Gene { namespace Platform {
+namespace gene { namespace platform {
 
     /** Data about the window */
 	struct WindowInfo
@@ -51,12 +51,12 @@ namespace Gene { namespace Platform {
         WindowInfo            m_WindowConfig;
         GLContext            *m_Context;
         bool                  m_Running = true;
-        Input::MouseState     m_MouseState;
-        Input::KeyboardState  m_KeyState;
+        input::MouseState     m_MouseState;
+        input::KeyboardState  m_KeyState;
         EventCallbacks        m_Callbacks;
 
-		friend class Input::Mouse;
-        friend class Input::Keyboard;
+		friend class input::Mouse;
+        friend class input::Keyboard;
 
 	public:
         virtual ~Window() { delete m_Context; }
@@ -106,7 +106,7 @@ namespace Gene { namespace Platform {
 		static Window *CreateWindow(WindowInfo info);
 
         /** Set the graphical clear color of the window. The window will be reset to this color when Window::Clear is called */
-		void SetClearColor(Graphics::Color color);
+		void SetClearColor(graphics::Color color);
 
         /** Reset the window to the specified clear color. If no color has been specified by SetClearColor then it will reset to black. */
         void Clear();

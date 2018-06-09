@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace Gene { namespace Platform {
+namespace gene { namespace platform {
 	struct GLContext {
 		void *Context;
 		int MajorVersion, MinorVersion;

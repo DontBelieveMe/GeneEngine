@@ -9,8 +9,8 @@
 #include "Shaders/Fragment2D.shader"
 #include "Shaders/Vertex2D.shader"
 
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::graphics;
+using namespace gene;
 
 static const int RenderableSize     = sizeof(Vertex2D) * 4; // 4 vertices in a cube
 static const int MaxRenderables		= 10000;
@@ -145,7 +145,7 @@ void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const A
 {
     if (!texture)
     {
-        LOG(Gene::LogLevel::Warning, "DrawTextureBounds() called with a NULL texture parameter. Aborting draw");
+        LOG(gene::LogLevel::Warning, "DrawTextureBounds() called with a NULL texture parameter. Aborting draw");
         return;
     }
 
@@ -193,12 +193,12 @@ void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
 void Renderer2D::DrawString(Font *font, 
 						    const String& text, 
 						    const Vector2& pos, 
-							const Graphics::Color color,
+							const graphics::Color color,
                             TextAlignment alignment)
 {
     if(!font)
     {
-        LOG(Gene::LogLevel::Warning, "Font null when trying to draw string '", text, "'! Abandoning draw.");
+        LOG(gene::LogLevel::Warning, "Font null when trying to draw string '", text, "'! Abandoning draw.");
         return;
     }
 

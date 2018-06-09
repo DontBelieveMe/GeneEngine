@@ -4,7 +4,7 @@
 
 #include <Math/Vector2.h>
 
-namespace Gene {
+namespace gene {
 
     /** Class that represents a 3 component floating point vector (XYZ). */
 	struct Vector3 {

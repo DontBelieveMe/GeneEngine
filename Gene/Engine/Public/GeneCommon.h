@@ -41,7 +41,7 @@ GE_FORCEINLINE void logf(const char *t)
     printf("%s", t);
 }
 
-namespace Gene { 
+namespace gene { 
     typedef unsigned char  byte;
     typedef unsigned char  uint8;
     typedef char           int8;

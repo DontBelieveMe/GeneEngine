@@ -4,7 +4,7 @@
 
 #include <Math/Vector3.h>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
     struct ColorRGB {
         float R, G, B;
         ColorRGB(float r, float g, float b): R(r), G(g), B(b) {}

@@ -7,15 +7,15 @@
 #include <iostream>
 #include <sstream>
 
-#define LOG_FILTER(priority) Gene::Logger::GetLogger()->SetFilter(priority)
-#define LOG_CLEAR_FILTER() Gene::Logger::GetLogger()->SetFilter(0)
+#define LOG_FILTER(priority) gene::Logger::GetLogger()->SetFilter(priority)
+#define LOG_CLEAR_FILTER() gene::Logger::GetLogger()->SetFilter(0)
 
 // #define DISABLE_LOGGING
 
 #ifdef DISABLE_LOGGING
     #define LOG(...)
 #else
-    #define LOG Gene::Logger::GetLogger()->Log
+    #define LOG gene::Logger::GetLogger()->Log
 #endif
 
 #include <Platform/OS.h>
@@ -26,7 +26,7 @@
     #define ALOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Gene", __VA_ARGS__))
 #endif
 
-namespace Gene {
+namespace gene {
     struct LogLevel {
         static const unsigned Error;
         static const unsigned Warning;

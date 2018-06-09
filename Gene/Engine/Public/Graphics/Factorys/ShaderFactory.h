@@ -8,7 +8,7 @@
 
 #include <algorithm>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
     struct ShaderAttributeLayout {
         int Index;
         const char *Name;

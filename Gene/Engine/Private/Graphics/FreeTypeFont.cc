@@ -5,8 +5,8 @@
 #include <GeneCommon.h>
 #include <algorithm>
 
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::graphics;
+using namespace gene;
 
 const int s_AtlasDepth = 2;
 const int s_AtlasPadding = 0;

@@ -3,11 +3,11 @@
 #include <Input/Keyboard.h>
 #include <Input/Keys.h>
 
-using namespace Gene::Input;
+using namespace gene::input;
 
-Gene::Platform::Window * Keyboard::s_PrimaryWindow = nullptr;
+gene::platform::Window * Keyboard::s_PrimaryWindow = nullptr;
 
-void Keyboard::SetPrimaryWindow(Gene::Platform::Window *window)
+void Keyboard::SetPrimaryWindow(gene::platform::Window *window)
 {
 	Keyboard::s_PrimaryWindow = window;
 }

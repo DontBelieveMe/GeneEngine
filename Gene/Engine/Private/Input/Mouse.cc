@@ -3,11 +3,11 @@
 #include <Input/Mouse.h>
 #include <Platform/OS.h>
 
-using namespace Gene::Input;
+using namespace gene::input;
 
-Gene::Platform::Window *Mouse::s_PrimaryWindow = nullptr;
+gene::platform::Window *Mouse::s_PrimaryWindow = nullptr;
 
-void Mouse::SetPrimaryWindow(Gene::Platform::Window *window)
+void Mouse::SetPrimaryWindow(gene::platform::Window *window)
 {
 	Mouse::s_PrimaryWindow = window;
 }

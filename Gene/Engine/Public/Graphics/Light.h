@@ -3,7 +3,7 @@
 #include <Math/Vector3.h>
 #include <Graphics/Color.h>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
     class Light 
     {
     private:

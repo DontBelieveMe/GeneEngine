@@ -16,7 +16,7 @@
 #include <Core/String.h>
 #include <Core/Array.h>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
     
     /** Represents one vertex */
 	struct Vertex2D 
@@ -82,7 +82,7 @@ namespace Gene { namespace Graphics {
         void DrawString(Font *font,
             const String& text,
             const Vector2& pos,
-            const Graphics::Color color,
+            const graphics::Color color,
             TextAlignment alignment = TextAlignment::Left 
 		);
 

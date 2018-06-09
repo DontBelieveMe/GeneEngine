@@ -5,7 +5,7 @@
 #include <Platform/Window.h>
 #include <Platform/GLContext.h>
 
-namespace Gene { namespace Platform { namespace Win32 {
+namespace gene { namespace platform { namespace win32 {
 	class Win32Window : public Window
 	{
 	private:

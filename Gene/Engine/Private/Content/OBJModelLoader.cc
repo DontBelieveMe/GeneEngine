@@ -12,8 +12,8 @@
 #include <GeneCommon.h>
 #include <sstream>
 
-using namespace Gene::Content;
-using namespace Gene;
+using namespace gene::runtime;
+using namespace gene;
 
 GeneModel *OBJModelLoader::LoadFromData(const tinyobj::attrib_t& attrib, const Array<tinyobj::shape_t>& shapes, const Array<tinyobj::material_t>& materials)
 {

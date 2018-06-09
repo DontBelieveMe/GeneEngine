@@ -7,7 +7,7 @@
 
 #include <AL/al.h>
 
-namespace Gene { namespace Audio {
+namespace gene { namespace audio {
 	class WaveFile : public IResource {
 	private:
 		int				m_AudioFormat;

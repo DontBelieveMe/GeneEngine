@@ -3,8 +3,8 @@
 #include <Debug/Logger.h>
 #include <string.h>
 
-using namespace Gene::Audio;
-using namespace Gene;
+using namespace gene::audio;
+using namespace gene;
 
 Array<String> AudioSystem::GetAudioDevicesList()
 {

@@ -11,8 +11,8 @@
 
 #include "Win32Window.h"
 
-using namespace Gene::Input;
-using namespace Gene;
+using namespace gene::input;
+using namespace gene;
 
 #ifdef GENE_OS_WINDOWS
 	#include <Windows.h>

@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 
-namespace Gene {
+namespace gene {
 	using String = std::string;
 
 	template <typename T>

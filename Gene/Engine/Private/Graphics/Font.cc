@@ -11,8 +11,8 @@
 
 #include "FreeTypeFont.h"
 
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::graphics;
+using namespace gene;
 
 const float Font::DEFAULT_SIZE = 11.f;
 

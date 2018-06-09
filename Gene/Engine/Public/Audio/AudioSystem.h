@@ -10,8 +10,8 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-namespace Gene {
-	namespace Audio {
+namespace gene {
+	namespace audio {
 		class AudioSystem {
 		private:
 			ALCdevice *m_Device;

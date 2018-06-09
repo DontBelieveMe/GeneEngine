@@ -7,8 +7,8 @@
 #include <Math/Vector2.h>
 #include <GeneCommon.h>
 
-namespace Gene { namespace Platform { namespace X11 {
-    class X11Window : public Gene::Platform::Window
+namespace gene { namespace platform { namespace X11 {
+    class X11Window : public gene::platform::Window
     {
     private:
         void *m_Display;
@@ -17,7 +17,7 @@ namespace Gene { namespace Platform { namespace X11 {
 
     public:
         virtual ~X11Window();
-        X11Window(WindowInfo info) : Gene::Platform::Window(info) {}
+        X11Window(WindowInfo info) : gene::platform::Window(info) {}
 
         void Create() override;
         void CreateGLContext() override;

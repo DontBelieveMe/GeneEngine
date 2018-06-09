@@ -6,7 +6,7 @@
 #include <string.h>
 #include <math.h>
 
-using namespace Gene;
+using namespace gene;
 
 const     int   Matrix4::ElementCount;
 constexpr float Maths::PI;              // TODO: This should not go in here -> move it to a Math/Functions.cc

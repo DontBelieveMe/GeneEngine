@@ -4,8 +4,8 @@
 #include <Math/Functions.h>
 #include <math.h>
 
-using namespace Gene::Math;
-using namespace Gene;
+using namespace gene::Math;
+using namespace gene;
 
 Quaternion::Quaternion(const Vector3& n, float a)
 {

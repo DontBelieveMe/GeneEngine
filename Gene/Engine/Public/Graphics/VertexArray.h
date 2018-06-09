@@ -8,7 +8,7 @@
 
 #include <memory>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
 	struct AttributeDescriptor
 	{
 		int Index;

@@ -5,7 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace Gene {
+namespace gene {
 	template <typename T>
 	using Array = std::vector<T>;
 

@@ -1,7 +1,7 @@
 #include <Runtime/Resources.h>
 #include <Debug/Logger.h>
 
-using namespace Gene;
+using namespace gene;
 
 ResourceManager* ResourceManager::s_StaticInstance = nullptr;
 

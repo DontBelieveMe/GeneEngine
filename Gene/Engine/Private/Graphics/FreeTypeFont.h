@@ -11,7 +11,7 @@
 
 #include <unordered_map>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
     struct FreeTypeGlyph {
         Vector2          UV_TopLeft,
                          UV_TopRight,

@@ -5,7 +5,7 @@
 
 #include <GeneCommon.h>
 
-using namespace Gene::Graphics;
+using namespace gene::graphics;
 
 VertexArray::VertexArray()
 {

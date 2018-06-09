@@ -1,20 +1,20 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
 
-namespace Gene {
+namespace gene {
 	namespace Math {}
-	namespace Graphics {}
-	namespace Content {}
-	namespace Input {}
-	namespace IO {}
-	namespace Platform {}
+	namespace graphics {}
+	namespace runtime {}
+	namespace input {}
+	namespace io {}
+	namespace platform {}
 	namespace OpenGL {}
 }
 
-using namespace Gene;
-using namespace Gene::Graphics;
-using namespace Gene::Content;
-using namespace Gene::Math;
-using namespace Gene::Platform;
-using namespace Gene::IO;
-using namespace Gene::OpenGL;
+using namespace gene;
+using namespace gene::graphics;
+using namespace gene::runtime;
+using namespace gene::Math;
+using namespace gene::platform;
+using namespace gene::io;
+using namespace gene::OpenGL;
 

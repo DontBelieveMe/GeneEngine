@@ -5,8 +5,8 @@
 
 #include "../../ThirdParty/lodepng/lodepng.h"
 
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::graphics;
+using namespace gene;
 
 Texture2D::Texture2D(const char *filepath)
 {

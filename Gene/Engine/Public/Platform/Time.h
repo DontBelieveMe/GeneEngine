@@ -3,7 +3,7 @@
 #pragma once
 #include <chrono>
 
-namespace Gene { namespace Platform {
+namespace gene { namespace platform {
     class Timer {
     private:
         typedef std::chrono::time_point<std::chrono::high_resolution_clock> GameClock;

@@ -6,7 +6,7 @@
 #include <Debug/Logger.h>
 #include <Core/String.h>
 
-namespace Gene {
+namespace gene {
 	template <typename T>
 	using ResourceHandle = T *;
 

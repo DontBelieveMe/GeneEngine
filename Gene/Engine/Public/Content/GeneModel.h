@@ -7,7 +7,7 @@
 #include <Math/Vector2.h>
 #include <Core/Array.h>
 
-namespace Gene { namespace Content {
+namespace gene { namespace runtime {
 	class GeneModel {
 	public:
 		Array<Vector3> Vertices;

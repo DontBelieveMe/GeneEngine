@@ -4,7 +4,7 @@
 
 #include <Platform/OS.h>
 
-namespace Gene { namespace Input {
+namespace gene { namespace input {
 	typedef bool Key;
 #if defined(GENE_OS_WINDOWS)
     #include <Platform/Input/Win32Keys.h>

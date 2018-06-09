@@ -5,7 +5,7 @@
 #include <Platform/OpenGL.h>
 #include <Debug/Logger.h>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
 	enum class BufferDrawType
 	{
         Static  = GL_STATIC_DRAW,

@@ -2,7 +2,7 @@
 
 #include <Graphics/Buffer.h>
 
-using namespace Gene::Graphics;
+using namespace gene::graphics;
 
 Buffer::Buffer(Buffer::Type type): m_Type(type)
 {
@@ -39,6 +39,6 @@ void Buffer::Resize(size_t newSize)
 void Buffer::UnmapPointer()
 {
 	Enable();
-	glUnmapBuffer(Gene::OpenGL::GeneToGLType(m_Type));
+	glUnmapBuffer(gene::OpenGL::GeneToGLType(m_Type));
 	Disable();
 }

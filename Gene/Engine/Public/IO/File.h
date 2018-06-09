@@ -8,7 +8,7 @@
 
 #include <assert.h>
 
-namespace Gene { namespace IO {
+namespace gene { namespace io {
     // TODO: Implement it so a File object can be reused -> e.g Load() , Free() then can Load() again.
     /** Class that represents a file object in memory. One object can only ever represent one file. */
 	class File {

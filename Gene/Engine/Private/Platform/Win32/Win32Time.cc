@@ -5,7 +5,7 @@
     #include <Platform/Time.h>
     #include <Windows.h>
 
-    using namespace Gene::Platform;
+    using namespace gene::platform;
 
     void GameTime::Sleep(float milliseconds)
     {

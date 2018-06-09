@@ -3,7 +3,7 @@
 #include <Math/Vector2.h>
 #include <Math/Functions.h>
 
-using namespace Gene;
+using namespace gene;
 
 Vector2::Vector2() :
 	X(0.0f), Y(0.0f)

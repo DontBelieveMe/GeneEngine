@@ -4,15 +4,15 @@
 
 #include <Math/Vector2.h>
 
-namespace Gene {
-    namespace Platform {
+namespace gene {
+    namespace platform {
         // LOL -> Lets re predefine all our platform specific windows here :D (again)
-        namespace Win32 { class Win32Window; }
+        namespace win32 { class Win32Window; }
         namespace X11 { class X11Window; }
     }
 }
 
-namespace Gene { namespace Input {
+namespace gene { namespace input {
     enum class MouseButton {
         Left = 1, 
         Right = 2, 
@@ -25,8 +25,8 @@ namespace Gene { namespace Input {
 		Vector2i m_Position;
         MouseButton m_Button;
 
-        friend class Platform::Win32::Win32Window;
-        friend class Platform::X11::X11Window;
+        friend class platform::win32::Win32Window;
+        friend class platform::X11::X11Window;
 
     public:
         inline bool IsButtonDown(const MouseButton& button) {

@@ -5,15 +5,15 @@
 #include <Platform/Window.h>
 #include <Input/KeyboardState.h>
 
-namespace Gene { namespace Input {
+namespace gene { namespace input {
 	class Keyboard
 	{
 	private:
-		static Platform::Window *s_PrimaryWindow;
-		friend class Platform::Window;
+		static platform::Window *s_PrimaryWindow;
+		friend class platform::Window;
 	
 	public:
-		static void SetPrimaryWindow(Platform::Window *window);
+		static void SetPrimaryWindow(platform::Window *window);
 		static KeyboardState& GetState();
 
         static char KeyToASCII(Keys key);

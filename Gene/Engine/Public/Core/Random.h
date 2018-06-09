@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace Gene {
+namespace gene {
     class Random {
     public:
         static float FloatRange(float min, float max);

@@ -15,8 +15,8 @@
 #include <GeneCommon.h>
 #include <Core/Array.h>
 
-using namespace Gene::IO;
-using namespace Gene;
+using namespace gene::io;
+using namespace gene;
 
 File::~File()
 {

@@ -12,7 +12,7 @@
 	#include "../../../ThirdParty/glfl/pregenerated/GLFL/glfl.h"
 #endif
 
-namespace Gene { namespace OpenGL {
+namespace gene { namespace OpenGL {
 
     /** Utility enumeration that abstracts away OpenGL type definitions such as GL_FLOAT, GL_UNSIGNED_BYTE etc... */
 	enum class GLType {

@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-using namespace Gene::Graphics;
-using namespace Gene;
+using namespace gene::graphics;
+using namespace gene;
 
 static GLuint CompileShader(const char *src, GLenum type)
 {
@@ -45,7 +45,7 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
 
 void GLSLShader::CompileFromFiles(const String& vertPath, const String& fragPath)
 {
-	using namespace Gene::IO;
+	using namespace gene::io;
 	File vert(vertPath.c_str());
 	File frag(fragPath.c_str());
     

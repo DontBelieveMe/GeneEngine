@@ -6,8 +6,8 @@
 
 #include <string.h>
 
-using namespace Gene::Audio;
-using namespace Gene::IO;
+using namespace gene::audio;
+using namespace gene::io;
 
 struct Header {
 	uint8_t ID[4];

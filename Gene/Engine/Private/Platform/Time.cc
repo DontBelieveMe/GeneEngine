@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-using namespace Gene::Platform;
+using namespace gene::platform;
 
 void Timer::Start()
 {

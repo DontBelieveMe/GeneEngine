@@ -7,7 +7,7 @@
 
 #include <Math/Math.h>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
 	class GLSLShader
 	{
 	private:

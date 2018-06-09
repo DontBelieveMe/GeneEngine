@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <math.h>
 
-namespace Gene {
+namespace gene {
 	struct Maths
 	{
 		static constexpr float PI = 3.14159265359f;

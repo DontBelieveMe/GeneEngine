@@ -6,9 +6,9 @@
 
 int GeneMain(int argc, char **argv)
 {
-    using namespace Gene::Platform;
-    using namespace Gene;
-    using namespace Gene::Graphics;
+    using namespace gene::platform;
+    using namespace gene;
+    using namespace gene::graphics;
 
     WindowInfo info;
     info.Width = 800;
@@ -67,7 +67,7 @@ int GeneMain(int argc, char **argv)
 #include <AL/al.h>
 #include <AL/alc.h>
 
-bool IsKeyPressed(const Gene::Input::KeyboardState& state, Gene::Input::Keys key, Gene::Platform::Timer& timer)
+bool IsKeyPressed(const gene::input::KeyboardState& state, gene::input::Keys key, gene::platform::Timer& timer)
 {
     if (state.IsKeyDown(key)) {
         if (timer.Running())
@@ -87,11 +87,11 @@ bool IsKeyPressed(const Gene::Input::KeyboardState& state, Gene::Input::Keys key
 
 int GeneMain(int argc, char **argv)
 {
-    using namespace Gene::Platform;
-    using namespace Gene::Graphics;
-    using namespace Gene;
-	using namespace Gene::Input;
-	using namespace Gene::Audio;
+    using namespace gene::platform;
+    using namespace gene::graphics;
+    using namespace gene;
+	using namespace gene::input;
+	using namespace gene::audio;
 
     WindowInfo info;
     info.Width = 600;

@@ -9,7 +9,7 @@
 
 #include <Runtime/Resources.h>
 
-namespace Gene { namespace Graphics {
+namespace gene { namespace graphics {
     enum class FilteringOptions
     {
         Linear  = GL_LINEAR,

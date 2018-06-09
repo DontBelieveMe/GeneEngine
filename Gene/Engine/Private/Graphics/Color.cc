@@ -3,7 +3,7 @@
 #include <Graphics/Color.h>
 #include <Math/Functions.h>
 
-using namespace Gene::Graphics;
+using namespace gene::graphics;
 
 const Color Color::CornflowerBlue (0x6495EDFF);
 const Color Color::Red		      (0xFF0000FF);
@@ -14,7 +14,7 @@ const Color Color::Black		  (0x000000FF);
 
 Color::Color(float r, float g, float b, float a)
 {
-	using namespace Gene;
+	using namespace gene;
 
 	int rr = static_cast<int>(Maths::Clamp(r, 0.0f, 1.0f)) * 255;
 	int gg = static_cast<int>(Maths::Clamp(g, 0.0f, 1.0f)) * 255;

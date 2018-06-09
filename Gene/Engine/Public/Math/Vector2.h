@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace Gene {
+namespace gene {
 	struct Vector2 
 	{
 		float X, Y;

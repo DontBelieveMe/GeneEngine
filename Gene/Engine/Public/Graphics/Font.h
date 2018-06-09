@@ -9,8 +9,8 @@
 
 #include "../../Private/Graphics/FreeTypeFont.h"
 
-namespace Gene { 
-    namespace Graphics {
+namespace gene { 
+    namespace graphics {
         class Font : public IResource
         {
         public:

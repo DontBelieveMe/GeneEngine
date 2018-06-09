@@ -4,7 +4,7 @@
 
 #include "GeneModel.h"
 
-namespace Gene { namespace Content {
+namespace gene { namespace runtime {
 	class IModelLoader 
 	{
 	public:

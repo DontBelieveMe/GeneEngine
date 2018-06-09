@@ -2,7 +2,7 @@
 
 #include <Debug/Logger.h>
 
-using namespace Gene;
+using namespace gene;
 
 const unsigned LogLevel::Error = 1;
 const unsigned LogLevel::Warning = 2;

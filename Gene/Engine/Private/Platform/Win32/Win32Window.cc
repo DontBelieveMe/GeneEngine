@@ -20,15 +20,15 @@
 
 #define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
 
-using namespace Gene::Platform::Win32;
-using namespace Gene;
+using namespace gene::platform::win32;
+using namespace gene;
 
 static HDC s_HDC;
 
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	using namespace Gene::Input;
-	Gene::Platform::EventCallbacks *callbacks = static_cast<Gene::Platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
+	using namespace gene::input;
+	gene::platform::EventCallbacks *callbacks = static_cast<gene::platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
 	Key *keyMap = static_cast<Key*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
     MouseButton *mouseButtonState = static_cast<MouseButton*>(GetProp(hWnd, GENE_MOUSE_PROP));
     
@@ -122,13 +122,13 @@ void Win32Window::Create()
 
 	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
     SetProp((HWND)m_Handle, GENE_MOUSE_PROP, &(m_MouseState.m_Button));
-	Input::Mouse::SetPrimaryWindow(this);
-	Input::Keyboard::SetPrimaryWindow(this);
+	input::Mouse::SetPrimaryWindow(this);
+	input::Keyboard::SetPrimaryWindow(this);
 
 	memset(m_KeyState.KeyMap, 0, 62256);
 	SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, m_KeyState.KeyMap);
 
-    m_MouseState.m_Button = Gene::Input::MouseButton::None;
+    m_MouseState.m_Button = gene::input::MouseButton::None;
 
 	CreateGLContext();
 }

@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace Gene { namespace Platform {
+namespace gene { namespace platform {
     struct GLFLUtil {
         static void GLFLInit(void*(*loader)(const char*));
     };
