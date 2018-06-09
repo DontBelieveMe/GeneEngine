@@ -46,17 +46,8 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     SHADER_FRAGMENT2D(fragmentShader);
 
     m_Shader->CompileFromText(vertexShader, fragmentShader);
-
-    LOG(LogLevel::Debug, "OpenGL Errors (Pre Enable): ", std::hex, "0x", glGetError());
     m_Shader->Enable();
-    LOG(LogLevel::Debug, "OpenGL Errors (Post Enable): ", std::hex, "0x", glGetError());
-
-    GLuint program = m_Shader->GetProgram();
-    GLint isLinked;
-    glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
-    LOG(LogLevel::Debug, "Program ID: ", m_Shader->GetProgram());
-    LOG(LogLevel::Debug, "Is correctly linked? ", std::boolalpha, isLinked);
-
+   
     m_Shader->BindAttributeIndex(0, "position");
     m_Shader->BindAttributeIndex(1, "color");
     m_Shader->BindAttributeIndex(2, "uv");
@@ -68,11 +59,6 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	GLint texIds[] = {
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
-
-    /*for (int i = 0; i < 10; i++)
-    {
-        m_Shader->LoadUniformArrayElementi("textureSamplers", texIds[i], i);
-    }*/
 
 	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
 
