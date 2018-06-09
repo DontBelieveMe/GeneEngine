@@ -17,7 +17,7 @@ int GeneMain(int argc, char **argv)
 
     Window *window = Window::CreateWindow(info);
     window->Create();
-    window->SetClearColor(Color::CornflowerBlue);
+    window->SetClearColor(Color(69, 76, 86, 255));
 
     GameTime time;
     time.Init();
@@ -34,15 +34,13 @@ int GeneMain(int argc, char **argv)
         window->Clear();
         renderer.Begin();
 
-        // TODO: Bug? For some reason this is not drawing at the correct position
-        //       despite the correct projection matrix being specified in the `Init`
-        //       call above. GLES shader issue?
         renderer.FillCircle({x,75}, 50, Color::Red, 32);
         
         renderer.End();
         renderer.Present();
 
-        if (x-50 > window->Width()) {
+        if (x-50 > window->Width()) 
+        {
             x = 0;
         }
 
