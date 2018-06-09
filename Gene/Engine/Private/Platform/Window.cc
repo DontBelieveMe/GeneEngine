@@ -22,7 +22,7 @@
 #define OS Linux
 #elif defined(GENE_OS_ANDROID)
 	#include "Android/AWindow.h"
-	using PlatformWindow = gene::platform::Android::AWindow;
+	using PlatformWindow = gene::platform::android::AWindow;
 #define OS Android
 #else
 	#error [[GENE Engine Compile Error]]: Unknown Platform/OS!

@@ -14,7 +14,7 @@
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Gene", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Gene", __VA_ARGS__))
 
-using namespace gene::platform::Android;
+using namespace gene::platform::android;
 using namespace gene;
 
 void *AWindow::s_AndroidAppState = nullptr;

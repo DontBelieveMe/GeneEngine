@@ -11,7 +11,7 @@
 #include <GLES/gl.h>
 #include "../../../../ThirdParty/android/android_native_app_glue.h"
 
-namespace gene { namespace platform { namespace Android {
+namespace gene { namespace platform { namespace android {
     class AWindow : public gene::platform::Window
     {
     private:
