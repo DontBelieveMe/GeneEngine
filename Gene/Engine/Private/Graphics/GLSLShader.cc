@@ -10,22 +10,23 @@
 using namespace gene::graphics;
 using namespace gene;
 
+#define SHADER_LOG_BUFFER_SIZE (512)    // Bytes
+
 static GLuint CompileShader(const char *src, GLenum type)
 {
-	const int SHADER_LOG_BUFFER_SIZE = 512;	// Bytes
 	GLuint shader = glCreateShader(type);
 
 	glShaderSource(shader, 1, &src, NULL);
 	glCompileShader(shader);
 
 	GLint success;
-	GLchar log[SHADER_LOG_BUFFER_SIZE];
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
+	    GLchar log[SHADER_LOG_BUFFER_SIZE];
 		glGetShaderInfoLog(shader, SHADER_LOG_BUFFER_SIZE, NULL, log);
-		LOG(LogLevel::Error, "Shader Error: ", type == GL_VERTEX_SHADER ? "Vertex Shader, " : "Fragment Shader, ", log);
-		abort();
+		LOG(LogLevel::Error, "Shader Compilation Error: ", type == GL_VERTEX_SHADER ? "Vertex Shader, " : "Fragment Shader, ", log);
+        GE_ASSERT(false);
 	}
 	return shader;
 }
@@ -40,15 +41,20 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
 	glAttachShader(m_Program, fragmentShader);
 	glLinkProgram(m_Program);
 
-    GLint isLinked = 0;
-    glGetProgramiv(m_Program, GL_LINK_STATUS, &isLinked);
+    GLint linkedCorrectly = 0;
+    glGetProgramiv(m_Program, GL_LINK_STATUS, &linkedCorrectly);
 
-    if (isLinked == GL_FALSE)
+    if (!linkedCorrectly)
     {
-        GLchar log[512];
-        GLint x;
-        glGetProgramInfoLog(m_Program, 512, &x, log);
-        LOG(LogLevel::Error, "Shader linking error: ", log);
+        GLchar log[SHADER_LOG_BUFFER_SIZE];
+        glGetProgramInfoLog(m_Program, SHADER_LOG_BUFFER_SIZE, NULL, log);
+
+        LOG(LogLevel::Error, "Shader Linking Error: ", log);
+
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+        
+        GE_ASSERT(false);
     }
 
 	glDeleteShader(vertexShader);

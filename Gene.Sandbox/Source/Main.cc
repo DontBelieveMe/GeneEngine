@@ -20,7 +20,7 @@ int GeneMain(int argc, char **argv)
     window->SetClearColor(Color(69, 76, 86, 255));
 
     GameTime time;
-    time.Init();
+    time.Start();
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 1.0f, -1.0f));

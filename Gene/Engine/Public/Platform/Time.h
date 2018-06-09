@@ -39,7 +39,7 @@ namespace gene { namespace platform {
          * Begins the "Running Time" timer and initalises class. No work is done in constructor so in order to
          * start the timer call this function.
          */
-        void Init();
+        void Start();
 
         /** The time between StartFrame() and EndFrame() being called in milliseconds. "Delta time" */
         float DeltaInMilliSeconds() const { return m_Delta; }

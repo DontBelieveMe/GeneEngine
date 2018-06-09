@@ -69,7 +69,7 @@ void GameTime::EndFrame()
     m_HasGotEndFrameTime = true;
 }
 
-void GameTime::Init()
+void GameTime::Start()
 {
     m_GameStart = std::chrono::high_resolution_clock::now();
     m_RunningTime = 0; 
