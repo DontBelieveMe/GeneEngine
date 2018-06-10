@@ -1,4 +1,5 @@
 macro(gene_add_target PROJECT_NAME SOURCE)
+	include_directories(${CMAKE_MODULE_PATH}/../../Gene/libroid/include)
 	if(ANDROID)
 		add_library(${PROJECT_NAME} SHARED ${SOURCE}
 			$<TARGET_OBJECTS:Gene>
@@ -18,7 +19,7 @@ endmacro()
 macro(gene_setup_engine_deps PROJECT_NAME)
 	if(UNIX)
 		if(ANDROID)
-			target_link_libraries(${PROJECT_NAME} android log EGL GLESv3)
+			target_link_libraries(${PROJECT_NAME} android log EGL GLESv3 libroid)
 		else()
 			target_link_libraries(${PROJECT_NAME} "X11" "GL")
 		endif()

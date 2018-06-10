@@ -14,6 +14,7 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(Dependencies/FreeType)
+add_subdirectory(Gene/libroid)
 
 if(NOT ANDROID)
 	add_subdirectory(Dependencies/OpenALSoft)
