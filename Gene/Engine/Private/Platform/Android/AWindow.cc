@@ -8,7 +8,9 @@
 #include <Platform/OpenGL.h>
 
 #include <android/sensor.h>
-
+#include <Math/Vector2.h>
+#include <Input/Mouse.h>
+#include <Input/Keyboard.h>
 #include "AWindow.h"
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Gene", __VA_ARGS__))
@@ -19,37 +21,134 @@ using namespace gene;
 
 void *AWindow::s_AndroidAppState = nullptr;
 
-// https://www.gamedev.net/forums/topic/674511-auto-hide-nav-bar-on-android-app-ndk/
-// Until I rewrite this
-// Cheers Nanoha XD
-void AutoHideNavBar(struct android_app* state)
+namespace api {
+    class JavaObject {
+    protected:
+        JNIEnv * m_jnienv;
+        jobject  m_object;
+
+        JavaObject(JNIEnv *env, jobject obj) : m_jnienv(env), m_object(obj) {}
+    };
+
+    class View : protected JavaObject {
+    private:
+        jmethodID m_methodSetSystemUiVisibility;
+
+    public:
+        View(JNIEnv* env, jobject obj) : JavaObject(env, obj) {
+            jclass viewClass = env->FindClass("android/view/View");
+            m_methodSetSystemUiVisibility = env->GetMethodID(viewClass, "setSystemUiVisibility", "(I)V");
+        }
+
+        void SetSystemUiVisibility(int visibility) {
+            m_jnienv->CallVoidMethod(m_object, m_methodSetSystemUiVisibility, visibility);
+        }
+
+        static const int SYSTEM_UI_FLAG_FULLSCREEN = 0x00000004;
+        static const int SYSTEM_UI_FLAG_HIDE_NAVIGATION = 0x00000002;
+        static const int SYSTEM_UI_FLAG_LAYOUT_STABLE = 0x00000100;
+        static const int SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION = 0x00000200;
+        static const int SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN = 0x00000400;
+        static const int SYSTEM_UI_FLAG_IMMERSIVE_STICKY = 0x00001000;
+
+    };
+
+    class WindowManager {
+    public:
+        struct LayoutParams {
+            static const int FLAG_FULLSCREEN = 0x00000400;
+        };
+    };
+
+    class Window : protected JavaObject {
+        jmethodID m_methodGetDecorView;
+        jmethodID m_methodSetFlags;
+
+    public:
+        Window(JNIEnv *env, jobject obj): JavaObject(env, obj) {
+            jclass windowClass = env->FindClass("android/view/Window");
+            m_methodGetDecorView = env->GetMethodID(windowClass, "getDecorView", "()Landroid/view/View;");
+            m_methodSetFlags = env->GetMethodID(windowClass, "setFlags", "(II)V");
+        }
+
+        void SetFlags(int flags, int mask) {
+            m_jnienv->CallVoidMethod(m_object, m_methodSetFlags, flags, mask);
+        }
+
+        View GetDecorView() {
+            jobject decorView = m_jnienv->CallObjectMethod(m_object, m_methodGetDecorView);
+            return View(m_jnienv, decorView);
+        }
+    };
+
+    class JavaEnvironment {
+        JNIEnv *m_jnienv;
+        struct android_app *m_state;
+
+    public:
+        JavaEnvironment(struct android_app* state) {
+            m_state = state;
+            m_state->activity->vm->AttachCurrentThread(&m_jnienv, NULL);
+        }
+
+        ~JavaEnvironment() {
+            m_state->activity->vm->DetachCurrentThread();
+        }
+
+        struct android_app* GetState() const {
+            return m_state;
+        }
+
+        JNIEnv *GetJNIEnv() const {
+            return m_jnienv;
+        }
+    };
+
+    class Activity : protected JavaObject {
+        jmethodID m_methodGetWindow;
+
+    public:
+        Activity(JNIEnv *env, jobject obj) : JavaObject(env, obj) {
+            jclass activityClass = env->FindClass("android/app/NativeActivity");
+            m_methodGetWindow = env->GetMethodID(activityClass, "getWindow", "()Landroid/view/Window;");
+        }
+
+        Window GetWindow() {
+            jobject window = m_jnienv->CallObjectMethod(m_object, m_methodGetWindow);
+            return Window(m_jnienv, window);
+        }
+
+        static Activity GetNativeActivity(const JavaEnvironment& env) {
+            return Activity(env.GetJNIEnv(), env.GetState()->activity->clazz);
+        }
+    };
+}
+
+void HideNavBar(struct android_app* state) {
+    api::JavaEnvironment environment(state);
+
+    api::Activity activity = api::Activity::GetNativeActivity(environment);
+    api::Window window = activity.GetWindow();
+    api::View view = window.GetDecorView();
+    view.SetSystemUiVisibility(api::View::SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+}
+
+void GoFullscreen(struct android_app* state)
 {
-	JNIEnv* env;
-	state->activity->vm->AttachCurrentThread(&env, NULL);
+    api::JavaEnvironment environment(state);
 
-	jclass activityClass = env->FindClass("android/app/NativeActivity");
-	jmethodID getWindow = env->GetMethodID(activityClass, "getWindow", "()Landroid/view/Window;");
+    api::Activity activity = api::Activity::GetNativeActivity(environment);
+    api::Window window = activity.GetWindow();
+    window.SetFlags(api::WindowManager::LayoutParams::FLAG_FULLSCREEN, api::WindowManager::LayoutParams::FLAG_FULLSCREEN);
 
-	jclass windowClass = env->FindClass("android/view/Window");
-	jmethodID getDecorView = env->GetMethodID(windowClass, "getDecorView", "()Landroid/view/View;");
+    api::View view = window.GetDecorView();
 
-	jclass viewClass = env->FindClass("android/view/View");
-	jmethodID setSystemUiVisibility = env->GetMethodID(viewClass, "setSystemUiVisibility", "(I)V");
-
-	jobject window = env->CallObjectMethod(state->activity->clazz, getWindow);
-	jobject decorView = env->CallObjectMethod(window, getDecorView);
-
-	jfieldID flagFullscreenID = env->GetStaticFieldID(viewClass, "SYSTEM_UI_FLAG_FULLSCREEN", "I");
-	jfieldID flagHideNavigationID = env->GetStaticFieldID(viewClass, "SYSTEM_UI_FLAG_HIDE_NAVIGATION", "I");
-
-	int flagFullscreen = env->GetStaticIntField(viewClass, flagFullscreenID);
-	int flagHideNavigation = env->GetStaticIntField(viewClass, flagHideNavigationID);
-
-	int flag = flagFullscreen | flagHideNavigation;
-
-	env->CallVoidMethod(decorView, setSystemUiVisibility, flag);
-
-	state->activity->vm->DetachCurrentThread();
+    view.SetSystemUiVisibility(api::View::SYSTEM_UI_FLAG_LAYOUT_STABLE
+        | api::View::SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        | api::View::SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        | api::View::SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        | api::View::SYSTEM_UI_FLAG_FULLSCREEN
+        | api::View::SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 }
 
 static EGLDisplay s_Display;
@@ -74,9 +173,45 @@ static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 	}
 }
 
+int *_mouseX;
+int *_mouseY;
+input::MouseButton *_mButtonState;
 static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* event)
 {
-	return 0;
+    int32_t eventType = AInputEvent_getType(event);
+    switch (eventType) {
+    case AINPUT_EVENT_TYPE_MOTION:
+        switch (AInputEvent_getSource(event)) {
+        case AINPUT_SOURCE_TOUCHSCREEN:
+            int action = AKeyEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
+            switch (action) {
+            case AMOTION_EVENT_ACTION_DOWN: {
+                int x = AMotionEvent_getX(event, 0);
+                int y = AMotionEvent_getY(event, 0);
+                
+                *_mouseX = x;
+                *_mouseY = y;
+                *_mButtonState = (input::MouseButton)(static_cast<unsigned>(*_mButtonState) | static_cast<unsigned>(input::MouseButton::Left));
+                break;
+            }
+            case AMOTION_EVENT_ACTION_UP: {
+                *_mouseX = -1;
+                *_mouseY = -1;
+                *_mButtonState = (input::MouseButton)(static_cast<unsigned>(*_mButtonState) & ~(static_cast<unsigned>(input::MouseButton::Left)));
+
+                break;
+            }
+            case AMOTION_EVENT_ACTION_MOVE:
+                break;
+            }
+            break;
+        } // end switch
+        break;
+    case AINPUT_EVENT_TYPE_KEY:
+        // handle key input...
+        break;
+    } // end switch
+    return 0;
 }
 
 void AWindow::Create()
@@ -88,7 +223,15 @@ void AWindow::Create()
 	state->onAppCmd = AndroidEngineHandleCommand;
 	state->onInputEvent = AndroidEngineHandleInput;
 	m_App = state;
-	AutoHideNavBar(state);
+	GoFullscreen(state);
+
+    input::Mouse::SetPrimaryWindow(this);
+    input::Keyboard::SetPrimaryWindow(this);
+    memset(m_KeyState.KeyMap, 0, 62256);
+    m_MouseState.m_Button = gene::input::MouseButton::None;
+    _mouseX = &(m_MouseState.m_Position.X);
+    _mouseY = &(m_MouseState.m_Position.Y);
+    _mButtonState = &(m_MouseState.m_Button);
 
 	while(!s_CreatedSurface)
 	{

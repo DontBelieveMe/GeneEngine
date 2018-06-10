@@ -12,7 +12,7 @@
 #include "../../../../ThirdParty/android/android_native_app_glue.h"
 
 namespace gene { namespace platform { namespace android {
-    class AWindow : public gene::platform::Window
+    class AWindow : public Window
     {
     private:
         struct android_app* m_App;
@@ -25,7 +25,7 @@ namespace gene { namespace platform { namespace android {
         
     public:
         virtual ~AWindow();
-        AWindow(WindowInfo info) : gene::platform::Window(info) {}
+        AWindow(WindowInfo info) : Window(info) {}
 
         void Create() override;
         void CreateGLContext() override;

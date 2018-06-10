@@ -3,12 +3,14 @@
 #include <Graphics/Color.h>
 #include <Graphics/Renderer2D.h>
 #include <Platform/Time.h>
+#include <Input/Mouse.h>
 
 int GeneMain(int argc, char **argv)
 {
     using namespace gene::platform;
     using namespace gene;
     using namespace gene::graphics;
+    using namespace gene::input;
 
     WindowInfo info;
     info.Width = 800;
@@ -25,23 +27,36 @@ int GeneMain(int argc, char **argv)
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 1.0f, -1.0f));
     float x = 75.0f;
+    float y = 75.0f;
 
     window->Show();
     while(window->Running()) {
         time.StartFrame();
         window->PollEvents();
-        x += 1.f;
+        x += 3.f;
+
+        MouseState state = Mouse::GetState();
+        if (state.IsButtonDown(MouseButton::Left)) {
+            Vector2i mPos = state.GetPosition();
+            if (mPos.Y > y) {
+                y += 5.f;
+            }
+            else {
+                y -= 5.f;
+            }
+        }
+
         window->Clear();
         renderer.Begin();
 
-        renderer.FillCircle({x,75}, 50, Color::Red, 32);
+        renderer.FillCircle({x,y}, 50, Color::Red, 32);
         
         renderer.End();
         renderer.Present();
 
         if (x-50 > window->Width()) 
         {
-            x = 0;
+            x = -50;
         }
 
         window->SwapBuffers();
