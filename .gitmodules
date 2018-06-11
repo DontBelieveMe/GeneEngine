@@ -1,3 +1,6 @@
 [submodule "Dependencies/OpenALSoft"]
 	path = Dependencies/OpenALSoft
 	url = https://github.com/kcat/openal-soft.git
+[submodule "Gene/libroid"]
+	path = Gene/libroid
+	url = https://github.com/GeneEngine/libroid.git
