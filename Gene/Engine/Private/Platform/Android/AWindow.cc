@@ -1,154 +1,47 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
-
-#include <Platform/OS.h>
-
+#include "AWindow.h"
 #include "../../../../ThirdParty/android/android_native_app_glue.h"
-#include <android/log.h>
-#include <EGL/egl.h>
-#include <Platform/OpenGL.h>
 
+#include <android/log.h>
 #include <android/sensor.h>
+
+#include <Platform/OpenGL.h>
+#include <Platform/OS.h>
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 #include <Input/Keyboard.h>
-#include "AWindow.h"
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Gene", __VA_ARGS__))
-#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Gene", __VA_ARGS__))
+#include <libroid/libroid.h>
 
 using namespace gene::platform::android;
 using namespace gene;
 
 void *AWindow::s_AndroidAppState = nullptr;
 
-namespace api {
-    class JavaObject {
-    protected:
-        JNIEnv * m_jnienv;
-        jobject  m_object;
-
-        JavaObject(JNIEnv *env, jobject obj) : m_jnienv(env), m_object(obj) {}
-    };
-
-    class View : protected JavaObject {
-    private:
-        jmethodID m_methodSetSystemUiVisibility;
-
-    public:
-        View(JNIEnv* env, jobject obj) : JavaObject(env, obj) {
-            jclass viewClass = env->FindClass("android/view/View");
-            m_methodSetSystemUiVisibility = env->GetMethodID(viewClass, "setSystemUiVisibility", "(I)V");
-        }
-
-        void SetSystemUiVisibility(int visibility) {
-            m_jnienv->CallVoidMethod(m_object, m_methodSetSystemUiVisibility, visibility);
-        }
-
-        static const int SYSTEM_UI_FLAG_FULLSCREEN = 0x00000004;
-        static const int SYSTEM_UI_FLAG_HIDE_NAVIGATION = 0x00000002;
-        static const int SYSTEM_UI_FLAG_LAYOUT_STABLE = 0x00000100;
-        static const int SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION = 0x00000200;
-        static const int SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN = 0x00000400;
-        static const int SYSTEM_UI_FLAG_IMMERSIVE_STICKY = 0x00001000;
-
-    };
-
-    class WindowManager {
-    public:
-        struct LayoutParams {
-            static const int FLAG_FULLSCREEN = 0x00000400;
-        };
-    };
-
-    class Window : protected JavaObject {
-        jmethodID m_methodGetDecorView;
-        jmethodID m_methodSetFlags;
-
-    public:
-        Window(JNIEnv *env, jobject obj): JavaObject(env, obj) {
-            jclass windowClass = env->FindClass("android/view/Window");
-            m_methodGetDecorView = env->GetMethodID(windowClass, "getDecorView", "()Landroid/view/View;");
-            m_methodSetFlags = env->GetMethodID(windowClass, "setFlags", "(II)V");
-        }
-
-        void SetFlags(int flags, int mask) {
-            m_jnienv->CallVoidMethod(m_object, m_methodSetFlags, flags, mask);
-        }
-
-        View GetDecorView() {
-            jobject decorView = m_jnienv->CallObjectMethod(m_object, m_methodGetDecorView);
-            return View(m_jnienv, decorView);
-        }
-    };
-
-    class JavaEnvironment {
-        JNIEnv *m_jnienv;
-        struct android_app *m_state;
-
-    public:
-        JavaEnvironment(struct android_app* state) {
-            m_state = state;
-            m_state->activity->vm->AttachCurrentThread(&m_jnienv, NULL);
-        }
-
-        ~JavaEnvironment() {
-            m_state->activity->vm->DetachCurrentThread();
-        }
-
-        struct android_app* GetState() const {
-            return m_state;
-        }
-
-        JNIEnv *GetJNIEnv() const {
-            return m_jnienv;
-        }
-    };
-
-    class Activity : protected JavaObject {
-        jmethodID m_methodGetWindow;
-
-    public:
-        Activity(JNIEnv *env, jobject obj) : JavaObject(env, obj) {
-            jclass activityClass = env->FindClass("android/app/NativeActivity");
-            m_methodGetWindow = env->GetMethodID(activityClass, "getWindow", "()Landroid/view/Window;");
-        }
-
-        Window GetWindow() {
-            jobject window = m_jnienv->CallObjectMethod(m_object, m_methodGetWindow);
-            return Window(m_jnienv, window);
-        }
-
-        static Activity GetNativeActivity(const JavaEnvironment& env) {
-            return Activity(env.GetJNIEnv(), env.GetState()->activity->clazz);
-        }
-    };
-}
-
-void HideNavBar(struct android_app* state) {
-    api::JavaEnvironment environment(state);
-
-    api::Activity activity = api::Activity::GetNativeActivity(environment);
-    api::Window window = activity.GetWindow();
-    api::View view = window.GetDecorView();
-    view.SetSystemUiVisibility(api::View::SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-}
-
 void GoFullscreen(struct android_app* state)
 {
-    api::JavaEnvironment environment(state);
+    using namespace libroid;
 
-    api::Activity activity = api::Activity::GetNativeActivity(environment);
-    api::Window window = activity.GetWindow();
-    window.SetFlags(api::WindowManager::LayoutParams::FLAG_FULLSCREEN, api::WindowManager::LayoutParams::FLAG_FULLSCREEN);
+    JavaEnvironment environment(state);
 
-    api::View view = window.GetDecorView();
+    Activity activity = Activity::GetNativeActivity(environment);
+    Window window = activity.GetWindow();
+    
+    window.SetFlags(
+        WindowManager::LayoutParams::FLAG_FULLSCREEN, 
+        WindowManager::LayoutParams::FLAG_FULLSCREEN
+    );
 
-    view.SetSystemUiVisibility(api::View::SYSTEM_UI_FLAG_LAYOUT_STABLE
-        | api::View::SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        | api::View::SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        | api::View::SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        | api::View::SYSTEM_UI_FLAG_FULLSCREEN
-        | api::View::SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    View view = window.GetDecorView();
+
+    view.SetSystemUiVisibility(
+          View::SYSTEM_UI_FLAG_LAYOUT_STABLE
+        | View::SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        | View::SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        | View::SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        | View::SYSTEM_UI_FLAG_FULLSCREEN
+        | View::SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    );
 }
 
 static EGLDisplay s_Display;
@@ -176,6 +69,7 @@ static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 int *_mouseX;
 int *_mouseY;
 input::MouseButton *_mButtonState;
+
 static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* event)
 {
     int32_t eventType = AInputEvent_getType(event);
@@ -205,12 +99,11 @@ static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* ev
                 break;
             }
             break;
-        } // end switch
+        }
         break;
     case AINPUT_EVENT_TYPE_KEY:
-        // handle key input...
         break;
-    } // end switch
+    }
     return 0;
 }
 
@@ -290,7 +183,7 @@ void AWindow::CreateGLContext()
 	context = eglCreateContext(display, config, NULL, GiveMeGLES3);
 
 	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
-		LOGW("Cannot make GLES context current!");
+		LOG(LogLevel::Error, "Cannot make GLES context current!");
 		return;
 	}
 

@@ -8,6 +8,7 @@ set(src
     ${src_dir}/JavaObject.cc
     ${src_dir}/Activity.cc
     ${src_dir}/View.cc
+    ${src_dir}/Window.cc
 )
 
 set(headers
@@ -15,6 +16,7 @@ set(headers
     ${header_dir}/Activity.h
     ${header_dir}/JavaObject.h
     ${header_dir}/View.h
+    ${header_dir}/JavaEnvironment.h
 )
 
 add_library(libroid STATIC ${src} ${headers})

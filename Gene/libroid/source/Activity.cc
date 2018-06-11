@@ -11,3 +11,7 @@ Window Activity::GetWindow() {
     jobject window = m_jnienv->CallObjectMethod(m_object, m_methodGetWindow);
     return Window(m_jnienv, window);
 }
+
+Activity Activity::GetNativeActivity(const JavaEnvironment& env) {
+    return Activity(env.GetJNIEnv(), env.GetState()->activity->clazz);
+}

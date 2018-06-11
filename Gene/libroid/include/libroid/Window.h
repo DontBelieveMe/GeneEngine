@@ -13,4 +13,11 @@ namespace libroid {
         void SetFlags(int flags, int mask);
         View GetDecorView();
     };
+
+    class WindowManager {
+    public:
+        struct LayoutParams {
+            static const int FLAG_FULLSCREEN;
+        };
+    };
 }

@@ -2,6 +2,8 @@
 
 using namespace libroid;
 
+const int WindowManager::LayoutParams::FLAG_FULLSCREEN = 0x00000400;
+
 Window::Window(JNIEnv *env, const jobject& obj): JavaObject(env, obj) {
     jclass windowClass = env->FindClass("android/view/Window");
     m_methodGetDecorView = env->GetMethodID(windowClass, "getDecorView", "()Landroid/view/View;");
