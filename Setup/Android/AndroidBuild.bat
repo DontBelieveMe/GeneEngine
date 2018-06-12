@@ -2,8 +2,7 @@
 
 :: TODO: This stuff needs fixing and moving to somewhere else.
 :: 		 Currently this very specific to our Sandbox project.
-set build_dir=..\..\Build\Android
-set src_dir=..\..\
+
 set ndk_dir=I:/android-ndk-r12b
 set android_version=24
 set app_name=Gene.Sandbox
@@ -82,6 +81,9 @@ exit /b 0
 
 :: The specified ABI option is valid so just continue with the program
 :TARGET_MATCH
+
+set build_dir=..\..\Build\Android\%abi%
+set src_dir=..\..\..\
 
 mkdir %build_dir%
 
