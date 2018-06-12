@@ -95,8 +95,14 @@ static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* ev
 
                 break;
             }
-            case AMOTION_EVENT_ACTION_MOVE:
-                break;
+            case AMOTION_EVENT_ACTION_MOVE: {
+                size_t c = AMotionEvent_getPointerCount(event) - 1;
+				int x = AMotionEvent_getX(event, c);
+                int y = AMotionEvent_getY(event, c);
+                *_mouseX = x;
+                *_mouseY = y;
+                break;				
+            }
             }
             break;
         }

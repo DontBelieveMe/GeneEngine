@@ -4,6 +4,7 @@
 #include <Graphics/Renderer2D.h>
 #include <Platform/Time.h>
 #include <Input/Mouse.h>
+#include <Math/Math.h>
 
 int GeneMain(int argc, char **argv)
 {
@@ -33,17 +34,15 @@ int GeneMain(int argc, char **argv)
     while(window->Running()) {
         time.StartFrame();
         window->PollEvents();
-        x += 3.f;
-
+        
         MouseState state = Mouse::GetState();
         if (state.IsButtonDown(MouseButton::Left)) {
             Vector2i mPos = state.GetPosition();
-            if (mPos.Y > y) {
-                y += 5.f;
-            }
-            else {
-                y -= 5.f;
-            }
+            Vector2 diff(mPos.X - x, mPos.Y - y);
+            diff.Normalize();
+			
+            x += diff.X * 10.f;
+            y += diff.Y * 10.f;
         }
 
         window->Clear();

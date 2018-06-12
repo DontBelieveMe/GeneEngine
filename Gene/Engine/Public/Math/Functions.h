@@ -38,31 +38,35 @@ namespace gene {
             return atanf(v);
         }
 
-		template <typename T>
-		static T Clamp(T value, T min, T max) 
-		{
-			static_assert(std::is_arithmetic<T>::value, "ToRadians<T> requires arithmetic/numeric type");
+        static float Absf(float a) {
+            return a < 0 ? -a : a;
+        }
+		
+        template <typename T>
+        static T Clamp(T value, T min, T max) 
+        {
+            static_assert(std::is_arithmetic<T>::value, "ToRadians<T> requires arithmetic/numeric type");
 
-			return (value < min) ? min : (value > max) ? max : value;
-		}
+            return (value < min) ? min : (value > max) ? max : value;
+        }
 
-		template <typename T>
-		static T ToRadians(T degrees)
-		{
-			static_assert(std::is_arithmetic<T>::value, "ToRadians<T> requires arithmetic/numeric type");
+        template <typename T>
+        static T ToRadians(T degrees)
+        {
+            static_assert(std::is_arithmetic<T>::value, "ToRadians<T> requires arithmetic/numeric type");
 
-			static constexpr float piOverOneEighty = Maths::PI / 180;
-			return degrees * piOverOneEighty;
-		}
+            static constexpr float piOverOneEighty = Maths::PI / 180;
+            return degrees * piOverOneEighty;
+        }
 
-		template <typename T>
-		static T ToDegrees(T radians)
-		{
-			static_assert(std::is_arithmetic<T>::value, "ToRadians<T> requires arithmetic/numeric type");
-
-			static constexpr float oneEightyOverPi = 180 / Maths::PI;
-			return radians * oneEightyOverPi;
-		}
+        template <typename T>
+        static T ToDegrees(T radians)
+        {
+            static_assert(std::is_arithmetic<T>::value, "ToRadians<T> requires arithmetic/numeric type");   
+            
+            static constexpr float oneEightyOverPi = 180 / Maths::PI;
+            return radians * oneEightyOverPi;
+        }
 
         template <typename T> 
         static int Sign(const T& val) {
