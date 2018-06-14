@@ -8,8 +8,7 @@
 #include <Platform/OpenGL.h>
 #include <Platform/OS.h>
 #include <Math/Vector2.h>
-#include <Input/Mouse.h>
-#include <Input/Keyboard.h>
+#include <Input/InputController.h>
 
 #include <libroid/libroid.h>
 
@@ -48,6 +47,8 @@ static EGLDisplay s_Display;
 static EGLSurface s_Surface;
 static bool s_CreatedSurface;
 
+static gene::input::InputController *s_InputController;
+
 static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 {
 	struct AWindow* window = (AWindow*)app->userData;
@@ -68,12 +69,15 @@ static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 	}
 }
 
-int *_mouseX;
-int *_mouseY;
-input::MouseButton *_mButtonState;
-
 static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* event)
 {
+    using namespace gene::input;
+    
+    typedef MouseDevice::Button Button;
+    
+    MouseDevice *mouseDevice = s_InputController->GetMouseDevice();
+    Button buttonState = mouseDevice->GetRawButtonState();
+
     int32_t eventType = AInputEvent_getType(event);
     switch (eventType) {
     case AINPUT_EVENT_TYPE_MOTION:
@@ -85,24 +89,20 @@ static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* ev
                 int x = AMotionEvent_getX(event, 0);
                 int y = AMotionEvent_getY(event, 0);
                 
-                *_mouseX = x;
-                *_mouseY = y;
-                *_mButtonState = (input::MouseButton)(static_cast<unsigned>(*_mButtonState) | static_cast<unsigned>(input::MouseButton::Left));
+                mouseDevice->TrySetCursorPosition(Vector2i(x, y));
+                mouseDevice->TrySetButtonState((Button) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(Button::Left)));
                 break;
             }
             case AMOTION_EVENT_ACTION_UP: {
-                *_mouseX = -1;
-                *_mouseY = -1;
-                *_mButtonState = (input::MouseButton)(static_cast<unsigned>(*_mButtonState) & ~(static_cast<unsigned>(input::MouseButton::Left)));
-
+                mouseDevice->TrySetCursorPosition(Vector2i(0,0));
+                mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(Button::Left))));
                 break;
             }
             case AMOTION_EVENT_ACTION_MOVE: {
                 size_t c = AMotionEvent_getPointerCount(event) - 1;
 				int x = AMotionEvent_getX(event, c);
                 int y = AMotionEvent_getY(event, c);
-                *_mouseX = x;
-                *_mouseY = y;
+                mouseDevice->TrySetCursorPosition(Vector2i(x, y));
                 break;				
             }
             }
@@ -125,14 +125,8 @@ void AWindow::Create()
 	state->onInputEvent = AndroidEngineHandleInput;
 	m_App = state;
 	GoFullscreen(state);
-
-    input::Mouse::SetPrimaryWindow(this);
-    input::Keyboard::SetPrimaryWindow(this);
-    memset(m_KeyState.KeyMap, 0, 62256);
-    m_MouseState.m_Button = gene::input::MouseButton::None;
-    _mouseX = &(m_MouseState.m_Position.X);
-    _mouseY = &(m_MouseState.m_Position.Y);
-    _mButtonState = &(m_MouseState.m_Button);
+    
+    s_InputController = &m_InputController;
 
 	while(!s_CreatedSurface)
 	{
