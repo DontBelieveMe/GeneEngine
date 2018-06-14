@@ -93,7 +93,7 @@ namespace gene {
                 ALOGW(ss.str().c_str());
             #else
                 std::cout << ss.str();
-                std::cout << "\n";
+                std::cout << std::endl;
             
             #endif
         }
