@@ -27,8 +27,13 @@ int GeneMain(int argc, char **argv)
 
     Renderer2D renderer;
     renderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 1.0f, -1.0f));
+
     float x = 75.0f;
     float y = 75.0f;
+    Vector2 ballPosition;
+    
+    InputController *input = window->GetInputController();  
+    MouseDevice *mouseDevice = input->GetMouseDevice();
 
     window->Show();
     while(window->Running()) {
@@ -36,8 +41,9 @@ int GeneMain(int argc, char **argv)
         window->PollEvents();
         
         MouseState state = Mouse::GetState();
-        if (state.IsButtonDown(MouseButton::Left)) {
-            Vector2i mPos = state.GetPosition();
+        if (mouseDevice->IsButtonDown(MouseDevice::Button::Left)) {
+            Vector2i mPos = mouseDevice->GetCursorPosition();
+            LOG(LogLevel::Debug, "X: ", mPos.X, ", Y: ", mPos.Y);
             Vector2 diff(mPos.X - x, mPos.Y - y);
             diff.Normalize();
 			

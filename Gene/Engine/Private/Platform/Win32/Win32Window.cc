@@ -12,6 +12,8 @@
 #include <Math/Vector2.h>
 #include <Input/Mouse.h>
 #include <Input/Keyboard.h>
+#include <Input/InputController.h>
+
 #include <Debug/Logger.h>
 
 #define GENE_EVENT_CALLBACK_ID "_GeneCallbacksId"
@@ -28,10 +30,21 @@ static HDC s_HDC;
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace gene::input;
+ 
+    typedef MouseDevice::Button Button;
 	gene::platform::EventCallbacks *callbacks = static_cast<gene::platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
-	Key *keyMap = static_cast<Key*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
-    MouseButton *mouseButtonState = static_cast<MouseButton*>(GetProp(hWnd, GENE_MOUSE_PROP));
+	InputController *inputController = static_cast<InputController*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
+    if (!inputController) {
+        goto end;
+    }
+    //MouseButton *mouseButtonState = static_cast<MouseButton*>(GetProp(hWnd, GENE_MOUSE_PROP));
     
+    KeyDevice *keyDevice = inputController->GetKeyDevice();
+    MouseDevice *mouseDevice = inputController->GetMouseDevice();
+    
+    Button buttonState = mouseDevice->GetRawButtonState();
+    
+
 	switch(msg)
 	{
 	case WM_DESTROY:
@@ -45,27 +58,28 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		break;
 	case WM_KEYDOWN:
-        keyMap[wParam] = true;
+        keyDevice->PressKeyDown(static_cast<Keys>(wParam));
 		return 0;
 	case WM_KEYUP:
-        keyMap[wParam] = false;
+        keyDevice->ReleaseKeyDown(static_cast<Keys>(wParam));
 		return 0;
     case WM_LBUTTONDOWN:
-        *mouseButtonState = (MouseButton) (static_cast<unsigned>(*mouseButtonState) | static_cast<unsigned>(MouseButton::Left));
+        mouseDevice->TrySetButtonState((Button) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(Button::Left)));
         break;
     case WM_LBUTTONUP:
-        *mouseButtonState = (MouseButton)(static_cast<unsigned>(*mouseButtonState) & ~(static_cast<unsigned>(MouseButton::Left)));
+        mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(Button::Left))));
         break;
     case WM_RBUTTONDOWN:
-        *mouseButtonState = (MouseButton)(static_cast<unsigned>(*mouseButtonState) | static_cast<unsigned>(MouseButton::Right));;
+        mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) | static_cast<unsigned>(Button::Right)));
         break;
     case WM_RBUTTONUP:
-        *mouseButtonState = (MouseButton)(static_cast<unsigned>(*mouseButtonState) & ~(static_cast<unsigned>(MouseButton::Right)));;
+        mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(Button::Right))));
         break;
 
 	default: break;
 	}
 
+    end:
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
@@ -107,6 +121,7 @@ void Win32Window::Create()
     rect.right = Width();
     rect.bottom = Height();
     AdjustWindowRect(&rect, style, false);
+	
 
 	m_Handle = CreateWindowEx(
 		0,
@@ -120,13 +135,14 @@ void Win32Window::Create()
 		hInstance, nullptr
 	);
 
+    SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, &m_InputController);
+
 	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
     SetProp((HWND)m_Handle, GENE_MOUSE_PROP, &(m_MouseState.m_Button));
 	input::Mouse::SetPrimaryWindow(this);
 	input::Keyboard::SetPrimaryWindow(this);
 
 	memset(m_KeyState.KeyMap, 0, 62256);
-	SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, m_KeyState.KeyMap);
 
     m_MouseState.m_Button = gene::input::MouseButton::None;
 
@@ -218,8 +234,13 @@ void Win32Window::PollEvents()
 	{
         if (ScreenToClient((HWND)m_Handle, &cursorPos))
 		{
-            m_MouseState.m_Position.X = cursorPos.x;//static_cast<float>(cursorPos.x);
-            m_MouseState.m_Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);
+            Vector2i pos;
+            pos.X = cursorPos.x;
+            pos.Y = cursorPos.y;
+
+            m_InputController.GetMouseDevice()->TrySetCursorPosition(pos);
+            /*m_MouseState.m_Position.X = cursorPos.x;//static_cast<float>(cursorPos.x);
+            m_MouseState.m_Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);*/
 		}
 	}
 }

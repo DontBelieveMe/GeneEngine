@@ -24,6 +24,7 @@ set(DebugSrc
 set(InputSrc 
     ${SrcDir}/Input/Keyboard.cc
     ${SrcDir}/Input/Mouse.cc
+    ${SrcDir}/Input/InputController.cc
 )
 
 set(IOSrc 

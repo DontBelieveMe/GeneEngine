@@ -63,6 +63,8 @@ static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 	case APP_CMD_TERM_WINDOW:
 		window->Destroy();
 		break;
+    case APP_CMD_SAVE_STATE:
+        break;
 	}
 }
 
@@ -217,7 +219,7 @@ void AWindow::PollEvents()
 {
 	int ident, events;
 	struct android_poll_source* source;
-	
+    
 	while((ident = ALooper_pollAll(0, NULL, &events, (void**)&source)) >= 0) 
 	{
 		if(source != NULL)

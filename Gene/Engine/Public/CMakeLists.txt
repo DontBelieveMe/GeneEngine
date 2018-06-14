@@ -26,6 +26,7 @@ set(InputHeaders
     ${HeaderDir}/Input/Keys.h
     ${HeaderDir}/Input/Mouse.h
     ${HeaderDir}/Input/MouseState.h
+    ${HeaderDir}/Input/InputController.h
 )
 
 set(IOHeaders 

@@ -47,7 +47,7 @@ if(ANDROID)
 	add_library(Gene OBJECT ${CommonSource} ${CommonHeaders} ${PlatformSrc})
 else()
 	add_library(Gene STATIC ${CommonSource} ${CommonHeaders} ${PlatformSrc})
-	target_link_libraries(Gene FreeType OpenAL libroid)
+	target_link_libraries(Gene FreeType OpenAL)
 endif()
 
 set_property(TARGET Gene PROPERTY FOLDER "Engine")

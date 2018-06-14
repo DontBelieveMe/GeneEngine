@@ -7,6 +7,7 @@
 
 #include <Input/MouseState.h>
 #include <Input/KeyboardState.h>
+#include <Input/InputController.h>
 
 #include <Math/Vector2.h>
 
@@ -54,7 +55,9 @@ namespace gene { namespace platform {
         input::MouseState     m_MouseState;
         input::KeyboardState  m_KeyState;
         EventCallbacks        m_Callbacks;
-
+        
+        input::InputController       m_InputController;
+        
 		friend class input::Mouse;
         friend class input::Keyboard;
 
@@ -110,5 +113,7 @@ namespace gene { namespace platform {
 
         /** Reset the window to the specified clear color. If no color has been specified by SetClearColor then it will reset to black. */
         void Clear();
+
+        input::InputController *GetInputController() { return &m_InputController; }
     };
 }}
