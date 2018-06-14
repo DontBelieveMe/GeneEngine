@@ -21,11 +21,7 @@ set(DebugHeaders
 )
 
 set(InputHeaders 
-    ${HeaderDir}/Input/Keyboard.h
-    ${HeaderDir}/Input/KeyboardState.h
     ${HeaderDir}/Input/Keys.h
-    ${HeaderDir}/Input/Mouse.h
-    ${HeaderDir}/Input/MouseState.h
     ${HeaderDir}/Input/InputController.h
 )
 

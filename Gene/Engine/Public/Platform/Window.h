@@ -5,8 +5,6 @@
 #include <Platform/GLContext.h>
 #include <Graphics/Color.h>
 
-#include <Input/MouseState.h>
-#include <Input/KeyboardState.h>
 #include <Input/InputController.h>
 
 #include <Math/Vector2.h>
@@ -52,11 +50,9 @@ namespace gene { namespace platform {
         WindowInfo            m_WindowConfig;
         GLContext            *m_Context;
         bool                  m_Running = true;
-        input::MouseState     m_MouseState;
-        input::KeyboardState  m_KeyState;
         EventCallbacks        m_Callbacks;
         
-        input::InputController       m_InputController;
+        input::InputController m_InputController;
         
 		friend class input::Mouse;
         friend class input::Keyboard;

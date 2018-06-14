@@ -11,7 +11,6 @@ set(PlatformSrc)
 if(UNIX)
 	if(ANDROID)
 		list(APPEND PlatformSrc
-			${SrcDir}/Platform/Android/AInput.cc
 			${SrcDir}/Platform/Android/ATime.cc
 			${SrcDir}/Platform/Android/AWindow.cc
 			${SrcDir}/Platform/Android/AWindow.h
@@ -20,7 +19,6 @@ if(UNIX)
 	else()
 		# Traditional desktop linux
 		list(APPEND PlatformSrc
-			${SrcDir}/Platform/Linux/X11Input.cc
 			${SrcDir}/Platform/Linux/X11Time.cc
 			${SrcDir}/Platform/Linux/X11Window.cc
 			${SrcDir}/Platform/Linux/X11Window.h
@@ -30,7 +28,6 @@ endif()
 
 if(WIN32)
     list(APPEND PlatformSrc
-        ${SrcDir}/Platform/Win32/Win32Input.cc
         ${SrcDir}/Platform/Win32/Win32Time.cc
         ${SrcDir}/Platform/Win32/Win32Window.cc
         ${SrcDir}/Platform/Win32/Win32Window.h

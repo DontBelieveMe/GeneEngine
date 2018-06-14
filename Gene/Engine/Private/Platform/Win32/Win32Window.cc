@@ -10,8 +10,7 @@
 
 #include <Platform/OpenGL.h>
 #include <Math/Vector2.h>
-#include <Input/Mouse.h>
-#include <Input/Keyboard.h>
+
 #include <Input/InputController.h>
 
 #include <Debug/Logger.h>
@@ -30,20 +29,20 @@ static HDC s_HDC;
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace gene::input;
- 
     typedef MouseDevice::Button Button;
+ 
 	gene::platform::EventCallbacks *callbacks = static_cast<gene::platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
+   
 	InputController *inputController = static_cast<InputController*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
+    // TODO: This needs to be handled/fixed
     if (!inputController) {
-        goto end;
+        return DefWindowProc(hWnd, msg, wParam, lParam);
     }
-    //MouseButton *mouseButtonState = static_cast<MouseButton*>(GetProp(hWnd, GENE_MOUSE_PROP));
-    
+   
     KeyDevice *keyDevice = inputController->GetKeyDevice();
     MouseDevice *mouseDevice = inputController->GetMouseDevice();
     
     Button buttonState = mouseDevice->GetRawButtonState();
-    
 
 	switch(msg)
 	{
@@ -79,7 +78,6 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	default: break;
 	}
 
-    end:
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
@@ -121,7 +119,6 @@ void Win32Window::Create()
     rect.right = Width();
     rect.bottom = Height();
     AdjustWindowRect(&rect, style, false);
-	
 
 	m_Handle = CreateWindowEx(
 		0,
@@ -136,15 +133,7 @@ void Win32Window::Create()
 	);
 
     SetProp((HWND)m_Handle, GENE_KEYBOARD_PROP, &m_InputController);
-
 	SetProp((HWND)m_Handle, GENE_EVENT_CALLBACK_ID, &m_Callbacks);
-    SetProp((HWND)m_Handle, GENE_MOUSE_PROP, &(m_MouseState.m_Button));
-	input::Mouse::SetPrimaryWindow(this);
-	input::Keyboard::SetPrimaryWindow(this);
-
-	memset(m_KeyState.KeyMap, 0, 62256);
-
-    m_MouseState.m_Button = gene::input::MouseButton::None;
 
 	CreateGLContext();
 }
@@ -239,8 +228,6 @@ void Win32Window::PollEvents()
             pos.Y = cursorPos.y;
 
             m_InputController.GetMouseDevice()->TrySetCursorPosition(pos);
-            /*m_MouseState.m_Position.X = cursorPos.x;//static_cast<float>(cursorPos.x);
-            m_MouseState.m_Position.Y = cursorPos.y;//static_cast<float>(cursorPos.y);*/
 		}
 	}
 }

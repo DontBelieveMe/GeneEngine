@@ -3,7 +3,6 @@
 #include <Graphics/Color.h>
 #include <Graphics/Renderer2D.h>
 #include <Platform/Time.h>
-#include <Input/Mouse.h>
 #include <Math/Math.h>
 
 int GeneMain(int argc, char **argv)
@@ -40,10 +39,9 @@ int GeneMain(int argc, char **argv)
         time.StartFrame();
         window->PollEvents();
         
-        MouseState state = Mouse::GetState();
         if (mouseDevice->IsButtonDown(MouseDevice::Button::Left)) {
             Vector2i mPos = mouseDevice->GetCursorPosition();
-            LOG(LogLevel::Debug, "X: ", mPos.X, ", Y: ", mPos.Y);
+
             Vector2 diff(mPos.X - x, mPos.Y - y);
             diff.Normalize();
 			
