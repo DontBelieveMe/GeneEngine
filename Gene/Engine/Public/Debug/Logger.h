@@ -44,9 +44,6 @@ namespace gene {
     private:
         unsigned m_Filter;
 
-        String m_LastMessage;
-        size_t m_DuplicateLogCount;
-
         template <typename T, typename... Args>
         void LogData(std::stringstream& sstream, const T& msg, const Args&... args) {
             sstream << msg;
@@ -67,7 +64,7 @@ namespace gene {
         }
 
     public:
-        Logger() : m_Filter(0), m_DuplicateLogCount(0) {
+        Logger() : m_Filter(0) {
         }
 
         /**
@@ -93,8 +90,7 @@ namespace gene {
                 ALOGW(ss.str().c_str());
             #else
                 std::cout << ss.str();
-                std::cout << std::endl;
-            
+                std::cout << std::endl;       
             #endif
         }
 

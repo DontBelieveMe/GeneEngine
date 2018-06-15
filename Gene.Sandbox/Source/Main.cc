@@ -39,7 +39,7 @@ int GeneMain(int argc, char **argv)
         time.StartFrame();
         window->PollEvents();
         
-        if (mouseDevice->IsButtonDown(MouseDevice::Button::Left)) {
+        if (mouseDevice->IsButtonDown(MouseButton::Left)) {
             Vector2i mPos = mouseDevice->GetCursorPosition();
 
             Vector2 diff(mPos.X - x, mPos.Y - y);

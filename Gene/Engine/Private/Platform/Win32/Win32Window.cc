@@ -29,7 +29,6 @@ static HDC s_HDC;
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace gene::input;
-    typedef MouseDevice::Button Button;
  
 	gene::platform::EventCallbacks *callbacks = static_cast<gene::platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
    
@@ -42,7 +41,7 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
     KeyDevice *keyDevice = inputController->GetKeyDevice();
     MouseDevice *mouseDevice = inputController->GetMouseDevice();
     
-    Button buttonState = mouseDevice->GetRawButtonState();
+    MouseButton buttonState = mouseDevice->GetRawButtonState();
 
 	switch(msg)
 	{
@@ -63,16 +62,16 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
         keyDevice->ReleaseKeyDown(static_cast<Keys>(wParam));
 		return 0;
     case WM_LBUTTONDOWN:
-        mouseDevice->TrySetButtonState((Button) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(Button::Left)));
+        mouseDevice->TrySetButtonState((MouseButton) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(MouseButton::Left)));
         break;
     case WM_LBUTTONUP:
-        mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(Button::Left))));
+        mouseDevice->TrySetButtonState((MouseButton)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(MouseButton::Left))));
         break;
     case WM_RBUTTONDOWN:
-        mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) | static_cast<unsigned>(Button::Right)));
+        mouseDevice->TrySetButtonState((MouseButton)(static_cast<unsigned>(buttonState) | static_cast<unsigned>(MouseButton::Right)));
         break;
     case WM_RBUTTONUP:
-        mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(Button::Right))));
+        mouseDevice->TrySetButtonState((MouseButton)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(MouseButton::Right))));
         break;
 
 	default: break;

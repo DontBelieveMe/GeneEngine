@@ -19,26 +19,33 @@ namespace gene { namespace input {
         
     };
     
+    enum MouseButton {
+        Left = 1, 
+        Right = 2, 
+        Middle = 4, 
+        None = 16
+    };
+
     class MouseDevice {
     public:
-        enum class Button {
+        /*enum class Button {
             Left = 1, Right = 2, Middle = 4, None = 16
-        };
+        };*/
     
         const Vector2i& GetCursorPosition() const { return m_cursorPosition; }
         
-        bool IsButtonDown(const Button& button);
-        Button GetRawButtonState() { return m_buttonState; }      
+        bool IsButtonDown(const MouseButton& button);
+        MouseButton GetRawButtonState() { return m_buttonState; }
         
         /** Primary for OS API use - may not work, as the platform window manager will probably snap the mouse position back to the correct one. */
         void TrySetCursorPosition(Vector2i pos);
         
         /** Primary for OS API use - may not work, as the platform window manager will probably snap state back to the correct one. */
-        void TrySetButtonState(const Button& button);
+        void TrySetButtonState(const MouseButton& button);
         
     private:
         Vector2i m_cursorPosition;
-        Button m_buttonState = Button::None;
+        MouseButton m_buttonState = MouseButton::None;
     };
     
     class InputController 

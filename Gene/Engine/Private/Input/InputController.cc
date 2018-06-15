@@ -24,12 +24,12 @@ void MouseDevice::TrySetCursorPosition(Vector2i pos)
     m_cursorPosition.Y = pos.Y;
 }
 
-bool MouseDevice::IsButtonDown(const Button& button)
+bool MouseDevice::IsButtonDown(const MouseButton& button)
 {
     return static_cast<unsigned>(m_buttonState) & static_cast<unsigned>(button);
 }
 
-void MouseDevice::TrySetButtonState(const Button& button)
+void MouseDevice::TrySetButtonState(const MouseButton& button)
 {
     m_buttonState = button;
 }
