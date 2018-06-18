@@ -38,7 +38,7 @@ namespace gene { namespace input {
         MouseButton GetRawButtonState() { return m_buttonState; }
         
         /** Primary for OS API use - may not work, as the platform window manager will probably snap the mouse position back to the correct one. */
-        void TrySetCursorPosition(Vector2i pos);
+        void TrySetCursorPosition(const Vector2i& pos);
         
         /** Primary for OS API use - may not work, as the platform window manager will probably snap state back to the correct one. */
         void TrySetButtonState(const MouseButton& button);

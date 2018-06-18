@@ -18,7 +18,7 @@ void KeyDevice::ReleaseKeyDown(const Keys& key)
     m_keyMap[static_cast<int>(key)] = false;    
 }
 
-void MouseDevice::TrySetCursorPosition(Vector2i pos)
+void MouseDevice::TrySetCursorPosition(const Vector2i& pos)
 {
     m_cursorPosition.X = pos.X;
     m_cursorPosition.Y = pos.Y;

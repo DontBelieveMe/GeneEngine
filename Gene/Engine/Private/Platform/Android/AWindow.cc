@@ -43,11 +43,10 @@ void GoFullscreen(struct android_app* state)
     );
 }
 
-static EGLDisplay s_Display;
-static EGLSurface s_Surface;
 static bool s_CreatedSurface;
 
 static gene::input::InputController *s_InputController;
+
 
 static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 {
@@ -65,6 +64,47 @@ static void AndroidEngineHandleCommand(struct android_app* app, int32_t cmd)
 		window->Destroy();
 		break;
     case APP_CMD_SAVE_STATE:
+        LOG(LogLevel::Debug, "Please save state!");
+    case APP_CMD_RESUME: {
+        LOG(LogLevel::Debug, "Creating Android OpenGL Context");
+        const EGLint attribs[] = {
+            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+            EGL_BLUE_SIZE, 8,
+            EGL_GREEN_SIZE, 8,
+            EGL_RED_SIZE, 8,
+            EGL_NONE
+        };
+        
+        const EGLint GiveMeGLES3[] = {
+            EGL_CONTEXT_CLIENT_VERSION, 3,
+            EGL_NONE
+        };
+
+        EGLint w, h, format;
+        EGLint numConfigs;
+        EGLConfig config;
+        EGLSurface surface;
+        EGLContext context;
+
+        EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        int err;
+        err = eglInitialize(display, 0, 0);
+        GE_ASSERT(err == EGL_TRUE);
+
+        err = eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+        GE_ASSERT(err == EGL_TRUE);
+
+        err = eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+        GE_ASSERT(err == EGL_TRUE);
+
+        surface = eglCreateWindowSurface(display, config, app->window, NULL);
+        context = eglCreateContext(display, config, NULL, GiveMeGLES3);
+
+        if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
+            LOG(LogLevel::Error, "Cannot make GLES context current!");
+            return;
+        }
+        }
         break;
 	}
 }
@@ -73,10 +113,8 @@ static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* ev
 {
     using namespace gene::input;
     
-    typedef MouseDevice::Button Button;
-    
     MouseDevice *mouseDevice = s_InputController->GetMouseDevice();
-    Button buttonState = mouseDevice->GetRawButtonState();
+    MouseButton buttonState = mouseDevice->GetRawButtonState();
 
     int32_t eventType = AInputEvent_getType(event);
     switch (eventType) {
@@ -90,12 +128,12 @@ static int32_t AndroidEngineHandleInput(struct android_app* app, AInputEvent* ev
                 int y = AMotionEvent_getY(event, 0);
                 
                 mouseDevice->TrySetCursorPosition(Vector2i(x, y));
-                mouseDevice->TrySetButtonState((Button) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(Button::Left)));
+                mouseDevice->TrySetButtonState((MouseButton) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(MouseButton::Left)));
                 break;
             }
             case AMOTION_EVENT_ACTION_UP: {
                 mouseDevice->TrySetCursorPosition(Vector2i(0,0));
-                mouseDevice->TrySetButtonState((Button)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(Button::Left))));
+                mouseDevice->TrySetButtonState((MouseButton)(static_cast<unsigned>(buttonState) & ~(static_cast<unsigned>(MouseButton::Left))));
                 break;
             }
             case AMOTION_EVENT_ACTION_MOVE: {

@@ -311,6 +311,8 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
 
 void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, unsigned noPoints)
 {
+    if(!m_Buffer || !m_Indices) return;
+    
     if (noPoints < 3) {
         LOG(LogLevel::Debug, "Trying to draw circle with less than 3 points");
         return;
@@ -419,10 +421,8 @@ void Renderer2D::Begin()
     m_VAO->Enable();
     m_Buffer = m_VBO->GetPointer<Vertex2D>();
 
-    GE_ASSERT(m_Buffer);
-
     m_Indices = m_EBO->GetPointer<unsigned int>();
-    GE_ASSERT(m_Indices);
+    //GE_ASSERT(m_Indices);
 }
 
 void Renderer2D::End()
