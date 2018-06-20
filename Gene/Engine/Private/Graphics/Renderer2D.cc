@@ -459,4 +459,5 @@ void Renderer2D::Destroy()
 {
 	delete m_VAO;
 	delete m_VBO;
+    delete m_EBO;
 }
