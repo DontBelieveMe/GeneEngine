@@ -18,7 +18,7 @@
 #define OS Windows
 #elif defined(GENE_OS_LINUX)
     #include "Linux/X11Window.h"
-	using PlatformWindow = gene::platform::X11::X11Window;
+	using PlatformWindow = gene::platform::x11::X11Window;
 #define OS Linux
 #elif defined(GENE_OS_ANDROID)
 	#include "Android/AWindow.h"

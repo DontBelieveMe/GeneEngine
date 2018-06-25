@@ -2,8 +2,8 @@
 
 #include <Platform/OS.h>
 #include <Math/Vector2.h>
-#include <Input/Mouse.h>
-#include <Input/Keyboard.h>
+
+#include <Input/InputController.h>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -17,8 +17,8 @@
 #include "X11Window.h"
 #include "../GLFLLoad.h"
 
-using namespace Gene::Platform::X11;
-using namespace Gene;
+using namespace gene::platform::x11;
+using namespace gene;
 
 static Window s_XRoot;
 static Window s_XWindow;
@@ -114,10 +114,6 @@ void X11Window::Create()
     s_XEvtDestroyWIndowMessage = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
     XSetWMProtocols(dpy, s_XWindow, &s_XEvtDestroyWIndowMessage, 1);
 
-    // Configure input handlers.
-    Input::Mouse::SetPrimaryWindow(this);
-    Input::Keyboard::SetPrimaryWindow(this);
-
     m_Window = &s_XWindow;
 
     CreateGLContext();
@@ -149,7 +145,13 @@ void X11Window::Show()
 
 void X11Window::PollEvents()
 {
+    using namespace gene::input;
+
     Display *dpy = static_cast<Display*>(m_Display);
+    InputController *input = &m_InputController;
+
+    MouseDevice *mouse = input->GetMouseDevice();
+    KeyDevice *keyboard = input->GetKeyDevice();
 
     int pending = XPending(dpy);
     while(pending--)
@@ -173,15 +175,16 @@ void X11Window::PollEvents()
             {
                 //KeySym pressSym = XkbKeycodeToKeysym(dpy, evt.xkey.keycode, 0, 0);
                 KeySym pressSym = XLookupKeysym(&evt.xkey, 0);
-
-                m_KeyState.KeyMap[pressSym] = true;
+                Keys key = static_cast<Keys>(pressSym);
+                keyboard->PressKeyDown(key);
                 break;
             }
             case KeyRelease:
             {
                 //KeySym releaseSym = XkbKeycodeToKeysym(dpy, evt.xkey.keycode, 0, 0);
                 KeySym releaseSym = XLookupKeysym(&evt.xkey, 0);
-                m_KeyState.KeyMap[releaseSym] = false;
+                Keys key = static_cast<Keys>(releaseSym);
+                keyboard->ReleaseKeyDown(key);
                 break;
             }
             case ConfigureNotify:
@@ -204,11 +207,9 @@ void X11Window::PollEvents()
     int x,y, c, d;
     unsigned e;
     ::Window a, b;
-
     XQueryPointer(dpy, s_XWindow, &a, &b, &c, &d, &x, &y, &e);
-    m_MouseState.m_Position.X = x;
-    m_MouseState.m_Position.Y = y;
-
+    Vector2i mPos(x, y);
+    mouse->TrySetCursorPosition(mPos);
     XFlush(dpy);
 }
 

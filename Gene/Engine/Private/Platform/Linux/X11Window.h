@@ -7,7 +7,7 @@
 #include <Math/Vector2.h>
 #include <GeneCommon.h>
 
-namespace gene { namespace platform { namespace X11 {
+namespace gene { namespace platform { namespace x11 {
     class X11Window : public gene::platform::Window
     {
     private:
