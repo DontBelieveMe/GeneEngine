@@ -15,8 +15,7 @@ namespace gene { namespace input {
         Key m_keyMap[62256];
     };
     
-    class TouchDevice {
-        
+    class TouchDevice { 
     };
     
     enum MouseButton {

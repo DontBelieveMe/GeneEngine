@@ -4,7 +4,7 @@
 
 #include <Core/String.h>
 #include <Platform/OpenGL.h>
-
+#include <string.h>
 #include <Math/Math.h>
 
 namespace gene { namespace graphics {
