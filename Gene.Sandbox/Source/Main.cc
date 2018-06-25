@@ -4,6 +4,8 @@
 #include <Graphics/Renderer2D.h>
 #include <Platform/Time.h>
 #include <Math/Math.h>
+#include <Graphics/Buffer.h>
+#include <Content/OBJModelLoader.h>
 
 int GeneMain(int argc, char **argv)
 {
@@ -11,6 +13,7 @@ int GeneMain(int argc, char **argv)
     using namespace gene;
     using namespace gene::graphics;
     using namespace gene::input;
+    using namespace gene::runtime;
 
     WindowInfo info;
     info.Width = 800;
@@ -24,44 +27,54 @@ int GeneMain(int argc, char **argv)
     GameTime time;
     time.Start();
 
-    Renderer2D renderer;
-    renderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 1.0f, -1.0f));
+    OBJModelLoader modelLoader;
+    GeneModel* model = modelLoader.Load("Data/doughnut.obj");
 
-    float x = 75.0f;
-    float y = 75.0f;
-    Vector2 ballPosition;
-    
-    InputController *input = window->GetInputController();  
-    MouseDevice *mouseDevice = input->GetMouseDevice();
+    Buffer vertexBuff(Buffer::Type::ArrayBuffer);
+    Buffer textureBuff(Buffer::Type::ArrayBuffer);
+    Buffer indexBuff(Buffer::Type::ElementBuffer);
+
+    BufferDescriptor vertexBuffDesc;
+    vertexBuffDesc.Data = model->Vertices.data();
+    vertexBuffDesc.DataType = opengl::GLType::Float;
+    vertexBuffDesc.DrawType = BufferDrawType::Static;
+    vertexBuffDesc.Size = model->Vertices.size() * 3 * 4;
+    vertexBuff.SetData(vertexBuffDesc);
+
+    BufferDescriptor textureBuffDesc;
+    textureBuffDesc.Data = model->UVs.data();
+    textureBuffDesc.DataType = opengl::GLType::Float;
+    textureBuffDesc.DrawType = BufferDrawType::Static;
+    textureBuffDesc.Size = model->Vertices.size() * 2 * 4;
+    textureBuff.SetData(textureBuffDesc);
+
+    BufferDescriptor indexBufferDesc;
+    indexBufferDesc.Data = model->Indices.data();
+    indexBufferDesc.DataType = opengl::GLType::Float;
+    indexBufferDesc.DrawType = BufferDrawType::Static;
+    indexBufferDesc.Size = model->Indices.size() * 3 * 4;
+    indexBuff.SetData(indexBufferDesc);
+
+    AttributeDescriptor vertexAttribDesc;
+    vertexAttribDesc.ByteOfffset = 0;
+    vertexAttribDesc.Index = 0;
+    vertexAttribDesc.Stride = sizeof(Vector3);
+    vertexAttribDesc.ComponentCount = 3;
+
+    AttributeDescriptor textureAttribDesc;
+    textureAttribDesc.Index = 2;
+    textureAttribDesc.ByteOfffset = 0;
+    textureAttribDesc.Stride = sizeof(Vector2);
+    textureAttribDesc.ComponentCount = 3;
+
+    VertexArray vao;
 
     window->Show();
     while(window->Running()) {
         time.StartFrame();
         window->PollEvents();
         
-        if (mouseDevice->IsButtonDown(MouseButton::Left)) {
-            Vector2i mPos = mouseDevice->GetCursorPosition();
-
-            Vector2 diff(mPos.X - x, mPos.Y - y);
-            diff.Normalize();
-			
-            x += diff.X * 10.f;
-            y += diff.Y * 10.f;
-        }
-
-        window->Clear();
-        renderer.Begin();
-
-        renderer.FillCircle({x,y}, 50, Color::Red, 32);
         
-        renderer.End();
-        renderer.Present();
-
-        if (x-50 > window->Width()) 
-        {
-            x = -50;
-        }
-
         window->SwapBuffers();
         time.EndFrame();
         time.Sleep(1000.f / 60.f);
