@@ -1,4 +1,3 @@
-#if 1
 #include <Platform/Window.h>
 #include <Graphics/Color.h>
 #include <Graphics/Renderer2D.h>
@@ -10,8 +9,12 @@
 namespace gene {
     class App {
     public:
-        virtual void Step(const platform::GameTime& time);
-        virtual void Init();
+        App() : m_fps(60), m_window(nullptr) {}
+
+        virtual void Tick(const platform::GameTime& time) {}
+        virtual void Draw() {}
+
+        virtual void Init() {}
 
         void Run(int windowW, int windowH, const char *title) {
             platform::WindowInfo info;
@@ -21,101 +24,74 @@ namespace gene {
 
             m_window = platform::Window::CreateWindow(info);
             m_window->Create();
+            m_window->SetClearColor(graphics::Color::Black);
 
+            Init();
+
+            platform::GameTime gameTimer;
+            m_window->Show();
+            while (m_window->Running())
+            {
+                gameTimer.StartFrame();
+                m_window->PollEvents();
+
+                Tick(gameTimer);
+
+                m_window->Clear();
+                Draw();
+                m_window->SwapBuffers();
+
+                gameTimer.EndFrame();
+                
+                if (m_fps > 0) 
+                {
+                    gameTimer.Sleep(1000.0f / m_fps);
+                }
+            }
         }
+
+    protected:
+        platform::Window *GetWindow() { return m_window; }
+        void SetTargetFPS(float fps) { m_fps = fps; }
+        float GetTargetFPS(float fps) { return m_fps; }
 
     private:
         platform::Window *m_window;
+        
+        float m_fps;
     };
 }
 
+class MathsMapDemo : public gene::App {
+private:
+    gene::graphics::Color m_clearColor;
+
+public:
+    virtual void Tick(const gene::platform::GameTime& time) override {
+        using namespace gene;
+        using namespace gene::graphics;
+
+        const float dampening = 250.0f;
+        const float t = time.RunningTimeMilliseconds() / dampening;
+
+        const float cosT = Maths::Cos(t);
+
+        int r = (int)Maths::Map(cosT, -1.0f, 1.0f, 0, 255);
+        int g = (int)Maths::Map(-cosT, -1.0f, 1.0f, 0, 255);
+        
+        m_clearColor = Color(r, g, r, 255);
+    }
+
+    virtual void Draw() override {
+        GetWindow()->SetClearColor(m_clearColor);
+    }
+};
 
 int GeneMain(int argc, char **argv)
 {
-    using namespace gene::platform;
-    using namespace gene;
-    using namespace gene::graphics;
-    using namespace gene::input;
-    using namespace gene::runtime;
-
-    WindowInfo info;
-    info.Width = 800;
-    info.Height = 600;
-    info.Title = "Hello World!";
-
-    Window *window = Window::CreateWindow(info);
-    window->Create();
-    window->SetClearColor(Color(69, 76, 86, 255));
-
-    GameTime time;
-    time.Start();
-
-    /*OBJModelLoader modelLoader;
-    GeneModel* model = modelLoader.Load("Data/doughnut.obj");
-
-    Buffer vertexBuff(Buffer::Type::ArrayBuffer);
-    Buffer textureBuff(Buffer::Type::ArrayBuffer);
-    Buffer indexBuff(Buffer::Type::ElementBuffer);
-
-    BufferDescriptor vertexBuffDesc;
-    vertexBuffDesc.Data = model->Vertices.data();
-    vertexBuffDesc.DataType = opengl::GLType::Float;
-    vertexBuffDesc.DrawType = BufferDrawType::Static;
-    vertexBuffDesc.Size = model->Vertices.size() * 3 * 4;
-    vertexBuff.SetData(vertexBuffDesc);
-
-    BufferDescriptor textureBuffDesc;
-    textureBuffDesc.Data = model->UVs.data();
-    textureBuffDesc.DataType = opengl::GLType::Float;
-    textureBuffDesc.DrawType = BufferDrawType::Static;
-    textureBuffDesc.Size = model->Vertices.size() * 2 * 4;
-    textureBuff.SetData(textureBuffDesc);
-
-    BufferDescriptor indexBufferDesc;
-    indexBufferDesc.Data = model->Indices.data();
-    indexBufferDesc.DataType = opengl::GLType::Float;
-    indexBufferDesc.DrawType = BufferDrawType::Static;
-    indexBufferDesc.Size = model->Indices.size() * 3 * 4;
-    indexBuff.SetData(indexBufferDesc);
-
-    AttributeDescriptor vertexAttribDesc;
-    vertexAttribDesc.ByteOfffset = 0;
-    vertexAttribDesc.Index = 0;
-    vertexAttribDesc.Stride = sizeof(Vector3);
-    vertexAttribDesc.ComponentCount = 3;
-
-    AttributeDescriptor textureAttribDesc;
-    textureAttribDesc.Index = 2;
-    textureAttribDesc.ByteOfffset = 0;
-    textureAttribDesc.Stride = sizeof(Vector2);
-    textureAttribDesc.ComponentCount = 3;
-
-    VertexArray vao;*/
-
-    MouseDevice *mouse = window->GetInputController()->GetMouseDevice();
-
-    window->Show();
-    while(window->Running()) {
-        time.StartFrame();
-        window->PollEvents();
-        Vector2i mPos = mouse->GetCursorPosition();
-        
-        float dampening = 250;
-
-        int r = (int)Maths::Map(Maths::Cos(time.RunningTimeMilliseconds() / dampening), -1.0f, 1.0f, 0, 255);
-        int g = (int)Maths::Map(-Maths::Cos(time.RunningTimeMilliseconds() / dampening), -1.0f, 1.0f, 0, 255);
-
-        int b = (int)Maths::Map(mPos.X, 0, window->Width(), 0, 255);
-
-        window->SetClearColor(Color(r, g, b, 255));
-        window->Clear();
-
-        window->SwapBuffers();
-        time.EndFrame();
-        time.Sleep(1000.f / 60.f);
-    }
+    gene::App* mapDemo = new MathsMapDemo();
+    mapDemo->Run(600, 400, "App Demo!");
 
     return 0;
 }
 
-#endif
