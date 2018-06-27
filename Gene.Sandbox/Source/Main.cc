@@ -7,6 +7,29 @@
 #include <Graphics/Buffer.h>
 #include <Content/OBJModelLoader.h>
 
+namespace gene {
+    class App {
+    public:
+        virtual void Step(const platform::GameTime& time);
+        virtual void Init();
+
+        void Run(int windowW, int windowH, const char *title) {
+            platform::WindowInfo info;
+            info.Width = windowW;
+            info.Height = windowH;
+            info.Title = title;
+
+            m_window = platform::Window::CreateWindow(info);
+            m_window->Create();
+
+        }
+
+    private:
+        platform::Window *m_window;
+    };
+}
+
+
 int GeneMain(int argc, char **argv)
 {
     using namespace gene::platform;
