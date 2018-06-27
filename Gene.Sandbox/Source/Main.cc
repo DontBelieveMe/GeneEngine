@@ -50,7 +50,7 @@ int GeneMain(int argc, char **argv)
     GameTime time;
     time.Start();
 
-    OBJModelLoader modelLoader;
+    /*OBJModelLoader modelLoader;
     GeneModel* model = modelLoader.Load("Data/doughnut.obj");
 
     Buffer vertexBuff(Buffer::Type::ArrayBuffer);
@@ -90,14 +90,26 @@ int GeneMain(int argc, char **argv)
     textureAttribDesc.Stride = sizeof(Vector2);
     textureAttribDesc.ComponentCount = 3;
 
-    VertexArray vao;
+    VertexArray vao;*/
+
+    MouseDevice *mouse = window->GetInputController()->GetMouseDevice();
 
     window->Show();
     while(window->Running()) {
         time.StartFrame();
         window->PollEvents();
+        Vector2i mPos = mouse->GetCursorPosition();
         
-        
+        float dampening = 250;
+
+        int r = (int)Maths::Map(Maths::Cos(time.RunningTimeMilliseconds() / dampening), -1.0f, 1.0f, 0, 255);
+        int g = (int)Maths::Map(-Maths::Cos(time.RunningTimeMilliseconds() / dampening), -1.0f, 1.0f, 0, 255);
+
+        int b = (int)Maths::Map(mPos.X, 0, window->Width(), 0, 255);
+
+        window->SetClearColor(Color(r, g, b, 255));
+        window->Clear();
+
         window->SwapBuffers();
         time.EndFrame();
         time.Sleep(1000.f / 60.f);

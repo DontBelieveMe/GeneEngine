@@ -10,6 +10,12 @@ namespace gene {
 	{
 		static constexpr float PI = 3.14159265359f;
 
+        /** Map value x from the range l1 -> r1 onto the range l2 -> r2 */
+        static float Map(float x, float l1, float r1, float l2, float r2)
+        {
+            return (((x - l1) * (r2 - l2)) / (r1 - l1)) + l2;
+        }
+
         static float Sqrt(float v) {
             return sqrtf(v);
         }
