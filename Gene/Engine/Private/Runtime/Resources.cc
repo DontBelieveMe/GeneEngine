@@ -1,3 +1,5 @@
+// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+
 #include <Runtime/Resources.h>
 #include <Debug/Logger.h>
 
