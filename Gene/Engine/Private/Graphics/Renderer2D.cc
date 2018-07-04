@@ -267,19 +267,19 @@ void Renderer2D::DrawString(Font *font,
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos + glyph->Width, tmpY, backTransform);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos + glyph->Width + 1, tmpY, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_TopRight;
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos + glyph->Width, tmpY + glyph->Height, backTransform);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos + glyph->Width + 1, tmpY + glyph->Height + 1, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_BottomRight;
         m_Buffer->TextureId = tid;
         m_Buffer++;
 
-        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos, tmpY + glyph->Height, backTransform);
+        m_Buffer->Position  = MultiplyVector2ByMatrix4(xPos, tmpY + glyph->Height + 1, backTransform);
         m_Buffer->Color     = rgbPack;
         m_Buffer->UV        = glyph->UV_BottomLeft;
         m_Buffer->TextureId = tid;

@@ -56,5 +56,6 @@ enum class Keys
     F10 = 0x79,
     F11 = 0x7A,
     F12 = 0x7B,
+    Backspace = 0x08
 };
 

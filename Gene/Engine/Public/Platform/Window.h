@@ -9,11 +9,6 @@
 
 #include <Math/Vector2.h>
 
-namespace gene { namespace input {
-	class Mouse;
-	class Keyboard;
-}}
-
 /* LOL, we define our own main. You know why? because fuck you. Yeah thats right. Fuck you. I run this shop */
 // EDIT: Only joking I realise that sounds a bit abrasive - there is a reason. (I'm looking at you android)
 // Until we redo the android native glue code we have to put up with their way of doing things and that includes
@@ -53,9 +48,6 @@ namespace gene { namespace platform {
         EventCallbacks        m_Callbacks;
         
         input::InputController m_InputController;
-        
-		friend class input::Mouse;
-        friend class input::Keyboard;
 
 	public:
         virtual ~Window() { delete m_Context; }

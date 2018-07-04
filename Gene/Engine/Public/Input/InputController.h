@@ -2,11 +2,16 @@
 
 #include <Input/Keys.h>
 #include <Math/Vector2.h>
+#include <string.h>
 
 namespace gene { namespace input {
     
     class KeyDevice {
     public:
+        KeyDevice() {
+            memset(m_keyMap, 0, 62256);
+        }
+
         bool IsKeyPressed(const Keys& key);
         void PressKeyDown(const Keys& key);
         void ReleaseKeyDown(const Keys& key);

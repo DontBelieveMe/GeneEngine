@@ -42,8 +42,8 @@ namespace gene {
                 m_window->SwapBuffers();
 
                 gameTimer.EndFrame();
-                
-                if (m_fps > 0) 
+
+                if (m_fps > 0)
                 {
                     gameTimer.Sleep(1000.0f / m_fps);
                 }
@@ -57,12 +57,12 @@ namespace gene {
 
     private:
         platform::Window *m_window;
-        
+
         float m_fps;
     };
 }
 
-class MathsMapDemo : public gene::App {
+class ClearColorDemo : public gene::App {
 private:
     gene::graphics::Color m_clearColor;
 
@@ -71,14 +71,14 @@ public:
         using namespace gene;
         using namespace gene::graphics;
 
-        const float dampening = 250.0f;
+        const float dampening = 400.0f;
         const float t = time.RunningTimeMilliseconds() / dampening;
 
         const float cosT = Maths::Cos(t);
 
         int r = (int)Maths::Map(cosT, -1.0f, 1.0f, 0, 255);
         int g = (int)Maths::Map(-cosT, -1.0f, 1.0f, 0, 255);
-        
+
         m_clearColor = Color(r, g, r, 255);
     }
 
@@ -89,9 +89,8 @@ public:
 
 int GeneMain(int argc, char **argv)
 {
-    gene::App* mapDemo = new MathsMapDemo();
+    gene::App* mapDemo = new ClearColorDemo();
     mapDemo->Run(600, 400, "App Demo!");
 
     return 0;
 }
-

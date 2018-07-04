@@ -9,7 +9,7 @@ using namespace gene::graphics;
 using namespace gene;
 
 const int s_AtlasDepth = 2;
-const int s_AtlasPadding = 0;
+const int s_AtlasPadding = 1;
 
 /*
 TODO:
@@ -72,7 +72,7 @@ FreeTypeGlyph FreeTypeTexture::CopyGlyphToTexture(FT_GlyphSlot slot)
 	FreeTypeGlyph glyph;
 	SetGlyphsUVs(xIndex - padding, yIndex - padding, w + padding, h + padding, &glyph);
 
-	glyph.Advance = Vector2(static_cast<float>(slot->advance.x >> 6), static_cast<float>(slot->advance.y >> 6));
+	glyph.Advance = Vector2(slot->advance.x / 64.f, static_cast<float>(slot->advance.y >> 6));
 	glyph.Width = metricW;
 	glyph.Height = metricH;
 	glyph.Offset = Vector2(static_cast<float>(slot->bitmap_left), static_cast<float>(slot->bitmap_top));
