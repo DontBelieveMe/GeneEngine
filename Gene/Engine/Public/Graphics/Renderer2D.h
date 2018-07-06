@@ -87,7 +87,7 @@ namespace gene { namespace graphics {
 		);
 
         /** Draw a circle where the specified position is the centre and the circle consists of `noPoints` number of triangles/points. */
-        void FillCircle(Vector2 centrePosition, float radius, const Color& color, unsigned noPoints);
+        void FillCircle(Vector2 centrePosition, float radius, const Color& color, size_t noPoints);
 
         /** Draw the section of a texture (specified by `rect` in UV coordinates) where the width and height of the sprite are specified by `size`. */
         void DrawTextureBounds(Vector2 position, Texture2D* texture, const AABBRectangle& rect, Vector2 size);

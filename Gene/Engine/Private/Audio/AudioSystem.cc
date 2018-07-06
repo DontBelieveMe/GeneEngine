@@ -30,11 +30,11 @@ Array<String> AudioSystem::GetAudioDevicesList()
 void AudioSystem::Init()
 {
 	m_Device = alcOpenDevice(NULL);
-	GE_ASSERT(m_Device);
+	GE_ASSERT(m_Device, "Cannot open OpenAL device.");
 
 	m_Context = alcCreateContext(m_Device, NULL);
 	ALCboolean s = alcMakeContextCurrent(m_Context);
-	GE_ASSERT(s);
+	GE_ASSERT(s, "Cannot make OpenAL context current");
 
 	alListener3f(AL_POSITION, 0, 0, 0.0f);
 	alListener3f(AL_VELOCITY, 0, 0, 0);

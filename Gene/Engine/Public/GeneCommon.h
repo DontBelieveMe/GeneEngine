@@ -23,23 +23,10 @@
 #define GE_ASSERT(cond, ...) \
 	do { \
 		if(!(cond)){ \
-            logf(__VA_ARGS__);\
+            LOG(gene::LogLevel::Assert, __VA_ARGS__);\
             assert(cond); \
 		} \
-	} while(0) \
-
-inline void logf() {}
-
-template <typename T, typename... Args>
-inline void logf(const char *t, T arg, Args... args)
-{
-    printf(t, arg, args...);
-}
-
-GE_FORCEINLINE void logf(const char *t)
-{
-    printf("%s", t);
-}
+	} while(0)
 
 namespace gene { 
     typedef unsigned char  byte;

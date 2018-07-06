@@ -151,7 +151,7 @@ FreeTypeFont::FreeTypeFont(const char *path, float size)
     
     error = FT_Set_Char_Size(m_Face, static_cast<FT_F26Dot6>(size * 64.f), 0, 300, 300);
     
-    GE_ASSERT(!error);
+    GE_ASSERT(!error, "FreeTypeFont::FreeTypeFont(...) Cannot set freetype font char size");
 }
 
 FreeTypeFont::~FreeTypeFont()

@@ -93,7 +93,7 @@ ALenum WaveFile::GetALFormat()
 	case 8:
 		return isStereo ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO8;
 	default:
-		GE_ASSERT(false);
+		GE_ASSERT(false, "Unknown OpenAL audio format: Bits Per Sample=", m_BitsPerSample);
 		return -1;
 	}
 	return 0;

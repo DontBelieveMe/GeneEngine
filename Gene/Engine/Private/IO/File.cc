@@ -51,7 +51,7 @@ void File::Load(const char *filepath)
 	} else 
     {
         printf("Cannot find resource %s\n", filepath);
-        GE_ASSERT(false);
+        GE_ASSERT(false, "File::Load(...) Cannot load file at path: ", filepath);
     }
 }
 
@@ -78,8 +78,7 @@ uint8_t * File::LoadBinaryFile(const char * path)
 	}
 	else
 	{
-		printf("Cannot find binary file %s\n", path);
-		GE_ASSERT(false);
+		GE_ASSERT(false, "Cannot open binary file: ", path);
 	}
 
 	return nullptr;
@@ -100,7 +99,7 @@ Array<String> File::ReadLines(const char *path)
 	}
 	else 
     {
-		GE_ASSERT(false);
+		GE_ASSERT(false, "Cannot read lines in from file: ", path);
 	}
 
 	return lines;

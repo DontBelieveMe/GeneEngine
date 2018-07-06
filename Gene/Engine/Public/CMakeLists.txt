@@ -61,6 +61,7 @@ set(CoreHeaders
 
 set(RuntimeHeaders
     ${HeaderDir}/Runtime/Resources.h
+    ${HeaderDir}/Runtime/Application.h
 )
 
 set(AudioHeaders

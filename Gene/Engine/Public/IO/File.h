@@ -27,7 +27,7 @@ namespace gene { namespace io {
         /** Return the data contained inside the File object. */
 		const char *Contents() const 
         { 
-            GE_ASSERT(m_Data != NULL); 
+            GE_ASSERT(m_Data != NULL, "Trying to return null file contents data."); 
 
             return static_cast<const char*>(m_Data); 
         }

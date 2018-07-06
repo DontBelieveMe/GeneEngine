@@ -5,62 +5,7 @@
 #include <Math/Math.h>
 #include <Graphics/Buffer.h>
 #include <Content/OBJModelLoader.h>
-
-namespace gene {
-    class App {
-    public:
-        App() : m_fps(60), m_window(nullptr) {}
-
-        virtual void Tick(const platform::GameTime& time) {}
-        virtual void Draw() {}
-
-        virtual void Init() {}
-
-        void Run(int windowW, int windowH, const char *title) {
-            platform::WindowInfo info;
-            info.Width = windowW;
-            info.Height = windowH;
-            info.Title = title;
-
-            m_window = platform::Window::CreateWindow(info);
-            m_window->Create();
-            m_window->SetClearColor(graphics::Color::Black);
-
-            Init();
-
-            platform::GameTime gameTimer;
-            m_window->Show();
-            while (m_window->Running())
-            {
-                gameTimer.StartFrame();
-                m_window->PollEvents();
-
-                Tick(gameTimer);
-
-                m_window->Clear();
-                Draw();
-                m_window->SwapBuffers();
-
-                gameTimer.EndFrame();
-
-                if (m_fps > 0)
-                {
-                    gameTimer.Sleep(1000.0f / m_fps);
-                }
-            }
-        }
-
-    protected:
-        platform::Window *GetWindow() { return m_window; }
-        void SetTargetFPS(float fps) { m_fps = fps; }
-        float GetTargetFPS(float fps) { return m_fps; }
-
-    private:
-        platform::Window *m_window;
-
-        float m_fps;
-    };
-}
+#include <Runtime/Application.h>
 
 class ClearColorDemo : public gene::App {
 private:

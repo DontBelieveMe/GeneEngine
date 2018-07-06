@@ -293,8 +293,7 @@ void Renderer2D::DrawString(Font *font,
 
 float Renderer2D::GetTextureSlot(Texture2D *texture)
 {
-    GE_ASSERT(m_Textures.size() <= 32);
-    GE_ASSERT(m_Textures.size() >= 0);
+    GE_ASSERT(m_Textures.size() <= 32, "Renderer2D::GetTextureSlot() Trying to store more than 32 textures");
 
     for(size_t i = 0; i < m_Textures.size(); i++)
     {
@@ -309,7 +308,7 @@ float Renderer2D::GetTextureSlot(Texture2D *texture)
     return m_Textures.size() - 1.f;
 }
 
-void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, unsigned noPoints)
+void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, size_t noPoints)
 {
     if(!m_Buffer || !m_Indices) return;
     
@@ -323,7 +322,7 @@ void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, 
     
     float segmentSize = Maths::ToRadians(360.f / noPoints);
 
-    for (int i = 0; i < noPoints; ++i)
+    for (size_t i = 0; i < noPoints; ++i)
     {
         float angle = segmentSize * i;
         Vector2 pos(
@@ -441,7 +440,7 @@ void Renderer2D::Present()
         m_Textures[i]->Enable(i);
     }
 
-    m_VAO->DebugDrawElements(m_EBO, m_IndexCount);
+    m_VAO->DrawElements(m_EBO, m_IndexCount);
 
     for(size_t i = 0; i < m_Textures.size(); i++)
     {
