@@ -6,36 +6,31 @@
 #include <Graphics/Buffer.h>
 #include <Content/OBJModelLoader.h>
 #include <Runtime/Application.h>
+#include <Input/InputController.h>
+#include <imgui/imgui.h>
+
 
 class ClearColorDemo : public gene::App {
-private:
-    gene::graphics::Color m_clearColor;
-
 public:
+    virtual void Init() override {
+        GetWindow()->SetClearColor(gene::graphics::Color(79, 87, 99, 255));
+    }
+
     virtual void Tick(const gene::platform::GameTime& time) override {
-        using namespace gene;
-        using namespace gene::graphics;
-
-        const float dampening = 400.0f;
-        const float t = time.RunningTimeMilliseconds() / dampening;
-
-        const float cosT = Maths::Cos(t);
-
-        int r = (int)Maths::Map(cosT, -1.0f, 1.0f, 0, 255);
-        int g = (int)Maths::Map(-cosT, -1.0f, 1.0f, 0, 255);
-
-        m_clearColor = Color(r, g, r, 255);
     }
 
     virtual void Draw() override {
-        GetWindow()->SetClearColor(m_clearColor);
+    }
+
+    virtual void GuiDraw() override {
+        ImGui::ShowDemoWindow();
     }
 };
 
 int GeneMain(int argc, char **argv)
 {
     gene::App* mapDemo = new ClearColorDemo();
-    mapDemo->Run(600, 400, "App Demo!");
+    mapDemo->Run(1080, 720, "App Demo!");
 
     return 0;
 }

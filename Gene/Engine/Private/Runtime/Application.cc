@@ -2,6 +2,10 @@
 
 #include <Runtime/Application.h>
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_win32.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 using namespace gene;
 
 void App::Run(int windowW, int windowH, const char *title)
@@ -18,6 +22,7 @@ void App::Run(int windowW, int windowH, const char *title)
     Init();
 
     platform::GameTime gameTimer;
+    gameTimer.Start();
     m_window->Show();
     while (m_window->Running())
     {
@@ -27,7 +32,15 @@ void App::Run(int windowW, int windowH, const char *title)
         Tick(gameTimer);
 
         m_window->Clear();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplWin32_NewFrame();
         Draw();
+
+        ImGui::NewFrame();
+        GuiDraw();
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         m_window->SwapBuffers();
 
         gameTimer.EndFrame();

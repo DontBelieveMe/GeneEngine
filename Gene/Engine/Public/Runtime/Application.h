@@ -15,6 +15,8 @@ namespace gene {
         virtual void Tick(const platform::GameTime& time) {}
         virtual void Draw() {}
 
+        virtual void GuiDraw() {}
+
         void Run(int windowW, int windowH, const char *title);
 
     protected:

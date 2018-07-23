@@ -37,6 +37,36 @@ endif()
 source_group("Source Files\\Platform\\Win32" FILES ${PlatformSrc})
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../Dependencies/OpenALSoft/include)
+
+# For ImGUI
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../Dependencies)
+set(imgui ${CMAKE_CURRENT_LIST_DIR}/../Dependencies/imgui)
+
+set(imguiSrc
+    ${imgui}/imgui.cpp
+    ${imgui}/imgui_draw.cpp
+    ${imgui}/imgui_impl_opengl3.cpp
+    ${imgui}/imgui_impl_win32.cpp
+    ${imgui}/imgui_demo.cpp
+)
+
+source_group("Source Files\\Third Party\\imgui" FILES ${imguiSrc})
+list(APPEND CommonSource ${imguiSrc})
+
+set(imguiHeaders
+    ${imgui}/imconfig.h
+    ${imgui}/imgui.h
+    ${imgui}/imgui_internal.h
+    ${imgui}/stb_rect_pack.h
+    ${imgui}/stb_textedit.h
+    ${imgui}/stb_truetype.h
+    ${imgui}/imgui_impl_opengl3.h
+    ${imgui}/imgui_impl_win32.h
+)
+
+source_group("Header Files\\Third Party\\imgui" FILES ${imguiHeaders})
+list(APPEND CommonHeaders ${imguiHeaders})
+
 include_directories(${CMAKE_CURRENT_LIST_DIR}/libroid/include)
 
 if(ANDROID)

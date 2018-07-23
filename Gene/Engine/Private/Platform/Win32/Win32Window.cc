@@ -5,7 +5,13 @@
 
 #include "Win32Window.h" 
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_win32.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 #include <Windows.h>
+#include <gl/GL.h>
+#include "wglext.h"
 #include <iostream>
 
 #include <Platform/OpenGL.h>
@@ -26,10 +32,43 @@ using namespace gene;
 
 static HDC s_HDC;
 
+static bool ImGui_ImplWin32_UpdateMouseCursor()
+{
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange)
+        return false;
+
+    ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
+    if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
+    {
+        // Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
+        ::SetCursor(NULL);
+    }
+    else
+    {
+        // Show OS mouse cursor
+        LPTSTR win32_cursor = IDC_ARROW;
+        switch (imgui_cursor)
+        {
+        case ImGuiMouseCursor_Arrow:        win32_cursor = IDC_ARROW; break;
+        case ImGuiMouseCursor_TextInput:    win32_cursor = IDC_IBEAM; break;
+        case ImGuiMouseCursor_ResizeAll:    win32_cursor = IDC_SIZEALL; break;
+        case ImGuiMouseCursor_ResizeEW:     win32_cursor = IDC_SIZEWE; break;
+        case ImGuiMouseCursor_ResizeNS:     win32_cursor = IDC_SIZENS; break;
+        case ImGuiMouseCursor_ResizeNESW:   win32_cursor = IDC_SIZENESW; break;
+        case ImGuiMouseCursor_ResizeNWSE:   win32_cursor = IDC_SIZENWSE; break;
+        case ImGuiMouseCursor_Hand:         win32_cursor = IDC_HAND; break;
+        }
+        ::SetCursor(::LoadCursor(NULL, win32_cursor));
+    }
+    return true;
+}
+
 static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace gene::input;
- 
+    
+
 	gene::platform::EventCallbacks *callbacks = static_cast<gene::platform::EventCallbacks*>(GetProp(hWnd, GENE_EVENT_CALLBACK_ID));
    
 	InputController *inputController = static_cast<InputController*>(GetProp(hWnd, GENE_KEYBOARD_PROP));
@@ -38,6 +77,7 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
         return DefWindowProc(hWnd, msg, wParam, lParam);
     }
    
+    ImGuiIO& io = ImGui::GetIO();
     KeyDevice *keyDevice = inputController->GetKeyDevice();
     MouseDevice *mouseDevice = inputController->GetMouseDevice();
     
@@ -57,10 +97,10 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 	case WM_KEYDOWN:
         keyDevice->PressKeyDown(static_cast<Keys>(wParam));
-		return 0;
+        break;
 	case WM_KEYUP:
         keyDevice->ReleaseKeyDown(static_cast<Keys>(wParam));
-		return 0;
+        break;
     case WM_LBUTTONDOWN:
         mouseDevice->TrySetButtonState((MouseButton) (static_cast<unsigned>(buttonState) | static_cast<unsigned>(MouseButton::Left)));
         break;
@@ -76,6 +116,61 @@ static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	default: break;
 	}
+
+    switch (msg)
+    {
+    case WM_LBUTTONDOWN: case WM_LBUTTONDBLCLK:
+    case WM_RBUTTONDOWN: case WM_RBUTTONDBLCLK:
+    case WM_MBUTTONDOWN: case WM_MBUTTONDBLCLK:
+    {
+        int button = 0;
+        if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONDBLCLK) button = 0;
+        if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONDBLCLK) button = 1;
+        if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONDBLCLK) button = 2;
+        if (!ImGui::IsAnyMouseDown() && ::GetCapture() == NULL)
+            ::SetCapture(hWnd);
+        io.MouseDown[button] = true;
+        return 0;
+    }
+    case WM_LBUTTONUP:
+    case WM_RBUTTONUP:
+    case WM_MBUTTONUP:
+    {
+        int button = 0;
+        if (msg == WM_LBUTTONUP) button = 0;
+        if (msg == WM_RBUTTONUP) button = 1;
+        if (msg == WM_MBUTTONUP) button = 2;
+        io.MouseDown[button] = false;
+        if (!ImGui::IsAnyMouseDown() && ::GetCapture() == hWnd)
+            ::ReleaseCapture();
+        return 0;
+    }
+    case WM_MOUSEWHEEL:
+        io.MouseWheel += (float)GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA;
+        return 0;
+    case WM_MOUSEHWHEEL:
+        io.MouseWheelH += (float)GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA;
+        return 0;
+    case WM_KEYDOWN:
+    case WM_SYSKEYDOWN:
+        if (wParam < 256)
+            io.KeysDown[wParam] = 1;
+        return 0;
+    case WM_KEYUP:
+    case WM_SYSKEYUP:
+        if (wParam < 256)
+            io.KeysDown[wParam] = 0;
+        return 0;
+    case WM_CHAR:
+        // You can also use ToAscii()+GetKeyboardState() to retrieve characters.
+        if (wParam > 0 && wParam < 0x10000)
+            io.AddInputCharacter((unsigned short)wParam);
+        return 0;
+    case WM_SETCURSOR:
+        if (LOWORD(lParam) == HTCLIENT && ImGui_ImplWin32_UpdateMouseCursor())
+            return 1;
+        return 0;
+    }
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -111,7 +206,7 @@ void Win32Window::Create()
 	RegisterClassEx(&_class);
 	
 	// TODO: This has removed Win32 borderless functionality, reimplement this
-	DWORD style = (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
+    DWORD style = WS_OVERLAPPEDWINDOW; //(WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
 
     RECT rect;
     rect.left = rect.top = 0;
@@ -150,6 +245,8 @@ static void *Win32GetProcAddress(const char* path)
 
 void Win32Window::CreateGLContext()
 {
+    HINSTANCE hInstance = GetModuleHandle(nullptr);
+
 	PIXELFORMATDESCRIPTOR pfd =
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),
@@ -171,6 +268,7 @@ void Win32Window::CreateGLContext()
 	HDC hdc = GetDC((HWND)m_Handle);
 	s_HDC = hdc;
 	int choosePf = ChoosePixelFormat(hdc, &pfd);
+
 	SetPixelFormat(hdc, choosePf, &pfd);
 
 	HGLRC context = wglCreateContext(hdc);
@@ -184,10 +282,17 @@ void Win32Window::CreateGLContext()
 	glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
 	glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
 
-    const GLubyte *versionString = glGetString(GL_VERSION);
-    LOG(LogLevel::Infomation, "OpenGL Version: ", versionString);
+   // const GLubyte *versionString = glGetString(GL_VERSION);
+  //  LOG(LogLevel::Infomation, "OpenGL Version: ", versionString);
     
     glViewport(0, 0, Width(), Height());
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui_ImplWin32_Init(m_Handle);
+    ImGui_ImplOpenGL3_Init();
+    
+    auto io = ImGui::GetIO();
+    io.KeyMap[ImGuiKey_Delete] = 0x08;
 }
 
 void Win32Window::Show()
