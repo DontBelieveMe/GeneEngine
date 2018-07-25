@@ -1,10 +1,7 @@
 // Copyright 2017-2018 Barney Wilks. All Rights Reserved
 
 #include <Runtime/Application.h>
-
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_win32.h>
-#include <imgui/imgui_impl_opengl3.h>
+#include <Graphics/ImGui.h>
 
 using namespace gene;
 
@@ -15,9 +12,13 @@ void App::Run(int windowW, int windowH, const char *title)
     info.Height = windowH;
     info.Title = title;
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+
     m_window = platform::Window::CreateWindow(info);
     m_window->Create();
     m_window->SetClearColor(graphics::Color::Black);
+    ImGui_ImplOpenGL3_Init();
 
     Init();
 

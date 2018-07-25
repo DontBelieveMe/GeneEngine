@@ -16,10 +16,10 @@ Color::Color(float r, float g, float b, float a)
 {
 	using namespace gene;
 
-	int rr = static_cast<int>(Maths::Clamp(r, 0.0f, 1.0f)) * 255;
-	int gg = static_cast<int>(Maths::Clamp(g, 0.0f, 1.0f)) * 255;
-	int bb = static_cast<int>(Maths::Clamp(b, 0.0f, 1.0f)) * 255;
-	int aa = static_cast<int>(Maths::Clamp(a, 0.0f, 1.0f)) * 255;
+	int rr = static_cast<int>(Maths::Clamp(r, 0.0f, 1.0f) * 255);
+	int gg = static_cast<int>(Maths::Clamp(g, 0.0f, 1.0f) * 255);
+	int bb = static_cast<int>(Maths::Clamp(b, 0.0f, 1.0f) * 255);
+	int aa = static_cast<int>(Maths::Clamp(a, 0.0f, 1.0f) * 255);
 
 	Hex = RGBAToHex(rr, gg, bb, aa);
 }

@@ -12,6 +12,7 @@ set(GraphicsHeaders
     ${HeaderDir}/Graphics/Texture2D.h
     ${HeaderDir}/Graphics/VertexArray.h
     ${HeaderDir}/Graphics/Renderer2D.h
+    ${HeaderDir}/Graphics/ImGui.h
 
     ${HeaderDir}/Graphics/Factorys/ShaderFactory.h
 )

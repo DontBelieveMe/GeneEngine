@@ -5,9 +5,7 @@
 
 #include "Win32Window.h" 
 
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_win32.h>
-#include <imgui/imgui_impl_opengl3.h>
+#include <Graphics/ImGui.h>
 
 #include <Windows.h>
 #include <gl/GL.h>
@@ -206,7 +204,7 @@ void Win32Window::Create()
 	RegisterClassEx(&_class);
 	
 	// TODO: This has removed Win32 borderless functionality, reimplement this
-    DWORD style = WS_OVERLAPPEDWINDOW; //(WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
+    DWORD style = /*WS_OVERLAPPEDWINDOW;*/ (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
 
     RECT rect;
     rect.left = rect.top = 0;
@@ -279,20 +277,15 @@ void Win32Window::CreateGLContext()
 	glfl::set_function_loader(Win32GetProcAddress);
 	glfl::load_everything();
     
-	glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
-	glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
+    glGetIntegerv(GL_MAJOR_VERSION, &(m_Context->MajorVersion));
+    glGetIntegerv(GL_MINOR_VERSION, &(m_Context->MinorVersion));
 
-   // const GLubyte *versionString = glGetString(GL_VERSION);
-  //  LOG(LogLevel::Infomation, "OpenGL Version: ", versionString);
+    const GLubyte *versionString = glGetString(GL_VERSION);
+    LOG(LogLevel::Infomation, "OpenGL Version: ", versionString);
     
     glViewport(0, 0, Width(), Height());
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+
     ImGui_ImplWin32_Init(m_Handle);
-    ImGui_ImplOpenGL3_Init();
-    
-    auto io = ImGui::GetIO();
-    io.KeyMap[ImGuiKey_Delete] = 0x08;
 }
 
 void Win32Window::Show()
