@@ -21,7 +21,7 @@ public:
         auto win = GetWindow();
 
         GetWindow()->SetClearColor(gene::graphics::Color(79, 87, 99, 255));
-        m_renderer.Init(gene::Matrix4::Orthographic(win->Width(), 0, 0, win->Height(), 100.f, 0.1f));
+        m_renderer.Init(gene::Matrix4::Orthographic(static_cast<float>(win->Width()), 0.f, 0.f, static_cast<float>(win->Height()), 100.f, 0.1f));
 
         m_position.Set(300);
     }

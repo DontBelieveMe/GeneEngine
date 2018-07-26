@@ -31,7 +31,7 @@ namespace gene { namespace graphics {
         {
             static float c[3];
             ImGui::ColorPicker3(str, c);
-            unsigned int hex = Color::RGBAToHex(c[0]*255.f, c[1]*255.f, c[2]*255.f, 255);
+            unsigned int hex = Color::RGBAToHex(static_cast<int>(c[0]*255), static_cast<int>(c[1]*255), static_cast<int>(c[2]*255), 255);
             std::memcpy(col, &hex, sizeof(unsigned int));
         }
     };

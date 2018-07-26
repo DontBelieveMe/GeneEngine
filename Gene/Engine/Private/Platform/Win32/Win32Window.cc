@@ -8,8 +8,6 @@
 #include <Graphics/ImGui.h>
 
 #include <Windows.h>
-#include <gl/GL.h>
-#include "wglext.h"
 #include <iostream>
 
 #include <Platform/OpenGL.h>

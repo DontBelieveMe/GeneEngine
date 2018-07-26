@@ -172,7 +172,7 @@ Vector3 Matrix4::ScreenToWorld(Matrix4 projection, Matrix4 view, const Vector2& 
     float winZ = 1.0f;
     in[0] = (2.0f*((float)(screenPos.X - 0) / (viewWidth - 0))) - 1.0f,
     in[1] = 1.0f - (2.0f*((float)(screenPos.Y - 0) / (viewHeight - 0)));
-    in[2] = 2.0* winZ - 1.0;
+    in[2] = 2.0f * winZ - 1.0f;
     in[3] = 1.0;
     Vector4 v4(in[0], in[1], in[2], in[3]);
     Vector4 pos = matProj * v4;

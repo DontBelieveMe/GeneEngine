@@ -24,7 +24,7 @@ double Timer::ElapsedTimeSeconds()
         auto x = std::chrono::high_resolution_clock::now() - m_Start;
         auto c = std::chrono::duration_cast<std::chrono::seconds>(x);
 
-        return c.count();
+        return static_cast<double>(c.count());
     }
     else {
         return 0;
@@ -37,7 +37,7 @@ double Timer::ElapsedTimeMs()
         auto x = std::chrono::high_resolution_clock::now() - m_Start;
         auto c = std::chrono::duration_cast<std::chrono::milliseconds>(x);
 
-        return c.count();
+        return static_cast<double>(c.count());
     }
     else {
         return 0;

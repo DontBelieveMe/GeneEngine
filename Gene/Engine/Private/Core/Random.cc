@@ -14,7 +14,7 @@ void Random::Seed(unsigned seed)
 
 float Random::FloatRange(float min, float max)
 {
-    const float range = fabs(min - max);
+    const float range = fabsf(min - max);
     return range * ((((float)rand()) / (float)RAND_MAX)) + min;
 }
 
