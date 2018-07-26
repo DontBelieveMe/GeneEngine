@@ -38,8 +38,6 @@ source_group("Source Files\\Platform\\Win32" FILES ${PlatformSrc})
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../Dependencies/OpenALSoft/include)
 
-# For ImGUI
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../Dependencies)
 set(imgui ${CMAKE_CURRENT_LIST_DIR}/../Dependencies/imgui)
 
 set(imguiSrc

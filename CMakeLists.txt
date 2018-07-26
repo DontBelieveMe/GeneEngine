@@ -7,9 +7,6 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(Gene/Engine/Public)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/Dependencies/FreeType/include)
 
-# For ImGUI
-include_directories(${CMAKE_CURRENT_LIST_DIR}/Dependencies)
-
 # This suppresses the generation of ZERO_CHECK
 set(CMAKE_SUPPRESS_REGENERATION true)
 
