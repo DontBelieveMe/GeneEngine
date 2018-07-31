@@ -33,9 +33,5 @@ META_DEFINE_BASIC_END
 void meta::DefaultRegistrations()
 {
     __s_metaDataInstance__.Init();
-
-    for (auto& x : meta::MetaDataRegistry::Get()->ClassTypeReflectors)
-    {
-        x();
-    }
+    LibraryRegistrations();
 }

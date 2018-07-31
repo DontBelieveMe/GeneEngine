@@ -30,8 +30,9 @@ namespace gene {
 
         float Length();
 
-        META_CLASS_REFLECTED
+        META_CLASS_REFLECTED(gene::Vector2)
 	};
+    void dud();
 
     template <typename T>
     struct TVector2 {

@@ -65,6 +65,7 @@ set(RuntimeHeaders
     ${HeaderDir}/Runtime/Application.h
     ${HeaderDir}/Runtime/Reflection.h
     ${HeaderDir}/Runtime/ECS.h
+    ${HeaderDir}/All.Reflection.inl
 )
 
 set(AudioHeaders

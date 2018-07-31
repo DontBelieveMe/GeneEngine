@@ -3,11 +3,12 @@
 #pragma once
 
 #include <Math/Vector2.h>
+#include <Runtime/Reflection.h>
 
 namespace gene {
 
     /** Class that represents a 3 component floating point vector (XYZ). */
-	struct Vector3 {
+   struct Vector3 {
         float X, Y, Z;
 
         /** Initalizes the X, Y and Z member variables to those specified in constructor. */
@@ -39,6 +40,8 @@ namespace gene {
 
         /** Returns the length (magnitude) of this vector. Involves a square root operation. */
         float          Length();
+
+        META_CLASS_REFLECTED(gene::Vector3)
 	};
 
     // TODO: Move
@@ -47,5 +50,7 @@ namespace gene {
         Vector4(float x, float y, float z, float w) :
             X(x), Y(y), Z(z), W(w) {}
         Vector4() {}
+
+        META_CLASS_REFLECTED(gene::Vector4)
     };
 }

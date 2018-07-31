@@ -34,6 +34,8 @@ set(MathSrc
     ${SrcDir}/Math/Quaternion.cc
     ${SrcDir}/Math/Vector2.cc
     ${SrcDir}/Math/Vector3.cc
+
+    ${SrcDir}/Math/Maths.Reflection.cc
 )
 
 set(PlatformSrc 

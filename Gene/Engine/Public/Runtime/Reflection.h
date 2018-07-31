@@ -28,9 +28,15 @@ namespace meta {
             return &registry;
         }
 
-        template <typename TT, typename T>
-        TT *FillBasicData(const char* name, size_t size) {
-            TT *type = new TT;
+        template <typename T>
+        DataType* GetType() {
+            static DataType t;
+            return &t;
+        }
+
+        template <typename T>
+        DataType *FillBasicData(const char* name, size_t size) {
+            DataType *type = GetType<T>();
             type->Name = name;
             type->Size = size;
             type->IsPointer = std::is_pointer<T>::value;
@@ -40,14 +46,14 @@ namespace meta {
 
         template <typename T>
         DataType* RegisterBasicType(const char* name, size_t size) {
-            DataType *type = FillBasicData<DataType, T>(name, size);
-            m_Types.insert(std::make_pair(name, type));
+            DataType *type = FillBasicData<T>(name, size);
+            m_Types[name] = type;
             return m_Types[name];
         }
 
         template <typename T>
         DataType* CreateType(const char* name, size_t size) {
-            DataType *type = FillBasicData<DataType, T>(name, size);
+            DataType *type = FillBasicData<T>(name, size);
             return type;
         }
 
@@ -60,22 +66,10 @@ namespace meta {
         }
 
         void Insert(DataType* type) {
-            m_Types.insert(std::make_pair(type->Name, type));
+            m_Types[type->Name] = type;
         }
 
         DataType *EMPTY_DATA = new DataType;
-        
-        DataType* GetData(const char* name) {
-            DataType* type = m_Types[name];
-            bool hasType = m_Types.find(name) != m_Types.end();
-            if (!hasType) {
-                m_Types[name] = EMPTY_DATA;
-            } else {
-                if (type == nullptr) 
-                    return EMPTY_DATA;
-            }
-            return type;
-        }
 
         gene::Array<void(*)()> ClassTypeReflectors;
 
@@ -84,6 +78,14 @@ namespace meta {
     };
 
     void DefaultRegistrations();
+    void LibraryRegistrations();
+
+    template <typename T>
+    struct TypeRegister {
+        TypeRegister() {
+            T::Reflect();
+        }
+    };
 }
 
 inline std::ostream &operator<<(std::ostream &os, meta::DataType* const &m) {
@@ -104,11 +106,23 @@ inline std::ostream &operator<<(std::ostream &os, meta::DataType* const &m) {
 #define META_DEFINE_BASIC_TYPE(type) meta::MetaDataRegistry::Get()->RegisterBasicType<type>(#type, sizeof(type));
 #define META_DEFINE_BASIC_END  }}; static __MetaData__ __s_metaDataInstance__;
 
-#define META_GET_DATA(type) meta::MetaDataRegistry::Get()->GetData(#type)
+#define META_GET_DATA(type) meta::MetaDataRegistry::Get()->GetType<type>()
 
-#define META_CLASS_REFLECTED static void Reflect();
+#define META_CLASS_REFLECTED(obj) static void Reflect(); static meta::TypeRegister<obj> _reflect;
 
-#define META_CLASS_REFLECT_IMPL(obj) struct _tmp_ { _tmp_() { meta::MetaDataRegistry::Get()->ClassTypeReflectors.push_back(&obj::Reflect); }}; \
-                                      static _tmp_ _t; void obj::Reflect() { auto _meta_obj = meta::MetaDataRegistry::Get()->CreateType<obj>(#obj, sizeof(obj));
+#define __concat(x, y) x##y
+#define __concat2(x, y) __concat(x, y)
+
+#define META_CLASS_REFLECT_IMPL(obj) \
+                                     meta::TypeRegister<obj> obj::_reflect; \
+                                     void obj::Reflect() { \
+                                        auto _meta_obj = meta::MetaDataRegistry::Get()->CreateType<obj>(#obj, sizeof(obj));
+
 #define META_CLASS_MEMBER(type, name) meta::MetaDataRegistry::Get()->AddMember(_meta_obj, META_GET_DATA(type), #name);
 #define META_CLASS_END_REFLECT_IMPL() meta::MetaDataRegistry::Get()->Insert(_meta_obj); } 
+
+#define META_IMPL_FILE(id) void meta::impl_##id(){[](){}();}
+#define META_INCLUDE_IMPL(id) void impl_##id();
+#define META_PREP_IMPL(id) meta::impl_##id();
+
+#include <All.Reflection.inl>

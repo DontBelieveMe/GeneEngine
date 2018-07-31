@@ -46,6 +46,7 @@ void PrintSystemInfo()
 
 	void android_main(struct android_app* state)
 	{
+        meta::DefaultRegistrations();
         PrintSystemInfo();
         PlatformWindow::s_AndroidAppState = state;
 		GeneMain(0, nullptr);
@@ -53,6 +54,7 @@ void PrintSystemInfo()
 #else
 	int main(int argc, char **argv)
 	{
+        meta::DefaultRegistrations();
         PrintSystemInfo();
 		GeneMain(argc, argv);
 	}
