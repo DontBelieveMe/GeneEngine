@@ -32,6 +32,13 @@ void Renderer2D::SetViewMatrix(const Matrix4& view)
     m_Shader->Disable();
 }
 
+void Renderer2D::SetProjectionMatrix(const Matrix4 & mat)
+{
+    m_Shader->Enable();
+    m_Shader->LoadUniformMatrix4f("u_Projection", mat);
+    m_Shader->Disable();
+}
+
 void Renderer2D::Init(const Matrix4& projectionMatrix)
 {
     glEnable(GL_BLEND);

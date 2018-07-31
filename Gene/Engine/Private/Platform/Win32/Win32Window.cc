@@ -202,7 +202,7 @@ void Win32Window::Create()
 	RegisterClassEx(&_class);
 	
 	// TODO: This has removed Win32 borderless functionality, reimplement this
-    DWORD style = /*WS_OVERLAPPEDWINDOW;*/ (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX);
+    DWORD style = /*WS_OVERLAPPEDWINDOW;*/ (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
 
     RECT rect;
     rect.left = rect.top = 0;

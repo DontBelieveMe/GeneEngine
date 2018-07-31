@@ -14,6 +14,13 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(Dependencies/FreeType)
+add_subdirectory(Dependencies/luajit)
+
+set_property(TARGET buildvm PROPERTY FOLDER "Dependencies/luajit")
+set_property(TARGET liblua PROPERTY FOLDER "Dependencies/luajit")
+set_property(TARGET luajit PROPERTY FOLDER "Dependencies/luajit")
+set_property(TARGET minilua PROPERTY FOLDER "Dependencies/luajit")
+set_property(TARGET wluajit PROPERTY FOLDER "Dependencies/luajit")
 
 if(ANDROID)
     add_subdirectory(Gene/libroid)

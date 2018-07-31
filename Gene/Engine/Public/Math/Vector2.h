@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <Runtime/Reflection.h>
+
 namespace gene {
 	struct Vector2 
 	{
@@ -27,6 +29,8 @@ namespace gene {
         void Normalize();
 
         float Length();
+
+        META_CLASS_REFLECTED
 	};
 
     template <typename T>

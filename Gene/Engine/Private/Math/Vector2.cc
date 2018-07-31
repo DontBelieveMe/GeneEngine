@@ -5,6 +5,11 @@
 
 using namespace gene;
 
+META_CLASS_REFLECT_IMPL(gene::Vector2)
+    META_CLASS_MEMBER(float, X)
+    META_CLASS_MEMBER(float, Y)
+META_CLASS_END_REFLECT_IMPL()
+
 Vector2::Vector2() :
 	X(0.0f), Y(0.0f)
 {

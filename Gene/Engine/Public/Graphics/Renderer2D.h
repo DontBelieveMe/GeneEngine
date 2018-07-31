@@ -121,6 +121,8 @@ namespace gene { namespace graphics {
 
         /** Set the (view) matrix that is to be multiplied with the projection matrix as a transform that affects the vertex position.*/
         void SetViewMatrix(const Matrix4& view);
+        
+        void SetProjectionMatrix(const Matrix4& mat);
 
         static AABBRectangle CoverAllTexture;
     };

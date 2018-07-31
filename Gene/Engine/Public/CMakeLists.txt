@@ -63,11 +63,17 @@ set(CoreHeaders
 set(RuntimeHeaders
     ${HeaderDir}/Runtime/Resources.h
     ${HeaderDir}/Runtime/Application.h
+    ${HeaderDir}/Runtime/Reflection.h
+    ${HeaderDir}/Runtime/ECS.h
 )
 
 set(AudioHeaders
     ${HeaderDir}/Audio/WaveFile.h
     ${HeaderDir}/Audio/AudioSystem.h
+)
+
+set(ScriptingHeaders
+    ${HeaderDir}/Scripting/LuaJIT.h
 )
 
 set(VSHeaderFilterName "Header Files")
@@ -82,8 +88,9 @@ source_group("${VSHeaderFilterName}\\Platform" FILES ${PlatformHeaders})
 source_group("${VSHeaderFilterName}"           FILES ${RootHeaders})
 source_group("${VSHeaderFilterName}\\Debug"    FILES ${DebugHeaders})
 source_group("${VSHeaderFilterName}\\Core"     FILES ${CoreHeaders})
-source_group("${VSHeaderFilterName}\\Runtime"     FILES ${RuntimeHeaders})
-source_group("${VSHeaderFilterName}\\Audio"     FILES ${AudioHeaders})
+source_group("${VSHeaderFilterName}\\Runtime"  FILES ${RuntimeHeaders})
+source_group("${VSHeaderFilterName}\\Audio"    FILES ${AudioHeaders})
+source_group("${VSHeaderFilterName}\\Scripting"    FILES ${ScriptingHeaders})
 
 set(CommonHeaders
     ${ContentHeaders} 
@@ -97,4 +104,5 @@ set(CommonHeaders
     ${CoreHeaders}
     ${RuntimeHeaders}
     ${AudioHeaders}
+    ${ScriptingHeaders}
 )

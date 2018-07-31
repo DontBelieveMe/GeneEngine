@@ -65,6 +65,7 @@ set(CoreSrc
 set(RuntimeSrc
    ${SrcDir}/Runtime/Resources.cc
    ${SrcDir}/Runtime/Application.cc
+   ${SrcDir}/Runtime/Reflection.cc
 )
 
 if(NOT ANDROID)
