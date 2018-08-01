@@ -71,13 +71,14 @@ namespace meta {
 
         DataType *EMPTY_DATA = new DataType;
 
+        static void DefaultRegistrations();
+
         gene::Array<void(*)()> ClassTypeReflectors;
 
     private:
         gene::HashMap<std::string, DataType*> m_Types;
     };
 
-    void DefaultRegistrations();
     void LibraryRegistrations();
 
     template <typename T>
@@ -118,7 +119,8 @@ inline std::ostream &operator<<(std::ostream &os, meta::DataType* const &m) {
                                      void obj::Reflect() { \
                                         auto _meta_obj = meta::MetaDataRegistry::Get()->CreateType<obj>(#obj, sizeof(obj));
 
-#define META_CLASS_MEMBER(type, name) meta::MetaDataRegistry::Get()->AddMember(_meta_obj, META_GET_DATA(type), #name);
+#define META_CLASS_DECLARE_MEMBER(type, name) meta::MetaDataRegistry::Get()->AddMember(_meta_obj, META_GET_DATA(type), #name);
+#define META_CLASS_DECLARE_METHOD()
 #define META_CLASS_END_REFLECT_IMPL() meta::MetaDataRegistry::Get()->Insert(_meta_obj); } 
 
 #define META_IMPL_FILE(id) void meta::impl_##id(){[](){}();}

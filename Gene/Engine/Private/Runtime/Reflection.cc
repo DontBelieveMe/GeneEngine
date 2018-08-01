@@ -30,8 +30,10 @@ META_DEFINE_BASIC_START
     META_DEFINE_BASIC_TYPE(wchar_t)
 META_DEFINE_BASIC_END
 
-void meta::DefaultRegistrations()
-{
-    __s_metaDataInstance__.Init();
-    LibraryRegistrations();
+namespace meta {
+    void MetaDataRegistry::DefaultRegistrations()
+    {
+        __s_metaDataInstance__.Init();
+        LibraryRegistrations();
+    }
 }

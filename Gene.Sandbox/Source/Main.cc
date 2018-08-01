@@ -13,21 +13,6 @@
 #include <filesystem>
 #include <Runtime/Reflection.h>
 
-gene::platform::Window* _window;
-
-namespace lapi 
-{
-    bool ImGuiButton(const char* buttonText)
-    {
-        return ImGui::Button(buttonText);
-    }
-
-    void ImGuiText(const char* text)
-    {
-        ImGui::Text(text);
-    }
-}
-
 class ClearColorDemo : public gene::App {
 
 public:
@@ -38,9 +23,8 @@ public:
         using namespace gene;
 
         platform::Window *window = GetWindow();
-        _window = window;
+        
         window->SetClearColor(gene::graphics::Color(79, 87, 99, 255));
-        LOG(LogLevel::Warning, "", META_GET_DATA(gene::Vector2));
     } 
 
     virtual void Tick(const gene::platform::GameTime& time) override {
