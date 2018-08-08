@@ -96,7 +96,7 @@ namespace gene { namespace graphics {
 		void DrawTexture(Vector2 position, Texture2D *texture);
 
         /** Draw a filled rectangle at the specified screen coordinates with the color, width and height specified. */
-		void FillRectangle(Vector2 position, float width, float height, const Color& color);
+		void FillRectangle(Vector3 position, float width, float height, const Color& color);
 
         /** Initalise the renderer and set the projection matrix to be applied to the shapes rendered. */
         void Init(const Matrix4& projectionMatrix);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Core/Array.h>
+#include <GeneCommon.h>
 #include <iostream>
 
 namespace meta {
@@ -13,6 +14,10 @@ namespace meta {
         bool IsConst;
         gene::Array<Member> Members;
 
+		std::size_t Id;
+
+		inline Member* GetMemberByName(const char* name);
+
         DataType() :
             Name("<< No datatype available >>"), Size(0), IsPointer(false), IsConst(false) {}
     };
@@ -20,7 +25,33 @@ namespace meta {
     struct Member {
         const char* Name;
         DataType *Type;
+		std::size_t Offset;
+
+		template <typename U, typename T>
+		void SetValue(U& object, const T& newValue) {
+			void* memberData = (gene::byte*)&object + Offset;
+			memcpy(memberData, (void*)&newValue, Type->Size);
+		}
+
+		template <typename U, typename T>
+		U *GetValue(T& object) {
+			void* ptr = ((gene::byte*) &object) + Offset;
+			return (U*)ptr;
+		}
+
+		template <typename U>
+		U *GetValueFromVoidPtr(void*ptr) {
+			void* ptr2 = ((gene::byte*) ptr) + Offset;
+			return (U*)ptr2;
+		}
     };
+
+	inline Member* DataType::GetMemberByName(const char* name) {
+		for (Member& member : Members) {
+			if (strcmp(member.Name, name) == 0) return &member;
+		}
+		return nullptr;
+	}
 
     struct MetaDataRegistry {
         static MetaDataRegistry* Get() {
@@ -41,6 +72,7 @@ namespace meta {
             type->Size = size;
             type->IsPointer = std::is_pointer<T>::value;
             type->IsConst = std::is_const<T>::value;
+			type->Id = std::hash<std::string>{}(name);
             return type;
         }
 
@@ -57,11 +89,12 @@ namespace meta {
             return type;
         }
 
-        void AddMember(DataType* objType, DataType* memberType, const char* memberName)
+        void AddMember(DataType* objType, DataType* memberType, const char* memberName, std::size_t offset)
         {
             Member member;
             member.Name = memberName;
             member.Type = memberType;
+			member.Offset = offset;
             objType->Members.push_back(member);
         }
 
@@ -117,9 +150,10 @@ inline std::ostream &operator<<(std::ostream &os, meta::DataType* const &m) {
 #define META_CLASS_REFLECT_IMPL(obj) \
                                      meta::TypeRegister<obj> obj::_reflect; \
                                      void obj::Reflect() { \
+										typedef obj ObjType; \
                                         auto _meta_obj = meta::MetaDataRegistry::Get()->CreateType<obj>(#obj, sizeof(obj));
 
-#define META_CLASS_DECLARE_MEMBER(type, name) meta::MetaDataRegistry::Get()->AddMember(_meta_obj, META_GET_DATA(type), #name);
+#define META_CLASS_DECLARE_MEMBER(type, name) meta::MetaDataRegistry::Get()->AddMember(_meta_obj, META_GET_DATA(type), #name, offsetof(ObjType, name));
 #define META_CLASS_DECLARE_METHOD()
 #define META_CLASS_END_REFLECT_IMPL() meta::MetaDataRegistry::Get()->Insert(_meta_obj); } 
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include <Math/Vector3.h>
+#include <Runtime/Reflection.h>
 
 namespace gene { namespace graphics {
     struct ColorRGB {
@@ -16,6 +17,7 @@ namespace gene { namespace graphics {
 		static constexpr float OneOver255 = 1.f / 255.f;
 
 	public:
+
 		unsigned int Hex;
 
         /** Creates color with (floating point) rgba values in the range 0.0f -> 1.0f */
@@ -69,5 +71,7 @@ namespace gene { namespace graphics {
 		static const Color Blue;
 		static const Color White;
 		static const Color Black;
+		
+		META_CLASS_REFLECTED(gene::graphics::Color)
 	};
 }}
