@@ -46,7 +46,7 @@ CMakeLists.txt.user\n
 [._]s[a-w][a-z]""")
 
 if len(sys.argv) < 2:
-	print "Please specify a project name!!"
+	print ("Please specify a project name!!")
 	exit()
 
 projectName = sys.argv[1]

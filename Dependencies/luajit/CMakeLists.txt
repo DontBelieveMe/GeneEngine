@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2013 LuaDist.
+﻿# Copyright (C) 2007-2013 LuaDist.
 # Created by Peter Drahoš
 # Redistribution and use of this file is allowed according to the terms of the MIT license.
 # For details see the COPYRIGHT file distributed with LuaDist.
@@ -131,7 +131,8 @@ endif ()
 
 ## SOURCES
 # Generate luaconf.h
-configure_file ( src/luaconf.h.in ${CMAKE_CURRENT_BINARY_DIR}/luaconf.h )
+#configure_file ( src/luaconf.h.in ${CMAKE_CURRENT_BINARY_DIR}/luaconf.h )
+configure_file ( src/luaconf.h.in ${CMAKE_CURRENT_LIST_DIR}/src/luaconf.h )
 
 set ( LJLIB_C
   src/lib_base.c
