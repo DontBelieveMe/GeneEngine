@@ -16,20 +16,20 @@ namespace gene {
 			gene::Array<Member>		Members;
 			std::size_t				Id;
 
-
 			Member*					GetMemberByName(const char* memberName);
-
+			
 			DataType();
 		};
 
 		struct Member {
 			const char* Name;
 			DataType *Type;
-			std::size_t Offset;
+			std::size_t LocalOffset;
+			Member* Parent;
 
 			template <typename U, typename T>
 			void SetValue(U& object, const T& newValue) {
-				void* memberData = (gene::byte*)&object + Offset;
+				void* memberData = (gene::byte*)&object + LocalOffset;
 				memcpy(memberData, (void*)&newValue, Type->Size);
 			}
 
@@ -40,16 +40,20 @@ namespace gene {
 
 			template <typename U>
 			U *GetValueFromVoidPointer(void*ptr) {
-				void* ptr2 = ((gene::byte*) ptr) + Offset;
+				void* ptr2 = ((gene::byte*) ptr) + LocalOffset;
 				return (U*)ptr2;
 			}
 		};
 
 		struct MetaDataRegistry {
-			static MetaDataRegistry* Get() {
-				static MetaDataRegistry registry;
-				return &registry;
+		private:
+			template <typename T>
+			DataType *FillBasicData(const char* name, size_t size) {
+				return PutBasicDataIntoType(GetType<T>(), name, size, std::is_pointer<T>::value, std::is_const<T>::value);
 			}
+
+		public:
+			static MetaDataRegistry* Get();
 
 			template <typename T>
 			DataType* GetType() {
@@ -57,33 +61,16 @@ namespace gene {
 				return &t;
 			}
 
-			DataType *PutBasicDataIntoType(DataType* type, const char* name, size_t size, bool isPtr, bool isConst);
-
 			template <typename T>
-			DataType *FillBasicData(const char* name, size_t size) {
-				return PutBasicDataIntoType(GetType<T>(), name, size, std::is_pointer<T>::value, std::is_const<T>::value);
-			}
-
-			template <typename T>
-			DataType* RegisterBasicType(const char* name, size_t size) {
+			DataType* RegisterType(const char* name, size_t size) {
 				DataType *type = FillBasicData<T>(name, size);
 				m_Types[name] = type;
 				return m_Types[name];
 			}
 
-			template <typename T>
-			DataType* CreateType(const char* name, size_t size) {
-				DataType *type = FillBasicData<T>(name, size);
-				return type;
-			}
-
+			DataType *PutBasicDataIntoType(DataType* type, const char* name, size_t size, bool isPtr, bool isConst);
 			void AddMember(DataType* objType, DataType* memberType, const char* memberName, std::size_t offset);
-
-			void Insert(DataType* type) {
-				m_Types[type->Name] = type;
-			}
-
-			DataType *EMPTY_DATA = new DataType;
+			void Insert(DataType* type);
 
 			static void DefaultRegistrations();
 		private:
@@ -101,22 +88,11 @@ namespace gene {
 	}
 }
 
-inline std::ostream &operator<<(std::ostream &os, gene::reflection::DataType* const &m) {
-    os << std::boolalpha;
-    os << "\nType: " << m->Name << "\n";
-    os << "\tSize: " << m->Size << " bytes\n";
-    os << "\tIsPointer: " << m->IsPointer << "\n";
-    os << "\tIsConst: " << m->IsConst << "\n\n";
-    for (gene::reflection::Member& member : m->Members)
-    {
-        os << "\tMember Name: " << member.Name << "\n";
-        os << "\t\tMember Type: " << member.Type->Name << "\n";
-    }
-    return os;
-}
+std::ostream &operator<<(std::ostream &os, gene::reflection::DataType* const &m);
+
 
 #define META_DEFINE_BASIC_START struct __MetaData__ { virtual void Init() {
-#define META_DEFINE_BASIC_TYPE(type) gene::reflection::MetaDataRegistry::Get()->RegisterBasicType<type>(#type, sizeof(type));
+#define META_DEFINE_BASIC_TYPE(type) gene::reflection::MetaDataRegistry::Get()->RegisterType<type>(#type, sizeof(type));
 #define META_DEFINE_BASIC_END  }}; static __MetaData__ __s_metaDataInstance__;
 
 #define META_GET_DATA(type) gene::reflection::MetaDataRegistry::Get()->GetType<type>()
@@ -130,7 +106,7 @@ inline std::ostream &operator<<(std::ostream &os, gene::reflection::DataType* co
                                      gene::reflection::TypeRegister<obj> obj::_reflect; \
                                      void obj::Reflect() { \
 										typedef obj ObjType; \
-                                        auto _meta_obj = gene::reflection::MetaDataRegistry::Get()->CreateType<obj>(#obj, sizeof(obj));
+                                        auto _meta_obj = gene::reflection::MetaDataRegistry::Get()->RegisterType<obj>(#obj, sizeof(obj));
 
 #define META_CLASS_DECLARE_MEMBER(type, name) gene::reflection::MetaDataRegistry::Get()->AddMember(_meta_obj, META_GET_DATA(type), #name, offsetof(ObjType, name));
 #define META_CLASS_DECLARE_METHOD()

@@ -66,6 +66,12 @@ public:
 
     virtual void Tick(const gene::platform::GameTime& time) override {
     }
+	
+	/*
+	TODO: ==== FIX ====
+
+	Current there is a reflection bug, where the members of members does not use 
+	*/
 
     virtual void Draw() override {
 		m_2drenderer.Begin();

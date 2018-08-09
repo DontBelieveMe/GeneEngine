@@ -66,6 +66,31 @@ void MetaDataRegistry::AddMember(DataType* objType, DataType* memberType, const 
 	Member member;
 	member.Name = memberName;
 	member.Type = memberType;
-	member.Offset = offset;
+	member.LocalOffset = offset;
+	
 	objType->Members.push_back(member);
+}
+
+
+void MetaDataRegistry::Insert(DataType* type) {
+	m_Types[type->Name] = type;
+}
+
+MetaDataRegistry* MetaDataRegistry::Get() {
+	static MetaDataRegistry registry;
+	return &registry;
+}
+
+std::ostream &operator<<(std::ostream &os, gene::reflection::DataType* const &m) {
+	os << std::boolalpha;
+	os << "\nType: " << m->Name << "\n";
+	os << "\tSize: " << m->Size << " bytes\n";
+	os << "\tIsPointer: " << m->IsPointer << "\n";
+	os << "\tIsConst: " << m->IsConst << "\n\n";
+	for (gene::reflection::Member& member : m->Members)
+	{
+		os << "\tMember Name: " << member.Name << "\n";
+		os << "\t\tMember Type: " << member.Type->Name << "\n";
+	}
+	return os;
 }
