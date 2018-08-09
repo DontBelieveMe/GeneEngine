@@ -54,7 +54,7 @@ void PrintSystemInfo()
 #else
 	int main(int argc, char **argv)
 	{
-        meta::MetaDataRegistry::DefaultRegistrations();
+		gene::reflection::MetaDataRegistry::DefaultRegistrations();
         PrintSystemInfo();
 		GeneMain(argc, argv);
 	}

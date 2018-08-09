@@ -24,6 +24,31 @@ META_CLASS_REFLECT_IMPL(gene::GameObject)
 	META_CLASS_DECLARE_MEMBER(gene::MemberObjectNested, ArbitraryObject)
 META_CLASS_END_REFLECT_IMPL()
 
+
+class Base {
+public:
+	int RandomInt;
+
+	META_CLASS_REFLECTED(Base)
+};
+
+class Child : public Base {
+public:
+	gene::Vector3 Position;
+
+	META_CLASS_REFLECTED(Child)
+};
+
+
+META_CLASS_REFLECT_IMPL(Base)
+	META_CLASS_DECLARE_MEMBER(int, RandomInt)
+META_CLASS_END_REFLECT_IMPL()
+
+META_CLASS_REFLECT_IMPL(Child)
+	META_CLASS_DECLARE_MEMBER(gene::Vector3, Position)
+META_CLASS_END_REFLECT_IMPL()
+
+
 class ClearColorDemo : public gene::App {
 	gene::GameObject m_object;
 	gene::graphics::Renderer2D m_2drenderer;

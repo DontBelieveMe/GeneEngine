@@ -30,10 +30,42 @@ META_DEFINE_BASIC_START
     META_DEFINE_BASIC_TYPE(wchar_t)
 META_DEFINE_BASIC_END
 
-namespace meta {
-    void MetaDataRegistry::DefaultRegistrations()
-    {
-        __s_metaDataInstance__.Init();
-        LibraryRegistrations();
-    }
+using namespace gene::reflection;
+
+void MetaDataRegistry::DefaultRegistrations()
+{
+	__s_metaDataInstance__.Init();
+	LibraryRegistrations();
+}
+
+DataType::DataType() :
+	Name("<< No datatype available >>"), Size(0), IsPointer(false), IsConst(false)
+{}
+
+Member *DataType::GetMemberByName(const char* memberName)
+{
+	for (Member& member : Members) {
+		if (strcmp(member.Name, memberName) == 0) return &member;
+	}
+
+	return nullptr;
+}
+
+DataType* MetaDataRegistry::PutBasicDataIntoType(DataType* type, const char* name, size_t size, bool isPtr, bool isConst)
+{
+	type->Name = name;
+	type->Size = size;
+	type->IsPointer = isPtr;
+	type->IsConst = isConst;
+	type->Id = std::hash<std::string>{}(name);
+	return type;
+}
+
+void MetaDataRegistry::AddMember(DataType* objType, DataType* memberType, const char* memberName, std::size_t offset)
+{
+	Member member;
+	member.Name = memberName;
+	member.Type = memberType;
+	member.Offset = offset;
+	objType->Members.push_back(member);
 }
