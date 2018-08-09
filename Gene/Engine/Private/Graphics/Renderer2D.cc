@@ -49,16 +49,17 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     
     // TODO: Fix -> We need a better way of embedding shaders (maybe package in custom package & auto copy/deploy to correct
     // directory
-    SHADER_VERTEX2D(vertexShader);
-    SHADER_FRAGMENT2D(fragmentShader);
+    //SHADER_VERTEX2D(vertexShader);
+    //SHADER_FRAGMENT2D(fragmentShader);
 
-    m_Shader->CompileFromText(vertexShader, fragmentShader);
-    m_Shader->Enable();
+    //m_Shader->CompileFromText(vertexShader, fragmentShader);
+	m_Shader->CompileFromFiles("Data/Shaders/Renderer2DVertex.shader", "Data/Shaders/Renderer2DFragment.shader");
+	m_Shader->Enable();
     
-    m_Shader->BindAttributeIndex(0, "position");
-    m_Shader->BindAttributeIndex(1, "color");
-    m_Shader->BindAttributeIndex(2, "uv");
-    m_Shader->BindAttributeIndex(3, "texId");
+    m_Shader->BindAttributeIndex(0, "in_Position");
+    m_Shader->BindAttributeIndex(1, "in_Color");
+    m_Shader->BindAttributeIndex(2, "in_TextureUV");
+    m_Shader->BindAttributeIndex(3, "in_TextureID");
  
 	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
     SetViewMatrix(Matrix4::Identity());
@@ -67,13 +68,13 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
 
-	m_Shader->LoadUniform1iv("textureSamplers", texIds, 10);
+	m_Shader->LoadUniform1iv("u_Textures", texIds, 10);
     
 	m_VAO = new VertexArray;
     m_VAO->Enable();
 
     m_VBO = new Buffer(Buffer::Type::ArrayBuffer);
-    m_EBO = new Buffer(Buffer::Type::ElementBuffer);
+    m_EBO = new Buffer(Buffer::Type::ElementBuffer); 
 
     BufferDescriptor                    desc;
     desc.Data                           = NULL;
