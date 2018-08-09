@@ -97,10 +97,10 @@ std::ostream &operator<<(std::ostream &os, gene::reflection::DataType* const &m)
 
 #define META_GET_DATA(type) gene::reflection::MetaDataRegistry::Get()->GetType<type>()
 
-#define META_CLASS_REFLECTED(obj) static void Reflect(); static gene::reflection::TypeRegister<obj> _reflect;
-
-#define __concat(x, y) x##y
-#define __concat2(x, y) __concat(x, y)
+#define META_CLASS_REFLECTED(obj) \
+			gene::reflection::DataType* GetType() { return gene::reflection::MetaDataRegistry::Get()->GetType<obj>(); } \
+			static void Reflect(); \
+			static gene::reflection::TypeRegister<obj> _reflect;
 
 #define META_CLASS_REFLECT_IMPL(obj) \
                                      gene::reflection::TypeRegister<obj> obj::_reflect; \

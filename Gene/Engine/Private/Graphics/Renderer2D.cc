@@ -133,6 +133,7 @@ void Renderer2D::PushTransform(const Matrix4& matrix)
 	Matrix4 back = m_TransformationStack.back();
 
 	m_TransformationStack.push_back(back * matrix);
+	m_TransformationStack[m_TransformationStack.size() - 1].Elements[3 + 3 * 4] = 1.f;
 }
 
 void Renderer2D::PopTransform()
@@ -148,7 +149,7 @@ Vector3 MultiplyVector2ByMatrix4(float x, float y, const Matrix4& mat4)
     return mat4.Multiply(Vector3(x, y, 1.0f));
 }
 
-void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const AABBRectangle& rect, Vector2 size)
+void Renderer2D::DrawTextureBounds(Vector3 position, Texture2D *texture, const AABBRectangle& rect, Vector2 size)
 {
     if (!texture)
     {
@@ -192,7 +193,7 @@ void Renderer2D::DrawTextureBounds(Vector2 position, Texture2D *texture, const A
 
 AABBRectangle Renderer2D::CoverAllTexture = AABBRectangle({ 0,0 }, { 1, 0 }, {0, 1}, {1, 1});
 
-void Renderer2D::DrawTexture(Vector2 position, Texture2D *texture)
+void Renderer2D::DrawTexture(Vector3 position, Texture2D *texture)
 {
     DrawTextureBounds(position, texture, CoverAllTexture, { (float)texture->Width(), (float)texture->Height() });
 }

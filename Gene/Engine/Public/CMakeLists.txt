@@ -13,6 +13,8 @@ set(GraphicsHeaders
     ${HeaderDir}/Graphics/VertexArray.h
     ${HeaderDir}/Graphics/Renderer2D.h
     ${HeaderDir}/Graphics/ImGui.h
+    ${HeaderDir}/Graphics/Particle.h
+    ${HeaderDir}/Graphics/ParticleRenderer.h
 
     ${HeaderDir}/Graphics/Factorys/ShaderFactory.h
 )

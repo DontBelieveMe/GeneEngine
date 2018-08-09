@@ -13,6 +13,8 @@ set(GraphicsSrc
     ${SrcDir}/Graphics/Renderer2D.cc
     ${SrcDir}/Graphics/FreeTypeFont.cc
     ${SrcDir}/Graphics/FreeTypeFont.h
+    ${SrcDir}/Graphics/Particle.cc
+    ${SrcDir}/Graphics/ParticleRenderer.cc
 
     ${SrcDir}/Graphics/Factorys/ShaderFactory.cc
 )

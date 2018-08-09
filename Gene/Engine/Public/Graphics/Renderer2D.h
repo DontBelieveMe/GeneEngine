@@ -90,10 +90,10 @@ namespace gene { namespace graphics {
         void FillCircle(Vector2 centrePosition, float radius, const Color& color, size_t noPoints);
 
         /** Draw the section of a texture (specified by `rect` in UV coordinates) where the width and height of the sprite are specified by `size`. */
-        void DrawTextureBounds(Vector2 position, Texture2D* texture, const AABBRectangle& rect, Vector2 size);
+        void DrawTextureBounds(Vector3 position, Texture2D* texture, const AABBRectangle& rect, Vector2 size);
 
         /** Draw the specified texture to the buffer at the specified window coordinates. */
-		void DrawTexture(Vector2 position, Texture2D *texture);
+		void DrawTexture(Vector3 position, Texture2D *texture);
 
         /** Draw a filled rectangle at the specified screen coordinates with the color, width and height specified. */
 		void FillRectangle(Vector3 position, float width, float height, const Color& color);

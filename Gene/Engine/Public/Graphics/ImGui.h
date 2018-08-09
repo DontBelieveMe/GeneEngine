@@ -19,7 +19,7 @@ namespace gene { namespace graphics {
     struct ImGuiHelpers {
         static void InputVector3(const char* str, Vector3 *vec)
         {
-            ImGui::InputFloat3(str, &((*vec).X));
+        	ImGui::DragFloat3(str, &((*vec).X));
         }
 
         static void InputVector2(const char* str, Vector2 *vec)
@@ -38,10 +38,10 @@ namespace gene { namespace graphics {
 
 		static void TextEdit(const char* str, std::string* str2)
 		{
-			
 		}
 		static void ReflectFromType(void* obj, gene::reflection::DataType* type, gene::reflection::Member* parentMember=nullptr)
 		{
+			ImGui::StyleColorsClassic();
 			if (ImGui::CollapsingHeader(type->Name)) {
 				ImGui::PushID(type->Name);
 				for (gene::reflection::Member& member : type->Members) {
