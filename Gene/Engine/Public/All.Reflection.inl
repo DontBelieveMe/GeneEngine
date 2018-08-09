@@ -1,10 +1,12 @@
 #include <Runtime/Reflection.h>
 
-namespace meta {
-    META_INCLUDE_IMPL(Maths);
+namespace gene {
+	namespace reflection {
+		META_INCLUDE_IMPL(Maths);
+	}
 }
 
-inline void meta::LibraryRegistrations()
+inline void gene::reflection::LibraryRegistrations()
 {
     META_PREP_IMPL(Maths);
 }

@@ -37,3 +37,7 @@ unsigned int Color::RGBAToHex(int r, int g, int b, int a)
 {
 	return r << 24 | g << 16 | b << 8 | a;
 }
+
+META_CLASS_REFLECT_IMPL(gene::graphics::Color)
+	META_CLASS_DECLARE_MEMBER(int, Hex)
+META_CLASS_END_REFLECT_IMPL()
