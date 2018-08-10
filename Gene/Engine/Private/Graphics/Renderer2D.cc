@@ -76,10 +76,10 @@ void Renderer2D::LoadLights(Array<Light*>& lights)
 	Light *DEFAULT_LIGHT = new Light;
 	m_Lights.reserve(4);
 	DEFAULT_LIGHT->Colour = Color::White;
-	DEFAULT_LIGHT->Falloff = 0.0f;
-	DEFAULT_LIGHT->Intensity = 0.0f;
+	DEFAULT_LIGHT->Falloff = -1.0f;
+	DEFAULT_LIGHT->Intensity = -1.0f;
 	DEFAULT_LIGHT->Position = Vector3();
-	DEFAULT_LIGHT->Size = 0.f;
+	DEFAULT_LIGHT->Size = -1.f;
 
 	m_Shader->Enable();
 	for (int i = 0; i < 4; i++) 

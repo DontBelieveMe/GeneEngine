@@ -42,9 +42,11 @@ struct PointLightSource {
 	vec3 Position;
 	float Size;
 	float Intensity;
-	vec3 Color;
-	
-}
+	vec3 Color;	
+    float Falloff;
+};
+
+uniform PointLightSource u_Lights[4];
 
 float map(float value, float min1, float max1, float min2, float max2) {
     float perc = (value - min1) / (max1 - min1);
@@ -55,19 +57,22 @@ float map(float value, float min1, float max1, float min2, float max2) {
 void main()
 {
 	int index = int(pass_TextureID);
-	vec4 color = GetTextureSample(index, pass_TextureUV);
+	vec4 color = GetTextureSample(index, pass_TextureUV) * vec4(pass_Color.xyz, 1.0f);
 
-    const float AMBIENT = 0.2;
-    vec4 ambient = vec4(AMBIENT,AMBIENT,AMBIENT,1.0);
+    const float AMBIENT = 0.1;
+    vec4 ambient = vec4(AMBIENT,AMBIENT,AMBIENT,1.0f);
 	
 	vec4 totalB = vec4(0.0);
 	for(int i=0;i<4;i++) {
-		float dist = length(pass_Position.xy - u_LightPositions[i].xy);
-		float percent = clamp(1.0f - dist / u_LightSizes[i], 0.0f, 1.0f);
-		percent *= pow(percent, u_LightFalloffs[i]) * u_LightIntensitys[i];
-		vec4 b = vec4(percent,percent,percent,1.0) * vec4(u_LightColors[i], 1.0);
-		totalB += b;
+		if(u_Lights[i].Size > 0.f) {
+            float dist = length(pass_Position.xy - u_Lights[i].Position.xy);
+            float percent = clamp(1.0f - dist / u_Lights[i].Size, 0.0f, 1.0f);
+            percent *= pow(percent, u_Lights[i].Falloff) * u_Lights[i].Intensity;
+            vec4 b = vec4(percent,percent,percent,1.0) * vec4(u_Lights[i].Color, 1.0);
+            
+            totalB += b;
+        }
 	}
 	
-    out_Color = color * (totalB + ambient);
+    out_Color = color * (ambient + totalB);
 }

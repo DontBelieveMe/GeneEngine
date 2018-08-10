@@ -22,7 +22,7 @@ void CopyAssetsDirectory(const gene::String& subdir = "")
 class ClearColorDemo : public gene::App {
 	gene::graphics::Renderer2D m_2drenderer;
 	gene::graphics::Texture2D m_texture;
-	gene::graphics::Light *m_light;
+	gene::graphics::Light *m_light, *m_light2;
 
 public:
     
@@ -47,8 +47,8 @@ public:
 			graphics::Color::Red
 		};
 
-		graphics::Light *light2 = new graphics::Light {
-			Vector3(64,64,0.f),
+		m_light2 = new graphics::Light {
+			Vector3(200,200,0.f),
 			300.f,
 			1.5f,
 			1.0f,
@@ -57,7 +57,7 @@ public:
 		
 		Array<graphics::Light*> lights;
 		lights.push_back(m_light);
-		lights.push_back(light2);
+		lights.push_back(m_light2);
 
 		m_2drenderer.LoadLights(lights);
 	}  
@@ -74,10 +74,13 @@ public:
 			0.f
 		};
 		m_light->Position = pos;
+		pos.X -= 100;
+		m_light2->Position = pos;
 
 		graphics::GLSLShader *shader = m_2drenderer.GetShader();
 		shader->Enable();
 		m_2drenderer.LoadLight(m_light, 0);
+		m_2drenderer.LoadLight(m_light2, 1);
 		shader->Disable();
 	}
 	 
@@ -88,10 +91,10 @@ public:
 		 
 		for (float y = 3; y < 10; y++) {
 			for (float x = 3; x < 10; x++) {
-				//m_2drenderer.DrawTexture({x * 16.f,y * 16.f, 0.f}, &m_texture);
-			m_2drenderer.FillRectangle({ x*16.f,y*16.f, 0.f }, 16.f, 16.f, gene::graphics::Color::Blue);
+				m_2drenderer.DrawTexture({x * 16.f,y * 16.f, 0.f}, &m_texture);
 			}
 		}
+		m_2drenderer.FillRectangle({ 6*16.f,6*16.f, 0.f }, 16.f, 16.f, gene::graphics::Color::Blue);
 		
 		m_2drenderer.PopTransform(); 
 		m_2drenderer.End();
