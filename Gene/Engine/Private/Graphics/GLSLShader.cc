@@ -26,7 +26,7 @@ static GLuint CompileShader(const char *src, GLenum type)
 	    GLchar log[SHADER_LOG_BUFFER_SIZE];
 		glGetShaderInfoLog(shader, SHADER_LOG_BUFFER_SIZE, NULL, log);
 		LOG(LogLevel::Error, "Shader Compilation Error: ", type == GL_VERTEX_SHADER ? "Vertex Shader, " : "Fragment Shader, ", log);
-        GE_ASSERT(false, "Asserting on shader compile error!");
+        //GE_ASSERT(false, "Asserting on shader compile error!");
 	}
 	return shader;
 }

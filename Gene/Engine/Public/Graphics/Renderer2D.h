@@ -65,6 +65,10 @@ namespace gene { namespace graphics {
         void WriteRectangleIndices();
 
 	public:
+		GLSLShader * GetShader() { return m_Shader; }
+
+		void LoadShaders();
+
         /**
          * Default initalizes some values, but no actual renderer initalization is done here.
          * To propertly initalize the object call the Init() function

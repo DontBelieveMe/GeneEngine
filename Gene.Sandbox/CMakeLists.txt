@@ -15,12 +15,13 @@ set(Source
 gene_add_target(Gene.Sandbox ${Source})
 gene_setup_engine_deps(Gene.Sandbox)
 
+add_definitions(-DASSETS_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}/Data/" -DASSETS_OUT_DIRECTORY="${CMAKE_CURRENT_BINARY_DIR}/Data/")
+
 add_custom_command(TARGET Gene.Sandbox POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E
         copy_directory
             "${CMAKE_CURRENT_SOURCE_DIR}/Data/"
             "${CMAKE_CURRENT_BINARY_DIR}/Data/"
-    COMMENT "Copying Data assets directory for Gene.Sandbox target"
 )
 
 set_property(TARGET Gene.Sandbox PROPERTY FOLDER "Sandboxes")

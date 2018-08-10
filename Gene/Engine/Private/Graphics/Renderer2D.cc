@@ -4,12 +4,12 @@
 #include <GeneCommon.h>
 #include <Debug/Logger.h>
 #include <string>
-#include <Platform/OpenGL.h>
+#include <Platform/OpenGL.h> 
 
 #include <iostream>
 
-#include "Shaders/Fragment2D.shader"
-#include "Shaders/Vertex2D.shader"
+#include "Shaders/Fragment2D.shader" 
+#include "Shaders/Vertex2D.shader" 
 
 using namespace gene::graphics;
 using namespace gene;
@@ -18,8 +18,8 @@ static const int RenderableSize     = sizeof(Vertex2D) * 4; // 4 vertices in a c
 static const int MaxRenderables		= 10000;
 static const int RendererBatchSize  = RenderableSize * MaxRenderables;
 static const int RendererIndexNum   = MaxRenderables * 6;
-
-#define RENDERER_NO_TEXTURE_ID -1.0f
+ 
+#define RENDERER_NO_TEXTURE_ID -1.0f 
 
 Renderer2D::Renderer2D() 
     : m_IndexCount(0), m_IndexOffset(0) 
@@ -39,6 +39,30 @@ void Renderer2D::SetProjectionMatrix(const Matrix4 & mat)
     m_Shader->Disable();
 }
 
+void Renderer2D::LoadShaders()
+{
+	m_Shader->CompileFromFiles("Data/Shaders/Renderer2DVertex.shader", "Data/Shaders/Renderer2DFragment.shader");
+	m_Shader->Enable();
+
+	m_Shader->BindAttributeIndex(0, "in_Position");
+	m_Shader->BindAttributeIndex(1, "in_Color");
+	m_Shader->BindAttributeIndex(2, "in_TextureUV");
+	m_Shader->BindAttributeIndex(3, "in_TextureID");
+
+	m_Shader->LoadUniformMatrix4f("u_Projection", m_ProjectionMatrix);
+
+	m_Shader->LoadUniform4f("u_LightPos", { 1.f, 0.f, 1.f, 1.0f });
+
+	SetViewMatrix(Matrix4::Identity());
+
+	GLint texIds[] = {
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	};
+
+	m_Shader->LoadUniform1iv("u_Textures", texIds, 10);
+	m_Shader->Disable();
+}
+
 void Renderer2D::Init(const Matrix4& projectionMatrix)
 {
     glEnable(GL_BLEND);
@@ -47,35 +71,15 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
     
-    // TODO: Fix -> We need a better way of embedding shaders (maybe package in custom package & auto copy/deploy to correct
-    // directory
-    //SHADER_VERTEX2D(vertexShader);
-    //SHADER_FRAGMENT2D(fragmentShader);
-
-    //m_Shader->CompileFromText(vertexShader, fragmentShader);
-	m_Shader->CompileFromFiles("Data/Shaders/Renderer2DVertex.shader", "Data/Shaders/Renderer2DFragment.shader");
+	LoadShaders();
 	m_Shader->Enable();
     
-    m_Shader->BindAttributeIndex(0, "in_Position");
-    m_Shader->BindAttributeIndex(1, "in_Color");
-    m_Shader->BindAttributeIndex(2, "in_TextureUV");
-    m_Shader->BindAttributeIndex(3, "in_TextureID");
- 
-	m_Shader->LoadUniformMatrix4f("u_Projection", projectionMatrix);
-    SetViewMatrix(Matrix4::Identity());
-    
-	GLint texIds[] = {
-		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-	};
-
-	m_Shader->LoadUniform1iv("u_Textures", texIds, 10);
-    
 	m_VAO = new VertexArray;
-    m_VAO->Enable();
+    m_VAO->Enable(); 
 
     m_VBO = new Buffer(Buffer::Type::ArrayBuffer);
     m_EBO = new Buffer(Buffer::Type::ElementBuffer); 
-
+	 
     BufferDescriptor                    desc;
     desc.Data                           = NULL;
     desc.DataType                       = opengl::GLType::Float;
@@ -120,14 +124,14 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
-
+	 
 	m_TransformationStack.push_back(Matrix4::Identity(1.0f));
 }
 
 void Renderer2D::PushTransform(const Matrix4& matrix)
 {
 	if (m_TransformationStack.empty())
-	{
+	{ 
 		m_TransformationStack.push_back(Matrix4::Identity(1.0f));
 	}
 
@@ -141,7 +145,7 @@ void Renderer2D::PopTransform()
 {
     if (m_TransformationStack.size() > 1)
     {
-        m_TransformationStack.pop_back();
+        m_TransformationStack.pop_back(); 
     }
 }
 
@@ -395,6 +399,8 @@ void Renderer2D::WriteRectangleIndices()
     m_IndexCount += 6;
     m_IndexOffset += 4;
 }
+
+
 
 void Renderer2D::FillRectangle(Vector3 position, float width, float height, const Color& color)
 {
