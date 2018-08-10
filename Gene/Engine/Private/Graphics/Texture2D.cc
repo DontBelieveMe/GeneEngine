@@ -98,10 +98,8 @@ Vector2 Texture2D::SubTextureUV(float x, float y, float width, float height)
 
 void Texture2D::Enable(size_t index)
 {
-    // This is safe, as GL_TEXTURE<index> = GL_TEXTURE0 + <index>
-    // https://www.khronos.org/registry/OpenGL-Refpages/es1.1/xhtml/glActiveTexture.xml
-    glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index));
-    glBindTexture(GL_TEXTURE_2D, m_TextureId);
+	glActiveTexture(GL_TEXTURE0 + index);
+	glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }
 
 void Texture2D::Disable(size_t index)

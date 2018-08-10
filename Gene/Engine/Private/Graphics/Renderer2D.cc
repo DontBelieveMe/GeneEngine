@@ -44,20 +44,20 @@ void Renderer2D::LoadShaders()
 	m_Shader->CompileFromFiles("Data/Shaders/Renderer2DVertex.shader", "Data/Shaders/Renderer2DFragment.shader");
 	m_Shader->Enable();
 
+	int textureValues[] = { 0,1,2,3,4,5,6,7,8,9 };
+
+	m_Shader->LoadUniform1iv("u_Textures", textureValues, 9);
+
 	m_Shader->BindAttributeIndex(0, "in_Position");
 	m_Shader->BindAttributeIndex(1, "in_Color");
 	m_Shader->BindAttributeIndex(2, "in_TextureUV");
-	m_Shader->BindAttributeIndex(3, "in_TextureID");
+	m_Shader->BindAttributeIndex(3, "in_SamplerIndex");
 
 	m_Shader->LoadUniformMatrix4f("u_Projection", m_ProjectionMatrix);
 
 	SetViewMatrix(Matrix4::Identity());
 
-	GLint texIds[] = {
-		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-	};
-
-	m_Shader->LoadUniform1iv("u_Textures", texIds, 10);
+	
 	m_Shader->Disable();
 }
 
@@ -147,16 +147,16 @@ void Renderer2D::Init(const Matrix4& projectionMatrix)
 	uvAttribDesc.Stride					= sizeof(Vertex2D);
 	uvAttribDesc.ByteOfffset			= offsetof(Vertex2D, UV);
 
-	AttributeDescriptor					texIdAttrib;
-	texIdAttrib.Index					= 3;
-	texIdAttrib.ComponentCount			= 1;
-	texIdAttrib.Stride					= sizeof(Vertex2D);
-    texIdAttrib.ByteOfffset             = offsetof(Vertex2D, TextureId);
+	AttributeDescriptor					samplerIndexAttrib;
+	samplerIndexAttrib.Index					= 3;
+	samplerIndexAttrib.ComponentCount			= 1;
+	samplerIndexAttrib.Stride					= sizeof(Vertex2D);
+	samplerIndexAttrib.ByteOfffset             = offsetof(Vertex2D, TextureId);
 
 	m_VAO->RegisterAttribute(m_VBO, positionAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, colorAttribDesc);
 	m_VAO->RegisterAttribute(m_VBO, uvAttribDesc);
-	m_VAO->RegisterAttribute(m_VBO, texIdAttrib);
+	m_VAO->RegisterAttribute(m_VBO, samplerIndexAttrib);
 	 
 	m_TransformationStack.push_back(Matrix4::Identity(1.0f));
 }
@@ -339,19 +339,15 @@ void Renderer2D::DrawString(Font *font,
 
 float Renderer2D::GetTextureSlot(Texture2D *texture)
 {
-    GE_ASSERT(m_Textures.size() <= 32, "Renderer2D::GetTextureSlot() Trying to store more than 32 textures");
+	for (size_t i = 0; i < m_Textures.size(); i++) {
+		if (m_Textures[i] == texture) {
+			return static_cast<float>(i);
+		}
+	}
 
-    for(size_t i = 0; i < m_Textures.size(); i++)
-    {
-        if(texture == m_Textures[i])
-        {
-            return static_cast<float>(i);
-        }
-    }
-
-    // The texture is not in the list...
-    m_Textures.push_back(texture);
-    return m_Textures.size() - 1.f;
+	float size = static_cast<float>(m_Textures.size());
+	m_Textures.push_back(texture);
+	return size;
 }
 
 void Renderer2D::FillCircle(Vector2 position, float radius, const Color& color, size_t noPoints)
@@ -486,9 +482,15 @@ void Renderer2D::Present()
     for(size_t i = 0; i < m_Textures.size(); i++)
     {
         m_Textures[i]->Enable(i);
-    }
+	}
+	
+	m_VAO->Enable();
+	m_EBO->Enable();
 
     m_VAO->DrawElements(m_EBO, m_IndexCount);
+
+	m_VAO->Disable();
+	m_EBO->Disable();
 
     for(size_t i = 0; i < m_Textures.size(); i++)
     {

@@ -21,9 +21,10 @@ void CopyAssetsDirectory(const gene::String& subdir = "")
 
 class ClearColorDemo : public gene::App {
 	gene::graphics::Renderer2D m_2drenderer;
-	gene::graphics::Texture2D m_texture;
-	gene::graphics::Light *m_light, *m_light2;
+	gene::graphics::Texture2D m_StoneTexture, m_CrateTexture;
 
+	gene::graphics::Light *m_light, *m_light2;
+	gene::graphics::Font m_font;
 public:
     
     virtual void Init() override { 
@@ -36,8 +37,11 @@ public:
 		m_2drenderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 100.f, -1.0f));
 		
 		gene::graphics::TextureParameters p;  
+		
 		p.Filtering = gene::graphics::FilteringOptions::Nearest;
-		m_texture.Load("Data/stone.png", p);
+		m_font.Load("Data/Fonts/Gidole-Regular.ttf");
+		m_StoneTexture.Load("Data/stone.png");
+		m_CrateTexture.Load("Data/crate.png");
 
 		m_light = new graphics::Light {
 			Vector3(32,32,0.f),
@@ -59,7 +63,7 @@ public:
 		lights.push_back(m_light);
 		lights.push_back(m_light2);
 
-		m_2drenderer.LoadLights(lights);
+		//m_2drenderer.LoadLights(lights);
 	}  
 	 
     virtual void Tick(const gene::platform::GameTime& time) override {
@@ -78,10 +82,10 @@ public:
 		m_light2->Position = pos;
 
 		graphics::GLSLShader *shader = m_2drenderer.GetShader();
-		shader->Enable();
+	/*	shader->Enable();
 		m_2drenderer.LoadLight(m_light, 0);
 		m_2drenderer.LoadLight(m_light2, 1);
-		shader->Disable();
+		shader->Disable();*/
 	}
 	 
     virtual void Draw() override {       
@@ -91,16 +95,19 @@ public:
 		 
 		for (float y = 3; y < 10; y++) {
 			for (float x = 3; x < 10; x++) {
-				m_2drenderer.DrawTexture({x * 16.f,y * 16.f, 0.f}, &m_texture);
 			}
 		}
-		m_2drenderer.FillRectangle({ 6*16.f,6*16.f, 0.f }, 16.f, 16.f, gene::graphics::Color::Blue);
 		
 		m_2drenderer.PopTransform(); 
+		m_2drenderer.DrawString(&m_font, "Hello World!", { 100.f, 100.f }, gene::graphics::Color::Red);
+		m_2drenderer.DrawTexture({ 0.f, 0.f, 0.f }, &m_CrateTexture);
+		m_2drenderer.DrawTexture({ 16.f,0.f, 0.f}, &m_StoneTexture);
 		m_2drenderer.End();
 		m_2drenderer.Present();
     }
-      
+     
+	float m_ambient = 0.1f;
+
     virtual void GuiDraw() override {
 		ImGui::Begin("Assets");
 		if (ImGui::Button("Refresh Assets Directory")) {
@@ -111,6 +118,12 @@ public:
 		if (ImGui::Button("Reload Shaders")) {
 			CopyAssetsDirectory("Shaders/");
 			m_2drenderer.LoadShaders();
+		}
+
+		if (ImGui::DragFloat("Ambient Lighting", &m_ambient, 0.01f, 0.0f, 1.0f)) {
+			m_2drenderer.GetShader()->Enable();
+			m_2drenderer.GetShader()->LoadUniform1f("u_Ambient", m_ambient);
+			m_2drenderer.GetShader()->Disable();
 		}
 		
 		ImGui::End();

@@ -54,7 +54,7 @@ void GLSLShader::CompileFromText(const String& vert, const String& frag)
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
         
-        GE_ASSERT(false, "Asserting on shader linking error");
+  //      GE_ASSERT(false, "Asserting on shader linking error");
     }
 
 	glDeleteShader(vertexShader);
