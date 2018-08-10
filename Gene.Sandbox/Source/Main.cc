@@ -40,8 +40,8 @@ public:
 		
 		p.Filtering = gene::graphics::FilteringOptions::Nearest;
 		m_font.Load("Data/Fonts/Gidole-Regular.ttf");
-		m_StoneTexture.Load("Data/stone.png");
-		m_CrateTexture.Load("Data/crate.png");
+		m_StoneTexture.Load("Data/stone.png", p);
+		m_CrateTexture.Load("Data/crate.png", p);
 
 		m_light = new graphics::Light {
 			Vector3(32,32,0.f),
@@ -63,7 +63,7 @@ public:
 		lights.push_back(m_light);
 		lights.push_back(m_light2);
 
-		//m_2drenderer.LoadLights(lights);
+		m_2drenderer.LoadLights(lights);
 	}  
 	 
     virtual void Tick(const gene::platform::GameTime& time) override {
@@ -82,10 +82,10 @@ public:
 		m_light2->Position = pos;
 
 		graphics::GLSLShader *shader = m_2drenderer.GetShader();
-	/*	shader->Enable();
+		shader->Enable();
 		m_2drenderer.LoadLight(m_light, 0);
 		m_2drenderer.LoadLight(m_light2, 1);
-		shader->Disable();*/
+		shader->Disable();
 	}
 	 
     virtual void Draw() override {       
@@ -95,13 +95,13 @@ public:
 		 
 		for (float y = 3; y < 10; y++) {
 			for (float x = 3; x < 10; x++) {
+				m_2drenderer.DrawTexture({ x*16.f, y*16.f, 0.f }, &m_StoneTexture);
 			}
 		}
+		m_2drenderer.DrawTexture({ 4*16.f,4*16.f, 0.f}, &m_CrateTexture);
 		
 		m_2drenderer.PopTransform(); 
-		m_2drenderer.DrawString(&m_font, "Hello World!", { 100.f, 100.f }, gene::graphics::Color::Red);
-		m_2drenderer.DrawTexture({ 0.f, 0.f, 0.f }, &m_CrateTexture);
-		m_2drenderer.DrawTexture({ 16.f,0.f, 0.f}, &m_StoneTexture);
+		m_2drenderer.DrawString(&m_font, "Hello World!", { 100.f, 100.f }, gene::graphics::Color(1.0f,1.0f,0.0f,1.0f));
 		m_2drenderer.End();
 		m_2drenderer.Present();
     }

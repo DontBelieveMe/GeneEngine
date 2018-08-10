@@ -45,23 +45,7 @@ uniform float            u_Ambient;
 void main()
 {
     int index = int(pass_SamplerIndex);
-    out_Color = vec4(pass_Color.xyz, 1.0f) * texture(u_Textures[index], pass_TextureUV);
-
-	/*int index = int(pass_SamplerIndex);
-    /*if(index == 0) {
-        out_Color.r = 1.0f;
-    } else if(index == 1) {
-        out_Color.g = 1.0f;
-    } else if(index == 2) {
-        out_Color.b = 1.0f;
-    }
-    out_Color.a = 1.0f;
-	vec4 color = texture(u_Textures[index], pass_TextureUV);//GetTextureSample(index, pass_TextureUV);//; * vec4(pass_Color.xyz, 1.0f);
-
-    color.r = 1.0 / float(index);
-    color.g = 1.0 / float(index);
-    color.b = 1.0 / float(index);
-
+	vec4 color = texture(u_Textures[index], pass_TextureUV) * vec4(pass_Color.xyz, 1.0f);
     vec4 ambient = vec4(u_Ambient,u_Ambient,u_Ambient,1.0f);
 	
 	vec4 totalB = vec4(0.0);
@@ -75,5 +59,5 @@ void main()
         }
 	}
 	
-    out_Color = color; /** (ambient + totalB)*/
+    out_Color = color * (ambient + totalB);
 }
