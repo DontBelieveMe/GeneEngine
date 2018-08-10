@@ -42,16 +42,23 @@ float map(float value, float min1, float max1, float min2, float max2) {
 
 void main()
 {
-    const float LightSize = 50.0f;
+    const float LIGHT_SIZE = 200.0f;
+    vec4 LIGHT_COL = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    const float INTENSITY = 1.5f;
+
+    const float AMBIENT = 0.3;
+    vec4 ambient = vec4(AMBIENT,AMBIENT,AMBIENT,AMBIENT);
+
     int index = int(pass_TextureID);
     /*
     out_Color *= vec4(1.0f, 0.0f, 1.0f, 1.0f);*/
 
     float dist = length(gl_FragCoord.xy - u_LightPos.xy);
-    float max_dist = 70.0f;
-    float percent = clamp(1.0f - dist / max_dist, 0.0f, 1.0f);
-    vec4 amb = vec4(percent, percent, percent, 1.0f);
-    out_Color = GetTextureSample(index, pass_TextureUV) * vec4(pass_Color, 1) * amb;
-    
+    float percent = clamp(1.0f - dist / LIGHT_SIZE, 0.0f, 1.0f);
+    percent *= percent * INTENSITY;
+    vec4 b = vec4(percent,percent,percent,percent);
 
+    vec4 color = GetTextureSample(index, pass_TextureUV);
+
+    out_Color = color * (b + ambient);
 }
