@@ -51,8 +51,6 @@ void Renderer2D::LoadShaders()
 
 	m_Shader->LoadUniformMatrix4f("u_Projection", m_ProjectionMatrix);
 
-	m_Shader->LoadUniform4f("u_LightPos", { 1.f, 0.f, 1.f, 1.0f });
-
 	SetViewMatrix(Matrix4::Identity());
 
 	GLint texIds[] = {
@@ -63,11 +61,46 @@ void Renderer2D::LoadShaders()
 	m_Shader->Disable();
 }
 
+
+void Renderer2D::LoadLight(Light* light, int index)
+{
+		m_Shader->LoadUniform3f(String("u_Lights[" + ToString(index) + "].Position").c_str(), light->Position);
+		m_Shader->LoadUniform3f(String("u_Lights[" + ToString(index) + "].Color").c_str(), light->Colour.ToNormalizedVector3());
+		m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Size").c_str(), light->Size);
+		m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Intensity").c_str(), light->Intensity);
+		m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Falloff").c_str(), light->Falloff);
+}
+
+void Renderer2D::LoadLights(Array<Light*>& lights)
+{
+	Light *DEFAULT_LIGHT = new Light;
+	m_Lights.reserve(4);
+	DEFAULT_LIGHT->Colour = Color::White;
+	DEFAULT_LIGHT->Falloff = 0.0f;
+	DEFAULT_LIGHT->Intensity = 0.0f;
+	DEFAULT_LIGHT->Position = Vector3();
+	DEFAULT_LIGHT->Size = 0.f;
+
+	m_Shader->Enable();
+	for (int i = 0; i < 4; i++) 
+	{
+		if (i < lights.size())
+		{
+			LoadLight(lights[i], i);
+		}
+		else {
+			LoadLight(DEFAULT_LIGHT, i);
+		}
+	}
+	m_Shader->Disable();
+	m_Lights = lights;
+}
+
 void Renderer2D::Init(const Matrix4& projectionMatrix)
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+	//glBlendFunc(GL_ONE, GL_ZERO);
     m_ProjectionMatrix  = projectionMatrix;
     m_Shader = new GLSLShader;
     

@@ -12,7 +12,6 @@ in vec3 pass_Position;
 
 uniform sampler2D u_Textures[16];
 
-uniform vec4 u_LightPos;
 
 vec4 GetTextureSample(in int index, in vec2 uv)
 {
@@ -33,6 +32,19 @@ vec4 GetTextureSample(in int index, in vec2 uv)
     
     return color;
 }
+uniform vec3 u_LightPositions[4];
+uniform float u_LightSizes[4];
+uniform float u_LightIntensitys[4];
+uniform vec3 u_LightColors[4];
+uniform float u_LightFalloffs[4];
+
+struct PointLightSource {
+	vec3 Position;
+	float Size;
+	float Intensity;
+	vec3 Color;
+	
+}
 
 float map(float value, float min1, float max1, float min2, float max2) {
     float perc = (value - min1) / (max1 - min1);
@@ -42,23 +54,20 @@ float map(float value, float min1, float max1, float min2, float max2) {
 
 void main()
 {
-    const float LIGHT_SIZE = 200.0f;
-    vec4 LIGHT_COL = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    const float INTENSITY = 1.5f;
+	int index = int(pass_TextureID);
+	vec4 color = GetTextureSample(index, pass_TextureUV);
 
-    const float AMBIENT = 0.3;
-    vec4 ambient = vec4(AMBIENT,AMBIENT,AMBIENT,AMBIENT);
-
-    int index = int(pass_TextureID);
-    /*
-    out_Color *= vec4(1.0f, 0.0f, 1.0f, 1.0f);*/
-
-    float dist = length(gl_FragCoord.xy - u_LightPos.xy);
-    float percent = clamp(1.0f - dist / LIGHT_SIZE, 0.0f, 1.0f);
-    percent *= percent * INTENSITY;
-    vec4 b = vec4(percent,percent,percent,percent);
-
-    vec4 color = GetTextureSample(index, pass_TextureUV);
-
-    out_Color = color * (b + ambient);
+    const float AMBIENT = 0.2;
+    vec4 ambient = vec4(AMBIENT,AMBIENT,AMBIENT,1.0);
+	
+	vec4 totalB = vec4(0.0);
+	for(int i=0;i<4;i++) {
+		float dist = length(pass_Position.xy - u_LightPositions[i].xy);
+		float percent = clamp(1.0f - dist / u_LightSizes[i], 0.0f, 1.0f);
+		percent *= pow(percent, u_LightFalloffs[i]) * u_LightIntensitys[i];
+		vec4 b = vec4(percent,percent,percent,1.0) * vec4(u_LightColors[i], 1.0);
+		totalB += b;
+	}
+	
+    out_Color = color * (totalB + ambient);
 }

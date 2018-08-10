@@ -36,4 +36,8 @@ namespace gene {
     typedef short          int16;
     typedef unsigned int   uint32;
     typedef int            int32;
+
+	inline bool CompareFloat(float a, float b) {
+		return (fabs(a - b) < 0.005f);
+	}
 }

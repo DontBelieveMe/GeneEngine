@@ -22,6 +22,8 @@ void CopyAssetsDirectory(const gene::String& subdir = "")
 class ClearColorDemo : public gene::App {
 	gene::graphics::Renderer2D m_2drenderer;
 	gene::graphics::Texture2D m_texture;
+	gene::graphics::Light *m_light;
+
 public:
     
     virtual void Init() override { 
@@ -35,17 +37,49 @@ public:
 		
 		gene::graphics::TextureParameters p;  
 		p.Filtering = gene::graphics::FilteringOptions::Nearest;
-		m_texture.Load("Data/grass.png", p);  
+		m_texture.Load("Data/stone.png", p);
+
+		m_light = new graphics::Light {
+			Vector3(32,32,0.f),
+			300.f,
+			1.5f,
+			1.0f,
+			graphics::Color::Red
+		};
+
+		graphics::Light *light2 = new graphics::Light {
+			Vector3(64,64,0.f),
+			300.f,
+			1.5f,
+			1.0f,
+			graphics::Color::Green
+		};
+		
+		Array<graphics::Light*> lights;
+		lights.push_back(m_light);
+		lights.push_back(light2);
+
+		m_2drenderer.LoadLights(lights);
 	}  
 	 
     virtual void Tick(const gene::platform::GameTime& time) override {
-		auto mouse = GetWindow()->GetInputController()->GetMouseDevice();
-		m_2drenderer.GetShader()->Enable();
-		m_2drenderer.GetShader()->LoadUniform4f("u_LightPos", { (float)mouse->GetCursorPosition().X, GetWindow()->Height() - (float)mouse->GetCursorPosition().Y, 0.0f, 1.0f });
+		using namespace gene;
 
-		m_2drenderer.GetShader()->Disable();
+		platform::Window* window = GetWindow();
+		input::MouseDevice* mouse = window->GetInputController()->GetMouseDevice();
+		Vector2i mousePos = mouse->GetCursorPosition();
+		Vector3 pos = {
+			(float)mousePos.X,
+			(float)mousePos.Y,
+			0.f
+		};
+		m_light->Position = pos;
 
-    }
+		graphics::GLSLShader *shader = m_2drenderer.GetShader();
+		shader->Enable();
+		m_2drenderer.LoadLight(m_light, 0);
+		shader->Disable();
+	}
 	 
     virtual void Draw() override {       
 		m_2drenderer.Begin();
@@ -54,7 +88,8 @@ public:
 		 
 		for (float y = 3; y < 10; y++) {
 			for (float x = 3; x < 10; x++) {
-				m_2drenderer.DrawTexture({x * 16.f,y * 16.f, 0.f}, &m_texture);
+				//m_2drenderer.DrawTexture({x * 16.f,y * 16.f, 0.f}, &m_texture);
+			m_2drenderer.FillRectangle({ x*16.f,y*16.f, 0.f }, 16.f, 16.f, gene::graphics::Color::Blue);
 			}
 		}
 		
@@ -68,11 +103,13 @@ public:
 		if (ImGui::Button("Refresh Assets Directory")) {
 			CopyAssetsDirectory();
 		}
-
+		ImGui::Separator();
+		ImGui::Text("Shaders");
 		if (ImGui::Button("Reload Shaders")) {
 			CopyAssetsDirectory("Shaders/");
 			m_2drenderer.LoadShaders();
 		}
+		
 		ImGui::End();
 	}
 };

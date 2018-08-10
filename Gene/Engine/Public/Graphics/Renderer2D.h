@@ -42,6 +42,19 @@ namespace gene { namespace graphics {
         AABBRectangle(Vector2 tl, Vector2 tr, Vector2 bl, Vector2 br) : TopLeft(tl), TopRight(tr), BottomLeft(bl), BottomRight(br) {}
     };
 
+	struct Light {
+		Vector3 Position;
+		float Size;
+		float Intensity;
+		float Falloff;
+		Color Colour;
+
+		Light(const Vector3& pos, float size, float intensity, float falloff, const Color& col) :
+			Position(pos), Size(size), Intensity(intensity), Falloff(falloff), Colour(col) {}
+
+		Light() {}
+	};
+
     /** Used for rendering data to the current framebuffer (which if none is specified the window). */
     class Renderer2D
     {
@@ -58,7 +71,7 @@ namespace gene { namespace graphics {
         Array<Texture2D*>		 m_Textures;
 		Array<Matrix4>			 m_TransformationStack;
         unsigned int             m_IndexOffset;
-
+		Array<Light*>			 m_Lights;
     private:
         float GetTextureSlot(Texture2D *texture);
 
@@ -66,6 +79,9 @@ namespace gene { namespace graphics {
 
 	public:
 		GLSLShader * GetShader() { return m_Shader; }
+
+		void LoadLights(Array<Light*>& lights);
+		void LoadLight(Light *light, int index);
 
 		void LoadShaders();
 

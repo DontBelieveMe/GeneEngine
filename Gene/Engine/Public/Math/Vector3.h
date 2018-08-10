@@ -22,6 +22,9 @@ namespace gene {
 
         Vector3        operator+(const Vector3& b);
         Vector3        operator-(const Vector3& b);
+		bool			operator==(const Vector3& b) {
+			return CompareFloat(X, b.X) && CompareFloat(Y, b.Y) && CompareFloat(Z, b.Z);
+		}
 
         /** Returns a vector that is the normalized version of the one specfied. Original vector is not touched. */
         static Vector3 Normalize(Vector3 vector);

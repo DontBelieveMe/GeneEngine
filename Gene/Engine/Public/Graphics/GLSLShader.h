@@ -31,6 +31,9 @@ namespace gene { namespace graphics {
 		inline void LoadUniform3f(const char *uniform, const Vector3& vector) 
 			            { glUniform3f(UniformLocation(uniform), vector.X, vector.Y, vector.Z); }
 
+		inline void LoadUniform1f(const char* uniform, const float& v)
+						{ glUniform1f(UniformLocation(uniform), v); }
+
 		inline void LoadUniform2f(const char *uniform, const Vector2& vector)
 			            { glUniform2f(UniformLocation(uniform), vector.X, vector.Y); }
 
