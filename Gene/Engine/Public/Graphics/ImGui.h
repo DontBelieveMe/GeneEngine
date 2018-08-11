@@ -29,7 +29,10 @@ namespace gene { namespace graphics {
 
         static void ColorPicker(const char* str, Color* col)
         {
-            static float c[3];
+			static float c[3] = {
+				-1,-1,-1
+			};
+
 			ImGui::ColorEdit3(str, c);
 
             unsigned int hex = Color::RGBAToHex(static_cast<int>(c[0]*255), static_cast<int>(c[1]*255), static_cast<int>(c[2]*255), 255);

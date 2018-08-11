@@ -64,11 +64,11 @@ void Renderer2D::LoadShaders()
 
 void Renderer2D::LoadLight(Light* light, int index)
 {
-		m_Shader->LoadUniform3f(String("u_Lights[" + ToString(index) + "].Position").c_str(), light->Position);
-		m_Shader->LoadUniform3f(String("u_Lights[" + ToString(index) + "].Color").c_str(), light->Colour.ToNormalizedVector3());
-		m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Size").c_str(), light->Size);
-		m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Intensity").c_str(), light->Intensity);
-		m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Falloff").c_str(), light->Falloff);
+	m_Shader->LoadUniform3f(String("u_Lights[" + ToString(index) + "].Position").c_str(), light->Position);
+	m_Shader->LoadUniform3f(String("u_Lights[" + ToString(index) + "].Color").c_str(), light->Colour.ToNormalizedVector3());
+	m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Size").c_str(), light->Size);
+	m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Intensity").c_str(), light->Intensity);
+	m_Shader->LoadUniform1f(String("u_Lights[" + ToString(index) + "].Falloff").c_str(), light->Falloff);
 }
 
 void Renderer2D::LoadLights(Array<Light*>& lights)

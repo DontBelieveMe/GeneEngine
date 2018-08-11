@@ -36,7 +36,7 @@ Vector2 Vector2::operator+(const Vector2& b)
 	return result;
 }
 
-Vector2 Vector2::operator-(const Vector2& b)
+Vector2 Vector2::operator-(const Vector2& b) const
 {
 	return Vector2(X - b.X, Y - b.Y);
 }

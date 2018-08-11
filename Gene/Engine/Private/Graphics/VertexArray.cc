@@ -49,3 +49,8 @@ void VertexArray::DrawElements(Buffer *ebo, int count)
     ebo->Disable();
     Disable();
 }
+
+void VertexArray::DrawArrays(int first, int count)
+{
+	glDrawArrays(GL_TRIANGLES, first, count);
+}

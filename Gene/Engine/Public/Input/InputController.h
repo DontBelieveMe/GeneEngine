@@ -18,6 +18,12 @@ namespace gene { namespace input {
         void PressKeyDown(const Keys& key);
         void ReleaseKeyDown(const Keys& key);
         
+		Key *GetKeyMap() { return m_keyMap; }
+
+		static bool IsKeyDownInMap(Key *map, Keys key) {
+			return map[static_cast<int>(key)];
+		}
+
     private:
         Key m_keyMap[62256];
     };

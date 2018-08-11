@@ -21,6 +21,9 @@ namespace gene {
 		Vector3(Vector2 vector, float z);
 
         Vector3        operator+(const Vector3& b);
+		Vector3		   operator*(float x) {
+			return { X * x, Y * x, Z * x };
+		}
         Vector3        operator-(const Vector3& b);
 		bool			operator==(const Vector3& b) {
 			return CompareFloat(X, b.X) && CompareFloat(Y, b.Y) && CompareFloat(Z, b.Z);
