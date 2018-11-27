@@ -14,5 +14,8 @@ namespace g2 {
 		void Normalize();
 		
 		float Length() const;
+
+		static float   DotProduct(const Vector3& left, const Vector3& right);
+		static Vector3 CrossProduct(const Vector3& left, const Vector3& right);
 	};
 }

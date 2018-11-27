@@ -28,3 +28,17 @@ float Vector3::Length() const
 {
 	return Math::Sqrt((X * X) + (Y * Y) + (Z * Z));
 }
+
+float Vector3::DotProduct(const Vector3& left, const Vector3& right)
+{
+	return (left.X * right.X) + (left.Y * right.Y) + (left.Z * right.Z);
+}
+
+Vector3 Vector3::CrossProduct(const Vector3& left, const Vector3& right)
+{
+	float x = (left.Y * right.Z) - (left.Z * right.Y);
+	float y = (left.Z * right.X) - (left.X * right.Z);
+	float z = (left.X * right.Y) - (left.Y * right.Z);
+
+	return { x, y, z };
+}
