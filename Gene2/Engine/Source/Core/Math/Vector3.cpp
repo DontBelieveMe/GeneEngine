@@ -16,7 +16,7 @@ Vector3::Vector3(const float& a)
 
 void Vector3::Normalize()
 {
-	const float s = (X*X) + (Y*Y) + (Z*Z);
+	const float s = (X * X) + (Y * Y) + (Z * Z);
 	const float s2 = Math::InvSqrt(s);
 
 	X *= s2;

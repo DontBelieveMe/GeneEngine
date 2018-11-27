@@ -14,7 +14,7 @@ MACRO(SetSourceGroups SourceFiles)
     
     string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
     string(REPLACE "/" "\\" GROUP "${GROUP}")
-    message(${FILE})
+    
     if ("${FILE}" MATCHES ".*\\.cpp")
         string(REPLACE "Engine\\Source" "" GROUP "${GROUP}")
         set(GROUP "Source Files${GROUP}")
@@ -28,3 +28,9 @@ ENDMACRO(SetSourceGroups)
 
 SetSourceGroups("${EngineSource}")
 SetSourceGroups("${EngineHeaders}")
+
+if(MSVC)
+  target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+else()
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
+endif()
