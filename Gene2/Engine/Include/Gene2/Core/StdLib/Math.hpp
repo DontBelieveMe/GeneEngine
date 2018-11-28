@@ -20,6 +20,9 @@ namespace g2 {
 
 		static inline float Abs(const float& in) { return std::fabsf(in); }
 
+		static inline float DegreesToRadians(const float& degrees) { return (Math::Pi / 180.f) * degrees; }
+		static inline float RadiansToDegrees(const float& radians) { return (180.f / Math::Pi) * radians; }
+
 		static inline float Clamp(const float& x, const float& min, const float& max)
 		{
 			return x < min ? min : x > max ? max : x;
