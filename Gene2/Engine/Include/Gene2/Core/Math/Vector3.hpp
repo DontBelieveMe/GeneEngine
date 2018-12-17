@@ -18,4 +18,8 @@ namespace g2 {
 		static float   DotProduct(const Vector3& left, const Vector3& right);
 		static Vector3 CrossProduct(const Vector3& left, const Vector3& right);
 	};
+
+	Vector3 operator+(const Vector3& left, const Vector3& right);
+	Vector3 operator*(const Vector3& left, const Vector3& right);
+	Vector3 operator*(const Vector3& left, const float& right);
 }

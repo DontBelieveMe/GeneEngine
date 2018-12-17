@@ -42,3 +42,18 @@ Vector3 Vector3::CrossProduct(const Vector3& left, const Vector3& right)
 
 	return { x, y, z };
 }
+
+Vector3 g2::operator+(const Vector3& left, const Vector3& right)
+{
+	return { left.X + right.X, left.Y + right.Y, left.Z + right.Z };
+}
+
+Vector3 g2::operator*(const Vector3& left, const Vector3& right)
+{
+	return { left.X * right.X, left.Y * right.Y, left.Z * right.Z };
+}
+
+Vector3 g2::operator*(const Vector3& left, const float& right)
+{
+	return { left.X * right, left.Y * right, left.Z * right };
+}

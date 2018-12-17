@@ -5,6 +5,7 @@ set(StdLibHeaders
 	${CurrentDir}/Array.hpp
 	${CurrentDir}/String.hpp
 	${CurrentDir}/Random.hpp
+	${CurrentDir}/StringStream.hpp
 
     PARENT_SCOPE
 )
