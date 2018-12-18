@@ -55,6 +55,9 @@ namespace g2 {
 						continue;
 					}
 				}
+				else {
+					continue;
+				}
 
 				String indexString;
 				while (currentchar != '}') 
@@ -65,7 +68,7 @@ namespace g2 {
 
 				int index = std::stoi(indexString);
 				
-				if (index < argsArray.size() && index >= 0)
+				if (index < static_cast<int>(argsArray.size()) && index >= 0)
 				{
 					buff << argsArray[index];
 				}
