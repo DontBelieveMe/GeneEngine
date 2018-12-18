@@ -4,21 +4,60 @@
 
 #include <Gene2/Core/Utility/Singleton.hpp>
 #include <Gene2/Core/StdLib/String.hpp>
+#include <Gene2/Core/StdLib/Array.hpp>
 
-#include <iostream>
+#include <memory>
 
-#define G2_LOG(message, ...) \
-	g2::Logger::GetInstance()->LogMessage(message, __VA_ARGS__)
+#define G2_LOG(severity, message, ...) \
+	g2::Logger::GetInstance()->LogMessage(severity, __LINE__, __FILE__, message, __VA_ARGS__)
+
+#define G2_TRACE(message, ...) G2_LOG(g2::S_TRACE, message, __VA_ARGS__)
+#define G2_WARN(message, ...) G2_LOG(g2::S_WARN, message, __VA_ARGS__)
+#define G2_ERROR(message, ...) G2_LOG(g2::S_ERROR, message, __VA_ARGS__)
+#define G2_FATAL(message, ...) G2_LOG(g2::S_FATAL, message, __VA_ARGS__)
 
 namespace g2 {
+	enum LogSeverity {
+		S_TRACE = 1 << 0,
+		S_WARN  = 1 << 1,
+		S_ERROR = 1 << 2,
+		S_FATAL = 1 << 3
+	};
+
+	struct ILoggerRoute {
+		virtual void HandleDispatchedMessage(const String& message) = 0;
+	};
+
+	struct ConsoleLoggerRoute : public ILoggerRoute {
+		virtual void HandleDispatchedMessage(const String& message);
+	};
+
 	class Logger : public Singleton<Logger> {
+	private:
+		const char* GetSeverityAsString(LogSeverity severity);
+
+		Array<std::unique_ptr<ILoggerRoute>> m_routes;
 	public:
+		template <typename T>
+		void AddRoute() {
+			std::unique_ptr<ILoggerRoute> route(new T);
+			m_routes.push_back(std::move(route));
+		}
+
 		template <typename... Args>
-		void LogMessage(const String& formatString, const Args&... args)
+		void LogMessage(LogSeverity severity,
+						int line, const char* file,
+						const String& formatString, const Args&... args)
 		{
 			String message = g2::FormatString(formatString, args...);
 
-			std::cout << message << std::endl;
+			const char* severityString = this->GetSeverityAsString(severity);
+			String output = g2::FormatString("({0}:{1}) [{2}]: {3}", file, line, severityString, message);
+
+			for (const auto& route : m_routes)
+			{
+				route->HandleDispatchedMessage(output);
+			}
 		}
 	};
 }

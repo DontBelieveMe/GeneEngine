@@ -16,8 +16,8 @@ namespace g2 {
 		{
 			StringStream ss;
 			ss << item;
-			strArray[index] = ss.str();
-			index++;
+
+			strArray[index++] = ss.str();
 			ToStringArray(strArray, index, args...);
 		}
 
