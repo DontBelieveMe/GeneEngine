@@ -32,6 +32,8 @@ namespace g2 {
 		}
 	}
 
+	String SanitiseFormatString(String str);
+
 	// todo: implement -> complete format syntax checking
 	template <typename... Args>
 	String FormatString(const String& fmt, const Args&... args)

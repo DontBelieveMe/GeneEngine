@@ -8,13 +8,23 @@
 
 #include <memory>
 
-#define G2_LOG(severity, message, ...) \
-	g2::Logger::GetInstance()->LogMessage(severity, __LINE__, __FILE__, message, __VA_ARGS__)
+#define G2_LOG_FMT(severity, message, ...) \
+	g2::Logger::GetInstance()->LogMessage(severity, __LINE__, __FILE__, g2::LFT_FORMAT_STRING, message, __VA_ARGS__)
 
-#define G2_TRACE(message, ...) G2_LOG(g2::S_TRACE, message, __VA_ARGS__)
-#define G2_WARN(message, ...) G2_LOG(g2::S_WARN, message, __VA_ARGS__)
-#define G2_ERROR(message, ...) G2_LOG(g2::S_ERROR, message, __VA_ARGS__)
-#define G2_FATAL(message, ...) G2_LOG(g2::S_FATAL, message, __VA_ARGS__)
+#define G2_LOG_LITERAL(severity, message, ...) \
+	g2::Logger::GetInstance()->LogMessage(severity, __LINE__, __FILE__, g2::LFT_LITERAL_STRING, message, __VA_ARGS__)
+
+#define G2_TRACE(message, ...) G2_LOG_FMT(g2::S_TRACE, message, __VA_ARGS__)
+#define G2_WARN(message, ...) G2_LOG_FMT(g2::S_WARN, message, __VA_ARGS__)
+#define G2_ERROR(message, ...) G2_LOG_FMT(g2::S_ERROR, message, __VA_ARGS__)
+#define G2_FATAL(message, ...) G2_LOG_FMT(g2::S_FATAL, message, __VA_ARGS__)
+
+#define G2_TRACE_LITERAL(message, ...) G2_LOG_LITERAL(g2::S_TRACE, message, __VA_ARGS__)
+#define G2_WARN_LITERAL(message, ...) G2_LOG_LITERAL(g2::S_WARN, message, __VA_ARGS__)
+#define G2_ERROR_LITERAL(message, ...) G2_LOG_LITERAL(g2::S_ERROR, message, __VA_ARGS__)
+#define G2_FATAL_LITERAL(message, ...) G2_LOG_LITERAL(g2::S_FATAL, message, __VA_ARGS__)
+
+#define G2_CORE_LOGGER g2::Logger::GetInstance
 
 namespace g2 {
 	enum LogSeverity {
@@ -23,13 +33,18 @@ namespace g2 {
 		S_ERROR = 1 << 2,
 		S_FATAL = 1 << 3
 	};
+	
+	enum LogMessageType {
+		LFT_LITERAL_STRING,
+		LFT_FORMAT_STRING
+	};
 
 	struct ILoggerRoute {
-		virtual void HandleDispatchedMessage(const String& message) = 0;
+		virtual void HandleDispatchedMessage(LogSeverity severity, const String& message) = 0;
 	};
 
 	struct ConsoleLoggerRoute : public ILoggerRoute {
-		virtual void HandleDispatchedMessage(const String& message);
+		virtual void HandleDispatchedMessage(LogSeverity severity, const String& message);
 	};
 
 	class Logger : public Singleton<Logger> {
@@ -46,17 +61,22 @@ namespace g2 {
 
 		template <typename... Args>
 		void LogMessage(LogSeverity severity,
-						int line, const char* file,
+						int line, const char* file, LogMessageType formatStringType,
 						const String& formatString, const Args&... args)
 		{
 			String message = g2::FormatString(formatString, args...);
+			
+			if (formatStringType == LFT_LITERAL_STRING)
+			{
+				message	= formatString;
+			}
 
 			const char* severityString = this->GetSeverityAsString(severity);
 			String output = g2::FormatString("({0}:{1}) [{2}]: {3}", file, line, severityString, message);
 
 			for (const auto& route : m_routes)
 			{
-				route->HandleDispatchedMessage(output);
+				route->HandleDispatchedMessage(severity, output);
 			}
 		}
 	};
