@@ -7,7 +7,7 @@
 
 using namespace g2;
 
-const char* Logger::GetSeverityAsString(LogSeverity severity)
+const char* Logger::GetSeverityAsString(ELogSeverity severity)
 {
 	switch (severity)
 	{
@@ -24,7 +24,7 @@ const char* Logger::GetSeverityAsString(LogSeverity severity)
 #include <Windows.h>
 #endif
 
-void ConsoleLoggerRoute::HandleDispatchedMessage(LogSeverity severity, const String& message)
+void ConsoleLoggerRoute::HandleDispatchedMessage(ELogSeverity severity, const String& message)
 {
 #ifdef _WIN32
 	WORD color = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;

@@ -12,7 +12,7 @@ int main()
 
 	G2_ASSERT(g2::FormatString("hello {0}", "dave") == "Hello dave");
 
-	g2::String s = "dave";
+	g2::String s = "Dave";
 	g2::String str = g2::FormatString("fmt string: {0} says hello! (that was {0} - {1} years old)", s, 53);
 	
 	G2_TRACE(str);
