@@ -11,4 +11,5 @@
 	#endif
 
 	#define G2_DEBUG_BREAK()
+	#error Intrinsics not supported on this platform
 #endif
