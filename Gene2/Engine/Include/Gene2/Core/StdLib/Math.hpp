@@ -4,21 +4,23 @@
 
 #include <cmath>
 
+#include <Gene2/Platform/Intrinsics.hpp>
+
 namespace g2 {
 	struct Math {
-		static inline float Sqrt(const float& in) { return std::sqrt(in); }
-		static inline float InvSqrt(const float& in) { return 1.0f / Sqrt(in); }
+		static G2_FORCEINLINE float Sqrt(const float& in) { return std::sqrt(in); }
+		static G2_FORCEINLINE float InvSqrt(const float& in) { return 1.0f / Sqrt(in); }
 		
-		static inline float Sin(const float& in) { return std::sinf(in); }
-		static inline float Cos(const float& in) { return std::cosf(in); }
-		static inline float Tan(const float& in) { return std::tanf(in); }
+		static G2_FORCEINLINE float Sin(const float& in) { return std::sinf(in); }
+		static G2_FORCEINLINE float Cos(const float& in) { return std::cosf(in); }
+		static G2_FORCEINLINE float Tan(const float& in) { return std::tanf(in); }
 
-		static inline float ACos(const float& in) { return std::acosf(in); }
-		static inline float ASin(const float& in) { return std::asinf(in); }
-		static inline float ATan(const float& in) { return std::atanf(in); }
-		static inline float ATan2(const float& a, const float& b) { return std::atan2f(a, b); }
+		static G2_FORCEINLINE float ACos(const float& in) { return std::acosf(in); }
+		static G2_FORCEINLINE float ASin(const float& in) { return std::asinf(in); }
+		static G2_FORCEINLINE float ATan(const float& in) { return std::atanf(in); }
+		static G2_FORCEINLINE float ATan2(const float& a, const float& b) { return std::atan2f(a, b); }
 
-		static inline float Abs(const float& in) { return std::fabsf(in); }
+		static G2_FORCEINLINE float Abs(const float& in) { return std::fabsf(in); }
 
 		static inline float DegreesToRadians(const float& degrees) { return (Math::Pi / 180.f) * degrees; }
 		static inline float RadiansToDegrees(const float& radians) { return (180.f / Math::Pi) * radians; }
