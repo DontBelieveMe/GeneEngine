@@ -22,3 +22,5 @@ CMakeLists.txt.user
 # Vim Temporary files
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
+
+.vscode/

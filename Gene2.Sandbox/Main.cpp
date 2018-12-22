@@ -7,7 +7,7 @@ int main()
 	
 	g2::IWindow* window = g2::IWindow::Create(g2::WindowConfig(800, 600, "Gene2 Demo!"));
 	window->Show();
-
+	
 	while (window->IsRunning())
 	{
 		window->PollEvents();
