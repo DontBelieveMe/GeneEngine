@@ -12,7 +12,6 @@ namespace g2 {
 		Vector3(const float& x, const float& y, const float& z);
 
 		void Normalize();
-		
 		float Length() const;
 
 		static float   DotProduct(const Vector3& left, const Vector3& right);

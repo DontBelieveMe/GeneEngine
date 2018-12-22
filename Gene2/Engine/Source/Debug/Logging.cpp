@@ -3,6 +3,8 @@
 #include <Gene2/Debug/Logging.hpp>
 #include <Gene2/Debug/Assert.hpp>
 
+#include <Gene2/Platform/PlatformInfo.hpp>
+
 #include <iostream>
 
 using namespace g2;
@@ -20,13 +22,13 @@ const char* Logger::GetSeverityAsString(ELogSeverity severity)
 	return nullptr;
 }
 
-#ifdef _WIN32
+#ifdef G2_PLATFORM_WINDOWS
 #include <Windows.h>
 #endif
 
 void ConsoleLoggerRoute::HandleDispatchedMessage(ELogSeverity severity, const String& message)
 {
-#ifdef _WIN32
+#ifdef G2_PLATFORM_WINDOWS
 	WORD color = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
 	switch (severity)
 	{
@@ -42,7 +44,7 @@ void ConsoleLoggerRoute::HandleDispatchedMessage(ELogSeverity severity, const St
 
 	std::cout << message << std::endl;
 
-#ifdef _WIN32
+#ifdef G2_PLATFORM_WINDOWS
 	SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 }

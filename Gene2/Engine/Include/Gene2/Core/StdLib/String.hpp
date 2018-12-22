@@ -22,7 +22,11 @@ namespace g2 {
 		}
 
 		template <int ArrSize>
-		void ToStringArray(FixedArray<String, ArrSize>& strArray, int& index) {}
+		void ToStringArray(FixedArray<String, ArrSize>& strArray, int& index) 
+		{
+			(void)strArray;
+			(void)index;
+		}
 		
 		template <int ArrSize, typename... Args>
 		void ToStringArray(FixedArray<String, ArrSize>& arr, const Args&... args)
@@ -31,6 +35,12 @@ namespace g2 {
 			internal::ToStringArray(arr, i, args...);
 		}
 	}
+
+	// This is to allow passing empty variadic template argument lists and variadic macro parameters
+	// to this method, and still compile.
+	// Initially implemented for assertion macros - no need to specify additional message, but you can
+	// and it will format correctly as a format string.
+	inline String FormatString() { return ""; }
 
 	// todo: implement -> complete format syntax checking
 	template <typename... Args>
@@ -66,7 +76,7 @@ namespace g2 {
 					indexString += currentchar;
 				}
 
-				int index = std::stoi(indexString);
+				const int index = std::stoi(indexString);
 				
 				if (index < static_cast<int>(argsArray.size()) && index >= 0)
 				{

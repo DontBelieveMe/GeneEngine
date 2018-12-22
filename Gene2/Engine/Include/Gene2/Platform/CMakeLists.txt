@@ -9,6 +9,7 @@ endif()
 list(APPEND PlatformHeaders
 	${CurrentDir}/IWindow.hpp
 	${CurrentDir}/Intrinsics.hpp
+	${CurrentDir}/PlatformInfo.hpp
 )
 
 set(PlatformHeaders

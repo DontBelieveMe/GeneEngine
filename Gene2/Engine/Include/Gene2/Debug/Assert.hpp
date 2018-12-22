@@ -9,17 +9,19 @@
 
 #include <Gene2/Platform/Intrinsics.hpp>
 
-#define G2_INTERNAL_CHECK(message, condition) \
+#define G2_INTERNAL_CHECK(message, condition, ...) \
 	do { if(!(condition)) { \
-		G2_FATAL_LITERAL(G2_PP_CONCAT_STR(message, "\n\t`" G2_PP_STR(condition) "`" )); \
+		const char* assertionMessage = G2_PP_CONCAT_STR(message, "\n\t`" G2_PP_STR(condition) "`" );\
+		String customMsg = g2::FormatString(__VA_ARGS__); \
+		G2_FATAL_LITERAL(g2::FormatString("{0}\n\t{1}", assertionMessage, customMsg)); \
 		G2_DEBUG_BREAK(); \
 	}} while(0)
 
 
+#define G2_VERIFY(condition, ...) G2_INTERNAL_CHECK("Verification failed: ", condition, __VA_ARGS__)
+
 #ifndef NDEBUG
-	#define G2_ASSERT(condition) G2_INTERNAL_CHECK("Assertion failed: ", condition)
-	#define G2_VERIFY(condition) G2_INTERNAL_CHECK("Verification failed: ", condition)
+	#define G2_ASSERT(condition, ...) G2_INTERNAL_CHECK("Assertion failed: ", condition, __VA_ARGS__)
 #else
-	#define G2_ASSERT
-	#define G2_VERIFY(condition) (condition)
+	#define G2_ASSERT(condition, ...)(void)(condition)
 #endif
