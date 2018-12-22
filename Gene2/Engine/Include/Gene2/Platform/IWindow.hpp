@@ -25,7 +25,11 @@ namespace g2 {
 		virtual void Show() = 0;
 		virtual void PollEvents() = 0;
 
-		inline bool IsRunning() const { return m_bOpen; }
+		inline bool IsOpen() const { return m_bOpen; }
+
+		inline u32 GetWidth() const { return m_config.Width; }
+		inline u32 GetHeight() const { return m_config.Height; }
+		
 	protected:
 		virtual void Init() = 0;
 
