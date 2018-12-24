@@ -5,6 +5,8 @@
 #include <Gene2/Core/StdLib/Types.hpp>
 #include <Gene2/Core/StdLib/String.hpp>
 
+#include <Gene2/Core/StdLib/Memory.hpp>
+
 namespace g2 {
 	struct WindowConfig {
 		u32 Width;
@@ -18,7 +20,7 @@ namespace g2 {
 
 	class IWindow {
 	public:
-		static IWindow* Create(const WindowConfig& windowConfig);
+		static SharedPtr<IWindow> Create(const WindowConfig& windowConfig);
 
 		IWindow(const WindowConfig& config);
 

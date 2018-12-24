@@ -7,7 +7,10 @@ int main()
 {
 	G2_CORE_LOGGER()->AddRoute<g2::ConsoleLoggerRoute>();
 	
-	g2::IWindow* window = g2::IWindow::Create(g2::WindowConfig(800, 600, "Gene2 Demo!"));
+	g2::SharedPtr<g2::IWindow> window = g2::IWindow::Create(
+		g2::WindowConfig(800, 600, "Gene2 Demo!")
+	);
+	
 	window->Show();
 	
 	while (window->IsOpen())
