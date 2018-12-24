@@ -10,4 +10,16 @@ namespace g2 {
 
 	template <typename T>
 	using UniquePtr = std::unique_ptr<T>;
+
+	template <typename T, typename... Args>
+	SharedPtr<T> MakeShared(Args&&... args) 
+	{
+		return std::make_shared<T>(args...);
+	}
+
+	template <typename T, typename... Args>
+	UniquePtr<T> MakeUnique(Args&&... args) 
+	{
+		return std::make_unique<T>(args...);
+	}
 }

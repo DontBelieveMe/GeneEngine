@@ -1,6 +1,8 @@
 #include <Gene2/Debug/Logging.hpp>
 #include <Gene2/Platform/IWindow.hpp>
 
+#include <Gene2/Core/StdLib/Memory.hpp>
+
 int main()
 {
 	G2_CORE_LOGGER()->AddRoute<g2::ConsoleLoggerRoute>();

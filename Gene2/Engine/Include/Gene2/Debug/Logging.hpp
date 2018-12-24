@@ -3,10 +3,10 @@
 #pragma once
 
 #include <Gene2/Core/Utility/Singleton.hpp>
+
 #include <Gene2/Core/StdLib/String.hpp>
 #include <Gene2/Core/StdLib/Array.hpp>
-
-#include <memory>
+#include <Gene2/Core/StdLib/Memory.hpp>
 
 #define G2_LOG_FMT(severity, message, ...) \
 	g2::Logger::GetInstance()->LogMessage(severity, __LINE__, __FILE__, g2::LMF_FORMAT_STRING, message, __VA_ARGS__)
@@ -51,11 +51,11 @@ namespace g2 {
 	private:
 		const char* GetSeverityAsString(ELogSeverity severity);
 
-		Array<std::unique_ptr<ILoggerRoute>> m_routes;
+		Array<UniquePtr<ILoggerRoute>> m_routes;
 	public:
 		template <typename T>
 		void AddRoute() {
-			std::unique_ptr<ILoggerRoute> route(new T);
+			UniquePtr<ILoggerRoute> route = g2::MakeUnique<T>();
 			m_routes.push_back(std::move(route));
 		}
 
