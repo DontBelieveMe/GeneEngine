@@ -68,6 +68,7 @@ void Win32Window::Init()
 		hInstance,
 		nullptr
 	);
+
 	G2_ASSERT(
 		m_hwnd != nullptr, 
 		"Could not create Win32 window. Win32 Error {0}", GetLastError()
