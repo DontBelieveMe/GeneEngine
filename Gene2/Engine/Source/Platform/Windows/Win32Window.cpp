@@ -4,16 +4,33 @@
 #include <Gene2/Debug/Logging.hpp>
 
 #include <Gene2/Debug/Assert.hpp>
+#include <Gene2/Platform/Intrinsics.hpp>
 
 using namespace g2;
 using namespace g2::win32;
 
 const char Win32Window::CLASS_NAME[] = "Gene2Window";
+const char Win32Window::HWND_WINDOW_PTR_PROPERTY[] = "HwndWindowPtrProperty";
 
 LRESULT CALLBACK Win32Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	Win32Window* window = static_cast<Win32Window*>(
+		GetProp(hWnd, Win32Window::HWND_WINDOW_PTR_PROPERTY)
+	);
+	G2_MARK_VARIABLE_UNUSED(window);
+
 	switch (msg)
 	{
+	case WM_KEYDOWN:
+	{
+		//todo: implement
+		break;
+	}
+	case WM_KEYUP:
+	{
+		//todo: implement
+		break;
+	}
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -73,6 +90,8 @@ void Win32Window::Init()
 		m_hwnd != nullptr, 
 		"Could not create Win32 window. Win32 Error {0}", GetLastError()
 	);
+
+	SetProp(m_hwnd, HWND_WINDOW_PTR_PROPERTY, this);
 }
 
 void Win32Window::Show()

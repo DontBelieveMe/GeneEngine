@@ -24,5 +24,6 @@ namespace g2 { namespace win32 {
 		HWND m_hwnd;
 
 		static const char CLASS_NAME[];
+		static const char HWND_WINDOW_PTR_PROPERTY[];
 	};
 }}

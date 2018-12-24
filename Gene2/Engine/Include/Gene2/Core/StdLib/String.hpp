@@ -7,6 +7,8 @@
 #include "StringStream.hpp"
 #include "Array.hpp"
 
+#include <Gene2/Platform/Intrinsics.hpp>
+
 namespace g2 {
 	using String = std::string;
 	
@@ -24,8 +26,8 @@ namespace g2 {
 		template <int ArrSize>
 		void ToStringArray(FixedArray<String, ArrSize>& strArray, int& index) 
 		{
-			(void)strArray;
-			(void)index;
+			G2_MARK_VARIABLE_UNUSED(strArray);
+			G2_MARK_VARIABLE_UNUSED(index);
 		}
 		
 		template <int ArrSize, typename... Args>

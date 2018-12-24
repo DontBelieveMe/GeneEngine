@@ -23,5 +23,5 @@
 #ifndef NDEBUG
 	#define G2_ASSERT(condition, ...) G2_INTERNAL_CHECK("Assertion failed: ", condition, __VA_ARGS__)
 #else
-	#define G2_ASSERT(condition, ...)(void)(condition)
+	#define G2_ASSERT(condition, ...) G2_MARK_VARIABLE_UNUSED(condition)
 #endif
