@@ -10,6 +10,24 @@ IWindow::IWindow(const WindowConfig& config)
 {
 }
 
+bool IWindow::PollEvent(Event& event)
+{
+	if (m_eventQueue.empty())
+	{
+		this->ProcessPlatformEvents();
+	}
+
+	if (!m_eventQueue.empty())
+	{
+		event = m_eventQueue.front();
+		m_eventQueue.pop();
+
+		return true;
+	}
+
+	return false;
+}
+
 #ifdef G2_PLATFORM_WINDOWS
 	#include <Gene2/Platform/Windows/Win32Window.hpp>
 	typedef win32::Win32Window PlatformWindow;

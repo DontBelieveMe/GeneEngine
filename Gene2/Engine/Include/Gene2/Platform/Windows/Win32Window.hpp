@@ -12,14 +12,16 @@ namespace g2 { namespace win32 {
 		Win32Window(const WindowConfig& config);
 
 		virtual void Show() override;
-		virtual void PollEvents() override;
-	
+		virtual void ProcessPlatformEvents() override;
+		virtual void Close() override;
 	protected:
 		virtual void Init() override;
 	
 	private:
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	
+		void ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam);
+
 	private:
 		HWND m_hwnd;
 

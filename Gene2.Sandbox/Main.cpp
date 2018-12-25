@@ -3,6 +3,8 @@
 
 #include <Gene2/Core/StdLib/Memory.hpp>
 
+#include <Gene2/Input/Keys.hpp>
+
 int main()
 {
 	G2_CORE_LOGGER()->AddRoute<g2::ConsoleLoggerRoute>();
@@ -15,7 +17,16 @@ int main()
 	
 	while (window->IsOpen())
 	{
-		window->PollEvents();
+		g2::Event evt;
+		while (window->PollEvent(evt))
+		{
+			switch (evt.EventType)
+			{
+			case g2::EVENT_QUIT:
+				window->Close();
+				break;
+			}
+		}
 	}
 
     return 0;

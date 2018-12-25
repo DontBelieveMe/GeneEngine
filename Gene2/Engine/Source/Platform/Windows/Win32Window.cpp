@@ -17,17 +17,33 @@ LRESULT CALLBACK Win32Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 	Win32Window* window = static_cast<Win32Window*>(
 		GetProp(hWnd, Win32Window::HWND_WINDOW_PTR_PROPERTY)
 	);
-	G2_MARK_VARIABLE_UNUSED(window);
+	
+	window->ProcessEvent(msg, wParam, lParam);
+
+	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+void Win32Window::Close()
+{
+	m_bOpen = false;
+}
+
+void Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	G2_MARK_VARIABLE_UNUSED(wParam);
+	G2_MARK_VARIABLE_UNUSED(lParam);
 
 	switch (msg)
 	{
 	case WM_KEYDOWN:
 	{
+		G2_TRACE("Hey dude! \"{0}\" was pressed :)", static_cast<char>(wParam));
 		//todo: implement
 		break;
 	}
 	case WM_KEYUP:
 	{
+		G2_WARN("Boo, \"{0}\" was released :)", static_cast<char>(wParam));
 		//todo: implement
 		break;
 	}
@@ -35,8 +51,6 @@ LRESULT CALLBACK Win32Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 		PostQuitMessage(0);
 		break;
 	}
-
-	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 Win32Window::Win32Window(const WindowConfig& config)
@@ -101,14 +115,16 @@ void Win32Window::Show()
 	ShowWindow(m_hwnd, SW_SHOW);
 }
 
-void Win32Window::PollEvents()
+void Win32Window::ProcessPlatformEvents()
 {
 	MSG msg;
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
 		if (msg.message == WM_QUIT)
 		{
-			m_bOpen = false;
+			Event e;
+			e.EventType = EVENT_QUIT;
+			m_eventQueue.push(e);
 		}
 		else
 		{

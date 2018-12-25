@@ -4,13 +4,15 @@ add_subdirectory(Core/Utility)
 
 add_subdirectory(Platform)
 add_subdirectory(Debug)
+add_subdirectory(Input)
 
 set(EngineHeaders 
     ${MathHeaders}
     ${StdLibHeaders}
+    ${UtilityHeaders}
 	${PlatformHeaders}
 	${DebugHeaders}
-    ${UtilityHeaders}
+    ${InputHeaders}
     
     PARENT_SCOPE
 )

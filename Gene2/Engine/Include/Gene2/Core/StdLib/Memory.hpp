@@ -13,7 +13,7 @@ namespace g2 {
 
 	/**
 	 * @brief Creates a g2::SharedPtr of type T
-	 * @param args List of arguments of which type T will be created
+	 * @param args List of arguments of which type T will be created using.
 	 * @return A g2::SharedPtr of type T.
 	 */
 	template <typename T, typename... Args>
@@ -24,7 +24,7 @@ namespace g2 {
 
 	/**
 	 * @brief Creates a g2::UniquePtr of type T
-	 * @param args List of arguments of which type T will be created.
+	 * @param args List of arguments of which type T will be create using.
 	 * @return A g2::UniquePtr of type T
 	 */
 	template <typename T, typename... Args>

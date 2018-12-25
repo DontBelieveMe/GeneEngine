@@ -10,6 +10,7 @@ list(APPEND PlatformHeaders
 	${CurrentDir}/IWindow.hpp
 	${CurrentDir}/Intrinsics.hpp
 	${CurrentDir}/PlatformInfo.hpp
+	${CurrentDir}/Event.hpp
 )
 
 set(PlatformHeaders

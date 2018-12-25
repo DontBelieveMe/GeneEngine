@@ -8,6 +8,7 @@ set(StdLibHeaders
 	${CurrentDir}/StringStream.hpp
 	${CurrentDir}/Types.hpp
 	${CurrentDir}/Memory.hpp
+	${CurrentDir}/Queue.hpp
 
     PARENT_SCOPE
 )
