@@ -44,7 +44,7 @@ namespace g2 {
 	// and it will format correctly as a format string.
 	inline String FormatString() { return ""; }
 
-	// todo: implement -> complete format syntax checking
+	// #todo: implement -> complete format syntax checking
 	template <typename... Args>
 	String FormatString(const String& fmt, const Args&... args)
 	{

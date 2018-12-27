@@ -75,7 +75,7 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key)
 	case 'Z': return K_z;
 	}
 
-	return K_a; //todo: this is shitty. fix.
+	return K_a; // #todo: this is shitty. fix.
 }
 
 bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)

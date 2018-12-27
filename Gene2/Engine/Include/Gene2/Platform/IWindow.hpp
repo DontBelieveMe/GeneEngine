@@ -20,9 +20,14 @@ namespace g2 {
 			: Width(width), Height(height), Title(title) {}
 	};
 	
-
 	class IWindow {
 	public:
+		/**
+		 * @brief Create a window for the current platform, but do not show it. 
+		 *        Performs any window initialization
+		 * @param windowConfig 
+		 * @return A SharedPtr to the window implementation for this platform
+		 */
 		static SharedPtr<IWindow> Create(const WindowConfig& windowConfig);
 
 		IWindow(const WindowConfig& config);
@@ -30,11 +35,31 @@ namespace g2 {
 		virtual void Show() = 0;
 		virtual void Close() = 0;
 
+		/**
+		 * @brief Gets if the window is currently open (displaying)
+		 * @return If the window is open (aka displaying)
+		 */
 		inline bool IsOpen() const { return m_bOpen; }
 
+		/**
+		 * @brief Gets the width of the window (in pixels)
+		 * @return The width of the window in pixels
+		 */
 		inline u32 GetWidth() const { return m_config.Width; }
+	
+		/**
+		 * @brief Gets the height of the window (in pixels)
+		 * @return The height of the window (in pixels)
+		 */
 		inline u32 GetHeight() const { return m_config.Height; }
 		
+		/**
+		 * @brief Pops the top event off the event queue and returns it. 
+		 *        The event queue may contain more than one event so this method should 
+		 *        always be called inside a loop.
+		 * @param event The reference that the returned value should be set to.
+		 * @return True if an event has been popped off and return, false if the event queue is empty.
+		 */
 		bool PollEvent(Event& event);
 
 	protected:
