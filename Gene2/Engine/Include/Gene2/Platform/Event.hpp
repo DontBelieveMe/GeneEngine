@@ -8,11 +8,13 @@ namespace g2 {
 	struct KeyEvent
 	{
 		EKeyCode Key;
+		int Modifiers;
 	};
 
 	enum EEventType
 	{
-		EVENT_KEY,
+		EVENT_KEYDOWN,
+		EVENT_KEYUP,
 		EVENT_QUIT,
 	};
 

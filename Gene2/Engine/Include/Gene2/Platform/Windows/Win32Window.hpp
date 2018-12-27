@@ -3,6 +3,7 @@
 #pragma once
 
 #include <Gene2/Platform/IWindow.hpp>
+#include <Gene2/Input/Keys.hpp>
 
 #include <Windows.h>
 
@@ -20,7 +21,9 @@ namespace g2 { namespace win32 {
 	private:
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	
-		void ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam);
+		bool ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam);
+		void SetKeyEventModifiers(Event& e);
+		EKeyCode ConvertWin32KeyToG2Key(UINT key);
 
 	private:
 		HWND m_hwnd;
