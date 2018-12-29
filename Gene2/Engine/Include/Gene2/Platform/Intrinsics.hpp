@@ -2,11 +2,13 @@
 
 #pragma once
 
-#ifdef _MSC_VER 
+#include <Gene2/Platform/PlatformInfo.hpp>
+
+#ifdef G2_COMPILER_MSVC 
 	#define G2_DEBUG_BREAK() __debugbreak()
 	#define G2_FORCEINLINE __forceinline
 #else
-	#ifdef __GNUC__
+	#ifdef G2_COMPILER_GNUC
 		#define G2_FORCEINLINE __attribute__((always_inline)) 
 	#endif
 

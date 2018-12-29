@@ -14,3 +14,8 @@
 #error Platform macros not implemented for non-Windows platforms.
 #endif
 
+#ifdef _MSC_VER
+	#define G2_COMPILER_MSVC
+#elif defined(__GNUC__)
+	#define G2_COMPILER_GNUC
+#endif
