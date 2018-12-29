@@ -18,7 +18,7 @@ LRESULT CALLBACK Win32Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 		GetProp(hWnd, Win32Window::HWND_WINDOW_PTR_PROPERTY)
 	);
 	
-	bool handled = window->ProcessEvent(msg, wParam, lParam);
+	const bool handled = window->ProcessEvent(msg, wParam, lParam);
 
 	if (handled)
 		return 0;
@@ -33,9 +33,9 @@ void Win32Window::Close()
 
 void Win32Window::SetKeyEventModifiers(Event& e)
 {
-	i32 alt = HIWORD(GetKeyState(VK_MENU));
-	i32 shift = HIWORD(GetKeyState(VK_SHIFT));
-	i32 ctrl = HIWORD(GetKeyState(VK_CONTROL));
+	const WORD alt = HIWORD(GetKeyState(VK_MENU));
+	const WORD shift = HIWORD(GetKeyState(VK_SHIFT));
+	const WORD ctrl = HIWORD(GetKeyState(VK_CONTROL));
 
 	e.Key.Modifiers = 0;
 	e.Key.Modifiers |= (KMOD_ALT & alt);
@@ -43,7 +43,7 @@ void Win32Window::SetKeyEventModifiers(Event& e)
 	e.Key.Modifiers |= (KMOD_CTRL & ctrl);
 }
 
-g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key)
+g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key, LPARAM flags)
 {
 	switch (key)
 	{
@@ -73,6 +73,22 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key)
 	case 'X': return K_x;
 	case 'Y': return K_y;
 	case 'Z': return K_z;
+	case VK_MENU:
+	{
+		const WORD which = HIWORD(flags) & KF_EXTENDED;
+		return which ? K_ralt : K_lalt;
+	}
+	case VK_CONTROL:
+	{
+		const WORD which = HIWORD(flags) & KF_EXTENDED;
+		return which ? K_rctrl : K_lctrl;
+	}
+	case VK_SHIFT:
+	{
+		const UINT L_SHIFT = MapVirtualKeyA(VK_SHIFT, MAPVK_VK_TO_VSC);
+		UINT scancode = static_cast<UINT>((flags & (0xFF << 16)) >> 16);
+		return scancode == L_SHIFT ? K_lshift : K_rshift;
+	}
 	}
 
 	return K_a; // #todo: this is shitty. fix.
@@ -89,7 +105,7 @@ bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		Event e;
 		e.EventType = EVENT_KEYDOWN;
-		e.Key.Key = ConvertWin32KeyToG2Key(wParam);
+		e.Key.Key = ConvertWin32KeyToG2Key(wParam, lParam);
 		SetKeyEventModifiers(e);
 		
 		m_eventQueue.push(e);
@@ -100,7 +116,7 @@ bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		Event e;
 		e.EventType = EVENT_KEYUP;
-		e.Key.Key = ConvertWin32KeyToG2Key(wParam);
+		e.Key.Key = ConvertWin32KeyToG2Key(wParam, lParam);
 		SetKeyEventModifiers(e);
 		
 		m_eventQueue.push(e);

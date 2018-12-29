@@ -48,9 +48,10 @@ namespace g2 { namespace win32 {
 		/**
 		 * @brief Convert a Win32 virtual key code to a Gene2 key code.
 		 * @param key The Win32 virtual key code.
+		 * @param flags The the lParam extra message info.
 		 * @return The Gene2 equivalent of the specified Win32 key
 		 */
-		EKeyCode ConvertWin32KeyToG2Key(UINT key);
+		EKeyCode ConvertWin32KeyToG2Key(UINT key, LPARAM flags);
 
 	private:
 		HWND m_hwnd;

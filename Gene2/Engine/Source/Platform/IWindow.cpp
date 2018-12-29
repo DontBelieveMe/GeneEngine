@@ -37,7 +37,7 @@ bool IWindow::PollEvent(Event& event)
 
 SharedPtr<IWindow> IWindow::Create(const WindowConfig& windowConfig)
 {
-	SharedPtr<IWindow> window = g2::MakeShared<PlatformWindow>(windowConfig);
+	const SharedPtr<IWindow> window = g2::MakeShared<PlatformWindow>(windowConfig);
 	window->Init();
 
 	return window;

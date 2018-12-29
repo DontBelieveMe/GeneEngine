@@ -35,6 +35,13 @@ namespace g2 {
 		K_w = 22,
 		K_x = 23,
 		K_y = 24,
-		K_z = 25
+		K_z = 25,
+
+		K_lalt = 26,
+		K_ralt = 27,
+		K_lshift = 28,
+		K_rshift = 29,
+		K_lctrl = 30,
+		K_rctrl = 31
 	};
 }
