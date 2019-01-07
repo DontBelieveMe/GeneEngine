@@ -22,10 +22,23 @@ int main()
 		{
 			switch (event.EventType)
 			{
+			case g2::EVENT_MOUSEUP:
+			{
+				G2_TRACE("Mouse Button Up := {0}", event.Mouse.Button);
+				break;
+			}
+			case g2::EVENT_MOUSEDOWN:
+			{
+				G2_TRACE("Mouse Button Down := {0}", event.Mouse.Button);
+				break;
+			}
 			case g2::EVENT_QUIT:
+			{
 				window->Close();
 				break;
+			}
 			case g2::EVENT_KEYDOWN:
+			{
 				G2_TRACE("KEYDOWN := Shift: {0}, Ctrl: {1}, Alt {2} | Char {3}",
 					(event.Key.Modifiers & g2::KMOD_SHIFT) != 0,
 					(event.Key.Modifiers & g2::KMOD_CTRL) != 0,
@@ -33,14 +46,17 @@ int main()
 					event.Key.Key
 				);
 				break;
+			}
 			case g2::EVENT_KEYUP:
-				G2_TRACE("KEYUP := Shift: {0}, Ctrl: {1}, Alt {2} | Char {3}", 
+			{
+				G2_TRACE("KEYUP := Shift: {0}, Ctrl: {1}, Alt {2} | Char {3}",
 					(event.Key.Modifiers & g2::KMOD_SHIFT) != 0,
 					(event.Key.Modifiers & g2::KMOD_CTRL) != 0,
 					(event.Key.Modifiers & g2::KMOD_ALT) != 0,
 					event.Key.Key
 				);
 				break;
+			}
 			}
 		}
 	}

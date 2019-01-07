@@ -1,4 +1,4 @@
-// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+// Copyright 2017-2019 Barney Wilks. All Rights Reserved
 
 #include <Gene2/Platform/Windows/Win32Window.hpp>
 #include <Gene2/Debug/Logging.hpp>
@@ -96,10 +96,41 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key, LPARAM flags)
 
 bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	G2_MARK_VARIABLE_UNUSED(lParam);
-	
 	switch (msg)
 	{
+	case WM_LBUTTONDOWN:
+	{
+		Event e;
+		e.EventType = EVENT_MOUSEDOWN;
+		e.Mouse.Button = MBN_LEFT;
+		m_eventQueue.push(e);
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		Event e;
+		e.EventType = EVENT_MOUSEUP;
+		e.Mouse.Button = MBN_LEFT;
+		m_eventQueue.push(e);
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		Event e;
+		e.EventType = EVENT_MOUSEUP;
+		e.Mouse.Button = MBN_RIGHT;
+		m_eventQueue.push(e);
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		Event e;
+		e.EventType = EVENT_MOUSEDOWN;
+		e.Mouse.Button = MBN_RIGHT;
+
+		m_eventQueue.push(e);
+		break;
+	}
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 	{

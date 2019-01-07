@@ -1,4 +1,4 @@
-// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+// Copyright 2017-2019 Barney Wilks. All Rights Reserved
 
 #include <Gene2/Core/Math/Matrix4.hpp>
 #include <Gene2/Core/StdLib/Math.hpp>

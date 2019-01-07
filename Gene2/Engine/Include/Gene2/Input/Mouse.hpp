@@ -2,8 +2,12 @@
 
 #pragma once
 
-#include <sstream>
-
 namespace g2 {
-	using StringStream = std::stringstream;
+	enum EMouseButton {
+		MBN_LEFT,
+		MBN_RIGHT,
+		MBN_MIDDLE
+	};
+
+
 }

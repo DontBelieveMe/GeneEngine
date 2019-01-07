@@ -1,10 +1,11 @@
-// Copyright 2017-2018 Barney Wilks. All Rights Reserved
+// Copyright 2017-2019 Barney Wilks. All Rights Reserved
 
 #pragma once
 
 #include <Gene2/Platform/IWindow.hpp>
 #include <Gene2/Input/Keys.hpp>
 
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 namespace g2 { namespace win32 {
