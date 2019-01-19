@@ -1,6 +1,5 @@
 macro(G2_TreatWarningsAsErrors target)
     if(MSVC)
-        message(${target})
         target_compile_options(${target} PRIVATE /W4 /WX)
     else()
         target_compile_options(${target} PRIVATE -Wall -Wextra -pedantic -Werror)
@@ -15,7 +14,6 @@ macro(G2_SetSourceGroupsFromFilepaths sourceFiles)
 
         string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
         string(REPLACE "/" "\\" GROUP "${GROUP}")
-
         if ("${file}" MATCHES ".*\\.cpp")
             string(REPLACE "Engine\\Source" "" GROUP "${GROUP}")
             set(GROUP "Source Files${GROUP}")

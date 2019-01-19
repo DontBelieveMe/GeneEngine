@@ -2,10 +2,35 @@ project (Gene2)
 
 set(CurrentDir ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_subdirectory(${CurrentDir}/ThirdParty)
+
 add_subdirectory(${CurrentDir}/Engine/Include/Gene2)
 add_subdirectory(${CurrentDir}/Engine/Source)
 
+# Autogenerate .Lib.hpp files that include all the needed header files for
+# Each global includes.
+# How something is decided to be a module is NOT GOOD (read #todo (bwilks) -> fix)
+# As it is just based off the filename.
+# Bit it appears to work for small dependencys.
+# May need to revist when we have bigger dependencies such as FreeType.
+# #todo (bwilks) -> fix
+foreach(i ${ThirdPartyGlobalIncludes})
+	get_filename_component(ModuleName ${i} NAME)
+	file(GLOB HeadersInDir "${i}/*.h" "${i}/*.hpp")
+	set(CMAKE_CONFIGURABLE_FILE_CONTENT )
+	foreach(m ${HeadersInDir})
+		file(RELATIVE_PATH RelDir "${CurrentDir}/Engine/Include" ${m})
+		set(CMAKE_CONFIGURABLE_FILE_CONTENT "${CMAKE_CONFIGURABLE_FILE_CONTENT}\n#include <${RelDir}>")
+	endforeach()
+	set(InputFile ${CurrentDir}/Tools/Cmake/Dep.In.hpp)
+	set(OutputHeaderFile ${CurrentDir}/Engine/Include/Gene2/Lib/${ModuleName}.Lib.hpp)
+	configure_file(${InputFile} ${OutputHeaderFile} @ONLY)
+	list(APPEND EngineHeaders ${OutputHeaderFile})
+	unset(CMAKE_CONFIGURABLE_FILE_CONTENT)
+endforeach()
+
 add_library(${PROJECT_NAME} ${EngineSource} ${EngineHeaders})
+target_link_libraries(${PROJECT_NAME} glfl)
 
 include(${CurrentDir}/Tools/CMake/Common.cmake)
 
