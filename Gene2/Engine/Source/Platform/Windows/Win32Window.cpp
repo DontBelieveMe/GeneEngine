@@ -216,6 +216,8 @@ void Win32Window::Init()
 	);
 
 	SetProp(m_hwnd, HWND_WINDOW_PTR_PROPERTY, this);
+
+	m_handle = m_hwnd;
 }
 
 void Win32Window::Show()

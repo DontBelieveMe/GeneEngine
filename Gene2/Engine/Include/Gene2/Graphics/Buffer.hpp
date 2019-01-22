@@ -2,20 +2,17 @@
 
 #pragma once
 
+#include <Gene2/Graphics/OpenGL.hpp>
+
 namespace g2 {
-	enum BufferType {
-		BT_ARRAY_BUFFER, 
-		BT_INDEX_BUFFER
-	};
-
-	enum DrawType {
-		BD_STATIC,
-		BD_DYNAMIC,
-		BD_STREAM
-	};
-
-	class IBuffer {
+	class VertexBuffer {
 	public:
+		void Create(size_t size, void* data);
+
 	private:
+		GLuint m_id;
+	};
+
+	class IndexBuffer {
 	};
 }

@@ -2,7 +2,7 @@
 #include <Gene2/Platform/IWindow.hpp>
 
 #include <Gene2/Core/StdLib/Memory.hpp>
-
+#include <Gene2/Graphics/RenderDevice.hpp>
 #include <Gene2/Input/Keys.hpp>
 
 int main()
@@ -13,6 +13,9 @@ int main()
 		g2::WindowConfig(800, 600, "Gene2 Demo!")
 	);
 	
+	g2::RenderDevice renderDevice;
+	renderDevice.Init(window);
+
 	window->Show();
 	
 	while (window->IsOpen())

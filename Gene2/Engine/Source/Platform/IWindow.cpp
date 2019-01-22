@@ -10,6 +10,10 @@ IWindow::IWindow(const WindowConfig& config)
 {
 }
 
+void* IWindow::GetHandle() const {
+	return m_handle;
+}
+
 bool IWindow::PollEvent(Event& event)
 {
 	if (m_eventQueue.empty())

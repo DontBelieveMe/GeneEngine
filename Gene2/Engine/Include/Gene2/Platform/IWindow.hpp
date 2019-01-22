@@ -62,6 +62,8 @@ namespace g2 {
 		 */
 		bool PollEvent(Event& event);
 
+		void* GetHandle() const;
+
 	protected:
 		virtual void Init() = 0;
 		virtual void ProcessPlatformEvents() = 0;
@@ -70,5 +72,6 @@ namespace g2 {
 		WindowConfig m_config;
 
 		Queue<Event> m_eventQueue;
+		void* m_handle;
 	};
 }

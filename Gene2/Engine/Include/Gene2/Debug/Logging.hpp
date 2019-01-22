@@ -70,9 +70,9 @@ namespace g2 {
 			{
 				message	= formatString;
 			}
-
+			G2_MARK_VARIABLE_UNUSED(file);
 			const char* severityString = this->GetSeverityAsString(severity);
-			String output = g2::FormatString("({0}:{1}) [{2}]: {3}", file, line, severityString, message);
+			String output = g2::FormatString("({0}:{1}) [{2}]: {3}", /*file*/"", line, severityString, message);
 
 			for (const auto& route : m_routes)
 			{

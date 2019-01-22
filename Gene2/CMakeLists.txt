@@ -15,13 +15,10 @@ add_subdirectory(${CurrentDir}/Engine/Source)
 # May need to revist when we have bigger dependencies such as FreeType.
 # #todo (bwilks) -> fix
 foreach(i ${ThirdPartyGlobalIncludes})
-	get_filename_component(ModuleName ${i} NAME)
-	file(GLOB HeadersInDir "${i}/*.h" "${i}/*.hpp")
+	get_filename_component(ModuleName ${i} NAME_WE)
 	set(CMAKE_CONFIGURABLE_FILE_CONTENT )
-	foreach(m ${HeadersInDir})
-		file(RELATIVE_PATH RelDir "${CurrentDir}/Engine/Include" ${m})
-		set(CMAKE_CONFIGURABLE_FILE_CONTENT "${CMAKE_CONFIGURABLE_FILE_CONTENT}\n#include <${RelDir}>")
-	endforeach()
+	file(RELATIVE_PATH RelDir "${CurrentDir}/Engine/Include" ${i})
+	set(CMAKE_CONFIGURABLE_FILE_CONTENT "${CMAKE_CONFIGURABLE_FILE_CONTENT}\n#include <${RelDir}>")
 	set(InputFile ${CurrentDir}/Tools/Cmake/Dep.In.hpp)
 	set(OutputHeaderFile ${CurrentDir}/Engine/Include/Gene2/Lib/${ModuleName}.Lib.hpp)
 	configure_file(${InputFile} ${OutputHeaderFile} @ONLY)
@@ -30,7 +27,7 @@ foreach(i ${ThirdPartyGlobalIncludes})
 endforeach()
 
 add_library(${PROJECT_NAME} ${EngineSource} ${EngineHeaders})
-target_link_libraries(${PROJECT_NAME} glfl)
+target_link_libraries(${PROJECT_NAME} glfl opengl32.lib)
 
 include(${CurrentDir}/Tools/CMake/Common.cmake)
 
