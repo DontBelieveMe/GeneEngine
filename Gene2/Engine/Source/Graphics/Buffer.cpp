@@ -11,6 +11,8 @@ void Buffer::Create(size_t initFlags)
 		m_target = GL_ARRAY_BUFFER;
 	else if (initFlags & BF_INDEX_BUFFER)
 		m_target = GL_ELEMENT_ARRAY_BUFFER;
+	else
+		G2_ASSERT(false, "Buffer type not specified.");
 
 	G2_GL_CHECK(glGenBuffers(1, &m_id));
 		

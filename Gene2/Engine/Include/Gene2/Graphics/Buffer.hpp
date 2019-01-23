@@ -16,11 +16,27 @@ namespace g2 {
 		GLenum m_target;
 
 	public:
+		/**
+		 * @brief Create an empty buffer.
+		 * @param initFlags Flags used to configure the buffer. At a minimum must include BufferFlags (to set the type of buffer)
+		 */
 		void Create(size_t initFlags);
 
+		/**
+		 * @brief Get a read/write pointer to this buffers data store.
+		 * @return A read/write pointer to this buffers data store.
+		 */
 		void* Map();
+
+		/**
+		 * @brief Unmap the pointer mapped with `Map()`. Must be called before this GL buffer is used.
+		 */
 		void Unmap();
 
+		/**
+		 * @brief Get the internal OpenGL buffer ID for this Buffer.
+		 * @return OpenGL buffer object for this Buffer.
+		 */
 		GLuint GetId() const;
 	};
 }
