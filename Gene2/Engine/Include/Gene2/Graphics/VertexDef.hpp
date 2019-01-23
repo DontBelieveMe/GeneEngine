@@ -13,6 +13,7 @@ namespace g2 {
 	class VertexDef {
 	private:
 		Array<VertexAttribute> m_attributes;
+
 	public:
 		void addAttribute();
 	};

@@ -16,6 +16,8 @@ int main()
 	g2::RenderDevice renderDevice;
 	renderDevice.Init(window);
 
+	g2::Buffer* vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER);
+	G2_TRACE("Buffer Id: {0}", vertexBuffer->GetId());
 	window->Show();
 	
 	while (window->IsOpen())

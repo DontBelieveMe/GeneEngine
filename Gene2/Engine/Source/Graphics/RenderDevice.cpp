@@ -13,9 +13,17 @@ typedef win32::Win32OpenGL3Context PlatformContext;
 	#error No rendering support for non-Windows platforms!
 #endif
 
-void RenderDevice::Init(const g2::SharedPtr<IWindow>& window) {
+void RenderDevice::Init(const g2::SharedPtr<IWindow>& window) 
+{
 	void* windowHandle = window->GetHandle();
 
 	m_context = new PlatformContext(windowHandle);
 	m_context->Create();
+}
+
+Buffer* RenderDevice::CreateBuffer(size_t initFlags)
+{
+	Buffer* buff = new Buffer;
+	buff->Create(initFlags);
+	return buff;
 }
