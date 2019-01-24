@@ -2,6 +2,33 @@
 
 Welcome to version 2.0 of Gene Engine - 2.0 as this is the first complete rewrite of the original engine I started when I had no idea of anything. Hopefully this should be slightly better, as I now come better prepared, now having a better idea of how a proper game engine fits together, having learned from many _many_ mistakes. 
 
+## Roadmap
+
+Currently I am focused on getting the functionality of version 2.0 back to where it was with 1.0, including Linux and Android support. This includes:
+
+- New Graphics API (OpenGL based)
+  - Including builtin support for ImGui
+  - 2D Rendering
+    - Font/Text drawing
+    - Drawing primitives (rectangles, circles, triangles, complex shapes)
+  - Layer based system.
+- New Audio API (OpenAL based)
+- Scripting with Lua (via LuaJIT, maybe?)
+- New Reflection system
+  - This time I would like to write it more as a pre-processor based system, using `libclang` or something like that. Kindof like Unreal Engine's `UnrealHeaderTool`.
+
+Features that where not included in the original engine, that I'm looking at
+
+- Game controller input support as well as keyboard/mouse
+- Proper assets/resource management
+- Some kind of entity component system, whether this will be pure ECS or the Unreal/original Unity hybrid approach is yet to be known, I kinda like features from both :man_shrugging:
+- Cool 3D rendering stuff.
+  - Rendering with Deferred rendering or Forward+, something like that.
+  - Just cool graphics'y stuff. Quite a lot of it is _a little_ advanced, but hey, I can dream.
+  - Also support for multiple rendering backends (I'm mainly thinking DirectX11/12 and Vulkan, something like that). Again kind of a pipe dream, but hey, nobody ever got anywhere by not thinking big.
+
+This is not a complete list by any means - it's not even a list of guaranteed features, more like me jotting my thoughts on what I'd _like_ in there.
+
 ## Getting Started
 
 #### Requirements
