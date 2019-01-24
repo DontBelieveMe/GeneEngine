@@ -45,19 +45,20 @@ This is not a complete list by any means - it's not even a list of guaranteed fe
 
 - Run `cmake -H. -BBuild` 
 
-- ##### Windows
+- ##### Visual Studio
 
   - Open up `Gene2.sln` (inside the newly created `Build` folder) in Visual Studio
   - Set `Gene2.Sandbox` as the StartUp project
   - Build & run! :smile:
 
-- ##### Linux
+- ##### GCC
 
-  - Linux not currently supported :disappointed:. Sorry bout' that. It's coming soon though!
+  - Run `cmake --build Build` from root directory or navigate into the `Build` directory and run `make`
+  - Run produced executable (probably in the `Gene2.Sandbox` subfolder of `Build`)
 
 - ##### Android
 
-  - Same applies to Android as Linux.
+  - Android toolchain currently not implemented.
 
 ## License
 
