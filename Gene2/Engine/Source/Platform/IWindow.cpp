@@ -35,8 +35,11 @@ bool IWindow::PollEvent(Event& event)
 #ifdef G2_PLATFORM_WINDOWS
 	#include <Gene2/Platform/Windows/Win32Window.hpp>
 	typedef win32::Win32Window PlatformWindow;
+#elif defined(G2_PLATFORM_LINUX)
+	#include <Gene2/Platform/Linux/X11Window.hpp>
+	typedef x11::X11Window PlatformWindow;
 #else
-	#error Windowing Module not currently supported for non Windows backends.
+	#error Selected Windowing Module not currently supported
 #endif
 
 SharedPtr<IWindow> IWindow::Create(const WindowConfig& windowConfig)

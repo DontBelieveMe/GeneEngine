@@ -27,12 +27,13 @@ foreach(i ${ThirdPartyGlobalIncludes})
 endforeach()
 
 add_library(${PROJECT_NAME} ${EngineSource} ${EngineHeaders})
-target_link_libraries(${PROJECT_NAME} glfl opengl32.lib)
+target_link_libraries(${PROJECT_NAME} glfl) 
 
 if(NOT MSVC)
-	target_link_libraries(${PROJECT_NAME} m)
+	target_link_libraries(${PROJECT_NAME} m GL X11)
+else()
+	target_link_libraries(${PROJECT_NAME} opengl32.lib)
 endif()
-
 
 include(${CurrentDir}/Tools/CMake/Common.cmake)
 

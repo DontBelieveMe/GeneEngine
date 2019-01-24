@@ -11,7 +11,9 @@
 		#define G2_CPU_32BIT
 	#endif
 #else
-#error Platform macros not implemented for non-Windows platforms.
+	#if defined(__linux__)
+		#define G2_PLATFORM_LINUX
+	#endif
 #endif
 
 #ifdef _MSC_VER

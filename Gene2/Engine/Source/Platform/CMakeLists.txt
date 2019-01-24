@@ -6,6 +6,12 @@ if(WIN32)
 	)
 endif()
 
+if(UNIX AND NOT APPLE)
+	set(PlatformSpecificFiles
+		${CurrentDir}/Linux/X11Window.cpp
+	)
+endif()
+
 set(PlatformSource
 	${CurrentDir}/Intrinsics.cpp
 	${CurrentDir}/IWindow.cpp

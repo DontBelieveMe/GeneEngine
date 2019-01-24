@@ -6,6 +6,12 @@ if(WIN32)
 	)
 endif()
 
+if(UNIX AND NOT APPLE)
+	set(PlatformHeaders
+		${CurrentDir}/Linux/X11Window.hpp
+	)
+endif()
+
 list(APPEND PlatformHeaders
 	${CurrentDir}/IWindow.hpp
 	${CurrentDir}/Intrinsics.hpp

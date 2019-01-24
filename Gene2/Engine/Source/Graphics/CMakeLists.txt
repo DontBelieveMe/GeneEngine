@@ -8,6 +8,12 @@ if(WIN32)
 	)
 endif()
 
+if(UNIX AND NOT APPLE)
+	list(APPEND PlatformSpecificSource
+		${CurrentDir}/Linux/X11OpenGL3Context.cpp
+	)
+endif()
+
 set(GraphicsSource
 	${CurrentDir}/RenderDevice.cpp
 	${CurrentDir}/Buffer.cpp

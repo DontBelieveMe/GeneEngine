@@ -8,6 +8,12 @@ if(WIN32)
 	)
 endif()
 
+if(UNIX AND NOT APPLE)
+	list(APPEND PlatformSpecificHeaders
+		${CurrentScope}/Linux/X11OpenGL3Context.hpp
+	)
+endif()
+
 set(GraphicsHeaders
 	${CurrentScope}/RenderDevice.hpp
 	${CurrentScope}/Buffer.hpp

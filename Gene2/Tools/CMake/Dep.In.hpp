@@ -3,4 +3,7 @@
 // =============
 // 
 // Dependency Module Include File for @ModuleName@
+#pragma GCC diagnostic push
+#pragma GCC system_header
 @CMAKE_CONFIGURABLE_FILE_CONTENT@
+#pragma GCC diagnostic pop

@@ -40,6 +40,22 @@ void ConsoleLoggerRoute::HandleDispatchedMessage(ELogSeverity severity, const St
 
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(console, color);
+#else
+	#if defined(G2_PLATFORM_LINUX)
+		switch(severity)
+		{
+		case S_ERROR:
+		case S_FATAL:
+			std::cout << "\u001b[31m";
+			break;
+		case S_WARN:
+			std::cout << "\u001b[33m";
+			break;
+		case S_TRACE:
+			std::cout << "\u001b[31m";
+			break;
+		}
+	#endif
 #endif
 
 	std::cout << message << std::endl;
