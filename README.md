@@ -35,8 +35,9 @@ This is not a complete list by any means - it's not even a list of guaranteed fe
 #### Requirements
 
 - CMake (version >= 3.0)
-- A C++11 compliant compiler
-  - Currently only tested with Visual Studio 2017, but I'm planning on getting GCC/Clang working again for Android/Linux as soon as I can.
+- A C++11 compliant compiler. Tested compilers are as follows:
+  - G++/GCC 6.3.0 (tested on Windows with MinGW)
+  - Visual Studio 15 2017 (v141)
 
 #### Building
 
