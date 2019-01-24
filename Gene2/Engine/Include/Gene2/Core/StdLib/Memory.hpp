@@ -40,6 +40,6 @@ namespace g2 {
 	template <typename T, typename... Args>
 	UniquePtr<T> MakeUnique(Args&&... args) 
 	{
-		return std::make_unique<T>(args...);
+		return UniquePtr<T>(new T(std::forward<Args>(args)...));
 	}
 }

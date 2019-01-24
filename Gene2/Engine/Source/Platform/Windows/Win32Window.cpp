@@ -170,7 +170,7 @@ void Win32Window::Init()
 {
 	const HINSTANCE hInstance = GetModuleHandle(nullptr);
 
-	WNDCLASSEX wndClass    = { 0 };
+	WNDCLASSEX wndClass    = { };
 	wndClass.cbClsExtra    = 0;
 	wndClass.cbSize        = sizeof(WNDCLASSEX);
 	wndClass.cbWndExtra    = 0;
@@ -185,7 +185,6 @@ void Win32Window::Init()
 	wndClass.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 
 	const ATOM registerClassResult = RegisterClassEx(&wndClass);
-
 	G2_ASSERT(
 		registerClassResult != 0, 
 		"Could not register Win32 window class. Win32 Error {0}", GetLastError()
@@ -210,10 +209,7 @@ void Win32Window::Init()
 		nullptr
 	);
 
-	G2_ASSERT(
-		m_hwnd != nullptr, 
-		"Could not create Win32 window. Win32 Error {0}", GetLastError()
-	);
+	G2_ASSERT(m_hwnd != NULL, "Could not create Win32 window. Win32 Error {0}", GetLastError());
 
 	SetProp(m_hwnd, HWND_WINDOW_PTR_PROPERTY, this);
 

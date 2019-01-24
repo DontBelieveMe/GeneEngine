@@ -6,8 +6,8 @@
 
 namespace g2 {
 	enum BufferFlags {
-		BF_VERTEX_BUFFER,
-		BF_INDEX_BUFFER
+		BF_VERTEX_BUFFER = 1,
+		BF_INDEX_BUFFER = 2
 	};
 
 	class Buffer {

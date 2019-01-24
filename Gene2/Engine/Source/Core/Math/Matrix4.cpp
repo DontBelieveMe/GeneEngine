@@ -25,7 +25,6 @@ Matrix4 Matrix4::MakePerspective(const float& aspectRatio, const float& fov, con
 	Matrix4 m4;
 	m4.SetIdentity();
 
-	const float t = (-2.f * far * near) / (far - near);
 	const float thf = Math::Tan(Math::DegreesToRadians(fov * 0.5f));
 
 	M(m4.Elements, 0, 0) = 1.f / (aspectRatio * thf);

@@ -29,6 +29,11 @@ endforeach()
 add_library(${PROJECT_NAME} ${EngineSource} ${EngineHeaders})
 target_link_libraries(${PROJECT_NAME} glfl opengl32.lib)
 
+if(NOT MSVC)
+	target_link_libraries(${PROJECT_NAME} m)
+endif()
+
+
 include(${CurrentDir}/Tools/CMake/Common.cmake)
 
 G2_SetSourceGroupsFromFilepaths("${EngineSource}")

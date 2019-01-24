@@ -68,8 +68,8 @@ namespace g2 {
 		virtual void Init() = 0;
 		virtual void ProcessPlatformEvents() = 0;
 
-		bool m_bOpen;
 		WindowConfig m_config;
+		bool m_bOpen;
 
 		Queue<Event> m_eventQueue;
 		void* m_handle;

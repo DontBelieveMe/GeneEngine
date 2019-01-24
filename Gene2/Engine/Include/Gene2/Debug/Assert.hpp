@@ -11,9 +11,8 @@
 
 #define G2_INTERNAL_CHECK(message, condition, ...) \
 	do { if(!(condition)) { \
-		const char* assertionMessage = G2_PP_CONCAT_STR(message, "\n\t`" G2_PP_STR(condition) "`" );\
-		String customMsg = g2::FormatString(__VA_ARGS__); \
-		G2_FATAL_LITERAL(g2::FormatString("{0}\n\t{1}", assertionMessage, customMsg)); \
+		g2::String preassert = g2::FormatString("{0}: {1}", message, G2_PP_STR(condition));\
+		G2_FATAL("{0}\n\t{1}", preassert, g2::FormatString(__VA_ARGS__));\
 		G2_DEBUG_BREAK(); \
 	}} while(0)
 

@@ -4,6 +4,7 @@
 #include <Gene2/Core/StdLib/Memory.hpp>
 #include <Gene2/Graphics/RenderDevice.hpp>
 #include <Gene2/Input/Keys.hpp>
+#include <Gene2/Debug/Assert.hpp>
 
 int main()
 {
@@ -15,7 +16,7 @@ int main()
 	
 	g2::RenderDevice renderDevice;
 	renderDevice.Init(window);
-
+	
 	g2::Buffer* vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER);
 	G2_TRACE("Buffer Id: {0}", vertexBuffer->GetId());
 	window->Show();

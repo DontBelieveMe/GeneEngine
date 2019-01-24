@@ -13,6 +13,13 @@ namespace g2 {
 	using String = std::string;
 	
 	namespace internal {
+		template <int ArrSize>
+		void ToStringArray(FixedArray<String, ArrSize>& strArray, int& index) 
+		{
+			G2_MARK_VARIABLE_UNUSED(strArray);
+			G2_MARK_VARIABLE_UNUSED(index);
+		}
+
 		template <int ArrSize, typename T, typename... Args>
 		void ToStringArray(FixedArray<String, ArrSize>& strArray, int& index, const T& item, const Args&... args)
 		{
@@ -20,21 +27,14 @@ namespace g2 {
 			ss << item;
 
 			strArray[index++] = ss.str();
-			ToStringArray(strArray, index, args...);
+			ToStringArray<ArrSize, Args...>(strArray, index, args...);
 		}
 
-		template <int ArrSize>
-		void ToStringArray(FixedArray<String, ArrSize>& strArray, int& index) 
-		{
-			G2_MARK_VARIABLE_UNUSED(strArray);
-			G2_MARK_VARIABLE_UNUSED(index);
-		}
-		
 		template <int ArrSize, typename... Args>
 		void ToStringArray(FixedArray<String, ArrSize>& arr, const Args&... args)
 		{
 			int i = 0;
-			internal::ToStringArray(arr, i, args...);
+			internal::ToStringArray<ArrSize, Args...>(arr, i, args...);
 		}
 	}
 
@@ -49,7 +49,7 @@ namespace g2 {
 	String FormatString(const String& fmt, const Args&... args)
 	{
 		FixedArray<String, sizeof...(args)> argsArray;
-		internal::ToStringArray(argsArray, args...);
+		internal::ToStringArray<sizeof...(args), Args...>(argsArray, args...);
 
 		StringStream buff;
 		for (size_t i = 0; i < fmt.length(); ++i)
