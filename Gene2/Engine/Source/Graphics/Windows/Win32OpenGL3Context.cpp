@@ -11,17 +11,19 @@ Win32OpenGL3Context::Win32OpenGL3Context(void* windowHandle)
 	: IOpenGL3Context(windowHandle) {
 }
 
-namespace detail {
-	static HMODULE s_opengl32dll = LoadLibraryA("opengl32.dll");
+namespace g2 {
+	namespace internal {
+		static HMODULE s_opengl32dll = LoadLibraryA("opengl32.dll");
 
-	static void* GetProcAddress(const char* path) {
-		PROC ptr = wglGetProcAddress((LPCSTR)path);
-		
-		if (!ptr) {
-			return (void*) ::GetProcAddress(s_opengl32dll, (LPCSTR)path);
-		}
-		else {
-			return (void*)ptr;
+		static void* GetProcAddress(const char* path) {
+			PROC ptr = wglGetProcAddress((LPCSTR)path);
+
+			if (!ptr) {
+				return (void*) ::GetProcAddress(s_opengl32dll, (LPCSTR)path);
+			}
+			else {
+				return (void*)ptr;
+			}
 		}
 	}
 }
@@ -54,7 +56,7 @@ void Win32OpenGL3Context::Create()
 	m_context = wglCreateContext(m_hdc);
 	wglMakeCurrent(m_hdc, m_context);
 
-	glfl::set_function_loader(detail::GetProcAddress);
+	glfl::set_function_loader(g2::internal::GetProcAddress);
 	glfl::load_everything();
 
 	int glMajor, glMinor;
@@ -68,5 +70,4 @@ void Win32OpenGL3Context::Create()
 
 	const GLubyte *rendererString = glGetString(GL_RENDERER);
 	G2_TRACE("OpenGL Renderer: {0}", (const char*)rendererString);
-
 }

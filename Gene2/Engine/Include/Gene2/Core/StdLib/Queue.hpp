@@ -5,6 +5,9 @@
 #include <queue>
 
 namespace g2 {
+	/**
+	 * First in, First out data structure. Equivilant of std::queue<T>
+	 */
 	template <typename T>
 	using Queue = std::queue<T>;
 }
