@@ -3,7 +3,15 @@
 // =============
 // 
 // Dependency Module Include File for @ModuleName@
-#pragma GCC diagnostic push
-#pragma GCC system_header
+#include <Gene2/Platform/PlatformInfo.hpp>
+
+#if defined(G2_COMPILER_GNUC)
+	#pragma GCC diagnostic push
+	#pragma GCC system_header
+#endif
+
 @CMAKE_CONFIGURABLE_FILE_CONTENT@
-#pragma GCC diagnostic pop
+
+#if defined(G2_COMPILER_GNUC)
+	#pragma GCC diagnostic pop
+#endif
