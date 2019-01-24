@@ -1,0 +1,20 @@
+language: cpp
+dist: trusty
+sudo: required
+os:
+    - linux
+    - osx
+compiler:
+    - gcc
+    - clang
+
+matrix:
+    exclude:
+        - os: osx
+          compiler: gcc
+
+script:
+    - cmake -H. -BBuild
+    - cmake --build Build
+              
+
