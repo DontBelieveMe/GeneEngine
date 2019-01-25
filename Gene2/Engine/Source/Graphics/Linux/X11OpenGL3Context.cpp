@@ -8,3 +8,5 @@ X11OpenGL3Context::X11OpenGL3Context(void* windowHandle)
 	: IOpenGL3Context(windowHandle) {}
 
 void X11OpenGL3Context::Create() {}
+
+void X11OpenGL3Context::SwapBuffers(){}
