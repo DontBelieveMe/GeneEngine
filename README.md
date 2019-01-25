@@ -3,7 +3,7 @@
 
 # Gene Engine 2
 
-Welcome to version 2.0 of Gene Engine - 2.0 as this is the first complete rewrite of the original engine I started when I had no idea of anything. Hopefully this should be slightly better, as I now come better prepared, now having a better idea of how a proper game engine fits together, having learned from many _many_ mistakes. 
+Welcome to version 2.0 of Gene Engine - 2.0 as this is the first complete rewrite of the original engine I started when I had no idea of anything. Hopefully this should be slightly better - I now have a better idea of how a proper game engine fits together, having learned from many _many_ mistakes. 
 
 ## Roadmap
 
