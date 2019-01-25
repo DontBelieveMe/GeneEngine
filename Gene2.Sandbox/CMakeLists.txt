@@ -14,7 +14,7 @@ file(GLOB AssetShaders ${AssetsPath}/*.shader)
 
 add_custom_target(AssetsTarget
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${AssetsPath} ${CMAKE_CURRENT_BINARY_DIR}/ASSETS
+				   ${AssetsPath} ${CMAKE_CURRENT_BINARY_DIR}/Assets
 		   SOURCES ${AssetShaders}
 )
 source_group("Shaders" FILES ${AssetsShaders})
