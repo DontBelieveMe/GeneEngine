@@ -6,6 +6,8 @@
 #include <Gene2/Platform/IWindow.hpp>
 #include <Gene2/Graphics/Buffer.hpp>
 
+#include <Gene2/Core/StdLib/Array.hpp>
+
 namespace g2 {
 	/**
 	 * Used to create resources and manage the rendering functionality of a window.
@@ -14,6 +16,7 @@ namespace g2 {
 	private:
 		IOpenGL3Context * m_context;
 
+		Array<Buffer> m_buffers;
 	public:
 		/**
 		 * @brief Initialize the RenderDevice for the specified IWindow

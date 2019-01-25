@@ -4,29 +4,20 @@
 
 using namespace g2;
 
-#include <Gene2/Platform/PlatformInfo.hpp>
 
-#ifdef G2_PLATFORM_WINDOWS
-	#include <Gene2/Graphics/Windows/Win32OpenGL3Context.hpp>
-	typedef win32::Win32OpenGL3Context PlatformContext;
-#elif defined(G2_PLATFORM_LINUX)
-	#include <Gene2/Graphics/Linux/X11OpenGL3Context.hpp>
-	typedef x11::X11OpenGL3Context PlatformContext;
-#else
-	#error No rendering support for this platform! 
-#endif
 
 void RenderDevice::Init(const g2::SharedPtr<IWindow>& window) 
 {
 	void* windowHandle = window->GetHandle();
 
-	m_context = new PlatformContext(windowHandle);
+	m_context = IOpenGL3Context::CreateContextForThisPlatform(windowHandle);
 	m_context->Create();
 }
 
 Buffer* RenderDevice::CreateBuffer(size_t initFlags)
 {
-	Buffer* buff = new Buffer;
-	buff->Create(initFlags);
-	return buff;
+	Buffer buff;
+	buff.Create(initFlags);
+	m_buffers.push_back(buff);
+	return &m_buffers.back();
 }

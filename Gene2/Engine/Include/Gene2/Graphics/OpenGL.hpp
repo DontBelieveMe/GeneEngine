@@ -15,4 +15,3 @@
 #define G2_GL_CHECK(glCall) glCall;
 #endif
 
-	

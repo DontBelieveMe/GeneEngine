@@ -5,7 +5,7 @@
 #include <Gene2/Graphics/OpenGL.hpp>
 
 namespace g2 {
-	enum BufferFlags {
+	enum EBufferFlags {
 		BF_VERTEX_BUFFER = 1,
 		BF_INDEX_BUFFER = 2
 	};

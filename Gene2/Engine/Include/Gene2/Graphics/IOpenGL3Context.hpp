@@ -10,6 +10,8 @@ namespace g2 {
 
 		virtual void Create() = 0;
 
+		static IOpenGL3Context* CreateContextForThisPlatform(void* windowHandle);
+
 	protected:
 		void* m_windowHandle;
 	};

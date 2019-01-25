@@ -10,6 +10,9 @@
 #include <Gene2/Platform/Intrinsics.hpp>
 
 namespace g2 {
+	/**
+	 * Represents a char string - a continuous sequence of char values..
+	 */
 	using String = std::string;
 	
 	namespace internal {
@@ -38,13 +41,19 @@ namespace g2 {
 		}
 	}
 
-	// This is to allow passing empty variadic template argument lists and variadic macro parameters
-	// to this method, and still compile.
-	// Initially implemented for assertion macros - no need to specify additional message, but you can
-	// and it will format correctly as a format string.
+	/**
+	 * @brief Overload of FormatString to allow the passing no arguments (useful for any varadic code that could potentially expand to nothing).
+	 * @return An empty string.
+	 */
 	inline String FormatString() { return ""; }
 
-	// #todo: implement -> complete format syntax checking
+	/**
+	 * @brief Converts each format specifier (denoted by {n}, where n is the index of the argument in the varadic arguments list)
+	 *        in the format string (fmt) to the string representation of it's corresponding varadic argument.
+	 * @param fmt The format string.
+	 * @param args Zero or more values that represent the value of the corresponding format specifier.
+	 * @return The formatted string, with the {<n>} replaced by the coressponding actual parameter.  
+	 */
 	template <typename... Args>
 	String FormatString(const String& fmt, const Args&... args)
 	{
