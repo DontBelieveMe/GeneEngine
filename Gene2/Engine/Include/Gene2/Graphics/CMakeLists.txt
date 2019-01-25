@@ -21,6 +21,7 @@ set(GraphicsHeaders
 	${CurrentScope}/OpenGL.hpp
 	${CurrentScope}/VertexDef.hpp
 	${CurrentScope}/Shader.hpp
+	${CurrentScope}/Color.hpp
 
 	${PlatformSpecificHeaders}
 

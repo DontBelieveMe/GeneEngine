@@ -9,6 +9,7 @@ namespace g2 {
 			: m_windowHandle(windowHandle){}
 
 		virtual void Create() = 0;
+		virtual void SwapBuffers() = 0;
 
 		static IOpenGL3Context* CreateContextForThisPlatform(void* windowHandle);
 

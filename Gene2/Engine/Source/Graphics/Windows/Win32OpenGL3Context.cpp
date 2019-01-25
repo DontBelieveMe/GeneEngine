@@ -71,3 +71,8 @@ void Win32OpenGL3Context::Create()
 	const GLubyte *rendererString = glGetString(GL_RENDERER);
 	G2_TRACE("OpenGL Renderer: {0}", (const char*)rendererString);
 }
+
+void Win32OpenGL3Context::SwapBuffers()
+{
+	::SwapBuffers(m_hdc);
+}

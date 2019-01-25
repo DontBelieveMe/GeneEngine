@@ -4,7 +4,8 @@
 #include <Gene2/Graphics/IOpenGL3Context.hpp>
 
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+	#include <Windows.h>
+#undef WIN32_LEAN_AND_MEAN
 
 namespace g2 { namespace win32 {
 	class Win32OpenGL3Context : public IOpenGL3Context {
@@ -12,6 +13,7 @@ namespace g2 { namespace win32 {
 		Win32OpenGL3Context(void* windowHandle);
 
 		virtual void Create() override;
+		virtual void SwapBuffers() override;
 
 	private:
 		HDC m_hdc;

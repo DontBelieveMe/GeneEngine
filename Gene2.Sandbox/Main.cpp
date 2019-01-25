@@ -24,7 +24,9 @@ int main()
 	G2_TRACE("Buffer Id: {0}", vertexBuffer->GetId());
 	
 	window->Show();
-	
+
+	renderDevice.SetClearColor(g2::Color::Red);
+
 	while (window->IsOpen())
 	{
 		g2::Event event;
@@ -69,6 +71,10 @@ int main()
 			}
 			}
 		}
+
+		renderDevice.Clear(g2::CF_CLEAR_COLOR_BUFFER | g2::CF_CLEAR_DEPTH_BUFFER);
+
+		renderDevice.SwapBuffers();
 	}
 
     return 0;

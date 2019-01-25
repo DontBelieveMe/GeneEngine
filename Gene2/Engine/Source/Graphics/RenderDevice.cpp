@@ -10,8 +10,30 @@ void RenderDevice::Init(const g2::SharedPtr<IWindow>& window)
 
 	m_context = IOpenGL3Context::CreateContextForThisPlatform(windowHandle);
 	m_context->Create();
+
+	SetClearColor(Color::Black);
 }
 
+void RenderDevice::SetClearColor(const Color& color)
+{
+	G2_GL_CHECK(glClearColor(
+		color.GetNormalizedRed(),
+		color.GetNormalizedGreen(),
+		color.GetNormalizedBlue(),
+		color.GetNormalizedAlpha()
+	));
+}
+
+void RenderDevice::Clear(u32 flags)
+{
+	G2_GL_CHECK(glClear(flags));
+}
+
+void RenderDevice::SwapBuffers()
+{
+	m_context->SwapBuffers();
+}
+	
 Buffer* RenderDevice::CreateBuffer(size_t initFlags)
 {
 	Buffer buff;
