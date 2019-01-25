@@ -20,6 +20,7 @@ set(GraphicsHeaders
 	${CurrentScope}/IOpenGL3Context.hpp
 	${CurrentScope}/OpenGL.hpp
 	${CurrentScope}/VertexDef.hpp
+	${CurrentScope}/Shader.hpp
 
 	${PlatformSpecificHeaders}
 

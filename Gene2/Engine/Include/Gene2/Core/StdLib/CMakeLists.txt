@@ -9,6 +9,7 @@ set(StdLibHeaders
 	${CurrentDir}/Types.hpp
 	${CurrentDir}/Memory.hpp
 	${CurrentDir}/Queue.hpp
+	${CurrentDir}/File.hpp
 
     PARENT_SCOPE
 )

@@ -4,6 +4,7 @@ set(StdLibSource
     ${CurrentDir}/Math.cpp
 	${CurrentDir}/Random.cpp
 	${CurrentDir}/String.cpp
+	${CurrentDir}/File.cpp
 
     PARENT_SCOPE
 )

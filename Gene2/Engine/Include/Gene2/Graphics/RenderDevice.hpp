@@ -4,7 +4,9 @@
 
 #include <Gene2/Graphics/IOpenGL3Context.hpp>
 #include <Gene2/Platform/IWindow.hpp>
+
 #include <Gene2/Graphics/Buffer.hpp>
+#include <Gene2/Graphics/Shader.hpp>
 
 #include <Gene2/Core/StdLib/Array.hpp>
 
@@ -29,5 +31,7 @@ namespace g2 {
 		 * @return A pointer to a new video Buffer. Do not free this buffer - it is owned by the graphics system.
 		 */
 		Buffer* CreateBuffer(size_t initFlags);
+
+		Shader* CreateShader(const char* filepath);
 	};
 }

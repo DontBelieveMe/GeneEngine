@@ -18,7 +18,11 @@ int main()
 	renderDevice.Init(window);
 	
 	g2::Buffer* vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER);
+	g2::Shader* shader = renderDevice.CreateShader("Assets/Test.shader");
+
+	G2_TRACE("Shader Id: {0}", shader->GetProgramId());
 	G2_TRACE("Buffer Id: {0}", vertexBuffer->GetId());
+	
 	window->Show();
 	
 	while (window->IsOpen())

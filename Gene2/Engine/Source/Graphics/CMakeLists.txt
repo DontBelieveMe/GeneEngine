@@ -19,6 +19,7 @@ set(GraphicsSource
 	${CurrentDir}/Buffer.cpp
 	${CurrentDir}/VertexDef.cpp
 	${CurrentDir}/IOpenGL3Context.cpp
+	${CurrentDir}/Shader.cpp
 
 	${PlatformSpecificSource}
 
