@@ -1,5 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/nh135vfa9nb40bix/branch/Gene2?svg=true)](https://ci.appveyor.com/project/DontBelieveMe/geneengine/branch/Gene2)
 [![Build Status](https://travis-ci.org/DontBelieveMe/GeneEngine.svg?branch=Gene2)](https://travis-ci.org/DontBelieveMe/GeneEngine)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Gene Engine 2
 
