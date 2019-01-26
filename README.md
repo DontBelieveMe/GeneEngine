@@ -38,7 +38,7 @@ This is not a complete list by any means - it's not even a list of guaranteed fe
 
 - CMake (version >= 3.0)
 - A C++11 compliant compiler. Tested compilers are as follows:
-  - G++/GCC 6.3.0 (tested on Windows with MinGW)
+  - G++ 4.8.4 or higher (4.8.4 is supported, but I'd really recommend you use a newer version - seen as we're on GCC 8 now). This is tested on a linux machine. G++ 6.3.0 is the minimum tested on windows under MinGW.
   - Visual Studio 15 2017 (v141)
 
 #### Building
