@@ -45,6 +45,9 @@ namespace g2 {
 		 */
 		void Clear(u32 flags);
 
+		/**
+		 * @brief Swap the front and back buffers of this context.
+		 */
 		void SwapBuffers();
 
 		/**
@@ -54,6 +57,11 @@ namespace g2 {
 		 */
 		Buffer* CreateBuffer(size_t initFlags);
 
+		/**
+		 * @brief Create a new GLSL shader from the file at the specified filepath.
+		 * @param filepath The path to the shader file.
+		 * @return A pointer to a new video Shader. Do not free this shader - it is owned by the graphics system.
+		 */
 		Shader* CreateShader(const char* filepath);
 	};
 }
