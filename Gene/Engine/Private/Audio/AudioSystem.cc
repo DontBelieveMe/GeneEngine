@@ -61,3 +61,8 @@ void AudioSystem::PlayWav(WaveFile *wavFile)
 
 	alSourcePlay(wavFile->GetSourceId());
 }
+
+void gene::audio::AudioSystem::StopWav(WaveFile * wavFile)
+{
+	alSourceStop(wavFile->GetSourceId());
+}

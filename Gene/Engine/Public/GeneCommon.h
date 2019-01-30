@@ -5,7 +5,7 @@
 #include <iterator>
 #include <string>
 #include <sstream>
-
+#include <math.h>
 #include <Platform/OS.h>
 #include <Debug/Logger.h>
 

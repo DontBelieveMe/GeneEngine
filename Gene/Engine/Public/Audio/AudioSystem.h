@@ -25,6 +25,8 @@ namespace gene {
 
             /** Immediatly play the specified wave file. A non-blocking operation. */
 			void PlayWav(WaveFile *wavFile);
+
+			void StopWav(WaveFile *wavFile);
 		};
 	}
 }

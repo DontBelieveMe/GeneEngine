@@ -1,4 +1,5 @@
 #include <Runtime/Reflection.h>
+#include <string.h>
 
 META_DEFINE_BASIC_START
     META_DEFINE_BASIC_TYPE(char)

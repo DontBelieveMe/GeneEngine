@@ -109,7 +109,7 @@ void WaveFile::Destroy()
 
 void WaveFile::Loop(bool shouldLoop)
 {
-	alSourcef(m_SourceId, AL_LOOPING, static_cast<ALfloat>(shouldLoop ? AL_TRUE : AL_FALSE));
+	alSourcei(m_SourceId, AL_LOOPING, static_cast<ALfloat>(shouldLoop ? 1 : 0));
 }
 
 void WaveFile::SetGain(float gain)

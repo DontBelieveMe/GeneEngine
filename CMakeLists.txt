@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.1)
 project("GeneEngine")
 
 set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 
 # These are going to be used in every (sub) project, so its ok to put it here
 include_directories(Gene/Engine/Public)
@@ -14,13 +16,13 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(Dependencies/FreeType)
-add_subdirectory(Dependencies/luajit)
+#add_subdirectory(Dependencies/luajit)
 
-set_property(TARGET buildvm PROPERTY FOLDER "Dependencies/luajit")
-set_property(TARGET liblua PROPERTY FOLDER "Dependencies/luajit")
-set_property(TARGET luajit PROPERTY FOLDER "Dependencies/luajit")
-set_property(TARGET minilua PROPERTY FOLDER "Dependencies/luajit")
-set_property(TARGET wluajit PROPERTY FOLDER "Dependencies/luajit")
+#set_property(TARGET buildvm PROPERTY FOLDER "Dependencies/luajit")
+#set_property(TARGET liblua PROPERTY FOLDER "Dependencies/luajit")
+##set_property(TARGET luajit PROPERTY FOLDER "Dependencies/luajit")
+#set_property(TARGET minilua PROPERTY FOLDER "Dependencies/luajit")
+#set_property(TARGET wluajit PROPERTY FOLDER "Dependencies/luajit")
 
 if(ANDROID)
     add_subdirectory(Gene/libroid)
@@ -35,7 +37,7 @@ if(NOT ANDROID)
 	set_property(TARGET alrecord PROPERTY FOLDER "Dependencies/OpenAL")
 
 	if(TARGET alsoft-config)
-	    set_property(TARGET alsoft-config PROPERTY FOLDER "Dependencies/OpenAL")
+	    #set_property(TARGET alsoft-config PROPERTY FOLDER "Dependencies/OpenAL")
 	endif()
     
 	set_property(TARGET altonegen PROPERTY FOLDER "Dependencies/OpenAL")

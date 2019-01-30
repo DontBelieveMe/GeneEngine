@@ -429,8 +429,6 @@ void Renderer2D::WriteRectangleIndices()
     m_IndexOffset += 4;
 }
 
-
-
 void Renderer2D::FillRectangle(Vector3 position, float width, float height, const Color& color)
 {
     Vector3 rgbCol = color.ToNormalizedVector3();

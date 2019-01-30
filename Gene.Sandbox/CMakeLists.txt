@@ -23,5 +23,5 @@ add_custom_command(TARGET Gene.Sandbox POST_BUILD
             "${CMAKE_CURRENT_SOURCE_DIR}/Data/"
             "${CMAKE_CURRENT_BINARY_DIR}/Data/"
 )
-
+add_definitions(-lstdc++fs)
 set_property(TARGET Gene.Sandbox PROPERTY FOLDER "Sandboxes")

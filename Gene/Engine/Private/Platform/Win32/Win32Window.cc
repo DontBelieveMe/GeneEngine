@@ -23,6 +23,8 @@
 
 #define GENE_WINDOW_CLASS_NAME "_GeneMainWindow"
 
+#define WM_MOUSEHWHEEL                  0x020E
+
 using namespace gene::platform::win32;
 using namespace gene;
 

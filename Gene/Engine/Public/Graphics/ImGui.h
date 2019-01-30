@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Platform/OS.h>
-
+#include <cstring>
 #include "../../../Dependencies/imgui/imgui.h"
 #include "../../../Dependencies/imgui/imgui_impl_opengl3.h"
 
@@ -24,7 +24,7 @@ namespace gene { namespace graphics {
 
         static void InputVector2(const char* str, Vector2 *vec)
         {
-            ImGui::InputFloat2(str, &((*vec).X));
+            ImGui::DragFloat2(str, &((*vec).X));
         }
 
         static void ColorPicker(const char* str, Color* col)

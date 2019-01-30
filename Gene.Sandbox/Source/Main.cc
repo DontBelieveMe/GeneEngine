@@ -1,17 +1,12 @@
-#include <Platform/Window.h>
-#include <Graphics/Color.h>
-#include <Graphics/Renderer2D.h>
-#include <Platform/Time.h>
-#include <Math/Math.h>
-#include <Graphics/Buffer.h>
 #include <Content/OBJModelLoader.h>
 #include <Runtime/Application.h>
-#include <Input/InputController.h>
-#include <Graphics/ImGui.h>
-#include <Scripting/LuaJIT.h>
-#include <Runtime/Reflection.h>
-#include <Runtime/ECS.h>
-#include <filesystem>
+#include <experimental/filesystem>
+#include <Graphics/VertexArray.h>
+#include <Graphics/GLSLShader.h>
+#include <Graphics/Factorys/ShaderFactory.h>
+#include <Graphics/Texture2D.h>
+#include <Math/Matrix4.h>
+#include <Math/Vector3.h>
 
 void CopyAssetsDirectory(const gene::String& subdir = "")
 {
@@ -19,120 +14,167 @@ void CopyAssetsDirectory(const gene::String& subdir = "")
 	fs::copy(ASSETS_DIRECTORY + subdir, ASSETS_OUT_DIRECTORY + subdir, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
 }
 
-class ClearColorDemo : public gene::App {
-	gene::graphics::Renderer2D m_2drenderer;
-	gene::graphics::Texture2D m_StoneTexture, m_CrateTexture;
+void CreateModelMesh(gene::graphics::VertexArray& vao, gene::graphics::Buffer** ebo, gene::runtime::GeneModel *model)
+{
+	using namespace gene::graphics;
+	using namespace gene::opengl;
 
-	gene::graphics::Light *m_light, *m_light2;
-	gene::graphics::Font m_font;
+	std::shared_ptr<Buffer> vbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+	std::shared_ptr<Buffer> tbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+	std::shared_ptr<Buffer> nbo = std::make_shared<Buffer>(Buffer::Type::ArrayBuffer);
+
+	(*ebo) = new Buffer(Buffer::Type::ElementBuffer);
+
+	vao.Enable();
+
+	BufferDescriptor vertexBufferDesc;
+	vertexBufferDesc.Data = &(model->Vertices[0]);
+	vertexBufferDesc.DataType = GLType::Float;
+	vertexBufferDesc.Size = model->Vertices.size() * 3 * sizeof(GLfloat);
+	vertexBufferDesc.DrawType = BufferDrawType::Static;
+	vbo->SetData(vertexBufferDesc);
+
+	BufferDescriptor normalBufferDesc;
+	normalBufferDesc.Data = &(model->Normals[0]);
+	normalBufferDesc.DataType = GLType::Float;
+	normalBufferDesc.Size = model->Normals.size() * 3 * sizeof(GLfloat);
+	normalBufferDesc.DrawType = BufferDrawType::Static;
+	nbo->SetData(normalBufferDesc);
+
+	BufferDescriptor texCoordBufferDesc;
+	texCoordBufferDesc.Data = &(model->UVs[0]);
+	texCoordBufferDesc.DataType = GLType::Float;
+	texCoordBufferDesc.Size = model->UVs.size() * 2 * sizeof(GLfloat);
+	texCoordBufferDesc.DrawType = BufferDrawType::Static;
+	tbo->SetData(texCoordBufferDesc);
+
+	BufferDescriptor indexBufferDesc;
+	indexBufferDesc.Data = &(model->Indices[0]);
+	indexBufferDesc.DataType = GLType::UnsignedInt;
+	indexBufferDesc.Size = model->Indices.size() * sizeof(GLuint);
+	indexBufferDesc.DrawType = BufferDrawType::Static;
+	(*ebo)->SetData(indexBufferDesc);
+
+	AttributeDescriptor vertexAttrib;
+	vertexAttrib.Index = 0;
+	vertexAttrib.ComponentCount = 3;
+	vertexAttrib.Stride = 0;
+	vertexAttrib.ByteOfffset = 0;
+
+	AttributeDescriptor texCoordAttrib;
+	texCoordAttrib.Index = 1;
+	texCoordAttrib.ComponentCount = 2;
+	texCoordAttrib.Stride = 0;
+	texCoordAttrib.ByteOfffset = 0;
+
+	AttributeDescriptor normalAttrib;
+	normalAttrib.Index = 2;
+	normalAttrib.ComponentCount = 3;
+	normalAttrib.Stride = 0;
+	normalAttrib.ByteOfffset = 0;
+
+	vao.RegisterAttribute(vbo.get(), vertexAttrib);
+	vao.RegisterAttribute(tbo.get(), texCoordAttrib);
+	vao.RegisterAttribute(nbo.get(), normalAttrib);
+}
+
+class OBJModelDemo : public gene::App {
 public:
-    
+	gene::graphics::GLSLShader *shader3d;
+
+	float suzanneTheta = 180.f;
+	gene::Vector3 suzannePosition;
+	gene::graphics::VertexArray *vao;
+	gene::graphics::Buffer *ebo;
+	gene::graphics::Texture2D* texture;
+	bool rotate = true;
+	
     virtual void Init() override { 
         using namespace gene;
+		using namespace gene::graphics;
+
 		CopyAssetsDirectory();
-			
-        platform::Window *window = GetWindow();
-        window->SetClearColor(gene::graphics::Color::Black/*gene::graphics::Color(79, 87, 99, 255)*/);
-		   
-		m_2drenderer.Init(Matrix4::Orthographic(window->Width(), 0.f, 0.f, window->Height(), 100.f, -1.0f));
-		
-		gene::graphics::TextureParameters p;  
-		
-		p.Filtering = gene::graphics::FilteringOptions::Nearest;
-		m_font.Load("Data/Fonts/Gidole-Regular.ttf");
-		m_StoneTexture.Load("Data/stone.png", p);
-		m_CrateTexture.Load("Data/crate.png", p);
+		suzannePosition = { 0.f, 0.f, -5.f };
 
-		m_light = new graphics::Light {
-			Vector3(32,32,0.f),
-			300.f,
-			1.5f,
-			1.0f,
-			graphics::Color::Red
-		};
+		platform::Window *window = GetWindow();
+        window->SetClearColor(gene::graphics::Color(79, 87, 99, 255));
 
-		m_light2 = new graphics::Light {
-			Vector3(200,200,0.f),
-			300.f,
-			1.5f,
-			1.0f,
-			graphics::Color::Green
-		};
-		
-		Array<graphics::Light*> lights;
-		lights.push_back(m_light);
-		lights.push_back(m_light2);
+		shader3d = graphics::ShaderFactory::CreateShader("Data/Shaders/Renderer3DVertex.shader", "Data/Shaders/Renderer3DFragment.shader",
+			{
+				{0, "position"},
+				{1, "tex_coord"},
+				{2, "normal"}
+			});
+		shader3d->Enable();
 
-		m_2drenderer.LoadLights(lights);
+		runtime::IModelLoader *objModelLoader = new runtime::OBJModelLoader();
+		runtime::GeneModel* model = objModelLoader->Load("Data/Models/doughnut.obj");
+	
+		vao = new VertexArray;
+		CreateModelMesh(*vao, &ebo, model);
+
+		Matrix4 perspectiveMatrix = Matrix4::Perpective(static_cast<float>(window->Width() / window->Height()), 45, 1000, 0.001f);
+		shader3d->LoadUniformMatrix4f("u_Projection", perspectiveMatrix);
+		shader3d->LoadUniform3f("light_pos", { 100000.0f,0,0 });
+		texture = new Texture2D("Data/Models/doughnut_texture.png");
+
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CW);
+		glCullFace(GL_BACK);
 	}  
 	 
+	bool spaceWasDown = false;
     virtual void Tick(const gene::platform::GameTime& time) override {
-		using namespace gene;
+		if (rotate) {
+			suzanneTheta += 1.f;
+		}
+		
+		bool spaceDown = GetWindow()->GetInputController()->GetKeyDevice()->IsKeyPressed(gene::input::Keys::Space);
+		if (spaceDown && !spaceWasDown) {
+			rotate = !rotate;
+		}
 
-		platform::Window* window = GetWindow();
-		input::MouseDevice* mouse = window->GetInputController()->GetMouseDevice();
-		Vector2i mousePos = mouse->GetCursorPosition();
-		Vector3 pos = {
-			(float)mousePos.X,
-			(float)mousePos.Y,
-			0.f
-		};
-		m_light->Position = pos;
-		pos.X -= 100;
-		m_light2->Position = pos;
+		if (GetWindow()->GetInputController()->GetKeyDevice()->IsKeyPressed(gene::input::Keys::UpArrow)) {
+			suzannePosition.Z += 1.f;
+		}
 
-		graphics::GLSLShader *shader = m_2drenderer.GetShader();
-		shader->Enable();
-		m_2drenderer.LoadLight(m_light, 0);
-		m_2drenderer.LoadLight(m_light2, 1);
-		shader->Disable();
+		if (GetWindow()->GetInputController()->GetKeyDevice()->IsKeyPressed(gene::input::Keys::DownArrow)) {
+			suzannePosition.Z -= 1.f;
+		}
+
+		spaceWasDown = spaceDown;
 	}
 	 
-    virtual void Draw() override {       
-		m_2drenderer.Begin();
+    virtual void Draw() override {
+		shader3d->Enable();
 
-		m_2drenderer.PushTransform(gene::Matrix4::Scale((4.f)));  
-		 
-		for (float y = 3; y < 10; y++) {
-			for (float x = 3; x < 10; x++) {
-				m_2drenderer.DrawTexture({ x*16.f, y*16.f, 0.f }, &m_StoneTexture);
-			}
-		}
-		m_2drenderer.DrawTexture({ 4*16.f,4*16.f, 0.f}, &m_CrateTexture);
+		gene::Matrix4 rx = gene::Matrix4::RotateX(suzanneTheta);
+		gene::Matrix4 ry = gene::Matrix4::RotateY(suzanneTheta);
 		
-		m_2drenderer.PopTransform(); 
-		m_2drenderer.DrawString(&m_font, "Hello World!", { 100.f, 100.f }, gene::graphics::Color(1.0f,1.0f,0.0f,1.0f));
-		m_2drenderer.End();
-		m_2drenderer.Present();
+		gene::Matrix4 transform = gene::Matrix4::Translate(suzannePosition) * rx * ry;
+
+		shader3d->LoadUniformMatrix4f("u_Transform", transform);
+
+		glEnable(GL_DEPTH_TEST);
+		texture->Enable(0);
+		vao->Enable();
+		ebo->Enable();
+		glDrawElements(GL_TRIANGLES, ebo->Size()/sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+		ebo->Disable();
+		vao->Disable();
+		texture->Disable(0);
+
+		shader3d->Disable();
+		glDisable(GL_DEPTH_TEST);
     }
-     
-	float m_ambient = 0.1f;
-
+    
     virtual void GuiDraw() override {
-		ImGui::Begin("Assets");
-		if (ImGui::Button("Refresh Assets Directory")) {
-			CopyAssetsDirectory();
-		}
-		ImGui::Separator();
-		ImGui::Text("Shaders");
-		if (ImGui::Button("Reload Shaders")) {
-			CopyAssetsDirectory("Shaders/");
-			m_2drenderer.LoadShaders();
-		}
-
-		if (ImGui::DragFloat("Ambient Lighting", &m_ambient, 0.01f, 0.0f, 1.0f)) {
-			m_2drenderer.GetShader()->Enable();
-			m_2drenderer.GetShader()->LoadUniform1f("u_Ambient", m_ambient);
-			m_2drenderer.GetShader()->Disable();
-		}
-		
-		ImGui::End();
 	}
 };
 
 int GeneMain(int argc, char **argv)
 { 
-    gene::App* mapDemo = new ClearColorDemo();
+    gene::App* mapDemo = new OBJModelDemo();
     mapDemo->Run(1280, 720, "App Demo!");
 
     return 0;

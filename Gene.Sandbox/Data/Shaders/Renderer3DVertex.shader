@@ -1,8 +1,8 @@
-#version 130
+#version 330 core
 
-in vec3 position; 
-in vec3 normal;
-in vec2 tex_coord;
+layout(location = 0) in vec3 position; 
+layout(location = 1) in vec2 tex_coord;
+layout(location = 2) in vec3 normal;
 
 uniform mat4 u_Projection;
 uniform mat4 u_Transform;
