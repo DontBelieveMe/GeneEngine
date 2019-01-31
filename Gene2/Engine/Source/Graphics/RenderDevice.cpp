@@ -44,7 +44,8 @@ Buffer* RenderDevice::CreateBuffer(size_t initFlags)
 
 Shader* RenderDevice::CreateShader(const char* filepath)
 {
-	Shader *shader = new Shader;
-	shader->Create(filepath);
-	return shader;
+	Shader shader;
+	shader.Create(filepath);
+	m_shaders.push_back(shader);
+	return &m_shaders.back();
 }

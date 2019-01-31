@@ -22,10 +22,14 @@ namespace g2 {
 	 * Used to create resources and manage the rendering functionality of a window.
 	 */
 	class RenderDevice {
+	public:
+		static const size_t MaxVertexBuffers = 4096;
+
 	private:
 		IOpenGL3Context * m_context;
 
 		Array<Buffer> m_buffers;
+		Array<Shader> m_shaders;
 	public:
 		/**
 		 * @brief Initialize the RenderDevice for the specified IWindow

@@ -1,3 +1,5 @@
+// Copyright 2017-2019 Barney Wilks. All Rights Reserved
+
 #include <catch2/catch.hpp>
 
 #include <Gene2/Core/StdLib/String.hpp>

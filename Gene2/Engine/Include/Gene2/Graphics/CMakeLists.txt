@@ -22,6 +22,8 @@ set(GraphicsHeaders
 	${CurrentScope}/VertexDef.hpp
 	${CurrentScope}/Shader.hpp
 	${CurrentScope}/Color.hpp
+	${CurrentScope}/GraphicsResourceAllocator.hpp
+
 
 	${PlatformSpecificHeaders}
 

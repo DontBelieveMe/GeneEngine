@@ -10,6 +10,7 @@ include_directories(
 set(SourceFiles
 	${CurrentDir}/Main.cpp
 	${CurrentDir}/Test_String.cpp
+	${CurrentDir}/Test_GraphicsResourceAllocator.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SourceFiles})
