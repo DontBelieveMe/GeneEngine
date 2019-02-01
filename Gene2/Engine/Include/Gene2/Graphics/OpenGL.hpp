@@ -8,10 +8,17 @@
 #ifndef NDEBUG
 #define G2_GL_CHECK(glCall) \
 	glCall; \
-	if(glGetError() != 0) \
+	if(glGetError()) \
 		G2_FATAL(#glCall ": GL eror {0}", glGetError());
 
 #else
 #define G2_GL_CHECK(glCall) glCall;
 #endif
 
+namespace g2
+{
+	enum EOpenGLType
+	{
+		GLT_FLOAT = GL_FLOAT
+	};
+}

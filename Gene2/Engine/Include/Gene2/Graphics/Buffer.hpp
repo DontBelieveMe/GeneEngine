@@ -4,6 +4,8 @@
 
 #include <Gene2/Graphics/OpenGL.hpp>
 
+#include "MemoryRef.hpp"
+
 namespace g2 {
 	enum EBufferFlags {
 		BF_VERTEX_BUFFER = 1,
@@ -21,6 +23,8 @@ namespace g2 {
 		 * @param initFlags Flags used to configure the buffer. At a minimum must include BufferFlags (to set the type of buffer)
 		 */
 		void Create(size_t initFlags);
+
+		void SetData(MemoryRef ref);
 
 		/**
 		 * @brief Get a read/write pointer to this buffers data store.

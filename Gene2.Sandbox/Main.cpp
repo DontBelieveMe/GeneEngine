@@ -5,9 +5,15 @@
 #include <Gene2/Graphics/RenderDevice.hpp>
 #include <Gene2/Input/Keys.hpp>
 #include <Gene2/Debug/Assert.hpp>
+#include <Gene2/Graphics/ForwardRenderer3D.hpp>
+
+#include <Gene2/Core/StdLib/Random.hpp>
+
+#include <ctime>
 
 int main()
 {
+	g2::Random::Seed(time(0));
 	G2_CORE_LOGGER()->AddRoute<g2::ConsoleLoggerRoute>();
 	
 	g2::SharedPtr<g2::IWindow> window = g2::IWindow::Create(
@@ -17,15 +23,27 @@ int main()
 	g2::RenderDevice renderDevice;
 	renderDevice.Init(window);
 	
-	g2::Buffer* vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER);
-	g2::Shader* shader = renderDevice.CreateShader("Assets/Test.shader");
+	float vertices[] = {
+		-0.5f, -0.5f, 0.f,
+		0.5f, -0.5f, 0.f,
+		0.0f, 0.5f, 0.0f
+	};
 
-	G2_TRACE("Shader Id: {0}", shader->GetProgramId());
-	G2_TRACE("Buffer Id: {0}", vertexBuffer->GetId());
 	
+	g2::InputLayoutDef inputLayoutDef;
+	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3);
+
+	g2::ShaderHandle shader = renderDevice.CreateShader("Assets/Test.shader", inputLayoutDef);
+	g2::BufferArrayHandle bufferArray = renderDevice.CreateBufferArray(shader);
+	g2::BufferHandle vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER, g2::MemoryRef(vertices, sizeof(vertices)), bufferArray);
+
+	g2::ForwardRenderer3D renderer;
+
 	window->Show();
 
-	renderDevice.SetClearColor(g2::Color::Red);
+	g2::Color clearColor = g2::Color::Red;
+	renderDevice.SetClearColor(clearColor);
+
 
 	while (window->IsOpen())
 	{
@@ -42,6 +60,8 @@ int main()
 			case g2::EVENT_MOUSEDOWN:
 			{
 				G2_TRACE("Mouse Button Down := {0}", event.Mouse.Button);
+				clearColor = g2::Color(g2::Random::FloatRange(0.0f, 1.0f), g2::Random::FloatRange(0.0f, 1.0f), g2::Random::FloatRange(0.0f, 1.0f), 1.0f);
+				renderDevice.SetClearColor(clearColor);
 				break;
 			}
 			case g2::EVENT_QUIT:
@@ -57,6 +77,25 @@ int main()
 					(event.Key.Modifiers & g2::KMOD_ALT) != 0,
 					event.Key.Key
 				);
+
+				const int kRate = 5;
+				
+				switch (event.Key.Key)
+				{
+				case g2::K_r:
+					clearColor = g2::Color(clearColor.GetRed() + kRate, clearColor.GetGreen(), clearColor.GetBlue(), 255);
+					renderDevice.SetClearColor(clearColor);
+					break;
+				case g2::K_g:
+					clearColor = g2::Color(clearColor.GetRed(), clearColor.GetGreen() + kRate, clearColor.GetBlue(), 255);
+					renderDevice.SetClearColor(clearColor);
+					break;
+				case g2::K_b:
+					clearColor = g2::Color(clearColor.GetRed(), clearColor.GetGreen(), clearColor.GetBlue() + kRate, 255);
+					renderDevice.SetClearColor(clearColor);
+					break;
+
+				}
 				break;
 			}
 			case g2::EVENT_KEYUP:
@@ -73,6 +112,8 @@ int main()
 		}
 
 		renderDevice.Clear(g2::CF_CLEAR_COLOR_BUFFER | g2::CF_CLEAR_DEPTH_BUFFER);
+
+		renderer.Render(&renderDevice, bufferArray, shader);
 
 		renderDevice.SwapBuffers();
 	}

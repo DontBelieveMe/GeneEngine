@@ -34,18 +34,55 @@ void RenderDevice::SwapBuffers()
 	m_context->SwapBuffers();
 }
 	
-Buffer* RenderDevice::CreateBuffer(size_t initFlags)
+BufferHandle RenderDevice::CreateBuffer(size_t initFlags, MemoryRef mem, BufferArrayHandle vao)
 {
-	Buffer buff;
-	buff.Create(initFlags);
-	m_buffers.push_back(buff);
-	return &m_buffers.back();
+	BufferHandle handle = m_vertexBufferHandles.Allocate();
+
+	GetBufferArray(vao)->AddBuffer(handle);
+
+	Buffer* buff = GetBuffer(handle);
+
+	G2_GL_CHECK(glBindVertexArray(GetBufferArray(vao)->GetId()));
+
+	buff->Create(initFlags);
+	buff->SetData(mem);
+
+	G2_GL_CHECK(glBindVertexArray(0));
+
+	return handle;
 }
 
-Shader* RenderDevice::CreateShader(const char* filepath)
+ShaderHandle RenderDevice::CreateShader(const char* filepath, InputLayoutDef layoutDef)
 {
-	Shader shader;
-	shader.Create(filepath);
-	m_shaders.push_back(shader);
-	return &m_shaders.back();
+	GraphicsResourceHandle handle = m_shaderHandles.Allocate();
+	m_shaders[handle.GetIndex()].Create(filepath, layoutDef);
+
+	return handle;
+}
+
+BufferArrayHandle RenderDevice::CreateBufferArray(ShaderHandle shader)
+{
+	InputLayoutDef layout = m_shaders[shader.GetIndex()].GetInputLayout();
+	GLuint programId = m_shaders[shader.GetIndex()].GetProgramId();
+
+	BufferArrayHandle bufferArrayHandle = m_bufferArrayHandles.Allocate();
+	BufferArray* vao = &m_bufferArrays[bufferArrayHandle.GetIndex()];
+	
+	vao->Create();
+
+	G2_GL_CHECK(glBindVertexArray(vao->GetId()));
+
+	const Array<VertexAttribute>& attribs = layout.GetAttributes();
+	for (const VertexAttribute& attrib : attribs)
+	{
+		VertexAttribInputType type = attrib.GetType();
+
+		G2_GL_CHECK(glEnableVertexAttribArray(attrib.GetIndex()));
+		G2_GL_CHECK(glBindAttribLocation(programId, attrib.GetIndex(), attrib.GetName()));
+		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, type.Size, (void*)0));
+	}
+
+	G2_GL_CHECK(glBindVertexArray(0));
+
+	return bufferArrayHandle;
 }

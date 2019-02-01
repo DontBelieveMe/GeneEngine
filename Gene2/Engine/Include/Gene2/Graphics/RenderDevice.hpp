@@ -9,6 +9,10 @@
 #include "Shader.hpp"
 #include "Color.hpp"
 #include "OpenGL.hpp"
+#include "MemoryRef.hpp"
+#include "InputLayout.hpp"
+
+#include "GraphicsResourceAllocator.hpp"
 
 #include <Gene2/Core/StdLib/Array.hpp>
 
@@ -17,6 +21,10 @@ namespace g2 {
 		CF_CLEAR_DEPTH_BUFFER = GL_DEPTH_BUFFER_BIT,
 		CF_CLEAR_COLOR_BUFFER = GL_COLOR_BUFFER_BIT
 	};
+
+	typedef GraphicsResourceHandle BufferHandle;
+	typedef GraphicsResourceHandle ShaderHandle;
+	typedef GraphicsResourceHandle BufferArrayHandle;
 
 	/**
 	 * Used to create resources and manage the rendering functionality of a window.
@@ -28,8 +36,15 @@ namespace g2 {
 	private:
 		IOpenGL3Context * m_context;
 
-		Array<Buffer> m_buffers;
-		Array<Shader> m_shaders;
+		Buffer m_vertexBuffers[4 << 10];
+		GraphicsResourceAllocator<4 << 10> m_vertexBufferHandles;
+
+		Shader m_shaders[4 << 10];
+		GraphicsResourceAllocator<4 << 10> m_shaderHandles;
+
+		BufferArray m_bufferArrays[4 << 10];
+		GraphicsResourceAllocator<4 << 10> m_bufferArrayHandles;
+
 	public:
 		/**
 		 * @brief Initialize the RenderDevice for the specified IWindow
@@ -59,13 +74,30 @@ namespace g2 {
 		 * @param initFlags Initialization flags to pass to the buffer on creation. see Buffer::Create(size_t)
 		 * @return A pointer to a new video Buffer. Do not free this buffer - it is owned by the graphics system.
 		 */
-		Buffer* CreateBuffer(size_t initFlags);
+		BufferHandle CreateBuffer(size_t initFlags, MemoryRef mem, BufferArrayHandle vao);
 
 		/**
 		 * @brief Create a new GLSL shader from the file at the specified filepath.
 		 * @param filepath The path to the shader file.
 		 * @return A pointer to a new video Shader. Do not free this shader - it is owned by the graphics system.
 		 */
-		Shader* CreateShader(const char* filepath);
+		ShaderHandle CreateShader(const char* filepath, InputLayoutDef layoutDef);
+
+		BufferArrayHandle CreateBufferArray(ShaderHandle shader);
+
+		Buffer* GetBuffer(BufferHandle handle) 
+		{
+			return &m_vertexBuffers[handle.GetIndex()];
+		}
+
+		Shader* GetShader(ShaderHandle handle)
+		{
+			return &m_shaders[handle.GetIndex()];
+		}
+
+		BufferArray* GetBufferArray(BufferArrayHandle handle)
+		{
+			return &m_bufferArrays[handle.GetIndex()];
+		}
 	};
 }

@@ -33,6 +33,16 @@ void Buffer::Unmap()
 	G2_GL_CHECK(glUnmapBuffer(m_target));
 }
 
-GLuint Buffer::GetId() const {
+GLuint Buffer::GetId() const 
+{
 	return m_id;
+}
+
+void Buffer::SetData(MemoryRef ref)
+{
+	const GLenum kUsage = GL_STATIC_DRAW;
+
+	G2_GL_CHECK(glBindBuffer(m_target, m_id));
+	G2_GL_CHECK(glBufferData(m_target, ref.Size, ref.Data, kUsage));
+	G2_GL_CHECK(glBindBuffer(m_target, 0));
 }

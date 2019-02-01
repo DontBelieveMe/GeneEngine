@@ -17,10 +17,11 @@ endif()
 set(GraphicsSource
 	${CurrentDir}/RenderDevice.cpp
 	${CurrentDir}/Buffer.cpp
-	${CurrentDir}/VertexDef.cpp
 	${CurrentDir}/IOpenGL3Context.cpp
 	${CurrentDir}/Shader.cpp
 	${CurrentDir}/Color.cpp
+	${CurrentDir}/InputLayout.cpp
+	${CurrentDir}/ForwardRenderer3D.cpp
 
 	${PlatformSpecificSource}
 

@@ -53,6 +53,11 @@ static Array<ShaderSegment> PreprocessShaderFile(const String& shaderText) {
 
 				shaders.push_back(segment);
 			}
+			else {
+				ShaderSegment& segment = shaders.back();
+				segment.SourceString += '#';
+				cindex = startidx - 1;
+			}
 		}
 		else {
 			if (shaders.size() > 0) {
@@ -95,8 +100,15 @@ static GLuint CreateShaderFromSegmentData(const ShaderSegment& segment)
 	return shaderId;
 }
 
-void Shader::Create(const char* shaderFilename)
+InputLayoutDef Shader::GetInputLayout() const
 {
+	return m_inputLayout;
+}
+
+void Shader::Create(const char* shaderFilename, InputLayoutDef inputLayout)
+{
+	m_inputLayout = inputLayout;
+
 	String fileText = File::ReadAllText(shaderFilename);
 	Array<ShaderSegment> segments = PreprocessShaderFile(fileText);
 

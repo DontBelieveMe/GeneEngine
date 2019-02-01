@@ -39,15 +39,23 @@ namespace g2 {
 	public:
 		GraphicsResourceHandle Allocate()
 		{
+			G2_ASSERT(m_count < Size, "No suport currently for reusing handles.");
 
+			GraphicsResourceHandle handle = m_handles[m_count];
+			m_count++;
+
+			return handle;
 		}
 
 		void Free(GraphicsResourceHandle handle)
 		{
-
+			G2_ASSERT(false, "Free not currently supported for GraphicsResourceAllocator.");
 		}
+
+		int Count() const { return m_count; }
 
 	private:
 		GraphicsResourceHandle m_handles[Size];
+		int m_count = 0;
 	};
 }

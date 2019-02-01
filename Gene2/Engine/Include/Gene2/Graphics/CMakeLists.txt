@@ -19,11 +19,12 @@ set(GraphicsHeaders
 	${CurrentScope}/Buffer.hpp
 	${CurrentScope}/IOpenGL3Context.hpp
 	${CurrentScope}/OpenGL.hpp
-	${CurrentScope}/VertexDef.hpp
 	${CurrentScope}/Shader.hpp
 	${CurrentScope}/Color.hpp
 	${CurrentScope}/GraphicsResourceAllocator.hpp
-
+	${CurrentScope}/MemoryRef.hpp
+	${CurrentScope}/InputLayout.hpp
+	${CurrentScope}/ForwardRenderer3D.hpp
 
 	${PlatformSpecificHeaders}
 
