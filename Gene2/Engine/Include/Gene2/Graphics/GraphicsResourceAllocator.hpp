@@ -49,6 +49,7 @@ namespace g2 {
 
 		void Free(GraphicsResourceHandle handle)
 		{
+			G2_MARK_VARIABLE_UNUSED(handle);
 			G2_ASSERT(false, "Free not currently supported for GraphicsResourceAllocator.");
 		}
 
