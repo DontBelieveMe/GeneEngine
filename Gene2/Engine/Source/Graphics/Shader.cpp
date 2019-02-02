@@ -8,17 +8,19 @@
 
 using namespace g2;
 
-enum EShaderSegment {
-	SS_VERTEX = GL_VERTEX_SHADER,
-	SS_PIXEL  = GL_FRAGMENT_SHADER,
-	SS_NONE   = 0
-};
+namespace g2 {
+	enum EShaderSegment {
+		SS_VERTEX = GL_VERTEX_SHADER,
+		SS_PIXEL  = GL_FRAGMENT_SHADER,
+		SS_NONE   = 0
+	};
 
-struct ShaderSegment {
-	String SourceString;           ///< The actual shader code that makes up this segment
-	EShaderSegment Type = SS_NONE; ///< The type of this shader (vertex, fragment, etc...)
-	GLuint OpenGLID;               ///< The OpenGL Id for this shader. Generated after preprocessing by OpenGL.
-};
+	struct ShaderSegment {
+		String SourceString;           ///< The actual shader code that makes up this segment
+		EShaderSegment Type = SS_NONE; ///< The type of this shader (vertex, fragment, etc...)
+		GLuint OpenGLID;               ///< The OpenGL Id for this shader. Generated after preprocessing by OpenGL.
+	};
+}
 
 static Array<ShaderSegment> PreprocessShaderFile(const String& shaderText) {
 	Array<ShaderSegment> shaders;
