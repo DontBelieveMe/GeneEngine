@@ -53,7 +53,32 @@ void Win32OpenGL3Context::Create()
 	int choosePf = ChoosePixelFormat(m_hdc, &pfd);
 	SetPixelFormat(m_hdc, choosePf, &pfd);
 
-	m_context = wglCreateContext(m_hdc);
+	HGLRC legacyContext = wglCreateContext(m_hdc);
+	wglMakeCurrent(m_hdc, legacyContext);
+	
+	typedef HGLRC(_stdcall *WGL_CreateContextAttribsARB)(HDC, HDC, const int* attribsList);
+	WGL_CreateContextAttribsARB wglCreateContextAttribsARB = (WGL_CreateContextAttribsARB)wglGetProcAddress("wglCreateContextAttribsARB");
+
+	// #todo(bwilks) -> #cleanup
+	// This code needs a bit of a cleanup (e.g stub context creation & then the actual context creation)
+
+#define WGL_CONTEXT_MAJOR_VERSION_ARB   0x2091
+#define WGL_CONTEXT_MINOR_VERSION_ARB   0x2092
+#define WGL_CONTEXT_PROFILE_MASK_ARB              0x9126
+#define WGL_CONTEXT_CORE_PROFILE_BIT_ARB          0x00000001
+
+	// #todo(bwilks) -> #improvment
+	//These should be put in some settings, e.g. can choose core profile, GL version etc...
+	int attribs[] = {
+		WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
+		WGL_CONTEXT_MINOR_VERSION_ARB, 2,
+		WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+		0
+	};
+
+	m_context = wglCreateContextAttribsARB(m_hdc, 0, attribs);
+	wglDeleteContext(legacyContext);
+
 	wglMakeCurrent(m_hdc, m_context);
 
 	glfl::set_function_loader(g2::internal::GetProcAddress);

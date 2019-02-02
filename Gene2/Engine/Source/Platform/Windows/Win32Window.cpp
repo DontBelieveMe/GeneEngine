@@ -91,7 +91,7 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key, LPARAM flags)
 	}
 	}
 
-	return K_a; // #todo: this is shitty. fix.
+	return K_a; // #todo(bwilks): #cleanup #improvment : This is shitty. fix.
 }
 
 bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)

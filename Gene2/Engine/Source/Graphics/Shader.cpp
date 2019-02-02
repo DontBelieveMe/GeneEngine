@@ -121,7 +121,8 @@ void Shader::Create(const char* shaderFilename, InputLayoutDef inputLayout)
 
 	glLinkProgram(program);
 
-	// #todo(bwilks) add link error checking step here
+	// #todo(bwilks) #improvment 
+	// Add link error checking step here
 	
 	for (ShaderSegment& shaderSegment : segments) {
 		glDeleteShader(shaderSegment.OpenGLID);
