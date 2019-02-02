@@ -22,6 +22,7 @@ set(GraphicsSource
 	${CurrentDir}/Color.cpp
 	${CurrentDir}/InputLayout.cpp
 	${CurrentDir}/ForwardRenderer3D.cpp
+	${CurrentDir}/GraphicsResourceAllocator.cpp
 
 	${PlatformSpecificSource}
 
