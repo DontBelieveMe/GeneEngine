@@ -4,8 +4,17 @@
 
 namespace g2
 {
+	/**
+	 * A weak (non owning) reference to a block of memory.
+	 * Does not store a copy of the data, only a pointer to it.
+	 */
 	struct MemoryRef
 	{
+		/**
+		 * @brief Create a reference to the memory at the specified address.
+		 * @param address The address to the data to reference.
+		 * @param size The size of the data pointed to by the specified address. Specified in bytes.
+		 */
 		MemoryRef(void* address, size_t size)
 		{
 			Data = address;
@@ -13,7 +22,7 @@ namespace g2
 		}
 
 		/**
-		 * The memory data itself.
+		 * The address of the data.
 		 */
 		void* Data;
 

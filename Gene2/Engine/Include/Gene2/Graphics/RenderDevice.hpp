@@ -43,6 +43,10 @@ namespace g2 {
 		GraphicsResourceAllocator<MaxShaders> m_shaderHandles;
 
 		GLuint m_gVao;
+	
+	private:
+		Buffer* GetBufferPtr(BufferHandle handle);
+		Shader* GetShaderPtr(ShaderHandle handle);
 
 	public:
 		/**
@@ -82,16 +86,13 @@ namespace g2 {
 		 */
 		ShaderHandle CreateShader(const char* filepath, InputLayoutDef layoutDef);
 
+		/**
+		 * @brief Issue a draw call to draw the specified number of primitives from the specified buffer, using the
+		 *        specified shader.
+		 * @param shader The shader to use when drawing this buffer.
+		 * @param buffer The buffer to draw the primitives from.
+		 * @param numPrimitives The number of primitives inside the buffer, for example the number of triangles to draw.
+		 */
 		void DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives);
-
-		Buffer* GetBuffer(BufferHandle handle) 
-		{
-			return &m_vertexBuffers[handle.GetIndex()];
-		}
-
-		Shader* GetShader(ShaderHandle handle)
-		{
-			return &m_shaders[handle.GetIndex()];
-		}
 	};
 }

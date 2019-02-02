@@ -41,7 +41,7 @@ BufferHandle RenderDevice::CreateBuffer(size_t initFlags, MemoryRef mem)
 {
 	BufferHandle handle = m_vertexBufferHandles.Allocate();
 
-	Buffer* buff = GetBuffer(handle);
+	Buffer* buff = GetBufferPtr(handle);
 
 	buff->Create(initFlags);
 	buff->SetData(mem);
@@ -57,10 +57,20 @@ ShaderHandle RenderDevice::CreateShader(const char* filepath, InputLayoutDef lay
 	return handle;
 }
 
+Buffer* RenderDevice::GetBufferPtr(BufferHandle handle)
+{
+	return &m_vertexBuffers[handle.GetIndex()];
+}
+
+Shader* RenderDevice::GetShaderPtr(ShaderHandle handle)
+{
+	return &m_shaders[handle.GetIndex()];
+}
+
 void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives)
 {
-	Shader* pShader = GetShader(shader);
-	Buffer* pBuffer = GetBuffer(buffer);
+	Shader* pShader = GetShaderPtr(shader);
+	Buffer* pBuffer = GetBufferPtr(buffer);
 	
 	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
 	G2_GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, pBuffer->GetId()));
