@@ -19,3 +19,5 @@ add_custom_target(AssetsTarget
 )
 source_group("Shaders" FILES ${AssetsShaders})
 add_dependencies(${PROJECT_NAME} AssetsTarget)
+
+set_target_properties(AssetsTarget Gene2.Sandbox PROPERTIES FOLDER "Sandbox")
