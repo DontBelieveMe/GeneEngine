@@ -59,6 +59,13 @@ namespace g2 {
 		/**
 		 * @brief Set an attribute to use when creating the OpenGL context. Must be called before Init().
 		 *        Will assert if an invalid attribute is provided.
+		 * @details The valid options for attribute and value are listed below
+		 * <table>
+		 *	<tr><th>Attribute             <th>Valid Values
+		 *	<tr><td>::CA_GL_MAJOR_VERSION <td>Any valid OpenGL major version
+		 *	<tr><td>::CA_GL_MINOR_VERSION <td>Any valid OpenGL minor version
+		 *	<tr><td>::CA_GL_PROFILE       <td>Must be the value of one of ::EOpenGLProfile
+		 * </table>
 		 * @param attribute The attribute to set the value of.
 		 * @param value The value to set the attribute to.
 		 */
@@ -66,6 +73,7 @@ namespace g2 {
 
 		/**
 		 * @brief Initialize the RenderDevice for the specified IWindow
+		 * @param window The window to initialize this graphics context for.
 		 */
 		void Init(const g2::SharedPtr<IWindow>& window);
 
