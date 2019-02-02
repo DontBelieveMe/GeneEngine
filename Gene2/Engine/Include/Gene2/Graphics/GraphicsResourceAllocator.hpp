@@ -16,8 +16,8 @@ namespace g2 {
 	public:
 		/**
 		 * @brief Set the index that this handle represents. While index is specified as int it can be no larger than
-		 *        16777215 \f$s^24$\f (this is because handles are represented as 32 bit integers, and the other 
-		 *        8 bits are used for a version counter.
+		 *        16777215 (\f$2^{24}\f$) (this is because handles are represented as 32 bit integers, and the other 
+		 *        8 bits are used for a version counter).
 		 * @param index The index that this handle represents (cannot be larger than 16777215, see brief).
 		 */
 		void SetIndex(int index);
