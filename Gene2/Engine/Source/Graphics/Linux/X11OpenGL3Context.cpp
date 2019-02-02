@@ -4,8 +4,8 @@
 
 using namespace g2::x11;
 
-X11OpenGL3Context::X11OpenGL3Context(void* windowHandle)
-	: IOpenGL3Context(windowHandle) {}
+X11OpenGL3Context::X11OpenGL3Context(void* windowHandle, ContextAttributes attribs)
+	: IOpenGL3Context(windowHandle, attribs) {}
 
 void X11OpenGL3Context::Create() {}
 
