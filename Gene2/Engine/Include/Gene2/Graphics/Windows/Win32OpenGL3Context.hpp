@@ -10,7 +10,7 @@
 namespace g2 { namespace win32 {
 	class Win32OpenGL3Context : public IOpenGL3Context {
 	public:
-		Win32OpenGL3Context(void* windowHandle);
+		Win32OpenGL3Context(void* windowHandle, ContextAttributes attribs);
 
 		virtual void Create() override;
 		virtual void SwapBuffers() override;

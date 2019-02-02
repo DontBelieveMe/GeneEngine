@@ -22,6 +22,12 @@ namespace g2 {
 		CF_CLEAR_COLOR_BUFFER = GL_COLOR_BUFFER_BIT
 	};
 
+	enum EContextAttribute {
+		CA_GL_MAJOR_VERSION,
+		CA_GL_MINOR_VERSION,
+		CA_GL_PROFILE
+	};
+
 	typedef GraphicsResourceHandle BufferHandle;
 	typedef GraphicsResourceHandle ShaderHandle;
 	
@@ -43,12 +49,21 @@ namespace g2 {
 		GraphicsResourceAllocator<MaxShaders> m_shaderHandles;
 
 		GLuint m_gVao;
+		ContextAttributes m_ctxAttribs;
 	
 	private:
 		Buffer* GetBufferPtr(BufferHandle handle);
 		Shader* GetShaderPtr(ShaderHandle handle);
 
 	public:
+		/**
+		 * @brief Set an attribute to use when creating the OpenGL context. Must be called before Init().
+		 *        Will assert if an invalid attribute is provided.
+		 * @param attribute The attribute to set the value of.
+		 * @param value The value to set the attribute to.
+		 */
+		void SetContextAttribute(EContextAttribute attribute, int value);
+
 		/**
 		 * @brief Initialize the RenderDevice for the specified IWindow
 		 */

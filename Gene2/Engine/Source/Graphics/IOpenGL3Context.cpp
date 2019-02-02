@@ -16,7 +16,7 @@ using namespace g2;
 	#error No rendering support for this platform! 
 #endif
 
-IOpenGL3Context* IOpenGL3Context::CreateContextForThisPlatform(void* windowHandle)
+IOpenGL3Context* IOpenGL3Context::CreateContextForThisPlatform(void* windowHandle, ContextAttributes attributes)
 {
-	return new PlatformContext(windowHandle);
+	return new PlatformContext(windowHandle, attributes);
 }

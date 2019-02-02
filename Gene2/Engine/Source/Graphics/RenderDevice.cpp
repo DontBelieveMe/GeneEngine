@@ -8,13 +8,32 @@ void RenderDevice::Init(const g2::SharedPtr<IWindow>& window)
 {
 	void* windowHandle = window->GetHandle();
 
-	m_context = IOpenGL3Context::CreateContextForThisPlatform(windowHandle);
+	m_context = IOpenGL3Context::CreateContextForThisPlatform(windowHandle, m_ctxAttribs);
 	m_context->Create();
 
 	SetClearColor(Color::Black);
 
 	G2_GL_CHECK(glGenVertexArrays(1, &m_gVao));
 	G2_GL_CHECK(glBindVertexArray(m_gVao));
+}
+
+void RenderDevice::SetContextAttribute(EContextAttribute attribute, int value)
+{
+	switch (attribute)
+	{
+	case CA_GL_MAJOR_VERSION:
+		m_ctxAttribs.TargetMajorVersion = value;
+		break;
+	case CA_GL_MINOR_VERSION:
+		m_ctxAttribs.TargetMinorVersion = value;
+		break;
+	case CA_GL_PROFILE:
+		m_ctxAttribs.Profile = value;
+		break;
+	default:
+		G2_ASSERT(false, "Cannot set context attribute {0} that does not exist", (int)attribute);
+		break;
+	}
 }
 
 void RenderDevice::SetClearColor(const Color& color)

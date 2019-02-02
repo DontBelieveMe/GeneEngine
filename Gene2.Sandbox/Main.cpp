@@ -20,6 +20,11 @@ int main()
 	);
 	
 	g2::RenderDevice renderDevice;
+
+	renderDevice.SetContextAttribute(g2::CA_GL_MAJOR_VERSION, 3);
+	renderDevice.SetContextAttribute(g2::CA_GL_MINOR_VERSION, 3);
+	renderDevice.SetContextAttribute(g2::CA_GL_PROFILE, g2::AG_PROFILE_CORE);
+
 	renderDevice.Init(window);
 	
 	float vertices[] = {
