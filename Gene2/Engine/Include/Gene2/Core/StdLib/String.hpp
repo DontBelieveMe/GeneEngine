@@ -48,11 +48,11 @@ namespace g2 {
 	inline String FormatString() { return ""; }
 
 	/**
-	 * @brief Converts each format specifier (denoted by {n}, where n is the index of the argument in the varadic arguments list)
+	 * @brief Converts each format specifier (denoted by "{n}", where n is the index of the argument in the varadic arguments list)
 	 *        in the format string (fmt) to the string representation of it's corresponding varadic argument.
 	 * @param fmt The format string.
 	 * @param args Zero or more values that represent the value of the corresponding format specifier.
-	 * @return The formatted string, with the {<n>} replaced by the coressponding actual parameter.  
+	 * @return The formatted string, with the "{n}" replaced by the corresponding actual parameter.  
 	 */
 	template <typename... Args>
 	String FormatString(const String& fmt, const Args&... args)

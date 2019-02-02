@@ -75,6 +75,7 @@ namespace g2 {
 		/**
 		 * @brief Create a new graphics buffer, with the specified initialization flags.
 		 * @param initFlags Initialization flags to pass to the buffer on creation. see Buffer::Create(size_t)
+		 * @param mem The data that will buffer will represent.
 		 * @return A pointer to a new video Buffer. Do not free this buffer - it is owned by the graphics system.
 		 */
 		BufferHandle CreateBuffer(size_t initFlags, MemoryRef mem);
@@ -82,6 +83,7 @@ namespace g2 {
 		/**
 		 * @brief Create a new GLSL shader from the file at the specified filepath.
 		 * @param filepath The path to the shader file.
+		 * @param layoutDef The InputLayoutDef definition file for the input attributes of this shader pipeline.
 		 * @return A pointer to a new video Shader. Do not free this shader - it is owned by the graphics system.
 		 */
 		ShaderHandle CreateShader(const char* filepath, InputLayoutDef layoutDef);
