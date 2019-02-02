@@ -94,7 +94,7 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_
 	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
 	G2_GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, pBuffer->GetId()));
 
-	const Array<VertexAttribute> attribs = pShader->GetInputLayout().GetAttributes();
+	const Array<VertexAttribute>& attribs = pShader->GetInputLayout().GetAttributes();
 	for (const VertexAttribute& attrib : attribs)
 	{
 		VertexAttribInputType type = attrib.GetType();

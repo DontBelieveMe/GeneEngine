@@ -102,7 +102,7 @@ static GLuint CreateShaderFromSegmentData(const ShaderSegment& segment)
 	return shaderId;
 }
 
-InputLayoutDef Shader::GetInputLayout() const
+const InputLayoutDef& Shader::GetInputLayout() const
 {
 	return m_inputLayout;
 }

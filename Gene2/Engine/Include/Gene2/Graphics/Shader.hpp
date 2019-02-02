@@ -43,7 +43,7 @@ namespace g2 {
 		 * @brief Get the attributes input layout definition for this shader pipeline.
 		 * @return The attributes input layout for this shader program.
 		 */
-		InputLayoutDef GetInputLayout() const;
+		const InputLayoutDef& GetInputLayout() const;
 
 	private:
 		GLuint m_programId;
