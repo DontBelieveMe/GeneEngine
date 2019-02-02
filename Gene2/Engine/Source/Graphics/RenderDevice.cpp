@@ -12,6 +12,9 @@ void RenderDevice::Init(const g2::SharedPtr<IWindow>& window)
 	m_context->Create();
 
 	SetClearColor(Color::Black);
+
+	G2_GL_CHECK(glGenVertexArrays(1, &m_gVao));
+	G2_GL_CHECK(glBindVertexArray(m_gVao));
 }
 
 void RenderDevice::SetClearColor(const Color& color)
@@ -34,20 +37,14 @@ void RenderDevice::SwapBuffers()
 	m_context->SwapBuffers();
 }
 	
-BufferHandle RenderDevice::CreateBuffer(size_t initFlags, MemoryRef mem, BufferArrayHandle vao)
+BufferHandle RenderDevice::CreateBuffer(size_t initFlags, MemoryRef mem)
 {
 	BufferHandle handle = m_vertexBufferHandles.Allocate();
 
-	GetBufferArray(vao)->AddBuffer(handle);
-
 	Buffer* buff = GetBuffer(handle);
-
-	G2_GL_CHECK(glBindVertexArray(GetBufferArray(vao)->GetId()));
 
 	buff->Create(initFlags);
 	buff->SetData(mem);
-
-	G2_GL_CHECK(glBindVertexArray(0));
 
 	return handle;
 }
@@ -60,29 +57,25 @@ ShaderHandle RenderDevice::CreateShader(const char* filepath, InputLayoutDef lay
 	return handle;
 }
 
-BufferArrayHandle RenderDevice::CreateBufferArray(ShaderHandle shader)
+void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives)
 {
-	InputLayoutDef layout = m_shaders[shader.GetIndex()].GetInputLayout();
-	GLuint programId = m_shaders[shader.GetIndex()].GetProgramId();
-
-	BufferArrayHandle bufferArrayHandle = m_bufferArrayHandles.Allocate();
-	BufferArray* vao = &m_bufferArrays[bufferArrayHandle.GetIndex()];
+	Shader* pShader = GetShader(shader);
+	Buffer* pBuffer = GetBuffer(buffer);
 	
-	vao->Create();
+	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
+	G2_GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, pBuffer->GetId()));
 
-	G2_GL_CHECK(glBindVertexArray(vao->GetId()));
-
-	const Array<VertexAttribute>& attribs = layout.GetAttributes();
+	const Array<VertexAttribute> attribs = pShader->GetInputLayout().GetAttributes();
 	for (const VertexAttribute& attrib : attribs)
 	{
 		VertexAttribInputType type = attrib.GetType();
 
 		G2_GL_CHECK(glEnableVertexAttribArray(attrib.GetIndex()));
-		G2_GL_CHECK(glBindAttribLocation(programId, attrib.GetIndex(), attrib.GetName()));
 		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, type.Size, (void*)0));
 	}
 
-	G2_GL_CHECK(glBindVertexArray(0));
+	const int NUM_ELEMENTS_IN_TRIANGLE = 3;
+	const size_t numElements = numPrimitives * NUM_ELEMENTS_IN_TRIANGLE;
 
-	return bufferArrayHandle;
+	G2_GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, numElements));
 }

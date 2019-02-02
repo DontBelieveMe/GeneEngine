@@ -9,6 +9,5 @@ namespace g2
 	class ForwardRenderer3D
 	{
 	public:
-		void Render(RenderDevice* renderDevice, BufferArrayHandle vao, ShaderHandle shaders);
 	};
 }

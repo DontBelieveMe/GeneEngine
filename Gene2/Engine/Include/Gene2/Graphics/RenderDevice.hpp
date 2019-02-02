@@ -24,26 +24,25 @@ namespace g2 {
 
 	typedef GraphicsResourceHandle BufferHandle;
 	typedef GraphicsResourceHandle ShaderHandle;
-	typedef GraphicsResourceHandle BufferArrayHandle;
-
+	
 	/**
 	 * Used to create resources and manage the rendering functionality of a window.
 	 */
 	class RenderDevice {
 	public:
 		static const size_t MaxVertexBuffers = 4096;
+		static const size_t MaxShaders = 4096;
 
 	private:
 		IOpenGL3Context * m_context;
 
-		Buffer m_vertexBuffers[4 << 10];
-		GraphicsResourceAllocator<4 << 10> m_vertexBufferHandles;
+		Buffer m_vertexBuffers[MaxVertexBuffers];
+		GraphicsResourceAllocator<MaxVertexBuffers> m_vertexBufferHandles;
 
-		Shader m_shaders[4 << 10];
-		GraphicsResourceAllocator<4 << 10> m_shaderHandles;
+		Shader m_shaders[MaxShaders];
+		GraphicsResourceAllocator<MaxShaders> m_shaderHandles;
 
-		BufferArray m_bufferArrays[4 << 10];
-		GraphicsResourceAllocator<4 << 10> m_bufferArrayHandles;
+		GLuint m_gVao;
 
 	public:
 		/**
@@ -74,7 +73,7 @@ namespace g2 {
 		 * @param initFlags Initialization flags to pass to the buffer on creation. see Buffer::Create(size_t)
 		 * @return A pointer to a new video Buffer. Do not free this buffer - it is owned by the graphics system.
 		 */
-		BufferHandle CreateBuffer(size_t initFlags, MemoryRef mem, BufferArrayHandle vao);
+		BufferHandle CreateBuffer(size_t initFlags, MemoryRef mem);
 
 		/**
 		 * @brief Create a new GLSL shader from the file at the specified filepath.
@@ -83,7 +82,7 @@ namespace g2 {
 		 */
 		ShaderHandle CreateShader(const char* filepath, InputLayoutDef layoutDef);
 
-		BufferArrayHandle CreateBufferArray(ShaderHandle shader);
+		void DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives);
 
 		Buffer* GetBuffer(BufferHandle handle) 
 		{
@@ -93,11 +92,6 @@ namespace g2 {
 		Shader* GetShader(ShaderHandle handle)
 		{
 			return &m_shaders[handle.GetIndex()];
-		}
-
-		BufferArray* GetBufferArray(BufferArrayHandle handle)
-		{
-			return &m_bufferArrays[handle.GetIndex()];
 		}
 	};
 }
