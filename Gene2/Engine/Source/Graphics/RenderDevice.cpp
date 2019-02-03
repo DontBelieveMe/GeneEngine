@@ -104,14 +104,14 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_
 		return acu + attrib.GetType().Size;
 	});
 
-	GLuint offset = 0;
+	size_t offset = 0;
 	for (const VertexAttribute& attrib : attribs)
 	{
 		VertexAttribInputType type = attrib.GetType();
 
 		G2_GL_CHECK(glEnableVertexAttribArray(attrib.GetIndex()));
 		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, kStride, (void*)offset));
-		offset += type.Size;
+		offset += static_cast<size_t>(type.Size);
 	}
 
 	const int NUM_ELEMENTS_IN_TRIANGLE = 3;
