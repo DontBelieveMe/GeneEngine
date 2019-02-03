@@ -28,14 +28,14 @@ int main()
 	renderDevice.Init(window);
 	
 	float vertices[] = {
-		-0.5f, -0.5f, 0.f,
-		0.5f, -0.5f, 0.f,
-		0.0f, 0.5f, 0.0f
+		-0.5f, -0.5f, 0.f,     0.75f, 0.0f, 1.0f,
+		0.5f, -0.5f, 0.f,      0.0f, 0.75f, 0.0f,
+		0.0f, 0.5f, 0.0f,      0.0f, 1.0f, 0.75f
 	};
 
-	
 	g2::InputLayoutDef inputLayoutDef;
 	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3);
+	inputLayoutDef.DefineAttribute("in_color", 1, g2::VertexAttribInputType::Float3);
 
 	g2::ShaderHandle shader = renderDevice.CreateShader("Assets/Test.shader", inputLayoutDef);
 	g2::BufferHandle vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER, g2::MemoryRef(vertices, sizeof(vertices)));
@@ -54,8 +54,11 @@ int main()
 			{
 			case g2::EVENT_MOUSEDOWN:
 			{
-				G2_TRACE("Mouse Button Down := {0}", event.Mouse.Button);
-				clearColor = g2::Color(g2::Random::FloatRange(0.0f, 1.0f), g2::Random::FloatRange(0.0f, 1.0f), g2::Random::FloatRange(0.0f, 1.0f), 1.0f);
+				const float r = g2::Random::FloatRange(0.0f, 1.0f);
+				const float g = g2::Random::FloatRange(0.0f, 1.0f);
+				const float b = g2::Random::FloatRange(0.0f, 1.0f);
+
+				clearColor = g2::Color(r, g, b, 1.0f);
 				renderDevice.SetClearColor(clearColor);
 				break;
 			}

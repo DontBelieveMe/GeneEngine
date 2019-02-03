@@ -1,11 +1,15 @@
 #section vertex
 #version 330 core
 
-in vec3 in_position;
+layout(location = 0) in vec3 in_position;
+layout(location = 1) in vec3 in_color;
+
+out vec3 pass_color;
 
 void main() 
 {
 	gl_Position = vec4(in_position.x, in_position.y, in_position.z, 1.0);
+	pass_color = in_color;
 }
 
 #section pixel
@@ -13,7 +17,9 @@ void main()
 
 out vec4 out_fragColor;
 
+in vec3 pass_color;
+
 void main()
 {
-	out_fragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+	out_fragColor = vec4(pass_color, 1.0f);
 }

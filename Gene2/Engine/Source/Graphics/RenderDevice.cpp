@@ -2,6 +2,8 @@
 
 #include <Gene2/Graphics/RenderDevice.hpp>
 
+#include <numeric>
+
 using namespace g2;
 
 void RenderDevice::Init(const g2::SharedPtr<IWindow>& window) 
@@ -90,17 +92,26 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_
 {
 	Shader* pShader = GetShaderPtr(shader);
 	Buffer* pBuffer = GetBufferPtr(buffer);
-	
+	 
 	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
 	G2_GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, pBuffer->GetId()));
 
 	const Array<VertexAttribute>& attribs = pShader->GetInputLayout().GetAttributes();
+
+	// #todo(bwilks): #performance #cleanup
+	// maybe this can be cached in the input layout? (instead of recalculating every draw call)
+	const GLuint kStride = std::accumulate(attribs.begin(), attribs.end(), 0, [&](GLuint acu, const VertexAttribute& attrib) {
+		return acu + attrib.GetType().Size;
+	});
+
+	GLuint offset = 0;
 	for (const VertexAttribute& attrib : attribs)
 	{
 		VertexAttribInputType type = attrib.GetType();
 
 		G2_GL_CHECK(glEnableVertexAttribArray(attrib.GetIndex()));
-		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, type.Size, (void*)0));
+		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, kStride, (void*)offset));
+		offset += type.Size;
 	}
 
 	const int NUM_ELEMENTS_IN_TRIANGLE = 3;
