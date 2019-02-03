@@ -27,28 +27,65 @@ namespace g2
 		int Size;
 
 		VertexAttribInputType(int nComponents, EOpenGLType type);
-
 		VertexAttribInputType(){}
 
+		/**
+		 * Represents a scalar float type for an attribute (GLSL: float)
+		 */
 		const static VertexAttribInputType Float;
+
+		/**
+		 * Represents a 2 component vector of floats (GLSL: vec2)
+		 */
 		const static VertexAttribInputType Float2;
+
+		/**
+		 * Represents a 3 component vector of floats (GLSL: vec3)
+		 */
 		const static VertexAttribInputType Float3;
+
+		/**
+		 * Represents a 4 component vector of float (GLSL: vec4)
+		 */
 		const static VertexAttribInputType Float4;
 	};
 
+	/**
+	 * Stores data about a single vertex attribute input.
+	 */
 	class VertexAttribute
 	{
 	public:
+		/**
+		 * @brief Define the attributes of this vertex attribute.
+		 * @param name The name of the attribute as appears in shader code
+		 * @param index The index to bind the attribute to.
+		 * @param type The equivalent type of the attribute. See VertexAttribInputType.
+		 */
 		void Define(const char* name, int index, const VertexAttribInputType& type);
 
+		/**
+		 * @brief Get the index that this vertex attribute has been bound to.
+		 * @return The index that this vertex attribute has been bound to.
+		 */
 		int GetIndex() const;
+
+		/**
+		 * @brief Get the ASCII string name of this attribute (as would appear in shader code).
+		 * @return The name of this attribute.
+		 */
 		const char* GetName() const;
+
+		/**
+		 * @brief Get the equivalent type of this attribute
+		 * @return The type of this attribute.
+		 */
 		const VertexAttribInputType& GetType() const;
 
 	private:
-		int m_index;
+		int                   m_index;
 		VertexAttribInputType m_type;
-		const char* m_name;
+		const char*           m_name;
 	};
 
 	class InputLayoutDef
@@ -62,20 +99,5 @@ namespace g2
 
 	private:
 		Array<VertexAttribute> m_attributes;
-	};
-
-	class BufferArray
-	{
-	public:
-		void Create();
-		GLuint GetId() const;
-
-		void AddBuffer(GraphicsResourceHandle buff);
-
-		const Array<GraphicsResourceHandle>& GetBuffers() const;
-
-	private:
-		GLuint m_id;
-		Array<GraphicsResourceHandle> m_buffers;
 	};
 }

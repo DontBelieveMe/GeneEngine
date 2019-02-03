@@ -9,40 +9,48 @@
 using namespace g2;
 
 namespace g2 {
-	enum EShaderSegment {
+	enum EShaderSegment 
+	{
 		SS_VERTEX = GL_VERTEX_SHADER,
 		SS_PIXEL  = GL_FRAGMENT_SHADER,
 		SS_NONE   = 0
 	};
 
-	struct ShaderSegment {
-		String SourceString;           ///< The actual shader code that makes up this segment
-		EShaderSegment Type = SS_NONE; ///< The type of this shader (vertex, fragment, etc...)
-		GLuint OpenGLID;               ///< The OpenGL Id for this shader. Generated after preprocessing by OpenGL.
+	struct ShaderSegment 
+	{
+		String         SourceString;           ///< The actual shader code that makes up this segment
+		EShaderSegment Type = SS_NONE;         ///< The type of this shader (vertex, fragment, etc...)
+		GLuint         OpenGLID;               ///< The OpenGL Id for this shader. Generated after preprocessing by OpenGL.
 	};
 }
 
-static Array<ShaderSegment> PreprocessShaderFile(const String& shaderText) {
+static Array<ShaderSegment> PreprocessShaderFile(const String& shaderText) 
+{
 	Array<ShaderSegment> shaders;
 
 	size_t cindex = 0;
-	while (cindex < shaderText.length() - 1) {
-		if (shaderText[cindex] == '#') {
+	while (cindex < shaderText.length() - 1) 
+	{
+		if (shaderText[cindex] == '#') 
+		{
 			cindex++; // skip past the '#'
 
 			const size_t startidx = cindex;
-			while (isalpha(shaderText[cindex])) {
+			while (isalpha(shaderText[cindex])) 
+			{
 				cindex++;
 			}
 
 			const String directive(shaderText.begin() + startidx, shaderText.begin() + cindex);
 			
-			if (directive == "section") {
+			if (directive == "section") 
+			{
 				ShaderSegment segment;
 				while (shaderText[cindex] == ' ' || shaderText[cindex] == '\t') cindex++;
 
 				const size_t shaderTypeStarIdx = cindex;
-				while (isalpha(shaderText[cindex])) {
+				while (isalpha(shaderText[cindex])) 
+				{
 					cindex++;
 				}
 
@@ -55,14 +63,17 @@ static Array<ShaderSegment> PreprocessShaderFile(const String& shaderText) {
 
 				shaders.push_back(segment);
 			}
-			else {
+			else 
+			{
 				ShaderSegment& segment = shaders.back();
 				segment.SourceString += '#';
 				cindex = startidx - 1;
 			}
 		}
-		else {
-			if (shaders.size() > 0) {
+		else 
+		{
+			if (shaders.size() > 0) 
+			{
 				ShaderSegment& segment = shaders.back();
 				segment.SourceString += shaderText[cindex];
 			}
@@ -116,7 +127,8 @@ void Shader::Create(const char* shaderFilename, InputLayoutDef inputLayout)
 
 	const GLuint program = glCreateProgram();
 
-	for (ShaderSegment& shaderSegment : segments) {
+	for (ShaderSegment& shaderSegment : segments) 
+	{
 		shaderSegment.OpenGLID = CreateShaderFromSegmentData(shaderSegment);
 		glAttachShader(program, shaderSegment.OpenGLID);
 	}
@@ -126,13 +138,15 @@ void Shader::Create(const char* shaderFilename, InputLayoutDef inputLayout)
 	// #todo(bwilks) #improvment 
 	// Add link error checking step here
 	
-	for (ShaderSegment& shaderSegment : segments) {
+	for (ShaderSegment& shaderSegment : segments) 
+	{
 		glDeleteShader(shaderSegment.OpenGLID);
 	}
 
 	m_programId = program;
 }
 
-GLuint Shader::GetProgramId() const {
+GLuint Shader::GetProgramId() const 
+{
 	return m_programId;
 }

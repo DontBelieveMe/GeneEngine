@@ -39,27 +39,6 @@ const Array<VertexAttribute>& InputLayoutDef::GetAttributes() const
 	return m_attributes;
 }
 
-void BufferArray::Create()
-{
-	G2_GL_CHECK(glGenVertexArrays(1, &m_id));
-	G2_ASSERT(m_id != 0, "Could not generate vertex array!");
-}
-
-GLuint BufferArray::GetId() const
-{
-	return m_id;
-}
-
-void BufferArray::AddBuffer(GraphicsResourceHandle buff)
-{
-	m_buffers.push_back(buff);
-}
-
-const Array<GraphicsResourceHandle>& BufferArray::GetBuffers() const 
-{
-	return m_buffers;
-}
-
 const VertexAttribInputType VertexAttribInputType::Float(1, GLT_FLOAT);
 const VertexAttribInputType VertexAttribInputType::Float2(2, GLT_FLOAT);
 const VertexAttribInputType VertexAttribInputType::Float3(3, GLT_FLOAT);

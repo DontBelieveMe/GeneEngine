@@ -46,7 +46,7 @@ namespace g2 {
 		const InputLayoutDef& GetInputLayout() const;
 
 	private:
-		GLuint m_programId;
+		GLuint         m_programId;
 		InputLayoutDef m_inputLayout;
 	};
 }

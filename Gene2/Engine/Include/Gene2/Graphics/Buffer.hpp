@@ -9,7 +9,7 @@
 namespace g2 {
 	enum EBufferFlags {
 		BF_VERTEX_BUFFER = 1,
-		BF_INDEX_BUFFER = 2
+		BF_INDEX_BUFFER  = 2
 	};
 
 	class Buffer {

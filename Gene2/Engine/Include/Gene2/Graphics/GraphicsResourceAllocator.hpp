@@ -80,6 +80,6 @@ namespace g2 {
 
 	private:
 		GraphicsResourceHandle m_handles[Size];
-		int m_count = 0;
+		int                    m_count = 0;
 	};
 }

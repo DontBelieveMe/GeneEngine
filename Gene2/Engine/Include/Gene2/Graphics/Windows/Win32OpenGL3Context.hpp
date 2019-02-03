@@ -16,7 +16,7 @@ namespace g2 { namespace win32 {
 		virtual void SwapBuffers() override;
 
 	private:
-		HDC m_hdc;
+		HDC   m_hdc;
 		HGLRC m_context;
 	};
 }}

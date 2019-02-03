@@ -36,20 +36,20 @@ namespace g2 {
 	 */
 	class RenderDevice {
 	public:
-		static const size_t MaxVertexBuffers = 4096;
-		static const size_t MaxShaders = 4096;
+		static const size_t                         MaxVertexBuffers = 4096;
+		static const size_t                         MaxShaders = 4096;
 
 	private:
-		IOpenGL3Context * m_context;
+		IOpenGL3Context                            *m_context;
 
-		Buffer m_vertexBuffers[MaxVertexBuffers];
+		Buffer                                      m_vertexBuffers[MaxVertexBuffers];
 		GraphicsResourceAllocator<MaxVertexBuffers> m_vertexBufferHandles;
 
-		Shader m_shaders[MaxShaders];
-		GraphicsResourceAllocator<MaxShaders> m_shaderHandles;
+		Shader                                      m_shaders[MaxShaders];
+		GraphicsResourceAllocator<MaxShaders>       m_shaderHandles;
 
-		GLuint m_gVao;
-		ContextAttributes m_ctxAttribs;
+		GLuint                                      m_gVao;
+		ContextAttributes                           m_ctxAttribs;
 	
 	private:
 		Buffer* GetBufferPtr(BufferHandle handle);
@@ -87,6 +87,8 @@ namespace g2 {
 		/**
 		 * @brief Clear the current framebuffer to the last color set by SetClearColor or black if
 		 *        SetClearColor has not been called.
+		 * @param flags What should be cleared - must be one of (or a "bitwise or" of multiple) ::EClearFlags
+		 *              e.g Clear(CF_CLEAR_DEPTH_BUFFER) or Clear(CF_CLEAR_DEPTH_BUFFER | CF_CLEAR_COLOR_BUFFER)
 		 */
 		void Clear(u32 flags);
 

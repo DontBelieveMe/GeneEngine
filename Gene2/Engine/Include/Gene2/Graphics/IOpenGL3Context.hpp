@@ -49,7 +49,7 @@ namespace g2 {
 		static IOpenGL3Context* CreateContextForThisPlatform(void* windowHandle, ContextAttributes attributes);
 
 	protected:
-		void* m_windowHandle;
+		void*             m_windowHandle;
 		ContextAttributes m_attributes;
 	};
 }
