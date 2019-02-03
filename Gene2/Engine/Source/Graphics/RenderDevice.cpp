@@ -78,6 +78,14 @@ ShaderHandle RenderDevice::CreateShader(const char* filepath, InputLayoutDef lay
 	return handle;
 }
 
+TextureHandle RenderDevice::CreateTexture(const char* filepath)
+{
+	GraphicsResourceHandle tex = m_textureHandles.Allocate();
+	m_textures[tex.GetIndex()].Create(filepath);
+
+	return tex;
+}
+
 Buffer* RenderDevice::GetBufferPtr(BufferHandle handle)
 {
 	return &m_vertexBuffers[handle.GetIndex()];

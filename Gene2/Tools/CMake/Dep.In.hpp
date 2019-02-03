@@ -10,8 +10,17 @@
 	#pragma GCC system_header
 #endif
 
+#if defined(G2_COMPILER_MSVC)
+	#pragma warning(push)
+	#pragma warning(disable: 4100)
+#endif
+
 @CMAKE_CONFIGURABLE_FILE_CONTENT@
 
 #if defined(G2_COMPILER_GNUC)
 	#pragma GCC diagnostic pop
+#endif
+
+#if defined(G2_COMPILER_MSVC)
+	#pragma warning(pop)
 #endif

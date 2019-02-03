@@ -11,6 +11,7 @@
 #include "OpenGL.hpp"
 #include "MemoryRef.hpp"
 #include "InputLayout.hpp"
+#include "Texture.hpp"
 
 #include "GraphicsResourceAllocator.hpp"
 
@@ -30,7 +31,8 @@ namespace g2 {
 
 	typedef GraphicsResourceHandle BufferHandle;
 	typedef GraphicsResourceHandle ShaderHandle;
-	
+	typedef GraphicsResourceHandle TextureHandle;
+
 	/**
 	 * Used to create resources and manage the rendering functionality of a window.
 	 */
@@ -38,6 +40,7 @@ namespace g2 {
 	public:
 		static const size_t                         MaxVertexBuffers = 4096;
 		static const size_t                         MaxShaders = 4096;
+		static const size_t                         MaxTextures = 4096;
 
 	private:
 		IOpenGL3Context                            *m_context;
@@ -47,6 +50,9 @@ namespace g2 {
 
 		Shader                                      m_shaders[MaxShaders];
 		GraphicsResourceAllocator<MaxShaders>       m_shaderHandles;
+
+		Texture                                     m_textures[MaxTextures];
+		GraphicsResourceAllocator<MaxTextures>      m_textureHandles;
 
 		GLuint                                      m_gVao;
 		ContextAttributes                           m_ctxAttribs;
@@ -112,6 +118,11 @@ namespace g2 {
 		 * @return A pointer to a new video Shader. Do not free this shader - it is owned by the graphics system.
 		 */
 		ShaderHandle CreateShader(const char* filepath, InputLayoutDef layoutDef);
+
+		/**
+		 * #todo(bwilks): #documentation
+		 */
+		TextureHandle CreateTexture(const char* filepath);
 
 		/**
 		 * @brief Issue a draw call to draw the specified number of primitives from the specified buffer, using the

@@ -23,6 +23,7 @@ set(GraphicsSource
 	${CurrentDir}/InputLayout.cpp
 	${CurrentDir}/ForwardRenderer3D.cpp
 	${CurrentDir}/GraphicsResourceAllocator.cpp
+	${CurrentDir}/Texture.cpp
 
 	${PlatformSpecificSource}
 

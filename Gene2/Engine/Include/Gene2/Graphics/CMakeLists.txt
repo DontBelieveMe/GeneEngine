@@ -25,6 +25,7 @@ set(GraphicsHeaders
 	${CurrentScope}/MemoryRef.hpp
 	${CurrentScope}/InputLayout.hpp
 	${CurrentScope}/ForwardRenderer3D.hpp
+	${CurrentScope}/Texture.hpp
 
 	${PlatformSpecificHeaders}
 
