@@ -21,6 +21,9 @@ void main()
 out vec4 out_fragColor;
 
 in vec3 pass_color;
+in vec2 pass_uv;
+
+uniform sampler2D u_sampler;
 
 void main()
 {

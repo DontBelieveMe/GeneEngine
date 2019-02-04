@@ -27,11 +27,13 @@ const VertexAttribInputType& VertexAttribute::GetType() const
 	return m_type;
 }
 
-void InputLayoutDef::DefineAttribute(const char* name, int index, const VertexAttribInputType& type)
+InputLayoutDef& InputLayoutDef::DefineAttribute(const char* name, int index, const VertexAttribInputType& type)
 {
 	VertexAttribute attrib;
 	attrib.Define(name, index, type);
 	m_attributes.push_back(attrib);
+
+	return *this;
 }
 
 const Array<VertexAttribute>& InputLayoutDef::GetAttributes() const

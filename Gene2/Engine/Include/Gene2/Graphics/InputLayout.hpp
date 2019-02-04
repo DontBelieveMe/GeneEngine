@@ -93,7 +93,7 @@ namespace g2
 	public:
 		const static int MAX_NUMBER_ATTRIBUTES = 10;
 
-		void DefineAttribute(const char* name, int index, const VertexAttribInputType& type);
+		InputLayoutDef& DefineAttribute(const char* name, int index, const VertexAttribInputType& type);
 
 		const Array<VertexAttribute>& GetAttributes() const;
 
