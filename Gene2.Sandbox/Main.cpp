@@ -74,6 +74,7 @@ int main()
 		}
 		
 		renderDevice.Clear(g2::CF_CLEAR_COLOR_BUFFER | g2::CF_CLEAR_DEPTH_BUFFER);
+		renderDevice.SetTexture(texture, 0);
 		renderDevice.DrawPrimitive(shader, vertexBuffer, 1);
 		renderDevice.SwapBuffers();
 	}

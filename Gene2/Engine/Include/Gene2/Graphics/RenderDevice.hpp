@@ -90,6 +90,8 @@ namespace g2 {
 		 */
 		void SetClearColor(const Color& color);
 
+		void SetTexture(TextureHandle handle, int slot);
+
 		/**
 		 * @brief Clear the current framebuffer to the last color set by SetClearColor or black if
 		 *        SetClearColor has not been called.

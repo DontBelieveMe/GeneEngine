@@ -86,6 +86,14 @@ TextureHandle RenderDevice::CreateTexture(const char* filepath)
 	return tex;
 }
 
+void RenderDevice::SetTexture(TextureHandle handle, int slot)
+{
+	Texture* tex = &m_textures[handle.GetIndex()];
+	
+	G2_GL_CHECK(glActiveTexture(GL_TEXTURE0 + slot));
+	G2_GL_CHECK(glBindTexture(GL_TEXTURE_2D, tex->GetId()));
+}
+
 Buffer* RenderDevice::GetBufferPtr(BufferHandle handle)
 {
 	return &m_vertexBuffers[handle.GetIndex()];
