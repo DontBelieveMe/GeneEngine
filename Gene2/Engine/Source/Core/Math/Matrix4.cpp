@@ -20,6 +20,58 @@ void Matrix4::SetIdentity()
 	M(Elements, 3, 3) = 1.f;
 }
 
+Matrix4 Matrix4::LookAt(const Vector3& eye, const Vector3& centre, const Vector3& up)
+{
+	Vector3 f { centre.X - eye.X, centre.Y - eye.Y, centre.Z - eye.Z };
+	f.Normalize();
+
+	Vector3 s = Vector3::CrossProduct(f, up);
+	s.Normalize();
+
+	Vector3 u = Vector3::CrossProduct(s, f);
+
+	Matrix4 mat4 = Matrix4::FromElements(
+		s.X, u.X, -f.X, 0.f,
+		s.Y, u.Y, -f.Y, 0.f,
+		s.Z, u.Z, -f.Z, 0.f,
+		-Vector3::DotProduct(s, eye), -Vector3::DotProduct(u, eye), -Vector3::DotProduct(f, eye), 1.f
+	);
+
+	return mat4;
+}
+
+Matrix4 Matrix4::FromElements(
+	float m00, float m10, float m20, float m30,
+	float m01, float m11, float m21, float m31,
+	float m02, float m12, float m22, float m32,
+	float m03, float m13, float m23, float m33
+)
+{
+	Matrix4 mat4;
+
+	mat4.Elements[0 + 0 * 4] = m00;
+	mat4.Elements[1 + 0 * 4] = m10;
+	mat4.Elements[2 + 0 * 4] = m20;
+	mat4.Elements[3 + 0 * 4] = m30;
+
+	mat4.Elements[0 + 1 * 4] = m01;
+	mat4.Elements[1 + 1 * 4] = m11;
+	mat4.Elements[2 + 1 * 4] = m21;
+	mat4.Elements[3 + 1 * 4] = m31;
+
+	mat4.Elements[0 + 2 * 4] = m02;
+	mat4.Elements[1 + 2 * 4] = m12;
+	mat4.Elements[2 + 2 * 4] = m22;
+	mat4.Elements[3 + 2 * 4] = m32;
+
+	mat4.Elements[0 + 3 * 4] = m03;
+	mat4.Elements[1 + 3 * 4] = m13;
+	mat4.Elements[2 + 3 * 4] = m23;
+	mat4.Elements[3 + 3 * 4] = m33;
+
+	return mat4;
+}
+
 Matrix4 Matrix4::MakePerspective(const float& aspectRatio, const float& fov, const float& far, const float& near)
 {
 	Matrix4 m4;

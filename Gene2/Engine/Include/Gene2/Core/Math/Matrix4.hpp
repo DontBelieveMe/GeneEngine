@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Vector3.hpp"
+
 namespace g2 {
 	/**
 	 * Represents a 4x4 floating point matrix.
@@ -45,6 +47,12 @@ namespace g2 {
 			const float& near
 		);
 		
+		static Matrix4 FromElements(
+			float m00, float m10, float m20, float m30,
+			float m01, float m11, float m21, float m31,
+			float m02, float m12, float m22, float m32,
+			float m03, float m13, float m23, float m33
+		);
 
 		/**
 		 * @brief Create a orthographic projection matrix of the form:
@@ -71,6 +79,12 @@ namespace g2 {
 			const float& bottom, 
 			const float& far, 
 			const float& near
+		);
+
+		static Matrix4 LookAt(
+			const Vector3& eye,
+			const Vector3& centre,
+			const Vector3& up
 		);
 	};
 

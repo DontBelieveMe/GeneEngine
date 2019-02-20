@@ -6,6 +6,7 @@ add_subdirectory(Platform)
 add_subdirectory(Debug)
 add_subdirectory(Input)
 add_subdirectory(Graphics)
+add_subdirectory(Scene)
 
 set(EngineHeaders 
     ${MathHeaders}
@@ -15,6 +16,7 @@ set(EngineHeaders
 	${DebugHeaders}
     ${InputHeaders}
 	${GraphicsHeaders}
+	${SceneHeaders}
 
     PARENT_SCOPE
 )

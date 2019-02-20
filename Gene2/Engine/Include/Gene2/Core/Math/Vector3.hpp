@@ -57,6 +57,8 @@ namespace g2 {
 		 * @return A new Vector3 representing the cross product of the two specified Vector3's
 		 */
 		static Vector3 CrossProduct(const Vector3& left, const Vector3& right);
+
+		Vector3 operator-() { return { -X, -Y, -Z }; }
 	};
 
 

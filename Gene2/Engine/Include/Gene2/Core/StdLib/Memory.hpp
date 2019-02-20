@@ -21,6 +21,9 @@ namespace g2 {
 	template <typename T>
 	using UniquePtr = std::unique_ptr<T>;
 
+	template <typename T>
+	using WeakPtr = std::weak_ptr<T>;
+
 	/**
 	 * @brief Creates a g2::SharedPtr of type T
 	 * @param args List of arguments of which type T will be created using.

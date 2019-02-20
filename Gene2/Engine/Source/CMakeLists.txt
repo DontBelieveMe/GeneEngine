@@ -6,6 +6,7 @@ add_subdirectory(Core/StdLib)
 add_subdirectory(Platform)
 add_subdirectory(Debug)
 add_subdirectory(Graphics)
+add_subdirectory(Scene)
 
 set(EngineSource
     ${MathSource}
@@ -13,6 +14,7 @@ set(EngineSource
 	${DebugSource}
 	${PlatformSource}
 	${GraphicsSource}
+	${SceneSources}
 
     PARENT_SCOPE
 )
