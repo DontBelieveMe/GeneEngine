@@ -33,6 +33,11 @@ namespace g2 {
 	typedef GraphicsResourceHandle ShaderHandle;
 	typedef GraphicsResourceHandle TextureHandle;
 
+	struct VertexStream {
+		BufferHandle VertexBuffer;
+		int Stride;
+	};
+
 	/**
 	 * Used to create resources and manage the rendering functionality of a window.
 	 */
@@ -41,6 +46,7 @@ namespace g2 {
 		static const size_t                         MaxVertexBuffers = 4096;
 		static const size_t                         MaxShaders = 4096;
 		static const size_t                         MaxTextures = 4096;
+		static const size_t                         MaxVertexStreams = 4096;
 
 	private:
 		IOpenGL3Context                            *m_context;
@@ -56,7 +62,9 @@ namespace g2 {
 
 		GLuint                                      m_gVao;
 		ContextAttributes                           m_ctxAttribs;
-	
+		
+		VertexStream                                m_streams[MaxVertexStreams];
+
 	private:
 		Buffer* GetBufferPtr(BufferHandle handle);
 		Shader* GetShaderPtr(ShaderHandle handle);
@@ -99,6 +107,8 @@ namespace g2 {
 		 *              e.g Clear(CF_CLEAR_DEPTH_BUFFER) or Clear(CF_CLEAR_DEPTH_BUFFER | CF_CLEAR_COLOR_BUFFER)
 		 */
 		void Clear(u32 flags);
+
+		void SetVertexBuffer(int streamIndex, BufferHandle handle, int stride);
 
 		/**
 		 * @brief Swap the front and back buffers of this context.

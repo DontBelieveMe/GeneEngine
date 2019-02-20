@@ -16,7 +16,7 @@ int main()
 	G2_CORE_LOGGER()->AddRoute<g2::ConsoleLoggerRoute>();
 	
 	g2::SharedPtr<g2::IWindow> window = g2::IWindow::Create(
-		g2::WindowConfig(800, 600, "Gene2 Demo!")
+		g2::WindowConfig(1280, 720, "Gene2 Demo!")
 	);
 	
 	g2::RenderDevice renderDevice;
@@ -28,18 +28,26 @@ int main()
 	renderDevice.Init(window);
 	
 	float vertices[] = {
-		-0.5f, -0.5f, 0.f,     0.75f, 0.0f, 1.0f,     0.0f, 0.0f,
-		0.5f, -0.5f, 0.f,      0.0f, 0.75f, 0.0f,     1.0f, 0.0f,
-		0.0f, 0.5f, 0.0f,      0.0f, 1.0f, 0.75f,     0.5f, 1.0f
+		-0.5f, -0.5f, 0.f,     0.0f, 0.0f,
+		0.5f, -0.5f, 0.f,      1.0f, 0.0f,
+		0.0f, 0.5f, 0.0f,      0.5f, 1.0f
+	};
+
+	float colors[] = {
+		1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 1.0f
 	};
 
 	g2::InputLayoutDef inputLayoutDef;
-	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3);
-	inputLayoutDef.DefineAttribute("in_color", 1, g2::VertexAttribInputType::Float3);
-	inputLayoutDef.DefineAttribute("in_uv", 2, g2::VertexAttribInputType::Float2);
+	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3, 0);
+	inputLayoutDef.DefineAttribute("in_color", 1, g2::VertexAttribInputType::Float3, 1);
+	inputLayoutDef.DefineAttribute("in_uv", 2, g2::VertexAttribInputType::Float2, 0);
 
 	g2::ShaderHandle shader = renderDevice.CreateShader("Assets/Test.shader", inputLayoutDef);
+
 	g2::BufferHandle vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER, g2::MemoryRef(vertices, sizeof(vertices)));
+	g2::BufferHandle colorBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER, g2::MemoryRef(colors, sizeof(colors)));
 
 	g2::TextureHandle texture = renderDevice.CreateTexture("Assets/wall.jpg");
 
@@ -74,7 +82,11 @@ int main()
 		}
 		
 		renderDevice.Clear(g2::CF_CLEAR_COLOR_BUFFER | g2::CF_CLEAR_DEPTH_BUFFER);
+		
 		renderDevice.SetTexture(texture, 0);
+		
+		renderDevice.SetVertexBuffer(0, vertexBuffer, 5 * sizeof(float));
+		renderDevice.SetVertexBuffer(1, colorBuffer, 3 * sizeof(float));
 		renderDevice.DrawPrimitive(shader, vertexBuffer, 1);
 		renderDevice.SwapBuffers();
 	}

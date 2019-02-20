@@ -57,7 +57,13 @@ void RenderDevice::SwapBuffers()
 {
 	m_context->SwapBuffers();
 }
-	
+
+void RenderDevice::SetVertexBuffer(int streamIndex, BufferHandle handle, int stride) 
+{
+	m_streams[streamIndex].VertexBuffer = handle;
+	m_streams[streamIndex].Stride = stride;
+}
+
 BufferHandle RenderDevice::CreateBuffer(size_t initFlags, MemoryRef mem)
 {
 	BufferHandle handle = m_vertexBufferHandles.Allocate();
@@ -107,27 +113,21 @@ Shader* RenderDevice::GetShaderPtr(ShaderHandle handle)
 void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives)
 {
 	Shader* pShader = GetShaderPtr(shader);
-	Buffer* pBuffer = GetBufferPtr(buffer);
-	 
+	G2_MARK_VARIABLE_UNUSED(buffer);
 	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
-	G2_GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, pBuffer->GetId()));
 
 	const Array<VertexAttribute>& attribs = pShader->GetInputLayout().GetAttributes();
-
-	// #todo(bwilks): #performance #cleanup
-	// maybe this can be cached in the input layout? (instead of recalculating every draw call)
-	const GLuint kStride = std::accumulate(attribs.begin(), attribs.end(), 0, [&](GLuint acu, const VertexAttribute& attrib) {
-		return acu + attrib.GetType().Size;
-	});
-
-	size_t offset = 0;
+	int koff = 0;
 	for (const VertexAttribute& attrib : attribs)
 	{
+		VertexStream& stream = m_streams[attrib.GetStreamIndex()];
+
+		G2_GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffers[stream.VertexBuffer.GetIndex()].GetId()));
+
 		VertexAttribInputType type = attrib.GetType();
 
 		G2_GL_CHECK(glEnableVertexAttribArray(attrib.GetIndex()));
-		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, kStride, (void*)offset));
-		offset += static_cast<size_t>(type.Size);
+		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, stream.Stride, (void*)koff));
 	}
 
 	const int NUM_ELEMENTS_IN_TRIANGLE = 3;

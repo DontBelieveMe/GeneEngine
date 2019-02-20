@@ -63,6 +63,8 @@ namespace g2 {
 			G2_ASSERT(m_count < Size, "No suport currently for reusing handles.");
 
 			GraphicsResourceHandle handle = m_handles[m_count];
+			handle.SetIndex(m_count);
+			
 			m_count++;
 
 			return handle;
