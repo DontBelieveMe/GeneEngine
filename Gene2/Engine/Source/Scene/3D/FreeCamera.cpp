@@ -4,14 +4,17 @@
 
 using namespace g2;
 
-FreeCamera::FreeCamera(const WeakPtr<IWindow>& window)
+FreeCamera::FreeCamera(IWindow* window)
 	: m_window(window), m_enabled(true)
 {
 }
 
 void FreeCamera::Tick(float dt)
 {
+	G2_MARK_VARIABLE_UNUSED(dt);
 
+	if (!m_enabled)
+		return;
 }
 
 Matrix4 FreeCamera::CalculateView()

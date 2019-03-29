@@ -10,7 +10,7 @@
 namespace g2 {
 	class FreeCamera {
 	public:
-		FreeCamera(const WeakPtr<IWindow>& window);
+		FreeCamera(IWindow *window);
 
 		void Tick(float dt);
 
@@ -23,7 +23,7 @@ namespace g2 {
 		bool IsEnabled() const;
 
 	private:
-		WeakPtr<IWindow> m_window;
+		IWindow *m_window;
 		Matrix4 m_projection;
 		Vector3 m_rot, m_pos, m_up, m_dir;
 		bool m_enabled;
