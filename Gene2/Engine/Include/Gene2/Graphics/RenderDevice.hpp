@@ -36,6 +36,7 @@ namespace g2 {
 	struct VertexStream {
 		BufferHandle VertexBuffer;
 		int Stride;
+		int Offset;
 	};
 
 	/**
@@ -108,7 +109,7 @@ namespace g2 {
 		 */
 		void Clear(u32 flags);
 
-		void SetVertexBuffer(int streamIndex, BufferHandle handle, int stride);
+		void SetVertexBuffer(int streamIndex, BufferHandle handle, int stride, int offset);
 
 		/**
 		 * @brief Swap the front and back buffers of this context.
@@ -143,6 +144,6 @@ namespace g2 {
 		 * @param buffer The buffer to draw the primitives from.
 		 * @param numPrimitives The number of primitives inside the buffer, for example the number of triangles to draw.
 		 */
-		void DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives);
+		void DrawPrimitive(ShaderHandle shader, size_t numPrimitives);
 	};
 }

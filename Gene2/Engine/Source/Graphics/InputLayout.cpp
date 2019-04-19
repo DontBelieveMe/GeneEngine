@@ -5,12 +5,18 @@
 
 using namespace g2;
 
-void VertexAttribute::Define(const char* name, int index, const VertexAttribInputType& type, int streamIndex)
+void VertexAttribute::Define(const char* name, int index, const VertexAttribInputType& type, int streamIndex, int offset)
 {
 	m_name = name;
 	m_index = index;
 	m_type = type;
 	m_streamIndex = streamIndex;
+	m_offset = offset;
+}
+
+int VertexAttribute::GetOffset() const
+{
+	return m_offset;
 }
 
 int VertexAttribute::GetIndex() const 
@@ -33,12 +39,12 @@ int VertexAttribute::GetStreamIndex() const
 	return m_streamIndex;
 }
 
-InputLayoutDef& InputLayoutDef::DefineAttribute(const char* name, int index, const VertexAttribInputType& type, int streamIndex)
+InputLayoutDef& InputLayoutDef::DefineAttribute(const char* name, int index, const VertexAttribInputType& type, int streamIndex, int offset)
 {
 //	int offset = 0;
 
 	VertexAttribute attrib;
-	attrib.Define(name, index, type, streamIndex);
+	attrib.Define(name, index, type, streamIndex, offset);
 	m_attributes.push_back(attrib);
 
 	return *this;

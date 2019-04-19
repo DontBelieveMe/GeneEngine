@@ -58,10 +58,11 @@ void RenderDevice::SwapBuffers()
 	m_context->SwapBuffers();
 }
 
-void RenderDevice::SetVertexBuffer(int streamIndex, BufferHandle handle, int stride) 
+void RenderDevice::SetVertexBuffer(int streamIndex, BufferHandle handle, int stride, int offset) 
 {
 	m_streams[streamIndex].VertexBuffer = handle;
 	m_streams[streamIndex].Stride = stride;
+	m_streams[streamIndex].Offset = offset;
 }
 
 BufferHandle RenderDevice::CreateBuffer(size_t initFlags, MemoryRef mem)
@@ -110,14 +111,13 @@ Shader* RenderDevice::GetShaderPtr(ShaderHandle handle)
 	return &m_shaders[handle.GetIndex()];
 }
 
-void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_t numPrimitives)
+void RenderDevice::DrawPrimitive(ShaderHandle shader, size_t numPrimitives)
 {
 	Shader* pShader = GetShaderPtr(shader);
-	G2_MARK_VARIABLE_UNUSED(buffer);
 	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
 
 	const Array<VertexAttribute>& attribs = pShader->GetInputLayout().GetAttributes();
-	int koff = 0;
+	
 	for (const VertexAttribute& attrib : attribs)
 	{
 		VertexStream& stream = m_streams[attrib.GetStreamIndex()];
@@ -127,7 +127,12 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, BufferHandle buffer, size_
 		VertexAttribInputType type = attrib.GetType();
 
 		G2_GL_CHECK(glEnableVertexAttribArray(attrib.GetIndex()));
-		G2_GL_CHECK(glVertexAttribPointer(attrib.GetIndex(), type.NumComponents, type.Type, GL_FALSE, stream.Stride, (void*)koff));
+		G2_GL_CHECK(glVertexAttribPointer(
+			attrib.GetIndex(), 
+			type.NumComponents, 
+			type.Type, GL_FALSE, 
+			stream.Stride, (void*)(stream.Offset + attrib.GetOffset())
+		));
 	}
 
 	const int NUM_ELEMENTS_IN_TRIANGLE = 3;

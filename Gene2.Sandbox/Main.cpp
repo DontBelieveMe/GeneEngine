@@ -40,9 +40,9 @@ int main()
 	};
 
 	g2::InputLayoutDef inputLayoutDef;
-	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3, 0);
-	inputLayoutDef.DefineAttribute("in_color", 1, g2::VertexAttribInputType::Float3, 1);
-	inputLayoutDef.DefineAttribute("in_uv", 2, g2::VertexAttribInputType::Float2, 0);
+	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3, 0, 0);
+	inputLayoutDef.DefineAttribute("in_color", 1, g2::VertexAttribInputType::Float3, 1, 0);
+	inputLayoutDef.DefineAttribute("in_uv", 2, g2::VertexAttribInputType::Float2, 0, 0);
 
 	g2::ShaderHandle shader = renderDevice.CreateShader("Assets/Test.shader", inputLayoutDef);
 
@@ -85,9 +85,10 @@ int main()
 		
 		renderDevice.SetTexture(texture, 0);
 		
-		renderDevice.SetVertexBuffer(0, vertexBuffer, 5 * sizeof(float));
-		renderDevice.SetVertexBuffer(1, colorBuffer, 3 * sizeof(float));
-		renderDevice.DrawPrimitive(shader, vertexBuffer, 1);
+		renderDevice.SetVertexBuffer(0, vertexBuffer, 5 * sizeof(float), 0);
+		renderDevice.SetVertexBuffer(1, colorBuffer, 3 * sizeof(float), 0);
+		renderDevice.DrawPrimitive(shader, 1);
+
 		renderDevice.SwapBuffers();
 	}
 

@@ -61,8 +61,9 @@ namespace g2
 		 * @param name The name of the attribute as appears in shader code
 		 * @param index The index to bind the attribute to.
 		 * @param type The equivalent type of the attribute. See VertexAttribInputType.
+		 * @param streamIndex The index of the vertex stream that this attribute is attached to.
 		 */
-		void Define(const char* name, int index, const VertexAttribInputType& type, int streamIndex);
+		void Define(const char* name, int index, const VertexAttribInputType& type, int streamIndex, int offset);
 
 		/**
 		 * @brief Get the index that this vertex attribute has been bound to.
@@ -78,6 +79,8 @@ namespace g2
 
 		int GetStreamIndex() const;
 
+		int GetOffset() const;
+
 		/**
 		 * @brief Get the equivalent type of this attribute
 		 * @return The type of this attribute.
@@ -89,6 +92,7 @@ namespace g2
 		int                   m_streamIndex;
 		VertexAttribInputType m_type;
 		const char*           m_name;
+		int                   m_offset;
 	};
 
 	class InputLayoutDef
@@ -96,7 +100,7 @@ namespace g2
 	public:
 		const static int MAX_NUMBER_ATTRIBUTES = 10;
 
-		InputLayoutDef& DefineAttribute(const char* name, int index, const VertexAttribInputType& type, int streamIndex);
+		InputLayoutDef& DefineAttribute(const char* name, int index, const VertexAttribInputType& type, int streamIndex, int offset);
 
 		const Array<VertexAttribute>& GetAttributes() const;
 
