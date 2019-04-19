@@ -7,6 +7,7 @@ using namespace g2;
 FreeCamera::FreeCamera(IWindow* window)
 	: m_window(window), m_enabled(true)
 {
+	G2_MARK_VARIABLE_UNUSED(m_window);
 }
 
 void FreeCamera::Tick(float dt)
