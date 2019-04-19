@@ -131,7 +131,7 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, size_t numPrimitives)
 			attrib.GetIndex(), 
 			type.NumComponents, 
 			type.Type, GL_FALSE, 
-			stream.Stride, (void*)(stream.Offset + attrib.GetOffset())
+			stream.Stride, (const GLvoid*)(std::uintptr_t)(stream.Offset + attrib.GetOffset())
 		));
 	}
 
