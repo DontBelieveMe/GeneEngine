@@ -30,6 +30,17 @@ namespace g2 {
 			return x < min ? min : x > max ? max : x;
 		}
 
+		static inline float Wrap(const float& value, const float& rangeMin, const float& rangeMax)
+		{
+			if (value > rangeMax)
+				return rangeMin;
+
+			if (value < rangeMin)
+				return rangeMax;
+
+			return value;
+		}
+
 		static const float Pi;
 	};
 }

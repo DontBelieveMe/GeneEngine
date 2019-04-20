@@ -8,6 +8,7 @@
 
 #include <Gene2/Core/StdLib/Random.hpp>
 #include <Gene2/Core/Math/Matrix4.hpp>
+#include <Gene2/Core/StdLib/Math.hpp>
 
 #include <ctime>
 
@@ -68,6 +69,7 @@ int main()
 
 	g2::Color clearColor = g2::Color::Red;
 	renderDevice.SetClearColor(clearColor);
+
 	float theta = 0;
 	while (window->IsOpen())
 	{
@@ -76,6 +78,7 @@ int main()
 		{
 			switch (event.EventType)
 			{
+			case g2::EVENT_KEYDOWN:
 			case g2::EVENT_MOUSEDOWN:
 			{
 				const float r = g2::Random::FloatRange(0.0f, 1.0f);
@@ -99,7 +102,10 @@ int main()
 		renderDevice.SetUniformValue(projectionUniform, projection.Elements);
 
 		g2::Matrix4 transform = g2::Matrix4::MakeRotationY(theta) * g2::Matrix4::MakeTranslation({ 0,0,-2 });
+
 		theta += 0.1f;
+		theta = g2::Math::Wrap(theta, 0.f, 360.f);
+
 		renderDevice.SetUniformValue(transformUniform, transform.Elements);
 
 		renderDevice.SetVertexBuffer(0, vertexBuffer, 3 * sizeof(float), 0);
