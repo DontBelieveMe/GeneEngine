@@ -1,7 +1,7 @@
 // Copyright 2017-2019 Barney Wilks. All Rights Reserved
 
 #include <Gene2/Graphics/RenderDevice.hpp>
-
+#include <Gene2/Debug/Assert.hpp>
 #include <numeric>
 
 using namespace g2;
@@ -52,6 +52,11 @@ void RenderDevice::SetUniformValue(UniformHandle uniform, void* value)
 		glUniform4f(uniformData.CachedLocation, fdata[0], fdata[1], fdata[2], fdata[3]);
 		break;
 	}
+	case UNIFORM_TYPE_SAMPLER_2D:
+		break;
+	default: // Note: Should never happen
+		G2_ASSERT(false);
+		break;
 	}
 	G2_GL_CHECK(glUseProgram(0));
 }
