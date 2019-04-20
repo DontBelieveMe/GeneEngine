@@ -55,7 +55,7 @@ void RenderDevice::SetUniformValue(UniformHandle uniform, void* value)
 	case UNIFORM_TYPE_SAMPLER_2D:
 		break;
 	default: // Note: Should never happen
-		G2_ASSERT(false);
+		G2_ASSERT(false, "Cannot set uniform with invalid type");
 		break;
 	}
 	G2_GL_CHECK(glUseProgram(0));
