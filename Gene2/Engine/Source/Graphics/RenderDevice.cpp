@@ -17,6 +17,58 @@ void RenderDevice::Init(const g2::SharedPtr<IWindow>& window)
 
 	G2_GL_CHECK(glGenVertexArrays(1, &m_gVao));
 	G2_GL_CHECK(glBindVertexArray(m_gVao));
+
+	G2_GL_CHECK(glEnable(GL_DEPTH_TEST));
+	G2_GL_CHECK(glDepthFunc(GL_LESS));
+}
+
+void RenderDevice::SetUniformValue(UniformHandle uniform, void* value)
+{
+	Uniform& uniformData = m_uniforms[uniform.GetIndex()];
+	
+	Shader* shader = GetShaderPtr(uniformData.Shader);
+	G2_GL_CHECK(glUseProgram(shader->GetProgramId()));
+	
+	switch (uniformData.Type)
+	{
+	case UNIFORM_TYPE_MAT4:
+		glUniformMatrix4fv(uniformData.CachedLocation, 1, GL_TRUE, (float*)value);
+		break;
+	case UNIFORM_TYPE_VEC2:
+	{
+		float* fdata = (float*)value;
+		glUniform2f(uniformData.CachedLocation, fdata[0], fdata[1]);
+		break;
+	}
+	case UNIFORM_TYPE_VEC3:
+	{
+		float* fdata = (float*)value;
+		glUniform3f(uniformData.CachedLocation, fdata[0], fdata[1], fdata[2]);
+		break;
+	}
+	case UNIFORM_TYPE_VEC4:
+	{
+		float* fdata = (float*)value;
+		glUniform4f(uniformData.CachedLocation, fdata[0], fdata[1], fdata[2], fdata[3]);
+		break;
+	}
+	}
+	G2_GL_CHECK(glUseProgram(0));
+}
+
+UniformHandle RenderDevice::CreateUniform(ShaderHandle shader, const char* uniformName, EUniformType uniformType)
+{
+	UniformHandle handle = m_uniformHandles.Allocate();
+	Uniform& uniform = m_uniforms[handle.GetIndex()];
+
+	Shader* shaderPtr = GetShaderPtr(shader);
+
+	uniform.CachedLocation = G2_GL_CHECK(glGetUniformLocation(shaderPtr->GetProgramId(), uniformName));
+	uniform.Name = uniformName;
+	uniform.Shader = shader;
+	uniform.Type = uniformType;
+
+	return handle;
 }
 
 void RenderDevice::SetContextAttribute(EContextAttribute attribute, int value)
@@ -135,8 +187,5 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, size_t numPrimitives)
 		));
 	}
 
-	const int NUM_ELEMENTS_IN_TRIANGLE = 3;
-	const size_t numElements = numPrimitives * NUM_ELEMENTS_IN_TRIANGLE;
-
-	G2_GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, numElements));
+	G2_GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, numPrimitives));
 }

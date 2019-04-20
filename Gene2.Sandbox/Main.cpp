@@ -7,8 +7,12 @@
 #include <Gene2/Debug/Assert.hpp>
 
 #include <Gene2/Core/StdLib/Random.hpp>
+#include <Gene2/Core/Math/Matrix4.hpp>
 
 #include <ctime>
+
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <Gene2/Lib/tiny_obj_loader.Lib.hpp>
 
 int main()
 {
@@ -27,35 +31,44 @@ int main()
 
 	renderDevice.Init(window);
 	
-	float vertices[] = {
-		-0.5f, -0.5f, 0.f,     0.0f, 0.0f,
-		0.5f, -0.5f, 0.f,      1.0f, 0.0f,
-		0.0f, 0.5f, 0.0f,      0.5f, 1.0f
-	};
-
-	float colors[] = {
-		1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 1.0f
-	};
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string warn;
+	std::string err;
+	tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, "Assets/Suzanne.obj");
 
 	g2::InputLayoutDef inputLayoutDef;
 	inputLayoutDef.DefineAttribute("in_position", 0, g2::VertexAttribInputType::Float3, 0, 0);
-	inputLayoutDef.DefineAttribute("in_color", 1, g2::VertexAttribInputType::Float3, 1, 0);
-	inputLayoutDef.DefineAttribute("in_uv", 2, g2::VertexAttribInputType::Float2, 0, 0);
 
 	g2::ShaderHandle shader = renderDevice.CreateShader("Assets/Test.shader", inputLayoutDef);
 
-	g2::BufferHandle vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER, g2::MemoryRef(vertices, sizeof(vertices)));
-	g2::BufferHandle colorBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER, g2::MemoryRef(colors, sizeof(colors)));
+	std::vector<float> vertices;
+	for (const tinyobj::shape_t& shape : shapes)
+	{
+		for (const tinyobj::index_t& index : shape.mesh.indices)
+		{
+			int vindex = index.vertex_index * 3;
+			vertices.push_back(attrib.vertices[vindex + 0]);
+			vertices.push_back(attrib.vertices[vindex + 1]);
+			vertices.push_back(attrib.vertices[vindex + 2]);
+		}
+	}
 
-	g2::TextureHandle texture = renderDevice.CreateTexture("Assets/wall.jpg");
+	g2::BufferHandle vertexBuffer = renderDevice.CreateBuffer(g2::BF_VERTEX_BUFFER,
+		g2::MemoryRef(vertices.data(),vertices.size()*sizeof(float))
+	);
+
+	g2::Matrix4 projection = g2::Matrix4::MakePerspective((float)window->GetWidth() / window->GetHeight(), 90.f, 100.f, 0.1f);
+	g2::UniformHandle projectionUniform = renderDevice.CreateUniform(shader, "u_projection", g2::UNIFORM_TYPE_MAT4);
+
+	g2::UniformHandle transformUniform = renderDevice.CreateUniform(shader, "u_transform", g2::UNIFORM_TYPE_MAT4);
 
 	window->Show();
 
 	g2::Color clearColor = g2::Color::Red;
 	renderDevice.SetClearColor(clearColor);
-
+	float theta = 0;
 	while (window->IsOpen())
 	{
 		g2::Event event;
@@ -82,12 +95,15 @@ int main()
 		}
 		
 		renderDevice.Clear(g2::CF_CLEAR_COLOR_BUFFER | g2::CF_CLEAR_DEPTH_BUFFER);
-		
-		renderDevice.SetTexture(texture, 0);
-		
-		renderDevice.SetVertexBuffer(0, vertexBuffer, 5 * sizeof(float), 0);
-		renderDevice.SetVertexBuffer(1, colorBuffer, 3 * sizeof(float), 0);
-		renderDevice.DrawPrimitive(shader, 1);
+
+		renderDevice.SetUniformValue(projectionUniform, projection.Elements);
+
+		g2::Matrix4 transform = g2::Matrix4::MakeRotationY(theta) * g2::Matrix4::MakeTranslation({ 0,0,-2 });
+		theta += 0.1f;
+		renderDevice.SetUniformValue(transformUniform, transform.Elements);
+
+		renderDevice.SetVertexBuffer(0, vertexBuffer, 3 * sizeof(float), 0);
+		renderDevice.DrawPrimitive(shader, vertices.size());
 
 		renderDevice.SwapBuffers();
 	}

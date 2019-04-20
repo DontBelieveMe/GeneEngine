@@ -7,6 +7,17 @@ using namespace g2;
 
 #define M(ptr, x, y) ptr[x + y * 4]
 
+Matrix4 Matrix4::MakeTranslation(Vector3 translation)
+{
+	Matrix4 mat4;
+	mat4.SetIdentity();
+
+	M(mat4.Elements, 3, 0) = translation.X;
+	M(mat4.Elements, 3, 1) = translation.Y;
+	M(mat4.Elements, 3, 2) = translation.Z;
+	return mat4;
+}
+
 void Matrix4::SetIdentity()
 {
 	for (int i = 0; i < 16; ++i) 
@@ -72,6 +83,48 @@ Matrix4 Matrix4::FromElements(
 	return mat4;
 }
 
+Matrix4 Matrix4::MakeRotationY(float theta)
+{
+	Matrix4 mat4;
+	mat4.SetIdentity();
+
+	const float rads = Math::DegreesToRadians(theta);
+	M(mat4.Elements, 0, 0) = Math::Cos(rads);
+	M(mat4.Elements, 2, 2) = Math::Cos(rads);
+	M(mat4.Elements, 0, 2) = Math::Sin(rads);
+	M(mat4.Elements, 2, 0) = -Math::Sin(rads);
+
+	return mat4;
+}
+
+Matrix4 Matrix4::MakeRotationX(float theta)
+{
+	Matrix4 mat4;
+	mat4.SetIdentity();
+
+	const float rads = Math::DegreesToRadians(theta);
+	M(mat4.Elements, 1, 1) = Math::Cos(rads);
+	M(mat4.Elements, 2, 2) = Math::Cos(rads);
+	M(mat4.Elements, 1, 2) = -Math::Sin(rads);
+	M(mat4.Elements, 2, 1) = Math::Sin(rads);
+
+	return mat4;
+}
+
+Matrix4 Matrix4::MakeRotationZ(float theta)
+{
+	Matrix4 mat4;
+	mat4.SetIdentity();
+
+	const float rads = Math::DegreesToRadians(theta);
+	M(mat4.Elements, 1, 1) = Math::Cos(rads);
+	M(mat4.Elements, 2, 2) = Math::Cos(rads);
+	M(mat4.Elements, 1, 2) = -Math::Sin(rads);
+	M(mat4.Elements, 2, 1) = Math::Sin(rads);
+
+	return mat4;
+}
+
 Matrix4 Matrix4::MakePerspective(const float& aspectRatio, const float& fov, const float& far, const float& near)
 {
 	Matrix4 m4;
@@ -79,12 +132,11 @@ Matrix4 Matrix4::MakePerspective(const float& aspectRatio, const float& fov, con
 
 	const float thf = Math::Tan(Math::DegreesToRadians(fov * 0.5f));
 
-	M(m4.Elements, 0, 0) = 1.f / (aspectRatio * thf);
+	M(m4.Elements, 0, 0) = (1.0f / thf) / aspectRatio;
 	M(m4.Elements, 1, 1) = 1.f / thf;
-	M(m4.Elements, 2, 2) = -(far + near) / (far - near);
-	M(m4.Elements, 3, 2) = -1.f;
-	M(m4.Elements, 2, 3) = -(2.f * far * near) / (far - near);
-	M(m4.Elements, 3, 3) = 0.f;
+	M(m4.Elements, 2, 2) = (far + near) / (near - far);
+	M(m4.Elements, 2, 3) = -1.f;
+	M(m4.Elements, 3, 2) = (2.f * far * near) / (near - far);
 
 	return m4;
 }

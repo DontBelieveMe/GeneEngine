@@ -2,30 +2,25 @@
 #version 330 core
 
 layout(location = 0) in vec3 in_position;
-layout(location = 1) in vec3 in_color;
-layout(location = 2) in vec2 in_uv;
 
-out vec3 pass_color;
-out vec2 pass_uv;
+out vec3 pass_position;
+
+uniform mat4 u_projection;
+uniform mat4 u_transform = mat4(1.0);
 
 void main() 
 {
-	gl_Position = vec4(in_position.x, in_position.y, in_position.z, 1.0);
-	pass_color = in_color;
-	pass_uv = in_uv;
+	gl_Position = u_projection * u_transform * vec4(in_position.x, in_position.y, in_position.z, 1.0);
+	pass_position = in_position;
 }
 
 #section pixel
 #version 330 core
 
 out vec4 out_fragColor;
-
-in vec3 pass_color;
-in vec2 pass_uv;
-
-uniform sampler2D u_sampler;
+in vec3 pass_position;
 
 void main()
 {
-	out_fragColor = texture(u_sampler, pass_uv) * vec4(pass_color, 1.0f);
+	out_fragColor = vec4(pass_position, 1.0);
 }

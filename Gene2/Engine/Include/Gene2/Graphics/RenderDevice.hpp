@@ -32,6 +32,22 @@ namespace g2 {
 	typedef GraphicsResourceHandle BufferHandle;
 	typedef GraphicsResourceHandle ShaderHandle;
 	typedef GraphicsResourceHandle TextureHandle;
+	typedef GraphicsResourceHandle UniformHandle;
+
+	enum EUniformType {
+		UNIFORM_TYPE_MAT4,
+		UNIFORM_TYPE_VEC2,
+		UNIFORM_TYPE_VEC3,
+		UNIFORM_TYPE_VEC4,
+		UNIFORM_TYPE_SAMPLER_2D
+	};
+
+	struct Uniform {
+		const char* Name;
+		GLint CachedLocation;
+		ShaderHandle Shader;
+		EUniformType Type;
+	};
 
 	struct VertexStream {
 		BufferHandle VertexBuffer;
@@ -48,6 +64,7 @@ namespace g2 {
 		static const size_t                         MaxShaders = 4096;
 		static const size_t                         MaxTextures = 4096;
 		static const size_t                         MaxVertexStreams = 4096;
+		static const size_t                         MaxUniforms = 32;
 
 	private:
 		IOpenGL3Context                            *m_context;
@@ -63,9 +80,11 @@ namespace g2 {
 
 		GLuint                                      m_gVao;
 		ContextAttributes                           m_ctxAttribs;
-		
+
 		VertexStream                                m_streams[MaxVertexStreams];
 
+		Uniform                                     m_uniforms[MaxUniforms];
+		GraphicsResourceAllocator<MaxUniforms>      m_uniformHandles;
 	private:
 		Buffer* GetBufferPtr(BufferHandle handle);
 		Shader* GetShaderPtr(ShaderHandle handle);
@@ -100,6 +119,9 @@ namespace g2 {
 		void SetClearColor(const Color& color);
 
 		void SetTexture(TextureHandle handle, int slot);
+
+		UniformHandle CreateUniform(ShaderHandle shader, const char* uniformName, EUniformType uniformType);
+		void SetUniformValue(UniformHandle uniform, void* value);
 
 		/**
 		 * @brief Clear the current framebuffer to the last color set by SetClearColor or black if
