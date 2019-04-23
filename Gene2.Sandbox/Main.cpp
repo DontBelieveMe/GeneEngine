@@ -71,6 +71,7 @@ int main()
 	renderDevice.SetClearColor(clearColor);
 
 	float theta = 0;
+	float thx = 0;
 	while (window->IsOpen())
 	{
 		g2::Event event;
@@ -101,7 +102,7 @@ int main()
 
 		renderDevice.SetUniformValue(projectionUniform, projection.Elements);
 
-		g2::Matrix4 transform = g2::Matrix4::MakeRotationY(theta) * g2::Matrix4::MakeTranslation({ 0,0,-2 });
+		g2::Matrix4 transform = g2::Matrix4::MakeRotationY(theta) * g2::Matrix4::MakeRotationX(theta) * g2::Matrix4::MakeTranslation({ 0,0,-2 });
 
 		theta += 0.1f;
 		theta = g2::Math::Wrap(theta, 0.f, 360.f);

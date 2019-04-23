@@ -125,6 +125,18 @@ Matrix4 Matrix4::MakeRotationZ(float theta)
 	return mat4;
 }
 
+Matrix4 Matrix4::MakeScale(float scale)
+{
+	Matrix4 mat4;
+	mat4.SetIdentity();
+
+	M(mat4.Elements, 0, 0) = scale;
+	M(mat4.Elements, 1, 1) = scale;
+	M(mat4.Elements, 2, 2) = scale;
+
+	return mat4;
+}
+
 Matrix4 Matrix4::MakePerspective(const float& aspectRatio, const float& fov, const float& far, const float& near)
 {
 	Matrix4 m4;

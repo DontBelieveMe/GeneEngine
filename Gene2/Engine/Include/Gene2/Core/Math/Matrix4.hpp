@@ -55,6 +55,8 @@ namespace g2 {
 
 		static Matrix4 MakeRotationZ(float theta);
 
+		static Matrix4 MakeScale(float scale);
+
 		static Matrix4 FromElements(
 			float m00, float m10, float m20, float m30,
 			float m01, float m11, float m21, float m31,
