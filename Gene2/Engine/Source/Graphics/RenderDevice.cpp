@@ -168,7 +168,7 @@ Shader* RenderDevice::GetShaderPtr(ShaderHandle handle)
 	return &m_shaders[handle.GetIndex()];
 }
 
-void RenderDevice::DrawPrimitive(ShaderHandle shader, size_t numPrimitives)
+void RenderDevice::DrawPrimitive(ShaderHandle shader, size_t count)
 {
 	Shader* pShader = GetShaderPtr(shader);
 	G2_GL_CHECK(glUseProgram(pShader->GetProgramId()));
@@ -192,5 +192,5 @@ void RenderDevice::DrawPrimitive(ShaderHandle shader, size_t numPrimitives)
 		));
 	}
 
-	G2_GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, numPrimitives));
+	G2_GL_CHECK(glDrawArrays(GL_TRIANGLES, 0, count));
 }

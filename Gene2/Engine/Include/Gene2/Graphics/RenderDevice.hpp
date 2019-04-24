@@ -160,12 +160,11 @@ namespace g2 {
 		TextureHandle CreateTexture(const char* filepath);
 
 		/**
-		 * @brief Issue a draw call to draw the specified number of primitives from the specified buffer, using the
+		 * @brief Issue a draw call to draw the specified number of indices/vertices from the specified buffer, using the
 		 *        specified shader.
 		 * @param shader The shader to use when drawing this buffer.
-		 * @param buffer The buffer to draw the primitives from.
-		 * @param numPrimitives The number of primitives inside the buffer, for example the number of triangles to draw.
+		 * @param count The number of indices to render.
 		 */
-		void DrawPrimitive(ShaderHandle shader, size_t numPrimitives);
+		void DrawPrimitive(ShaderHandle shader, size_t count);
 	};
 }
