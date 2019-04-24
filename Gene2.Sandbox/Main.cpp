@@ -82,6 +82,9 @@ int main()
 		{
 			switch (event.EventType)
 			{
+			case g2::EVENT_KEYUP:
+				if (event.Key.Key == g2::K_escape) window->Close();
+				break;
 			case g2::EVENT_MOUSEDOWN:
 			{
 				const float r = g2::Random::FloatRange(0.0f, 1.0f);

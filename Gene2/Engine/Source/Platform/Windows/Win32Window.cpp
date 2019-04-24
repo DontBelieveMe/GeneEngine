@@ -96,6 +96,9 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key, LPARAM flags)
 	case VK_RIGHT: return K_arrowright;
 	case VK_UP: return K_arrowup;
 	case VK_DOWN: return K_arrowdown;
+	case VK_RETURN: return K_enter;
+	case VK_BACK: return K_backspace;
+	case VK_ESCAPE: return K_escape;
 	}
 
 	return K_a; // #todo(bwilks): #cleanup #improvment : This is shitty. fix.

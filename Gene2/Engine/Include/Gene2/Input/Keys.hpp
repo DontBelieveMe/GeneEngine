@@ -48,6 +48,10 @@ namespace g2 {
 		K_arrowleft = 33,
 		K_arrowright = 34,
 		K_arrowup = 35,
-		K_arrowdown = 36
+		K_arrowdown = 36,
+
+		K_backspace = 37,
+		K_enter = 38,
+		K_escape = 39
 	};
 }
