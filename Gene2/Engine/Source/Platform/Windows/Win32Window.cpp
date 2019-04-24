@@ -6,6 +6,8 @@
 #include <Gene2/Debug/Assert.hpp>
 #include <Gene2/Platform/Intrinsics.hpp>
 
+#include <Gene2/Input/Keyboard.hpp>
+
 using namespace g2;
 using namespace g2::win32;
 
@@ -89,6 +91,11 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key, LPARAM flags)
 		UINT scancode = static_cast<UINT>((flags & (0xFF << 16)) >> 16);
 		return scancode == L_SHIFT ? K_lshift : K_rshift;
 	}
+	case VK_SPACE: return K_space;
+	case VK_LEFT: return K_arrowleft;
+	case VK_RIGHT: return K_arrowright;
+	case VK_UP: return K_arrowup;
+	case VK_DOWN: return K_arrowdown;
 	}
 
 	return K_a; // #todo(bwilks): #cleanup #improvment : This is shitty. fix.
@@ -96,6 +103,8 @@ g2::EKeyCode Win32Window::ConvertWin32KeyToG2Key(UINT key, LPARAM flags)
 
 bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	Keyboard* keyboard = Keyboard::GetInstance();
+
 	switch (msg)
 	{
 	case WM_LBUTTONDOWN:
@@ -138,7 +147,9 @@ bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 		e.EventType = EVENT_KEYDOWN;
 		e.Key.Key = ConvertWin32KeyToG2Key(wParam, lParam);
 		SetKeyEventModifiers(e);
-		
+
+		keyboard->m_state[static_cast<int>(e.Key.Key)] = true;
+
 		m_eventQueue.push(e);
 		return true;
 	}
@@ -150,6 +161,8 @@ bool Win32Window::ProcessEvent(UINT msg, WPARAM wParam, LPARAM lParam)
 		e.Key.Key = ConvertWin32KeyToG2Key(wParam, lParam);
 		SetKeyEventModifiers(e);
 		
+		keyboard->m_state[static_cast<int>(e.Key.Key)] = false;
+
 		m_eventQueue.push(e);
 		return true;
 	}

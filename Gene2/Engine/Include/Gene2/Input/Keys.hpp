@@ -42,6 +42,12 @@ namespace g2 {
 		K_lshift = 28,
 		K_rshift = 29,
 		K_lctrl = 30,
-		K_rctrl = 31
+		K_rctrl = 31,
+
+		K_space = 32,
+		K_arrowleft = 33,
+		K_arrowright = 34,
+		K_arrowup = 35,
+		K_arrowdown = 36
 	};
 }

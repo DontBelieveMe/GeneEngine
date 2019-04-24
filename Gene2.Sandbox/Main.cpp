@@ -1,10 +1,13 @@
 #include <Gene2/Debug/Logging.hpp>
+#include <Gene2/Debug/Assert.hpp>
+
 #include <Gene2/Platform/IWindow.hpp>
 
 #include <Gene2/Core/StdLib/Memory.hpp>
 #include <Gene2/Graphics/RenderDevice.hpp>
+
 #include <Gene2/Input/Keys.hpp>
-#include <Gene2/Debug/Assert.hpp>
+#include <Gene2/Input/Keyboard.hpp>
 
 #include <Gene2/Core/StdLib/Random.hpp>
 #include <Gene2/Core/Math/Matrix4.hpp>
@@ -79,7 +82,6 @@ int main()
 		{
 			switch (event.EventType)
 			{
-			case g2::EVENT_KEYDOWN:
 			case g2::EVENT_MOUSEDOWN:
 			{
 				const float r = g2::Random::FloatRange(0.0f, 1.0f);
@@ -105,7 +107,6 @@ int main()
 		g2::Matrix4 transform = g2::Matrix4::MakeRotationY(theta) * g2::Matrix4::MakeRotationX(theta) * g2::Matrix4::MakeTranslation({ 0,0,-2 });
 
 		theta += 0.1f;
-		theta = g2::Math::Wrap(theta, 0.f, 360.f);
 
 		renderDevice.SetUniformValue(transformUniform, transform.Elements);
 
