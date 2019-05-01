@@ -28,7 +28,7 @@ if(ANDROID)
     add_subdirectory(Gene/libroid)
 endif()
 
-#if(NOT ANDROID)
+if(NOT ANDROID)
 #	add_subdirectory(Dependencies/OpenALSoft)
 	
 #	set_property(TARGET OpenAL PROPERTY FOLDER "Dependencies/OpenAL")
